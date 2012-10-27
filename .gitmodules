@@ -22,3 +22,6 @@
 [submodule "vim/bundle/hthml5"]
 	path = vim/bundle/hthml5
 	url = https://github.com/othree/html5.vim.git
+[submodule "vim/bundle/javascript"]
+	path = vim/bundle/javascript
+	url = https://github.com/pangloss/vim-javascript.git
