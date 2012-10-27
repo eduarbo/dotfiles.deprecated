@@ -7,3 +7,6 @@
 [submodule "vim/bundle/clam"]
 	path = vim/bundle/clam
 	url = https://github.com/sjl/clam.vim.git
+[submodule "vim/bundle/commentary"]
+	path = vim/bundle/commentary
+	url = https://github.com/tpope/vim-commentary.git
