@@ -34,6 +34,7 @@ brew install ack
 brew install node
 brew install rename
 brew install webkit2png
+brew install gist
 
 # Remove outdated versions from the Cellar
 # brew cleanup
