@@ -1,0 +1,6 @@
+*.swp
+.netrwhist
+.DS_Store
+vim/tmp/backup/*
+vim/tmp/swap/*
+vim/tmp/undo/*
