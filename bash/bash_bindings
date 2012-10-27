@@ -1,0 +1,12 @@
+# terminal support 
+"\e[1;5D": backward-word
+"\e[1;5C": forward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+
+# iTerm2 support
+"\e5D":backward-word
+"\e5c":forward-word
+
+"\e[A":history-search-backward
+"\e[B":history-search-forward

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+normal="\033[0m"
+orange="$normal\033[33m"
+blue="$normal\033[34m"
+blueb="$normal\033[1;34m"
+green="$normal\033[32m"
+greenb="$normal\033[1;32m"
+
+followers=`curl --silent "http://twitter.com/users/show.xml?screen_name=eduarbo" | grep "<followers_count>" | tr -cd 0-9`
+following=`curl --silent "http://twitter.com/users/show.xml?screen_name=eduarbo" | grep "<friends_count>" | tr -cd 0-9`
+
+echo -e "\n \033[1;36m"
+./eduarbo
+echo -e $blueb "
+                       _ 
+                    (  _ )_   `curl --silent "http://xml.weather.yahoo.com/forecastrss?p=MXCM0228&u=c" | grep -E '(Current Conditions:|C<BR)' | sed -e 's/Current Conditions://' -e 's/<br \/>//' -e 's/<b>//' -e 's/<\/b>//' -e 's/<BR \/>//' -e 's/<description>//' -e 's/<\/description>//'`      (_  _(_ ,)
+"
+
+echo -e " ${greenb}
+    _     /||    `uname -v`
+   ( }    \||D   `uptime`
+ | /\__,=_[_]    
+ |_\_  |----|    `top -l 2 | awk '/CPU usage/ && NR > 5 '`
+ |  |/ |    |    `top -l 1 | awk '/PhysMem/'`
+ |  /_ |    |    I have $followers fans on twitter and I'm stalking to $following bastards
+"

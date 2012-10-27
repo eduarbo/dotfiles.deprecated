@@ -1,0 +1,49 @@
+#!/bin/bash
+DOTFILES="$HOME/.dotfiles"
+BASHDIR="$DOTFILES/bash"
+NAME="Eduardo Ruiz"
+EMAIL="eduarbo@gmail.com"
+
+cd $DOTFILES
+
+# Check out submodules.
+git submodule --quiet update --init
+
+# Install Homebrew tools
+./brew
+
+cd $HOME
+
+function mirrorfiles() {
+    #source gitconfig.
+    echo -e "[include]\n\tpath = .dotfiles/gitconfig" >> "$HOME/.gitconfig"
+
+    ln -s "$DOTFILES/gitignore" "$HOME/.gitignore"
+
+    echo "source $BASHDIR/bash_profile" >> "$HOME/.bash_profile"
+    echo "source $BASHDIR/bashrc" >> "$HOME/.bashrc"
+
+    #installing vim
+    [[ -e $HOME/.vim ]] && mv "$HOME/.vim" "$HOME/.vim.old"
+    ln -s "$DOTFILES/vim" "$HOME/.vim"
+
+    echo "source $DOTFILES/vim/vimrc" >> "$HOME/.vimrc"
+
+    rsync -avz --quiet ${DOTFILES}/fonts/*  ${HOME}/Library/Fonts/ 
+    ln -s "$DOTFILES/itermcolors" "$HOME/"
+}
+
+read -p "This will overwrite some existing files in your home directory (.vim and .gitignore). Are you sure? (y/n) " -n 1
+
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    mirrorfiles
+    source "$HOME/.bash_profile"
+fi
+
+read -p "Are you Eduardo Ruiz (y/n) " -n 1
+
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo -e "[user]\n\temail = $EMAIL\n\tname = $NAME" >> "$HOME/.gitconfig"
+fi
