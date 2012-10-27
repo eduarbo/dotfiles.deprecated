@@ -36,6 +36,7 @@ alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup
 alias v="mvim"
 alias mvimt="mvim --remote-tab"
 alias mvt="mvim --remote-tab ."
+alias upvim="git submodule foreach git pull origin master"
 
 # node alias
 alias n="node"
