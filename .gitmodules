@@ -25,3 +25,6 @@
 [submodule "vim/bundle/javascript"]
 	path = vim/bundle/javascript
 	url = https://github.com/pangloss/vim-javascript.git
+[submodule "vim/bundle/linediff"]
+	path = vim/bundle/linediff
+	url = https://github.com/AndrewRadev/linediff.vim.git
