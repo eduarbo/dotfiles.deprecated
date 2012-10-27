@@ -1,0 +1,8 @@
+data/plugin/clam.vim.i
+data/clamsyntax/hg.vim.i
+data/doc/clam.txt.i
+data/.hgtags.i
+data/LICENSE.markdown.i
+data/package.sh.i
+data/README.markdown.i
+data/clamsyntax/pacman.vim.i
