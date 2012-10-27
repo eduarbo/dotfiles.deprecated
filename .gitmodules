@@ -46,3 +46,6 @@
 [submodule "vim/bundle/smartinput"]
 	path = vim/bundle/smartinput
 	url = https://github.com/kana/vim-smartinput.git
+[submodule "vim/bundle/sparkup"]
+	path = vim/bundle/sparkup
+	url = https://github.com/rstacruz/sparkup.git
