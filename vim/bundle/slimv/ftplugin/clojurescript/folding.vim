@@ -1,1 +1,0 @@
-../clojure/folding.vim
