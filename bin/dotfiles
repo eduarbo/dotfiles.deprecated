@@ -78,6 +78,7 @@ mirrorfiles() {
     link "vim"                ".vim"
     link "vim/vimrc"          ".vimrc"
     link "jshintrc"           ".jshintrc"
+    link "tmux.conf"          ".tmux.conf"
     link "itermcolors"        "itermcolors"
 
     #Copy fonts to Fonts directory
