@@ -1,49 +1,108 @@
 #!/bin/bash
 DOTFILES="$HOME/.dotfiles"
-BASHDIR="$DOTFILES/bash"
 NAME="Eduardo Ruiz"
 EMAIL="eduarbo@gmail.com"
 
 cd $DOTFILES
 
-# Check out submodules.
-git submodule --quiet update --init
+source ./lib/utils
+source ./lib/brew
+source ./lib/npm
 
-# Install Homebrew tools
-./brew
+# Before relying on Homebrew, check that packages can be compiled
+if ! type_exists 'gcc'; then
+    e_error "The XCode Command Line Tools must be installed first."
+    echo "  https://developer.apple.com/downloads"
+    exit 1
+fi
 
-cd $HOME
+# Check for Homebrew
+if ! type_exists 'brew'; then
+    e_header "Installing Homebrew..."
+    ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
+fi
 
-function mirrorfiles() {
-    #source gitconfig.
-    echo -e "[include]\n\tpath = .dotfiles/gitconfig" >> "$HOME/.gitconfig"
+# Check for git
+if ! type_exists 'git'; then
+    e_header "Updating Homebrew..."
+    brew update
+    e_header "Installing Git..."
+    brew install git
+fi
 
-    ln -s "$DOTFILES/gitignore" "$HOME/.gitignore"
+# Clone the dotfiles if the directory is missing
+if [[ ! -d ${DOTFILES} ]] ; then
+    e_header "Downloading dotfiles..."
+    # Clone the GitHub repo
+    git clone --recursive git://github.com/eduarbo/dotfiles.git ${DOTFILES}
+# Otherwise conditionally update repo and/or package installations
+else
+    e_header "Updating dotfiles..."
+    # Pull down the latest changes
+    git pull --rebase origin master
+    # Update submodules
+    git submodule update --recursive --init --quiet
+    # Return to previous working directory
 
-    echo "source $BASHDIR/bash_profile" >> "$HOME/.bash_profile"
-    echo "source $BASHDIR/bashrc" >> "$HOME/.bashrc"
+    # Install and update packages
+    echo "Updating packages..."
+    # Install Homebrew formulae
+    run_brew
+    # Install Node packages
+    run_npm
+fi
 
-    #installing vim
-    [[ -e $HOME/.vim ]] && mv "$HOME/.vim" "$HOME/.vim.old"
-    ln -s "$DOTFILES/vim" "$HOME/.vim"
-
-    echo "source $DOTFILES/vim/vimrc" >> "$HOME/.vimrc"
-
-    rsync -avz --quiet ${DOTFILES}/fonts/*  ${HOME}/Library/Fonts/ 
-    ln -s "$DOTFILES/itermcolors" "$HOME/"
+link() {
+    # Force create/replace the symlink.
+    ln -fs "${DOTFILES}/${1}" "${HOME}/${2}"
 }
 
-read -p "This will overwrite some existing files in your home directory (.vim and .gitignore). Are you sure? (y/n) " -n 1
+mirrorfiles() {
+    # Copy `.gitconfig`.
+    # Any global git commands in `~/.bash_profile.local` will be written to
+    # `.gitconfig`. This prevents them being committed to the repository.
+    rsync -avz --quiet ${DOTFILES}/git/gitconfig  ${HOME}/.gitconfig
 
+    # Force remove the vim directory if it's already there.
+    if [ -e "${HOME}/.vim" ] ; then
+        rm -rf "${HOME}/.vim"
+    fi
+
+    # Create the necessary symbolic links between the `.dotfiles` and `HOME`
+    # directory. The `bash_profile` sources other files directly from the
+    # `.dotfiles` repository.
+    link "bash/bashrc"        ".bashrc"
+    link "bash/bash_profile"  ".bash_profile"
+    link "git/gitattributes"  ".gitattributes"
+    link "git/gitignore"      ".gitignore"
+    link "vim"                ".vim"
+    link "vim/vimrc"          ".vimrc"
+    link "vim/itermcolors"    "itermcolors"
+
+    #Copy fonts to Fonts directory
+    rsync -avz --quiet ${DOTFILES}/fonts/*  ${HOME}/Library/Fonts
+
+    e_success "Dotfiles update complete!"
+}
+
+# Verify that the user wants to proceed before potentially overwriting files
 echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
+e_warning "Warning: This may overwrite your existing dotfiles."
+read -p "Continue? (y/n) " -n 1
+echo
+
+if [[ $REPLY =~ ^[Yy]$ ]] ; then
     mirrorfiles
-    source "$HOME/.bash_profile"
+    source ${HOME}/.bash_profile
+else
+    echo "Aborting..."
+    exit 1
 fi
 
 read -p "Are you Eduardo Ruiz (y/n) " -n 1
 
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo -e "[user]\n\temail = $EMAIL\n\tname = $NAME" >> "$HOME/.gitconfig"
+    git config --global user.email $EMAIL
+    git config --global user.name $NAME
 fi
