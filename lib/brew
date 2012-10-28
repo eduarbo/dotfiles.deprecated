@@ -30,7 +30,7 @@ run_brew() {
             'phantomjs'
             'tree'
             'wget'
-	    'gist'
+      	    'gist'
             'ctags'
             'webkit2png'
             'libjpeg'
