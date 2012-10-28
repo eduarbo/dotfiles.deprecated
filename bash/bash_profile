@@ -17,14 +17,14 @@ $PATH:\
 # Load files
 files=(bash_prompt bash_functions bash_aliases bash_exports)
 for file in ${files[@]}; do
-  file="$DOTFILES/$file"
+  file="$DOTFILES/bash/$file"
   [ -e "$file" ] && source "$file"
 done
 
 # This loads RVM into a shell session.
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-bind -f $DOTFILES/bash_bindings
+bind -f $DOTFILES/bash/bash_bindings
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
