@@ -373,9 +373,6 @@ command! -bang WQ wq<bang>
 nnoremap <localleader>= ==
 vnoremap - =
 
-" Toggle paste
-set pastetoggle=<F6>
-
 " Toggle [i]nvisible characters
 nnoremap <leader>i :set list!<cr>
 

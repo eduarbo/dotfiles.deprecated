@@ -77,6 +77,7 @@ mirrorfiles() {
     link "git/gitignore"      ".gitignore"
     link "vim"                ".vim"
     link "vim/vimrc"          ".vimrc"
+    link "jshintrc"           ".jshintrc"
     link "itermcolors"        "itermcolors"
 
     #Copy fonts to Fonts directory
