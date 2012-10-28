@@ -1,10 +1,7 @@
 " .vimrc
-" Author: Steve Losh <steve@stevelosh.com>
-" Source: http://bitbucket.org/sjl/dotfiles/src/tip/vim/
+" Author: Eduardo Ruiz <eduarbo@gmail.com>
+" Source: https://github.com/eduarbo/dotfiles/tree/master/vim
 "
-" This file changes a lot.  I'll try to document pieces of it whenever I have
-" a few minutes to kill.
-
 " Preamble ---------------------------------------------------------------- {{{
 
 filetype off
@@ -69,7 +66,7 @@ set complete=.,w,b,u,t
 set completeopt=longest,menuone,preview
 
 " Save when losing focus
-au FocusLost * :silent! wall
+" au FocusLost * :silent! wall
 
 " Resize splits when the window is resized
 au VimResized * :wincmd =
@@ -288,6 +285,12 @@ nnoremap <F8> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> t
 
 " Clean trailing whitespace
 nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+
+" TextMate’s key mappings for identation
+nmap <D-[> <<
+nmap <D-]> >>
+vmap <D-[> <gv
+vmap <D-]> >gv
 
 " Send visual selection to gist.github.com as a private, filetyped Gist
 " Requires the gist command line too (brew install gist)
@@ -1528,6 +1531,14 @@ else
 
     " Mouse support
     set mouse=a
+endif
+
+" }}}
+" Other ------------------------------------------------------------------- {{{
+
+" Extend .vimrc
+if filereadable(expand("~/.vimrc.local"))
+  source ~/.vimrc.local
 endif
 
 " }}}
