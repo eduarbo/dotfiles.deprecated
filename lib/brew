@@ -35,6 +35,7 @@ run_brew() {
             'webkit2png'
             'libjpeg'
             'rename'
+            'tmux'
             'reattach-to-user-namespace'
         )
 
