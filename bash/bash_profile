@@ -22,11 +22,13 @@ $PATH:\
 "&>/dev/null
 
 # Load files
-files=(bash_prompt bash_functions bash_aliases bash_exports)
+files=(bash_functions bash_aliases bash_exports)
 for file in ${files[@]}; do
   file="$DOTFILES/bash/$file"
   [ -e "$file" ] && source "$file"
 done
+
+source "$DOTFILES/bash/prompt_ribbon_simple"
 
 # This loads RVM into a shell session.
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"

@@ -1,0 +1,41 @@
+#!bin/bash
+# Prompt
+
+BGBLACK="\[\033[40m\]"
+BGRED="\[\033[41m\]"
+BGGREEN="\[\033[42m\]"
+BGYELLOW="\[\033[43m\]"
+BGBLUE="\[\033[44m\]"
+BGMAGENTA="\[\033[45m\]"
+BGCYAN="\[\033[46m\]"
+BGWHITE="\[\033[47m\]"
+BGTRANS="\[\033[49m\]"
+
+BLACK="\[\033[30m\]"
+RED="\[\033[31m\]"
+GREEN="\[\033[32m\]"
+YELLOW="\[\033[33m\]"
+BLUE="\[\033[34m\]"
+MAGENTA="\[\033[35m\]"
+CYAN="\[\033[36m\]"
+WHITE="\[\033[37m\]"
+TRANS="\[\033[39m\]"
+
+BOLD="\[\033[1m\]"
+RESET="\[\033[0m\]"
+
+BRANCH="\$(git branch 2>/dev/null | grep -e '\*' | sed 's/^..\(.*\)/\\[\\033[41;30m\\]⮀\\[\\033[41;30m\\]\\[ ⭠ \\]\1 \\[\\033[49;31m\\]⮀/')"
+
+export PS1="\n${BRANCH}\
+${BLACK}${BGGREEN}⮀${BGBLACK}${GREEN}⮀\
+${BLACK}${BGYELLOW}⮀\
+${BGYELLOW}${YELLOW}⮀\
+${BLACK}\u \
+${BGBLACK}${YELLOW}⮀\
+${RESET}${WHITE}${BOLD} in \
+${BLUE}\h \
+${WHITE}${BOLD}in \
+${GREEN}\w \
+${RESET}\n\n${BOLD}${YELLOW} ⚡ ${RESET}"
+
+export PS2="${BOLD}${YELLOW} ❯ ${RESET}"
