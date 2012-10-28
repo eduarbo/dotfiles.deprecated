@@ -50,6 +50,7 @@ set linebreak
 set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
 set colorcolumn=+1
+set pastetoggle=<F2>            " Use it for pasting large amounts of text into Vim, disabling all kinds of smartness and just pasting a whole buffer of text
 
 " Don't try to highlight lines longer than 800 characters.
 set synmaxcol=800
@@ -292,6 +293,10 @@ nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 " Requires the gist command line too (brew install gist)
 vnoremap <leader>G :w !gist -p -t %:e \| pbcopy<cr>
 vnoremap <leader>UG :w !gist -p \| pbcopy<cr>
+
+" Copy/Paste to and from Desktop Environment
+noremap <leader>y "+y
+noremap <leader>p "+gP
 
 " Insert the directory of the current buffer in command line mode
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
@@ -687,6 +692,10 @@ augroup ft_css
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
     au BufNewFile,BufRead *.less,*.css inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
+
+    " Compiling Less Files from Vim every save action
+    autocmd BufWritePost,FileWritePost *.less :silent !lessc <afile> <afile>:p:r.css
+
 augroup END
 
 " }}}
@@ -735,6 +744,7 @@ let g:html_indent_tags = ['p', 'li']
 augroup ft_html
     au!
 
+    setlocal foldlevel=99
     au BufNewFile,BufRead *.html setlocal filetype=htmldjango
     au FileType html,jinja,htmldjango setlocal foldmethod=manual
 
@@ -772,6 +782,7 @@ augroup ft_javascript
 
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
+    setlocal foldlevel=99
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
@@ -802,6 +813,7 @@ augroup ft_markdown
     au!
 
     au BufNewFile,BufRead *.m*down setlocal filetype=markdown
+    setlocal foldlevel=99
 
     " Use <localleader>1/2/3 to add headings.
     au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=:redraw<cr>
