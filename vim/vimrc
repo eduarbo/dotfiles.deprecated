@@ -782,7 +782,7 @@ augroup ft_javascript
 
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
-    setlocal foldlevel=99
+    au BufNewFile,BufRead *.js normal! zR
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
@@ -813,7 +813,7 @@ augroup ft_markdown
     au!
 
     au BufNewFile,BufRead *.m*down setlocal filetype=markdown
-    setlocal foldlevel=99
+    au BufNewFile,BufRead *.md normal! zR
 
     " Use <localleader>1/2/3 to add headings.
     au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=:redraw<cr>
