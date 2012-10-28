@@ -35,6 +35,7 @@ run_brew() {
             'webkit2png'
             'libjpeg'
             'rename'
+            'reattach-to-user-namespace'
         )
 
         for index in ${!desired_formulae[*]}
