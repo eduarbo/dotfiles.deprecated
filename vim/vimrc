@@ -959,6 +959,7 @@ augroup END
 " }}}
 " Ctrl-P {{{
 
+let g:Powerline_symbols = 'fancy'
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_map = '<leader>,'
@@ -994,7 +995,8 @@ let my_ctrlp_git_command = "" .
 
 let my_ctrlp_ffind_command = "ffind --semi-restricted --dir %s --type e -B -f"
 
-let g:ctrlp_user_command = ['.git/', my_ctrlp_ffind_command, my_ctrlp_ffind_command]
+" let g:ctrlp_user_command = ['.git/', my_ctrlp_ffind_command, my_ctrlp_ffind_command]
+let g:ctrlp_user_command = ['.git/', my_ctrlp_user_command, my_ctrlp_git_command]
 
 nnoremap <leader>. :CtrlPTag<cr>
 
