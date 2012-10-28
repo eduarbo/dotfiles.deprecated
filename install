@@ -103,8 +103,8 @@ read -p "Are you Eduardo Ruiz (y/n) " -n 1
 
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    git config --global user.email $EMAIL
-    git config --global user.name $NAME
+    git config --global user.email "$EMAIL"
+    git config --global user.name "$NAME"
 
     e_success "Process finished. Enjoy!"
 fi
