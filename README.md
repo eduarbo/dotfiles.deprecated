@@ -11,7 +11,8 @@ dotfiles.
 The installation step may overwrite existing dotfiles in your HOME and .vim
 directories.
 
-    bash -c "$(curl -fsSL https://raw.github.com/eduarbo/dotfiles/master/install)"
+    bash -c "$(curl -fsSL
+    https://raw.github.com/eduarbo/dotfiles/master/bin/dotfiles)"
 
 The .gitconfig file is copied to the HOME directory so that any private git
 configuration taking place is not accidentally committed. Everything else is
