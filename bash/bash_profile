@@ -5,13 +5,6 @@ DOTFILES=$HOME/.dotfiles
 # Bash completion (installed via Homebrew; source after `brew` is added to PATH)
 [ -r "$(brew --prefix)/etc/bash_completion" ] && source "$(brew --prefix)/etc/bash_completion"
 
-# Node Completion - Auto-generated, do not touch.
-shopt -s progcomp
-for f in $(command ls ~/.node-completion); do
-  f="$HOME/.node-completion/$f"
-  test -f "$f" && . "$f"
-done
-
 export PATH="\
 $DOTFILES/bin:\
 /usr/local/bin:\
