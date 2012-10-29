@@ -147,6 +147,13 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     git config --global user.email "$EMAIL"
     git config --global user.name "$NAME"
+  else
+    e_header "Let's configure your gitconfig "
+    read -p "Give your name please: "
+    git config --global user.name "$REPLY"
 
-    e_success "Process finished. Enjoy!"
+    read -p "Now, give your email please: "
+    git config --global user.email "$REPLY"
 fi
+
+e_success "AWESOME! We have finished it. Enjoy! ಠ‿ಠ "
