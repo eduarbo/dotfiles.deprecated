@@ -661,7 +661,7 @@ augroup ft_cram
 augroup END
 
 " }}}
-" CSS and LessCSS {{{
+" CSS, LessCSS and HAML{{{
 
 augroup ft_css
     au!
@@ -672,6 +672,8 @@ augroup ft_css
     au Filetype less,css setlocal foldmarker={,}
     au Filetype less,css setlocal omnifunc=csscomplete#CompleteCSS
     au Filetype less,css setlocal iskeyword+=-
+
+    au BufRead,BufNewFile *.hamlc set ft=haml
 
     " Use <leader>S to sort properties.  Turns this:
     "
