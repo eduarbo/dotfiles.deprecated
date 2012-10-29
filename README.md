@@ -11,8 +11,7 @@ dotfiles.
 The installation step may overwrite existing dotfiles in your HOME and .vim
 directories.
 
-    bash -c "$(curl -fsSL
-    https://raw.github.com/eduarbo/dotfiles/master/bin/dotfiles)"
+    bash -c "$(curl -fsSL https://raw.github.com/eduarbo/dotfiles/master/bin/dotfiles)"
 
 The .gitconfig file is copied to the HOME directory so that any private git
 configuration taking place is not accidentally committed. Everything else is
@@ -87,10 +86,8 @@ Credits
 -------
 Inspiration and code was taken from many sources, including:
 
-[@necolas](https://github.com/necolas) (Nicolas Gallagher)
-[https://github.com/necolas/dotfiles](https://github.com/necolas/dotfiles)
-[@mathiasbynens](https://github.com/mathiasbynens) (Mathias Bynens)
-[https://github.com/mathiasbynens/dotfiles](https://github.com/mathiasbynens/dotfiles)
-[@sjl](https://bitbucket.org/sjl) (Steve Losh) [https://bitbucket.org/sjl/dotfiles](https://bitbucket.org/sjl/dotfiles)
+* [@necolas](https://github.com/necolas) (Nicolas Gallagher) [https://github.com/necolas/dotfiles](https://github.com/necolas/dotfiles)
+* [@mathiasbynens](https://github.com/mathiasbynens) (Mathias Bynens) [https://github.com/mathiasbynens/dotfiles](https://github.com/mathiasbynens/dotfiles)
+* [@sjl](https://bitbucket.org/sjl) (Steve Losh) [https://bitbucket.org/sjl/dotfiles](https://bitbucket.org/sjl/dotfiles)
 
 Also, I would like to thank [@Framallo](https://github.com/framallo) for transmit me the passion for Vim :)
