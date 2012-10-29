@@ -3,9 +3,6 @@ DOTFILES="$HOME/.dotfiles"
 NAME="Eduardo Ruiz"
 EMAIL="eduarbo@gmail.com"
 
-source ./lib/brew
-source ./lib/npm
-
 # Header logging
 e_header() {
     echo -e "\n$(tput setaf 7)$@$(tput sgr0)";
@@ -52,24 +49,30 @@ if [[ ! -d ${DOTFILES} ]] ; then
     e_header "Downloading dotfiles..."
     # Clone the GitHub repo
     git clone --recursive https://github.com/eduarbo/dotfiles.git ${DOTFILES}
+
+    cd $DOTFILES
 # Otherwise conditionally update repo and/or package installations
 else
+    cd $DOTFILES
     e_header "Updating dotfiles..."
     # Pull down the latest changes
     git pull --rebase origin master
     # Update submodules
-    git submodule update --recursive --init --quiet
-    # Return to previous working directory
-
-    # Install and update packages
-    echo "Updating packages..."
-    # Install Homebrew formulae
-    run_brew
-    # Install Node packages
-    run_npm
 fi
 
-cd $DOTFILES
+source ./lib/brew
+source ./lib/npm
+
+git submodule update --recursive --init --quiet
+# Return to previous working directory
+
+# Install and update packages
+echo "Updating packages..."
+# Install Homebrew formulae
+run_brew
+# Install Node packages
+run_npm
+
 
 # Before relying on Homebrew, check that packages can be compiled
 if ! type_exists 'gcc'; then
