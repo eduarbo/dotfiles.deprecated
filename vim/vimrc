@@ -174,7 +174,7 @@ set backupdir=~/.vim/tmp/backup// " backups
 set directory=~/.vim/tmp/swap//   " swap files
 
 " Make those folders automatically if they don't already exist.
-if !isdirectory(expand(&undodir)) && v:version > 702
+if v:version > 702 && !isdirectory(expand(&undodir))
     call mkdir(expand(&undodir), "p")
 endif
 if !isdirectory(expand(&backupdir))
