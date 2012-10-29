@@ -25,11 +25,8 @@ set ttyfast                     " Improves redrawing
 set ruler                       " Always show current positions along the bottom
 set backspace=indent,eol,start  " Allow backspace in insert mode
 set number                      " Line numbers are good
-set norelativenumber            " It is much faster
 set laststatus=2                " Always show the status line
 set history=1000                " Store lots of :cmdline history
-set undofile
-set undoreload=10000
 set list                        " Hide invisible chars
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set shell=/bin/bash\ --login
@@ -46,8 +43,14 @@ set title
 set linebreak
 set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
-set colorcolumn=+1
 set pastetoggle=<F2>            " Use it for pasting large amounts of text into Vim, disabling all kinds of smartness and just pasting a whole buffer of text
+
+if v:version > 702 
+  set norelativenumber            " It is much faster
+  set undofile
+  set undoreload=10000
+  set colorcolumn=+1
+endif
 
 " Don't try to highlight lines longer than 800 characters.
 set synmaxcol=800
@@ -157,7 +160,6 @@ set expandtab
 set wrap
 set textwidth=80
 set formatoptions=qrn1
-set colorcolumn=+1
 
 " }}}
 " Backups {{{
@@ -165,12 +167,14 @@ set colorcolumn=+1
 set backup                        " enable backups
 set noswapfile                    " It's 2012, Vim.
 
-set undodir=~/.vim/tmp/undo//     " undo files
+if v:version > 702 
+  set undodir=~/.vim/tmp/undo//     " undo files
+endif
 set backupdir=~/.vim/tmp/backup// " backups
 set directory=~/.vim/tmp/swap//   " swap files
 
 " Make those folders automatically if they don't already exist.
-if !isdirectory(expand(&undodir))
+if !isdirectory(expand(&undodir)) && v:version > 702
     call mkdir(expand(&undodir), "p")
 endif
 if !isdirectory(expand(&backupdir))
