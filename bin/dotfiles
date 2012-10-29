@@ -51,7 +51,7 @@ formula_exists() {
 if [[ ! -d ${DOTFILES} ]] ; then
     e_header "Downloading dotfiles..."
     # Clone the GitHub repo
-    git clone --recursive git://github.com/eduarbo/dotfiles.git ${DOTFILES}
+    git clone --recursive https://github.com/eduarbo/dotfiles.git ${DOTFILES}
 # Otherwise conditionally update repo and/or package installations
 else
     e_header "Updating dotfiles..."
