@@ -68,9 +68,11 @@ is added to the PATH, and can be executed by running:
 
 Screenshots
 -----------
-![iTerm2 with eduarbo color theme](http://i.minus.com/iDiKGtFcFmfl4.png)
+![iTerm2 with thater itermcolor
+theme](http://cloud.eduarbo.com/screenshots/Screen_Shot_Bash.png)
 
-![My Macvim](http://i.minus.com/ig3nxvvgSCZGS.png)
+![My
+Macvim](http://cloud.eduarbo.com/screenshots/Screen%20Shot%202012-10-28%20at%208.50.58%20PM.png)
 
 Features
 --------
