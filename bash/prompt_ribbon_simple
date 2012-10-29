@@ -29,7 +29,7 @@ BRANCH="\$(git branch 2>/dev/null | grep -e '\*' | sed 's/^..\(.*\)/\\[\\033[41;
 export PS1="\n${BRANCH} \
 ${RESET}${YELLOW}${BOLD}⚡ \
 ${RESET}${YELLOW}\u \
-${RESET}${WHITE}${BOLD}in \
+${RESET}${WHITE}${BOLD}at \
 ${BLUE}\h \
 ${WHITE}${BOLD}in \
 ${GREEN}\w \

@@ -31,8 +31,8 @@ ${BLACK}${BGGREEN}⮀${BGBLACK}${GREEN}⮀\
 ${BLACK}${BGYELLOW}⮀\
 ${BGYELLOW}${YELLOW}⮀\
 ${BLACK}\u \
-${BGBLACK}${YELLOW}⮀\
-${RESET}${WHITE}${BOLD} in \
+${BGBLACK}${YELLOW}⮀ \
+${RESET}${WHITE}${BOLD}at \
 ${BLUE}\h \
 ${WHITE}${BOLD}in \
 ${GREEN}\w \
