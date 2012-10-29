@@ -44,24 +44,23 @@ formula_exists() {
     return 0
 }
 
-# Clone the dotfiles if the directory is missing
-if [[ ! -d ${DOTFILES} ]] ; then
-    e_header "Downloading dotfiles..."
-    # Clone the GitHub repo
-    git clone --recursive https://github.com/eduarbo/dotfiles.git ${DOTFILES}
+clonerepo() {
+  # Clone the dotfiles if the directory is missing
+  if [[ ! -d ${DOTFILES} ]] ; then
+    mv ~/.dotfiles ~/.dotfiles.old
+  fi
 
-    cd $DOTFILES
-# Otherwise conditionally update repo and/or package installations
-else
-    cd $DOTFILES
-    e_header "Updating dotfiles..."
-    # Pull down the latest changes
-    git pull --rebase origin master
-    # Update submodules
-fi
+  mkdir ~/.dotfiles
+  cd $DOTFILES
 
-source ./lib/brew
-source ./lib/npm
+  e_header "Downloading dotfiles..."
+  # Clone the GitHub repo
+  git clone --recursive https://github.com/eduarbo/dotfiles.git ${DOTFILES}
+
+  source ./lib/brew
+  source ./lib/npm
+}
+
 
 git submodule update --recursive --init --quiet
 # Return to previous working directory
@@ -73,31 +72,32 @@ run_brew
 # Install Node packages
 run_npm
 
-
-# Before relying on Homebrew, check that packages can be compiled
-if ! type_exists 'gcc'; then
+check() {
+  # Before relying on Homebrew, check that packages can be compiled
+  if ! type_exists 'gcc'; then
     e_error "The XCode Command Line Tools must be installed first."
     echo "  https://developer.apple.com/downloads"
     exit 1
-fi
+  fi
 
-# Check for Homebrew
-if ! type_exists 'brew'; then
+  # Check for Homebrew
+  if ! type_exists 'brew'; then
     e_header "Installing Homebrew..."
     ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
-fi
+  fi
 
-# Check for git
-if ! type_exists 'git'; then
+  # Check for git
+  if ! type_exists 'git'; then
     e_header "Updating Homebrew..."
     brew update
     e_header "Installing Git..."
     brew install git
-fi
+  fi
+}
 
 link() {
-    # Force create/replace the symlink.
-    ln -fs "${DOTFILES}/${1}" "${HOME}/${2}"
+  # Force create/replace the symlink.
+  ln -fs "${DOTFILES}/${1}" "${HOME}/${2}"
 }
 
 mirrorfiles() {
@@ -132,11 +132,13 @@ mirrorfiles() {
 
 # Verify that the user wants to proceed before potentially overwriting files
 echo
-e_warning "Warning: This may overwrite your existing dotfiles."
+    e_warning "Warning: This may overwrite your existing dotfiles."
 read -p "Continue? (y/n) " -n 1
 echo
 
 if [[ $REPLY =~ ^[Yy]$ ]] ; then
+    clonerepo
+    check
     mirrorfiles
     source ${HOME}/.bash_profile
 else
