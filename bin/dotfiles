@@ -3,32 +3,49 @@ DOTFILES="$HOME/.dotfiles"
 NAME="Eduardo Ruiz"
 EMAIL="eduarbo@gmail.com"
 
-cd $DOTFILES
-
-source ./lib/utils
 source ./lib/brew
 source ./lib/npm
 
-# Before relying on Homebrew, check that packages can be compiled
-if ! type_exists 'gcc'; then
-    e_error "The XCode Command Line Tools must be installed first."
-    echo "  https://developer.apple.com/downloads"
-    exit 1
-fi
+# Header logging
+e_header() {
+    echo -e "\n$(tput setaf 7)$@$(tput sgr0)";
+}
 
-# Check for Homebrew
-if ! type_exists 'brew'; then
-    e_header "Installing Homebrew..."
-    ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
-fi
+# Success logging
+e_success() {
+    echo -e "$(tput setaf 64)✓ $@$(tput sgr0)";
+}
 
-# Check for git
-if ! type_exists 'git'; then
-    e_header "Updating Homebrew..."
-    brew update
-    e_header "Installing Git..."
-    brew install git
-fi
+# Error logging
+e_error() {
+    echo -e "$(tput setaf 1)x $@$(tput sgr0)";
+}
+
+# Warning logging
+e_warning() {
+    echo -e "$(tput setaf 136)! $@$(tput sgr0)";
+}
+
+# Test whether a command exists
+# $1 - cmd to test
+type_exists() {
+    if [ `type -P $1` ]; then
+      return 0
+    fi
+    return 1
+}
+
+# Test whether a Homebrew formula is already installed
+# $1 - formula name (may include options)
+formula_exists() {
+    if ! `brew list $1 >/dev/null`; then
+        e_warning "Missing formula: $1"
+        return 1
+    fi
+
+    echo $1 "already installed."
+    return 0
+}
 
 # Clone the dotfiles if the directory is missing
 if [[ ! -d ${DOTFILES} ]] ; then
@@ -50,6 +67,29 @@ else
     run_brew
     # Install Node packages
     run_npm
+fi
+
+cd $DOTFILES
+
+# Before relying on Homebrew, check that packages can be compiled
+if ! type_exists 'gcc'; then
+    e_error "The XCode Command Line Tools must be installed first."
+    echo "  https://developer.apple.com/downloads"
+    exit 1
+fi
+
+# Check for Homebrew
+if ! type_exists 'brew'; then
+    e_header "Installing Homebrew..."
+    ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
+fi
+
+# Check for git
+if ! type_exists 'git'; then
+    e_header "Updating Homebrew..."
+    brew update
+    e_header "Installing Git..."
+    brew install git
 fi
 
 link() {
