@@ -57,22 +57,13 @@ clonerepo() {
   # Clone the GitHub repo
   git clone --recursive https://github.com/eduarbo/dotfiles.git ${DOTFILES}
 
-  source ./lib/brew
-  source ./lib/npm
 }
 
-
-git submodule update --recursive --init --quiet
-# Return to previous working directory
-
-# Install and update packages
-echo "Updating packages..."
-# Install Homebrew formulae
-run_brew
-# Install Node packages
-run_npm
-
 check() {
+
+  source ./lib/brew
+  source ./lib/npm
+
   # Before relying on Homebrew, check that packages can be compiled
   if ! type_exists 'gcc'; then
     e_error "The XCode Command Line Tools must be installed first."
@@ -93,6 +84,11 @@ check() {
     e_header "Installing Git..."
     brew install git
   fi
+
+  # Install Homebrew formulae
+  run_brew
+  # Install Node packages
+  run_npm
 }
 
 link() {
