@@ -36,6 +36,7 @@ run_brew() {
             'libjpeg'
             'rename'
             'tmux'
+            'the_silver_searcher'
             'bash-completion'
             'reattach-to-user-namespace'
         )
