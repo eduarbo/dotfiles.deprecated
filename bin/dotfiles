@@ -3,80 +3,38 @@ DOTFILES="$HOME/.dotfiles"
 NAME="Eduardo Ruiz"
 EMAIL="eduarbo@gmail.com"
 
-# Header logging
-e_header() {
-    echo -e "\n$(tput setaf 7)$@$(tput sgr0)";
-}
-
-# Success logging
-e_success() {
-    echo -e "$(tput setaf 64)✓ $@$(tput sgr0)";
-}
-
-# Error logging
-e_error() {
-    echo -e "$(tput setaf 1)x $@$(tput sgr0)";
-}
-
-# Warning logging
-e_warning() {
-    echo -e "$(tput setaf 136)! $@$(tput sgr0)";
-}
-
-# Test whether a command exists
-# $1 - cmd to test
-type_exists() {
-    if [ `type -P $1` ]; then
-      return 0
-    fi
-    return 1
-}
-
-# Test whether a Homebrew formula is already installed
-# $1 - formula name (may include options)
-formula_exists() {
-    if ! `brew list $1 >/dev/null`; then
-        e_warning "Missing formula: $1"
-        return 1
-    fi
-
-    echo $1 "already installed."
-    return 0
+update_submodules() {
+  e_header "Updating Submodules..."
+  git submodule init
+  git submodule update
 }
 
 clonerepo() {
   # Clone the dotfiles if the directory is missing
   if [[ ! -d ${DOTFILES} ]] ; then
-    mv ~/.dotfiles ~/.dotfiles.old
-  fi
+    mkdir ~/.dotfiles
+    cd $DOTFILES
 
-  mkdir ~/.dotfiles
-  cd $DOTFILES
+    # Clone the GitHub repo
+    git clone --recursive https://github.com/eduarbo/dotfiles.git ${DOTFILES}
+  else
+    cd $DOTFILES
+    source ./lib/functions
 
-  e_header "Downloading dotfiles..."
-  # Clone the GitHub repo
-  git clone --recursive https://github.com/eduarbo/dotfiles.git ${DOTFILES}
+    git fetch
+    git pull origin master
 
-}
+    update_submodules
 
-check() {
-
-  source ./lib/brew
-  source ./lib/npm
-
-  # Before relying on Homebrew, check that packages can be compiled
-  if ! type_exists 'gcc'; then
-    e_error "The XCode Command Line Tools must be installed first."
-    echo "  https://developer.apple.com/downloads"
+    e_success "AWESOME! We have updated your dotfiles. Enjoy! ಠ‿ಠ "
+    source ${HOME}/.bash_profile
     exit 1
   fi
 
-  # Check for Homebrew
-  if ! type_exists 'brew'; then
-    e_header "Installing Homebrew..."
-    ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
-  fi
+  source ./lib/functions
+}
 
+check() {
   # Check for git
   if ! type_exists 'git'; then
     e_header "Updating Homebrew..."
@@ -84,11 +42,6 @@ check() {
     e_header "Installing Git..."
     brew install git
   fi
-
-  # Install Homebrew formulae
-  run_brew
-  # Install Node packages
-  run_npm
 }
 
 link() {
@@ -97,64 +50,71 @@ link() {
 }
 
 mirrorfiles() {
-    # Copy `.gitconfig`.
-    # Any global git commands in `~/.bash_profile.local` will be written to
-    # `.gitconfig`. This prevents them being committed to the repository.
-    rsync -avz --quiet ${DOTFILES}/git/gitconfig  ${HOME}/.gitconfig
+  # Copy `.gitconfig`.
+  # Any global git commands in `~/.bash_profile.local` will be written to
+  # `.gitconfig`. This prevents them being committed to the repository.
+  rsync -avz --quiet ${DOTFILES}/git/gitconfig  ${HOME}/.gitconfig
 
-    # Force remove the vim directory if it's already there.
-    if [ -e "${HOME}/.vim" ] ; then
-        rm -rf "${HOME}/.vim"
-    fi
+  # Force remove the vim directory if it's already there.
+  if [ -e "${HOME}/.vim" ] ; then
+    rm -rf "${HOME}/.vim"
+  fi
 
-    # Create the necessary symbolic links between the `.dotfiles` and `HOME`
-    # directory. The `bash_profile` sources other files directly from the
-    # `.dotfiles` repository.
-    link "bash/bashrc"        ".bashrc"
-    link "bash/bash_profile"  ".bash_profile"
-    link "git/gitattributes"  ".gitattributes"
-    link "git/gitignore"      ".gitignore"
-    link "vim"                ".vim"
-    link "vim/vimrc"          ".vimrc"
-    link "jshintrc"           ".jshintrc"
-    link "tmux.conf"          ".tmux.conf"
-    link "itermcolors"        "itermcolors"
+  # Create the necessary symbolic links between the `.dotfiles` and `HOME`
+  # directory. The `bash_profile` sources other files directly from the
+  # `.dotfiles` repository.
+  link "bash/bashrc"        ".bashrc"
+  link "bash/bash_profile"  ".bash_profile"
+  link "git/gitattributes"  ".gitattributes"
+  link "git/gitignore"      ".gitignore"
+  link "vim"                ".vim"
+  link "vim/vimrc"          ".vimrc"
+  link "jshintrc"           ".jshintrc"
+  link "tmux.conf"          ".tmux.conf"
+  link "itermcolors"        "itermcolors"
 
-    #Copy fonts to Fonts directory
-    rsync -avz --quiet ${DOTFILES}/fonts/*  ${HOME}/Library/Fonts
+  #Copy fonts to Fonts directory
+  rsync -avz --quiet ${DOTFILES}/fonts/*  ${HOME}/Library/Fonts
 
-    e_success "Dotfiles update complete!"
+  e_success "Dotfiles update complete!"
 }
+
+clonerepo
 
 # Verify that the user wants to proceed before potentially overwriting files
 echo
-    e_warning "Warning: This may overwrite your existing dotfiles."
+e_warning "Warning: This may overwrite your existing dotfiles."
 read -p "Continue? (y/n) " -n 1
 echo
 
 if [[ $REPLY =~ ^[Yy]$ ]] ; then
-    clonerepo
-    check
-    mirrorfiles
-    source ${HOME}/.bash_profile
+  check
+  mirrorfiles
+  source ${HOME}/.bash_profile
+  update_submodules
+
+  # Install Homebrew formulae
+  ./lib/brew
+  # Install Node packages
+  ./lib/npm
 else
-    echo "Aborting..."
-    exit 1
+  echo "Aborting..."
+  exit 1
 fi
 
 read -p "Are you Eduardo Ruiz (y/n) " -n 1
 
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    git config --global user.email "$EMAIL"
-    git config --global user.name "$NAME"
-  else
-    e_header "Let's configure your gitconfig "
-    read -p "Give your name please: "
-    git config --global user.name "$REPLY"
+  git config --global user.email "$EMAIL"
+  git config --global user.name "$NAME"
+else
+  e_header "Let's configure your gitconfig "
+  read -p "Give your name please: "
+  git config --global user.name "$REPLY"
 
-    read -p "Now, give your email please: "
-    git config --global user.email "$REPLY"
+  read -p "Now, give your email please: "
+  git config --global user.email "$REPLY"
 fi
 
 e_success "AWESOME! We have finished it. Enjoy! ಠ‿ಠ "
