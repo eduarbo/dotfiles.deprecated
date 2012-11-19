@@ -1070,7 +1070,7 @@ augroup ps_nerdtree
 augroup END
 
 let NERDTreeHighlightCursorline = 1
-let NERDTreeIgnore = ['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index',
+let NERDTreeIgnore = ['\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index',
                     \ 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json',
                     \ '.*\.o$', 'db.db', 'tags.bak']
 
