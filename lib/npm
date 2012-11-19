@@ -1,23 +1,29 @@
 #!/bin/bash
 
-run_npm() {
+# List of npm packages
+node_packages="bower grunt prettyjson less jshint express jade wintersmith jitsu complete"
 
-    # Check for npm
-    if type_exists 'npm'; then
-        e_header "Installing Node.js packages..."
+source ~/.dotfiles/lib/functions
 
-        # List of npm packages
-        local packages="bower grunt prettyjson less jshint express jade wintersmith jitsu complete"
+# Check for npm
+if ! type_exists 'npm'; then
+  echo
+  e_error "Error: npm not found."
 
-        # Install packages globally and quietly
-        npm install $packages --global --quiet
+  if ! type_exists 'brew'; then
+    e_error "You should install first Homebrew in order to install NPM"
+    exit
+  else
+    echo "Installing npm"
+    brew install node
+  fi
+fi
 
-        [[ $? ]] && e_success "Done"
-    else
-        echo
-        e_error "Error: npm not found."
-        echo "Aborting..."
-        exit
-    fi
+if type_exists 'npm'; then
+  e_header "Installing Node.js packages..."
 
-}
+  # Install packages globally and quietly
+  npm install $node_packages --global --quiet
+
+  [[ $? ]] && e_success "Done"
+fi
