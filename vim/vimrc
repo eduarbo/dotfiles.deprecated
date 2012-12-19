@@ -751,6 +751,9 @@ augroup ft_java
 augroup END
 
 " }}}
+" TypeScript {{{
+    autocmd BufWritePost,FileWritePost *.ts :silent !tsc <afile>
+" }}}
 " Javascript {{{
 
 augroup ft_javascript
