@@ -58,3 +58,6 @@
 [submodule "vim/bundle/coffeescript"]
 	path = vim/bundle/coffeescript
 	url = https://github.com/kchmck/vim-coffee-script.git
+[submodule "vim/bundle/typescript"]
+	path = vim/bundle/typescript
+	url = git@github.com:leafgarland/typescript-vim.git
