@@ -9,7 +9,7 @@ desired_formulae=(
 'jpeg'
 'macvim --override-system-vim'
 'node'
-'optipng'
+'pngcrush'
 'phantomjs'
 'tree'
 'wget'
