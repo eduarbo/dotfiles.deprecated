@@ -8,6 +8,7 @@ DOTFILES=$HOME/.dotfiles
 export PATH="\
 $DOTFILES/bin:\
 /usr/local/bin:\
+/usr/local/share/python:\
 /usr/local/share/npm/bin:\
 $HOME/.rvm/bin:\
 $(brew --prefix coreutils)/libexec/gnubin:\
