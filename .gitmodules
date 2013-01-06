@@ -55,3 +55,9 @@
 [submodule "vim/bundle/typescript"]
 	path = vim/bundle/typescript
 	url = git@github.com:leafgarland/typescript-vim.git
+[submodule "vim/bundle/ultisnips"]
+	path = vim/bundle/ultisnips
+	url = git@github.com:MarcWeber/ultisnips.git
+[submodule "vim/bundle/snipmate-snippets"]
+	path = vim/bundle/snipmate-snippets
+	url = https://github.com/honza/snipmate-snippets.git
