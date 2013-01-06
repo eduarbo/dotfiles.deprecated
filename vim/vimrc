@@ -45,7 +45,7 @@ set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
 set pastetoggle=<F2>            " Use it for pasting large amounts of text into Vim, disabling all kinds of smartness and just pasting a whole buffer of text
 
-if v:version > 702 
+if v:version > 702
   set norelativenumber            " It is much faster
   set undofile
   set undoreload=10000
@@ -167,7 +167,7 @@ set formatoptions=qrn1
 set backup                        " enable backups
 set noswapfile                    " It's 2012, Vim.
 
-if v:version > 702 
+if v:version > 702
   set undodir=~/.vim/tmp/undo//     " undo files
 endif
 set backupdir=~/.vim/tmp/backup// " backups
@@ -570,7 +570,17 @@ augroup ft_c
 augroup END
 
 " }}}
-" CSS, Saas, LessCSS and HAML{{{
+" Haml {{{
+
+augroup ft_css
+    au!
+
+    au BufRead,BufNewFile *.hamlc set ft=haml
+
+augroup END
+
+" }}}
+" CSS and Sass{{{
 
 augroup ft_css
     au!
@@ -581,12 +591,6 @@ augroup ft_css
     au Filetype sass,scss,less,css setlocal foldmarker={,}
     au Filetype sass,scss,less,css setlocal omnifunc=csscomplete#CompleteCSS
     au Filetype sass,scss,less,css setlocal iskeyword+=-
-
-    au BufRead,BufNewFile *.hamlc set ft=haml
-
-    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-    " positioned inside of them AND the following code doesn't get unfolded.
-    au BufNewFile,BufRead *.less,*.css inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
 
 augroup END
 
@@ -621,7 +625,7 @@ augroup ft_firefox
 augroup END
 
 " }}}
-" HTML and HTMLDjango {{{
+" HTML, XML and HTMLDjango {{{
 
 let g:html_indent_tags = ['p', 'li']
 
@@ -631,6 +635,8 @@ augroup ft_html
     setlocal foldlevel=99
     au BufNewFile,BufRead *.html setlocal filetype=htmldjango
     au FileType html,jinja,htmldjango setlocal foldmethod=manual
+    au FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+    au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
     " Use <localleader>f to fold the current tag.
     au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>f Vatzf
@@ -671,11 +677,9 @@ augroup ft_javascript
 
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
+    au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     au BufNewFile,BufRead *.js normal! zR
 
-    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-    " positioned inside of them AND the following code doesn't get unfolded.
-    " au Filetype javascript inoremap <buffer> {<cr> {}<left><cr><space><space>.<cr><esc>kA<bs>
 augroup END
 
 " }}}
@@ -686,6 +690,7 @@ augroup ft_markdown
 
     au BufNewFile,BufRead *.m*down setlocal filetype=markdown
     au BufNewFile,BufRead *.md normal! zR
+    au FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
 
     " Use <localleader>1/2/3 to add headings.
     au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=:redraw<cr>
@@ -715,6 +720,7 @@ augroup ft_python
 
     au FileType python setlocal define=^\s*\\(def\\\\|class\\)
     au FileType man nnoremap <buffer> <cr> :q<cr>
+    au FileType python setlocal omnifunc=pythoncomplete#Complete
 
     " Jesus tapdancing Christ, built-in Python syntax, you couldn't let me
     " override this in a normal way, could you?
@@ -740,6 +746,7 @@ augroup END
 augroup ft_ruby
     au!
     au Filetype ruby setlocal foldmethod=syntax
+    au FileType ruby setlocal omnifunc=rubycomplete#Complete
 augroup END
 
 " }}}
@@ -810,7 +817,7 @@ let ctrlp_filter_greps = "".
     \ "jar|class|swp|swo|log|so|o|pyc|jpe?g|png|gif|mo|po" .
     \ ")$' | " .
     \ "egrep -v '^(\\./)?(" .
-    \ "deploy/|lib/|classes/|libs/|deploy/vendor/|.git/|.hg/|.svn/|.*migrations/|docs/build/" .
+    \ ".git/|.hg/|.svn/" .
     \ ")'"
 
 let my_ctrlp_user_command = "" .
