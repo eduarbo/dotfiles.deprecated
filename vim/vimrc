@@ -570,90 +570,6 @@ augroup ft_c
 augroup END
 
 " }}}
-" Clojure {{{
-
-" function! SlimvToggleRepl()
-"     if bufname('%') ==# 'SLIMV.REPL'
-"         let origin = b:pop_back_to
-"         q
-"         execute "" . origin . "wincmd w"
-"     else
-"         let origin = winnr()
-"         vertical botright split
-"         e SLIMV.REPL
-"         let b:pop_back_to = origin
-"     endif
-" endfunction
-
-let g:slimv_leader = '\'
-let g:slimv_keybindings = 2
-
-augroup ft_clojure
-    au!
-
-    au BufNewFile,BufRead riemann.config set filetype=clojure
-    au FileType clojure silent! call TurnOnClojureFolding()
-    au FileType clojure compiler clojure
-    au FileType clojure setlocal report=100000
-
-    au BufWinEnter            SLIMV.REPL setlocal nolist
-    au BufNewFile,BufReadPost SLIMV.REPL setlocal nowrap foldlevel=99
-    au BufNewFile,BufReadPost SLIMV.REPL nnoremap <buffer> A GA
-    au BufNewFile,BufReadPost SLIMV.REPL nnoremap <buffer> <localleader>R :emenu REPL.<Tab>
-
-    " Fix the eval mappings.
-    au FileType clojure nnoremap <buffer> <localleader>ef :<c-u>call SlimvEvalExp()<cr>
-    au FileType clojure nnoremap <buffer> <localleader>ee :<c-u>call SlimvEvalDefun()<cr>
-
-    " And the inspect mapping.
-    au FileType clojure nmap <buffer> \i \di
-
-    " And REPL-toggling mapping.
-    " au FileType clojure nnoremap <buffer> \rr :call SlimvToggleRepl()<cr>
-
-    " Indent top-level form.
-    au FileType clojure nmap <buffer> <localleader>= mz99[(v%='z
-augroup END
-
-" }}}
-" Clojurescript {{{
-
-augroup ft_clojurescript
-    au!
-
-    au BufNewFile,BufRead *.cljs set filetype=clojurescript
-    au FileType clojurescript call TurnOnClojureFolding()
-
-    " Indent top-level form.
-    au FileType clojurescript nmap <buffer> <localleader>= v((((((((((((=%
-augroup END
-
-" }}}
-" Confluence {{{
-
-augroup ft_c
-    au!
-
-    au BufRead,BufNewFile *.confluencewiki setlocal filetype=confluencewiki
-
-    " Wiki pages should be soft-wrapped.
-    au FileType confluencewiki setlocal wrap linebreak nolist
-augroup END
-
-" }}}
-" Cram {{{
-
-let cram_fold=1
-
-augroup ft_cram
-    au!
-
-    au BufNewFile,BufRead *.t set filetype=cram
-    au Syntax cram setlocal foldlevel=1
-    au FileType cram nnoremap <buffer> <localleader>ee :e<cr>
-augroup END
-
-" }}}
 " CSS, Saas, LessCSS and HAML{{{
 
 augroup ft_css
@@ -702,14 +618,6 @@ augroup END
 augroup ft_firefox
     au!
     au BufRead,BufNewFile ~/Library/Caches/*.html setlocal buftype=nofile
-augroup END
-
-" }}}
-" Haskell {{{
-
-augroup ft_haskell
-    au!
-    au BufEnter *.hs compiler ghc
 augroup END
 
 " }}}
@@ -771,23 +679,6 @@ augroup ft_javascript
 augroup END
 
 " }}}
-" Lisp {{{
-
-augroup ft_lisp
-    au!
-    au FileType lisp call TurnOnLispFolding()
-augroup END
-
-" }}}
-" Mail {{{
-
-augroup ft_mail
-    au!
-
-    au Filetype mail setlocal spell
-augroup END
-
-" }}}
 " Markdown {{{
 
 augroup ft_markdown
@@ -803,26 +694,6 @@ augroup ft_markdown
 augroup END
 
 " }}}
-" Mercurial {{{
-
-augroup ft_mercurial
-    au!
-
-    au BufNewFile,BufRead *hg-editor-*.txt setlocal filetype=hgcommit
-augroup END
-
-" }}}
-" Mutt {{{
-
-augroup ft_muttrc
-    au!
-
-    au BufRead,BufNewFile *.muttrc set ft=muttrc
-
-    au FileType muttrc setlocal foldmethod=marker foldmarker={{{,}}}
-augroup END
-
-" }}}
 " Nginx {{{
 
 augroup ft_nginx
@@ -834,16 +705,6 @@ augroup ft_nginx
     au BufRead,BufNewFile vhost.nginx                            set ft=nginx
 
     au FileType nginx setlocal foldmethod=marker foldmarker={,}
-augroup END
-
-" }}}
-" OrgMode {{{
-
-augroup ft_org
-    au!
-
-    au Filetype org nmap <buffer> Q vahjgq
-    au Filetype org setlocal nolist
 augroup END
 
 " }}}
@@ -909,11 +770,6 @@ augroup END
 
 nnoremap <leader>a :Ack!<space>
 let g:ackprg = 'ag --nogroup --nocolor --column'
-
-" }}}
-" Autoclose {{{
-
-nmap <Leader>x <Plug>ToggleAutoCloseMappings
 
 " }}}
 " Commentary {{{
@@ -1015,11 +871,6 @@ let g:microdata_attributes_complete = 0
 let g:atia_attributes_complete = 0
 
 " }}}
-" Lisp (built-in) {{{
-
-let g:lisp_rainbow = 1
-
-" }}}
 " NERD Tree {{{
 
 noremap  <leader>n :NERDTreeToggle<cr>
@@ -1102,117 +953,10 @@ endfunction
 " }}}
 
 " }}}
-" Text objects ------------------------------------------------------------ {{{
-
-" Shortcut for [] {{{
-
-onoremap ir i[
-onoremap ar a[
-vnoremap ir i[
-vnoremap ar a[
-
-" }}}
-" Next and Last {{{
-"
-" Motion for "next/last object".  "Last" here means "previous", not "final".
-" Unfortunately the "p" motion was already taken for paragraphs.
-"
-" Next acts on the next object of the given type in the current line, last acts
-" on the previous object of the given type in the current line.
-"
-" Currently only works for (, [, {, b, r, B, ', and ".
-"
-" Some examples (C marks cursor positions, V means visually selected):
-"
-" din'  -> delete in next single quotes                foo = bar('spam')
-"                                                      C
-"                                                      foo = bar('')
-"                                                                C
-"
-" canb  -> change around next parens                   foo = bar('spam')
-"                                                      C
-"                                                      foo = bar
-"                                                               C
-"
-" vil"  -> select inside last double quotes            print "hello ", name
-"                                                                        C
-"                                                      print "hello ", name
-"                                                             VVVVVV
-
-onoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
-xnoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
-onoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
-xnoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
-
-onoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
-xnoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
-onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
-xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
-
-function! s:NextTextObject(motion, dir)
-  let c = nr2char(getchar())
-
-  if c ==# "b"
-      let c = "("
-  elseif c ==# "B"
-      let c = "{"
-  elseif c ==# "r"
-      let c = "["
-  endif
-
-  exe "normal! ".a:dir.c."v".a:motion.c
-endfunction
-
-" }}}
-" Numbers {{{
-
-" Motion for numbers.  Great for CSS.  Lets you do things like this:
-"
-" margin-top: 200px; -> daN -> margin-top: px;
-"              ^                          ^
-" TODO: Handle floats.
-
-onoremap N :<c-u>call <SID>NumberTextObject(0)<cr>
-xnoremap N :<c-u>call <SID>NumberTextObject(0)<cr>
-onoremap aN :<c-u>call <SID>NumberTextObject(1)<cr>
-xnoremap aN :<c-u>call <SID>NumberTextObject(1)<cr>
-onoremap iN :<c-u>call <SID>NumberTextObject(1)<cr>
-xnoremap iN :<c-u>call <SID>NumberTextObject(1)<cr>
-
-function! s:NumberTextObject(whole)
-    normal! v
-
-    while getline('.')[col('.')] =~# '\v[0-9]'
-        normal! l
-    endwhile
-
-    if a:whole
-        normal! o
-
-        while col('.') > 1 && getline('.')[col('.') - 2] =~# '\v[0-9]'
-            normal! h
-        endwhile
-    endif
-endfunction
-
-" }}}
-
-" }}}
 " Mini-plugins ------------------------------------------------------------ {{{
 " Stuff that should probably be broken out into plugins, but hasn't proved to be
 " worth the time to do so just yet.
 
-" Synstack {{{
-
-" Show the stack of syntax hilighting classes affecting whatever is under the
-" cursor.
-function! SynStack()
-  echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
-endfunc
-
-nnoremap <F7> :call SynStack()<CR>
-
-" }}}
 " Diffwhite Toggle {{{
 
 set diffopt-=iwhite
