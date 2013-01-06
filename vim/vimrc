@@ -1096,6 +1096,9 @@ let g:syntastic_jsl_conf = '$HOME/.vim/jsl.conf'
 " YankRing {{{
 
 function! YRRunAfterMaps()
+    " Shortcut to display a buffer displaying the yankring's contents
+    nnoremap <silent> <leader>y :YRShow<CR>
+
     " Make Y yank to end of line.
     nnoremap Y :<C-U>YRYankCount 'y$'<CR>
 
