@@ -932,7 +932,6 @@ augroup END
 " }}}
 " Ctrl-P {{{
 
-let g:Powerline_symbols = 'fancy'
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_map = '<leader>,'
@@ -1052,7 +1051,6 @@ let NERDTreeMapJumpFirstChild = 'gK'
 
 let g:Powerline_symbols = 'fancy'
 let g:Powerline_cache_enabled = 1
-" let g:Powerline_colorscheme = 'badwolf'
 
 " }}}
 " Scratch {{{
