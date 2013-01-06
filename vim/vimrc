@@ -437,6 +437,8 @@ noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 
 runtime macros/matchit.vim
 map <tab> %
+unmap [%
+unmap ]%
 
 " Made D behave
 nnoremap D d$
@@ -625,7 +627,7 @@ augroup ft_firefox
 augroup END
 
 " }}}
-" HTML, XML and HTMLDjango {{{
+" HTML and XML {{{
 
 let g:html_indent_tags = ['p', 'li']
 
@@ -633,25 +635,17 @@ augroup ft_html
     au!
 
     setlocal foldlevel=99
-    au BufNewFile,BufRead *.html setlocal filetype=htmldjango
-    au FileType html,jinja,htmldjango setlocal foldmethod=manual
+    au BufNewFile,BufRead *.html setlocal filetype=html
+    au FileType html setlocal foldmethod=manual
     au FileType html setlocal omnifunc=htmlcomplete#CompleteTags
     au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-    " Use <localleader>f to fold the current tag.
-    au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>f Vatzf
-
-    " Use <localleader>t to fold the current templatetag.
-    au FileType html,jinja,htmldjango nmap <buffer> <localleader>t viikojozf
-
     " Indent tag
-    au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>= Vat=
+    au FileType html nnoremap <buffer> <localleader>= Vat=
 
-    " Django tags
-    au FileType jinja,htmldjango inoremap <buffer> <c-t> {%<space><space>%}<left><left><left>
-
-    " Django variables
-    au FileType jinja,htmldjango inoremap <buffer> <c-f> {{<space><space>}}<left><left><left>
+    " Underscore tags
+    au FileType html inoremap <buffer> <c-t> <%=<space><space>%><left><left><left>
+    au FileType html inoremap <buffer> <c-f> <%<space><space>%><left><left><left>
 augroup END
 
 " }}}
@@ -666,9 +660,11 @@ augroup END
 
 " }}}
 " TypeScript {{{
+
 " autocmd QuickFixCmdPost [^l]* nested cwindow
 " autocmd QuickFixCmdPost    l* nested lwindow
 " autocmd BufWritePost,FileWritePost *.ts :silent !tsc <afile>
+
 " }}}
 " Javascript {{{
 
