@@ -43,9 +43,6 @@
 [submodule "vim/bundle/supertab"]
   path = vim/bundle/supertab
   url = https://github.com/ervandew/supertab.git
-[submodule "vim/bundle/surround"]
-  path = vim/bundle/surround
-  url = https://github.com/tpope/vim-surround.git
 [submodule "vim/bundle/yankring"]
   path = vim/bundle/yankring
   url = https://github.com/vim-scripts/YankRing.vim.git
