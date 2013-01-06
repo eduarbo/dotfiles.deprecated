@@ -1,6 +1,9 @@
 " .vimrc
 " Author: Eduardo Ruiz <eduarbo@gmail.com>
 " Source: https://github.com/eduarbo/dotfiles/tree/master/vim
+" TODO {{{
+  " - fix sparkup map
+" }}}
 "
 " Preamble ---------------------------------------------------------------- {{{
 
