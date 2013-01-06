@@ -5,7 +5,7 @@
 " Preamble ---------------------------------------------------------------- {{{
 
 filetype off
-call pathogen#runtime_append_all_bundles()
+call pathogen#infect()
 filetype plugin indent on
 set nocompatible
 
@@ -752,7 +752,9 @@ augroup END
 
 " }}}
 " TypeScript {{{
-    autocmd BufWritePost,FileWritePost *.ts :silent !tsc <afile>
+" autocmd QuickFixCmdPost [^l]* nested cwindow
+" autocmd QuickFixCmdPost    l* nested lwindow
+" autocmd BufWritePost,FileWritePost *.ts :silent !tsc <afile>
 " }}}
 " Javascript {{{
 
