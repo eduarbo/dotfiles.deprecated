@@ -199,6 +199,10 @@ let maplocalleader = "\\"
 syntax on
 set background=dark
 let g:badwolf_html_link_underline = 0
+" Turn on CSS properties highlighting
+let g:badwolf_css_props_highlight = 1
+" Make the gutters darker than the background.
+let g:badwolf_darkgutter = 1
 colorscheme badwolf
 
 " Reload the colorscheme whenever we write the file.
@@ -393,8 +397,6 @@ vnoremap ˚ :m-2<CR>gv
 " Easy filetype switching {{{
 
 nnoremap _md :set ft=markdown<CR>
-nnoremap _hd :set ft=htmldjango<CR>
-nnoremap _jt :set ft=htmljinja<CR>
 nnoremap _js :set ft=javascript<CR>
 nnoremap _cw :set ft=confluencewiki<CR>
 nnoremap _pd :set ft=python.django<CR>
@@ -690,6 +692,7 @@ augroup ft_markdown
     au BufNewFile,BufRead *.m*down setlocal filetype=markdown
     au BufNewFile,BufRead *.md normal! zR
     au FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    au FileType markdown setlocal spell
 
     " Use <localleader>1/2/3 to add headings.
     au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=:redraw<cr>
@@ -785,7 +788,6 @@ xmap <leader>c <Plug>Commentary
 
 augroup plugin_commentary
     au!
-    au FileType htmldjango setlocal commentstring={#\ %s\ #}
     au FileType clojurescript setlocal commentstring=;\ %s
     au FileType puppet setlocal commentstring=#\ %s
     au FileType fish setlocal commentstring=#\ %s
@@ -929,7 +931,8 @@ nnoremap <silent> <leader><tab> :ScratchToggle<cr>
 " }}}
 " Sparkup {{{
 
-let g:sparkupNextMapping = '<c-s>'
+let g:sparkupExecuteMapping='<C-d>'
+let g:sparkupNextMapping='<C-s>'
 
 "}}}
 " Supertab {{{
