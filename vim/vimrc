@@ -942,6 +942,13 @@ let g:SuperTabLongestHighlight = 1
 let g:SuperTabCrMapping = 1
 
 "}}}
+" UltiSnips {{{
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" }}}
 " YankRing {{{
 
 function! YRRunAfterMaps()
