@@ -57,4 +57,4 @@
 	url = git@github.com:Lokaltog/powerline.git
 [submodule "vim/bundle/ultisnips"]
 	path = vim/bundle/ultisnips
-	url = git@github.com:SirVer/ultisnips.git
+	url = git@github.com:eduarbo/ultisnips.git
