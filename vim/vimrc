@@ -136,10 +136,6 @@ set wildignore+=*.pyc                            " Python byte code
 
 set wildignore+=*.orig                           " Merge resolution files
 
-" Clojure/Leiningen
-set wildignore+=classes
-set wildignore+=lib
-
 " }}}
 " Line Return {{{
 
@@ -895,9 +891,7 @@ augroup ps_nerdtree
 augroup END
 
 let NERDTreeHighlightCursorline = 1
-let NERDTreeIgnore = ['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index',
-                    \ 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json',
-                    \ '.*\.o$', 'db.db', 'tags.bak']
+let NERDTreeIgnore = ['\~$', '.*\.pyc$']
 
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
