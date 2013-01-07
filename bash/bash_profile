@@ -22,7 +22,7 @@ for file in ${files[@]}; do
   [ -e "$file" ] && source "$file"
 done
 
-source "$DOTFILES/bash/prompt_ribbon_simple"
+source "$DOTFILES/bash/prompt_minimalist"
 
 # This loads RVM into a shell session.
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
