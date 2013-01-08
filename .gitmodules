@@ -58,3 +58,9 @@
 [submodule "vim/bundle/scrollcolors"]
 	path = vim/bundle/scrollcolors
 	url = git@github.com:vim-scripts/ScrollColors.git
+[submodule "vim/bundle/ruby"]
+	path = vim/bundle/ruby
+	url = git@github.com:vim-ruby/vim-ruby.git
+[submodule "vim/bundle/rails"]
+	path = vim/bundle/rails
+	url = git@github.com:tpope/vim-rails.git
