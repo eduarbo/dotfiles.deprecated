@@ -64,3 +64,6 @@
 [submodule "vim/bundle/rails"]
 	path = vim/bundle/rails
 	url = git@github.com:tpope/vim-rails.git
+[submodule "vim/bundle/splice"]
+	path = vim/bundle/splice
+	url = git@github.com:sjl/splice.vim.git
