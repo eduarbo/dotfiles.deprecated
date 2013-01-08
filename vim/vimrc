@@ -796,7 +796,7 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_split_window = 0
 let g:ctrlp_max_height = 20
-let g:ctrlp_extensions = ['tag']
+let g:ctrlp_extensions = []
 
 let g:ctrlp_prompt_mappings = {
 \ 'PrtSelectMove("j")':   ['<c-j>', '<down>', '<s-tab>'],
@@ -824,8 +824,8 @@ let my_ctrlp_git_command = "" .
 
 let my_ctrlp_ffind_command = "ffind --semi-restricted --dir %s --type e -B -f"
 
-" let g:ctrlp_user_command = ['.git/', my_ctrlp_ffind_command, my_ctrlp_ffind_command]
-let g:ctrlp_user_command = ['.git/', my_ctrlp_user_command, my_ctrlp_git_command]
+" let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command]
+let g:ctrlp_user_command = ['.git/', my_ctrlp_ffind_command]
 
 nnoremap <leader>. :CtrlPTag<cr>
 

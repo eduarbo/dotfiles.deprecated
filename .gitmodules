@@ -55,3 +55,6 @@
 [submodule "vim/bundle/ultisnips"]
 	path = vim/bundle/ultisnips
 	url = git@github.com:eduarbo/ultisnips.git
+[submodule "vim/bundle/scrollcolors"]
+	path = vim/bundle/scrollcolors
+	url = git@github.com:vim-scripts/ScrollColors.git
