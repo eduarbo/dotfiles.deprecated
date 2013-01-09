@@ -1,34 +1,37 @@
 #!bin/bash
 # Prompt
 
-BGBLACK="\[\033[40m\]"
-BGRED="\[\033[41m\]"
-BGGREEN="\[\033[42m\]"
-BGYELLOW="\[\033[43m\]"
-BGBLUE="\[\033[44m\]"
-BGMAGENTA="\[\033[45m\]"
-BGCYAN="\[\033[46m\]"
-BGWHITE="\[\033[47m\]"
-BGTRANS="\[\033[49m\]"
+function git_branch {
+  git branch 2>/dev/null | grep -e '\*' | sed 's/^..\(.*\)/\\[ ⭠ \\]\1/'
+}
 
-BLACK="\[\033[30m\]"
-RED="\[\033[31m\]"
-GREEN="\[\033[32m\]"
-YELLOW="\[\033[33m\]"
-BLUE="\[\033[34m\]"
-MAGENTA="\[\033[35m\]"
-CYAN="\[\033[36m\]"
-WHITE="\[\033[37m\]"
-TRANS="\[\033[39m\]"
+function prompt {
+  local BGBLACK="\[\033[40m\]"
+  local BGRED="\[\033[41m\]"
+  local BGGREEN="\[\033[42m\]"
+  local BGYELLOW="\[\033[43m\]"
+  local BGBLUE="\[\033[44m\]"
+  local BGMAGENTA="\[\033[45m\]"
+  local BGCYAN="\[\033[46m\]"
+  local BGWHITE="\[\033[47m\]"
+  local BGTRANS="\[\033[49m\]"
 
-BOLD="\[\033[1m\]"
-RESET="\[\033[0m\]"
+  local BLACK="\[\033[30m\]"
+  local RED="\[\033[31m\]"
+  local GREEN="\[\033[32m\]"
+  local YELLOW="\[\033[33m\]"
+  local BLUE="\[\033[34m\]"
+  local MAGENTA="\[\033[35m\]"
+  local CYAN="\[\033[36m\]"
+  local WHITE="\[\033[37m\]"
+  local TRANS="\[\033[39m\]"
 
-BRANCH="\$(git branch 2>/dev/null | grep -e '\*' | sed 's/^..\(.*\)/\\[ ⭠ \\]\1/')"
+  local BOLD="\[\033[1m\]"
+  local RESET="\[\033[0m\]"
 
-export PS1="\n${YELLOW}${BOLD}⚡ \
-${GREEN}\w\
-${CYAN}${BRANCH}\
-${YELLOW} $ ${RESET}"
+  export PS1="\n${YELLOW}${BOLD}⚡ ${GREEN}\w${CYAN}\$(__git_ps1 ' ⭠ %s') ${YELLOW}\$ ${RESET}"
 
-export PS2="${BOLD}${YELLOW}❯ ${RESET}"
+  export PS2="${BOLD}${YELLOW}❯ ${RESET}"
+}
+
+prompt
