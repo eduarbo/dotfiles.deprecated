@@ -10,8 +10,33 @@ greenb="$normal\033[1;32m"
 followers=`curl --silent "http://twitter.com/users/show.xml?screen_name=eduarbo" | grep "<followers_count>" | tr -cd 0-9`
 following=`curl --silent "http://twitter.com/users/show.xml?screen_name=eduarbo" | grep "<friends_count>" | tr -cd 0-9`
 
+eduarbo() {
+cat <<"EOT"
+            ___
+          .'   '.
+         /       \           oOoOo
+        |         |       ,==|||||
+         \       /       _|| |||||
+          '.___.'    _.-'^|| |||||
+        __/_______.-'     '==HHHHH
+   _.-'` /                   """""     ,---,                                     ,---,              
+.-'     /   oOoOo                    ,---.'|         ,--,               __  ,-.,---.'|      ,---.   
+`-._   / ,==|||||                    |   | :       ,'_ /|             ,' ,'/ /||   | :     '   ,'\  
+    '-/._|| |||||         ,---.      |   | |  .--. |  | :    ,--.--.  '  | |' |:   : :    /   /   | 
+     /  ^|| |||||        /     \   ,--.__| |,'_ /| :  . |   /       \ |  |   ,':     |,-..   ; ,. : 
+    /    '==HHHHH       /    /  | /   ,'   ||  ' | |  . .  .--.  .-. |'  :  /  |   : '  |'   | |: : 
+   /________"""""      .    ' / |.   '  /  ||  | ' |  | |   \__\/: . .|  | '   |   |  / :'   | .; : 
+   `\       `\         '   ;   /|'   ; |:  |:  | : ;  ; |   ," .--.; |;  : |   '   : |: ||   :    | 
+     \        `\   /   '   |  / ||   | '/  ''  :  `--'   \ /  /  ,.  ||  , ;   |   | '/ : \   \  /  
+      \         `\/    |   :    ||   :    :|:  ,      .-./;  :   .'   \---'    |   :    |  `----'   
+      /                 \   \  /  \   \  /   `--`----'    |  ,     .-./        /    \  /            
+     /                   `----'    `----'                  `--`---'            `-'----'             
+    /_____ 
+EOT
+}
+
 echo -e "\n \033[1;36m"
-./eduarbo
+eduarbo
 echo -e $blueb "
                        _ 
                     (  _ )_   `curl --silent "http://xml.weather.yahoo.com/forecastrss?p=MXCM0228&u=c" | grep -E '(Current Conditions:|C<BR)' | sed -e 's/Current Conditions://' -e 's/<br \/>//' -e 's/<b>//' -e 's/<\/b>//' -e 's/<BR \/>//' -e 's/<description>//' -e 's/<\/description>//'`      (_  _(_ ,)
