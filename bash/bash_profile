@@ -10,7 +10,7 @@ $DOTFILES/bin:\
 /usr/local/bin:\
 /usr/local/share/python:\
 /usr/local/share/npm/bin:\
-$HOME/.rvm/bin:\
+$HOME/.rbenv/bin:\
 $(brew --prefix coreutils)/libexec/gnubin:\
 $PATH:\
 "&>/dev/null
@@ -23,9 +23,6 @@ for file in ${files[@]}; do
 done
 
 source "$DOTFILES/bash/prompt_minimalist"
-
-# This loads RVM into a shell session.
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 bind -f $DOTFILES/bash/bash_bindings
 
@@ -58,3 +55,12 @@ done
 complete -o default -o nospace -F _git g
 
 # Customize to your needs...
+
+# {{{
+# Node Completion - Auto-generated, do not touch.
+shopt -s progcomp
+for f in $(command ls ~/.node-completion); do
+  f="$HOME/.node-completion/$f"
+  test -f "$f" && . "$f"
+done
+# }}}
