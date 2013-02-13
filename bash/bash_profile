@@ -24,6 +24,9 @@ done
 
 source "$DOTFILES/bash/prompt_minimalist"
 
+# This initializes Rbenv
+eval "$(rbenv init -)"
+
 bind -f $DOTFILES/bash/bash_bindings
 
 # check the window size after each command and, if necessary,
