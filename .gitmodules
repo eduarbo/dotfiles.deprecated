@@ -13,9 +13,6 @@
 [submodule "vim/bundle/gundo"]
 	path = vim/bundle/gundo
 	url = git@github.com:sjl/gundo.vim.git
-[submodule "vim/bundle/hthml5"]
-	path = vim/bundle/hthml5
-	url = git@github.com:othree/html5.vim.git
 [submodule "vim/bundle/javascript"]
 	path = vim/bundle/javascript
 	url = git@github.com:pangloss/vim-javascript.git

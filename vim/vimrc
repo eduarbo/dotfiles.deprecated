@@ -863,14 +863,6 @@ let g:gundo_tree_statusline = "Gundo"
 let g:gundo_preview_statusline = "Gundo Preview"
 
 " }}}
-" HTML5 {{{
-
-let g:event_handler_attributes_complete = 0
-let g:rdfa_attributes_complete = 0
-let g:microdata_attributes_complete = 0
-let g:atia_attributes_complete = 0
-
-" }}}
 " NERD Tree {{{
 
 noremap  <leader>n :NERDTreeToggle<cr>
@@ -956,7 +948,7 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-let g:UltiSnipsSnippetDirectories          ["snippets"]
+let g:UltiSnipsSnippetDirectories=["snippets"]
 
 " }}}
 " YankRing {{{
