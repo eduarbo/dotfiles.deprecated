@@ -55,3 +55,6 @@
 [submodule "vim/bundle/powerline"]
 	path = vim/bundle/powerline
 	url = git@github.com:Lokaltog/vim-powerline.git
+[submodule "vim/bundle/auto-pairs"]
+	path = vim/bundle/auto-pairs
+	url = git@github.com:vim-scripts/Auto-Pairs.git
