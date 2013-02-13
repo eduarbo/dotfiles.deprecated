@@ -1,0 +1,3 @@
+eval "git bisect $1"
+git clean -d -f -f
+git submodule update --init
