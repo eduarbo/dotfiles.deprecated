@@ -28,15 +28,9 @@
 [submodule "vim/bundle/repeat"]
 	path = vim/bundle/repeat
 	url = git@github.com:tpope/vim-repeat.git
-[submodule "vim/bundle/smartinput"]
-	path = vim/bundle/smartinput
-	url = git@github.com:kana/vim-smartinput.git
 [submodule "vim/bundle/supertab"]
 	path = vim/bundle/supertab
 	url = git@github.com:ervandew/supertab.git
-[submodule "vim/bundle/yankring"]
-	path = vim/bundle/yankring
-	url = git@github.com:vim-scripts/YankRing.vim.git
 [submodule "vim/bundle/jade"]
 	path = vim/bundle/jade
 	url = git@github.com:digitaltoad/vim-jade.git
@@ -49,18 +43,12 @@
 [submodule "vim/bundle/ultisnips"]
 	path = vim/bundle/ultisnips
 	url = git@github.com:eduarbo/ultisnips.git
-[submodule "vim/bundle/scrollcolors"]
-	path = vim/bundle/scrollcolors
-	url = git@github.com:vim-scripts/ScrollColors.git
 [submodule "vim/bundle/ruby"]
 	path = vim/bundle/ruby
 	url = git@github.com:vim-ruby/vim-ruby.git
 [submodule "vim/bundle/rails"]
 	path = vim/bundle/rails
 	url = git@github.com:tpope/vim-rails.git
-[submodule "vim/bundle/splice"]
-	path = vim/bundle/splice
-	url = git@github.com:sjl/splice.vim.git
 [submodule "vim/bundle/commentary"]
 	path = vim/bundle/commentary
 	url = git@github.com:tpope/vim-commentary.git
