@@ -55,3 +55,6 @@
 [submodule "vim/bundle/ultisnips"]
 	path = vim/bundle/ultisnips
 	url = git@github.com:SirVer/ultisnips.git
+[submodule "vim/bundle/ultisnips-snippets"]
+	path = vim/bundle/ultisnips-snippets
+	url = git@github.com:eduarbo/ultisnips-snippets.git
