@@ -128,7 +128,6 @@ set wildignore+=*.DS_Store                       " OSX bullshit
 
 set wildignore+=*.luac                           " Lua byte code
 
-set wildignore+=migrations                       " Django migrations
 set wildignore+=*.pyc                            " Python byte code
 
 set wildignore+=*.orig                           " Merge resolution files
@@ -344,9 +343,9 @@ vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
 nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
 
 " Marks and Quotes
-noremap ' `
-noremap æ '
-noremap ` <C-^>
+" noremap ' `
+" noremap æ '
+" noremap ` <C-^>
 
 " Select (charwise) the contents of the current line, excluding indentation.
 " Great for pasting Python lines into REPLs.
