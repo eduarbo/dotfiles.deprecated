@@ -671,6 +671,9 @@ augroup ft_javascript
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
     au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    au FileType javascript setlocal tabstop=4
+    au FileType javascript setlocal shiftwidth=4
+    au FileType javascript setlocal softtabstop=4
     au BufNewFile,BufRead *.js normal! zR
 
 augroup END
@@ -949,6 +952,14 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnips-snippets"]
+
+" }}}
+" Syntastic {{{
+
+let g:syntastic_enable_signs = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_disabled_filetypes = ['html', 'rst']
+let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
 
 " }}}
 " YankRing {{{

@@ -58,3 +58,6 @@
 [submodule "vim/bundle/ultisnips-snippets"]
 	path = vim/bundle/ultisnips-snippets
 	url = git@github.com:eduarbo/ultisnips-snippets.git
+[submodule "vim/bundle/syntastic"]
+	path = vim/bundle/syntastic
+	url = git@github.com:scrooloose/syntastic.git
