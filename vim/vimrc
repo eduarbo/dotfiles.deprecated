@@ -668,6 +668,7 @@ augroup END
 augroup ft_javascript
     au!
 
+    au BufNewFile,BufRead jshintrc setlocal filetype=javascript
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
     au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS

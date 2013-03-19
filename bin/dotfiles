@@ -12,7 +12,7 @@ update_submodules() {
 clonerepo() {
   # Clone the dotfiles if the directory is missing
   if [[ ! -d ${DOTFILES} ]] ; then
-    mkdir ~/.dotfiles
+    mkdir $DOTFILES
     cd $DOTFILES
 
     # Clone the GitHub repo
