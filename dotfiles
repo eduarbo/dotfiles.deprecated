@@ -14,7 +14,7 @@ update_submodules() {
 
 link() {
   # Force create/replace the symlink.
-  ln -fs "${DOTFILES}/${1}" "${HOME}/${2}"
+  ln -fs ${DOTFILES}/${1} ${HOME}/${2}
 }
 
 mirrorfiles() {
@@ -62,9 +62,9 @@ if [[ $REPLY =~ ^[Yy]$ ]] ; then
   update_submodules
 
   # Install Homebrew formulae 
-  ./lib/brewbootstrap
+  ./bin/brewbootstrap
   # Install Node packages
-  ./lib/npmbootstrap
+  ./bin/npmbootstrap
 else
   echo "Aborting..."
   exit 1

@@ -6,7 +6,6 @@ DOTFILES=$HOME/.dotfiles
 [ -r "$(brew --prefix)/etc/bash_completion" ] && source "$(brew --prefix)/etc/bash_completion"
 
 export PATH="\
-$DOTFILES/bin:\
 $HOME/bin:\
 /usr/local/bin:\
 /usr/local/share/python:\
