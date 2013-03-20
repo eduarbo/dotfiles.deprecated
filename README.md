@@ -3,6 +3,12 @@ My vim & bash config files for Mac OSX (Eduardo Ruiz)
 
 This is a collection of best of breed tools from across the web, from scouring other people's dotfile repos, blogs, and projects.
 
+Pre-requisites
+--------------
+
+You need to have installed:
+* Git
+
 Installation
 ------------
 You need to install the XCode Command Line Tools prior to installing these
@@ -54,7 +60,9 @@ complete
 
 Updating
 --------
+
     dotfiles
+
 Just run that command and it will update the repository, update vim plugins and
 update packages.
 

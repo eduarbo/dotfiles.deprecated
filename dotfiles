@@ -3,45 +3,13 @@ DOTFILES="$HOME/.dotfiles"
 NAME="Eduardo Ruiz"
 EMAIL="eduarbo@gmail.com"
 
+cd ${DOTFILES}
+source ./lib/utils
+
 update_submodules() {
   e_header "Updating Submodules..."
-  git submodule init
-  git submodule update
-}
-
-clonerepo() {
-  # Clone the dotfiles if the directory is missing
-  if [[ ! -d ${DOTFILES} ]] ; then
-    mkdir $DOTFILES
-    cd $DOTFILES
-
-    # Clone the GitHub repo
-    git clone --recursive https://github.com/eduarbo/dotfiles.git ${DOTFILES}
-  else
-    cd $DOTFILES
-    source ./lib/functions
-
-    git fetch
-    git pull origin master
-
-    update_submodules
-
-    e_success "AWESOME! We have updated your dotfiles. Enjoy! ಠ‿ಠ "
-    source ${HOME}/.bash_profile
-    exit 1
-  fi
-
-  source ./lib/functions
-}
-
-check() {
-  # Check for git
-  if ! type_exists 'git'; then
-    e_header "Updating Homebrew..."
-    brew update
-    e_header "Installing Git..."
-    brew install git
-  fi
+  git pull
+  git submodule update --init
 }
 
 link() {
@@ -60,6 +28,8 @@ mirrorfiles() {
     rm -rf "${HOME}/.vim"
   fi
 
+  mkdir -p ~/bin
+
   # Create the necessary symbolic links between the `.dotfiles` and `HOME`
   # directory. The `bash_profile` sources other files directly from the
   # `.dotfiles` repository.
@@ -72,14 +42,13 @@ mirrorfiles() {
   link "jshintrc"           ".jshintrc"
   link "tmux.conf"          ".tmux.conf"
   link "itermcolors"        "itermcolors"
+  link "bin/*"              "bin/"
 
   #Copy fonts to Fonts directory
   rsync -avz --quiet ${DOTFILES}/fonts/*  ${HOME}/Library/Fonts
 
   e_success "Dotfiles update complete!"
 }
-
-clonerepo
 
 # Verify that the user wants to proceed before potentially overwriting files
 echo
@@ -88,15 +57,14 @@ read -p "Continue? (y/n) " -n 1
 echo
 
 if [[ $REPLY =~ ^[Yy]$ ]] ; then
-  check
   mirrorfiles
   source ${HOME}/.bash_profile
   update_submodules
 
-  # Install Homebrew formulae
-  brewbootstrap
+  # Install Homebrew formulae 
+  ./lib/brewbootstrap
   # Install Node packages
-  npmbootstrap
+  ./lib/npmbootstrap
 else
   echo "Aborting..."
   exit 1

@@ -18,11 +18,13 @@ $PATH:\
 
 # Load files
 files=(bash_functions bash_aliases bash_exports)
+
 for file in ${files[@]}; do
   file="$DOTFILES/bash/$file"
   [ -e "$file" ] && source "$file"
 done
 
+# Choose prompt theme
 source "$DOTFILES/bash/prompt_minimalist"
 
 # This initializes Rbenv

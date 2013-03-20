@@ -3,7 +3,7 @@
 # List of npm packages
 node_packages="bower grunt prettyjson less jshint express jade wintersmith jitsu complete"
 
-source ~/.dotfiles/lib/functions
+source ~/.dotfiles/lib/utils
 
 # Check for npm
 if ! type_exists 'npm'; then

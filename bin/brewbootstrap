@@ -10,7 +10,6 @@ desired_formulae=(
 'macvim --override-system-vim'
 'node'
 'pngcrush'
-'phantomjs'
 'tree'
 'wget'
 'gist'
@@ -19,12 +18,13 @@ desired_formulae=(
 'libjpeg'
 'rename'
 'tmux'
+'ffind'
 'the_silver_searcher'
 'bash-completion'
 'reattach-to-user-namespace'
 )
 
-source ~/.dotfiles/lib/functions
+source ~/.dotfiles/lib/utils
 
 # Check for Homebrew
 if ! type_exists 'brew'; then
