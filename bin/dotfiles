@@ -62,9 +62,9 @@ if [[ $REPLY =~ ^[Yy]$ ]] ; then
   update_submodules
 
   # Install Homebrew formulae 
-  ./bin/brewbootstrap
+  ./brewbootstrap
   # Install Node packages
-  ./bin/npmbootstrap
+  ./npmbootstrap
 else
   echo "Aborting..."
   exit 1

@@ -1,23 +1,21 @@
 My vim & bash config files for Mac OSX (Eduardo Ruiz)
 =====================================================
 
-This is a collection of best of breed tools from across the web, from scouring other people's dotfile repos, blogs, and projects.
+This is a collection of best of breed tools from across the web, from scouring other people's dotfiles repos, blogs, and projects.
 
 Pre-requisites
 --------------
 
 You need to have installed:
 * Git
+* XCode Command Line Tools
 
 Installation
 ------------
-You need to install the XCode Command Line Tools prior to installing these
-dotfiles.
-
 The installation step may overwrite existing dotfiles in your HOME and .vim
 directories.
 
-    bash -c "$(curl -fsSL https://raw.github.com/eduarbo/dotfiles/master/bin/dotfiles)"
+    git clone https://github.com/eduarbo/dotfiles.git ~/.dotfiles && cd ~/.dotfiles && source bin/dotfiles
 
 The .gitconfig file is copied to the HOME directory so that any private git
 configuration taking place is not accidentally committed. Everything else is
@@ -37,12 +35,12 @@ libjpeg
 macvim
 node
 optipng
-phantomjs
 tree
 wget
 gist
 ctags
 webkit2png
+ffind
 rename
 
 **via npm**
