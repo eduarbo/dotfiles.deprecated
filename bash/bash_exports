@@ -8,7 +8,9 @@ export HISTSIZE=100000
 export HISTFILESIZE=500000
 
 # Now bash writes and re-reads the history file every time it prints a new prompt for you.
-export PROMPT_COMMAND="history -a ; history -n;  ${PROMPT_COMMAND}"
+# FIX: [Linux] Commands repeated
+# export PROMPT_COMMAND="history -a ; history -n ; ${PROMPT_COMMAND}"
+export PROMPT_COMMAND="history -a ; history -n"
 
 # some settings to be more colorful
 export CLICOLOR=1
@@ -25,3 +27,5 @@ export MANPAGER="less -X"
 
 export LESS="-R"
 [[ -z $DISPLAY ]] && export DISPLAY=":0.0"
+
+export TERM='xterm-256color'
