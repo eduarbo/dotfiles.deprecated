@@ -195,7 +195,8 @@ let g:badwolf_html_link_underline = 0
 let g:badwolf_css_props_highlight = 1
 " Make the gutters darker than the background.
 let g:badwolf_darkgutter = 1
-colorscheme badwolf
+" colorscheme badwolf
+color molokai
 
 " Reload the colorscheme whenever we write the file.
 augroup color_badwolf_dev
@@ -1165,10 +1166,13 @@ if has('gui_running')
 
         imap <M-BS>         <C-w>
         inoremap <D-BS>     <esc>my0c`y
+    elseif has("gui_gtk2")
+      set guifont=Menlo\ for\ Powerline\ 12
     else
-        " Non-MacVim GUI, like Gvim
+        " Non-MacVim GUI
     end
 else
+
     " Console Vim
     " For me, this means iTerm2, possibly through tmux
 
@@ -1187,5 +1191,6 @@ let g:ctrlp_custom_ignore = 'static'
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
+set t_vb=                       " Visual bell disabled on Linux
 
 " }}}
