@@ -39,6 +39,7 @@ mirrorfiles() {
   link "git/gitignore"      ".gitignore"
   link "vim"                ".vim"
   link "vim/vimrc"          ".vimrc"
+  link "vim/.gvimrc"        ".gvimrc"
   link "jshintrc"           ".jshintrc"
   link "tmux.conf"          ".tmux.conf"
   link "itermcolors"        "itermcolors"
