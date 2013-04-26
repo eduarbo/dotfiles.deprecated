@@ -44,6 +44,7 @@ mirrorfiles() {
   link "tmux.conf"          ".tmux.conf"
   link "itermcolors"        "itermcolors"
   link "bin/*"              "bin/"
+  link "fish/config.fish"   ".config/fish/config.fish"
 
   #Copy fonts to Fonts directory
   rsync -avz --quiet ${DOTFILES}/fonts/*  ${HOME}/Library/Fonts

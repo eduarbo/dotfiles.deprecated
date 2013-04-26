@@ -67,3 +67,6 @@
 [submodule "vim/bundle/handlebars"]
 	path = vim/bundle/handlebars
 	url = git@github.com:nono/vim-handlebars.git
+[submodule "vim/bundle/fish"]
+	path = vim/bundle/fish
+	url = git@github.com:aliva/vim-fish.git
