@@ -2,16 +2,13 @@
 
 DOTFILES=$HOME/.dotfiles
 
-# Bash completion (installed via Homebrew; source after `brew` is added to PATH)
-[ -r "$(brew --prefix)/etc/bash_completion" ] && source "$(brew --prefix)/etc/bash_completion"
-
 export PATH="\
 $HOME/bin:\
 /usr/local/bin:\
 /usr/local/share/python:\
 /usr/local/share/npm/bin:\
-$HOME/.rbenv/bin:\
-$(brew --prefix coreutils)/libexec/gnubin:\
+/usr/share:\
+$HOME/lib/sbt/bin:\
 $PATH:\
 "&>/dev/null
 
@@ -25,9 +22,6 @@ done
 
 # Choose prompt theme
 source "$DOTFILES/bash/prompt_minimalist"
-
-# This initializes Rbenv
-eval "$(rbenv init -)"
 
 bind -f $DOTFILES/bash/bash_bindings
 
@@ -64,8 +58,10 @@ complete -o default -o nospace -F _git g
 # {{{
 # Node Completion - Auto-generated, do not touch.
 shopt -s progcomp
-for f in $(command ls ~/.node-completion); do
-  f="$HOME/.node-completion/$f"
-  test -f "$f" && . "$f"
-done
+# for f in $(command ls ~/.node-completion); do
+#   f="$HOME/.node-completion/$f"
+#   test -f "$f" && . "$f"
+# done
 # }}}
+
+source ~/dev/bash.switchfly/profile.bash

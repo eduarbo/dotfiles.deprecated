@@ -91,6 +91,9 @@ alias gll="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset 
 alias in='sudo apt-get install'
 alias upd='sudo apt-get update'
 
+# Alias for apps
+alias Chrome="chromium-browser"
+
 # Hack to fix issues with autocompletion using aliases
 __define_git_completion () {
 eval "
