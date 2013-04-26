@@ -61,3 +61,9 @@
 [submodule "vim/bundle/syntastic"]
 	path = vim/bundle/syntastic
 	url = git@github.com:scrooloose/syntastic.git
+[submodule "vim/bundle/vim-indent-html"]
+	path = vim/bundle/vim-indent-html
+	url = git@github.com:bitfyre/vim-indent-html.git
+[submodule "vim/bundle/handlebars"]
+	path = vim/bundle/handlebars
+	url = git@github.com:nono/vim-handlebars.git
