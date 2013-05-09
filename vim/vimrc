@@ -189,7 +189,7 @@ let maplocalleader = "\\"
 " Color scheme {{{
 
 syntax on
-set background=dark
+" set background=dark
 let g:badwolf_html_link_underline = 0
 " Turn on CSS properties highlighting
 let g:badwolf_css_props_highlight = 1
@@ -275,8 +275,9 @@ nnoremap <leader>/ <C-^>
 
 " I constantly hit "u" in visual mode when I mean to "y". Use "gu" for those rare occasions.
 " From https://github.com/henrik/dotfiles/blob/master/vim/config/mappings.vim
-vnoremap u <nop>
-vnoremap gu u
+" vnoremap u <nop>
+
+" vnoremap gu u
 
 " For some reason ctags refuses to ignore Python variables, so I'll just hack
 " the tags file with sed and strip them out myself.
@@ -416,6 +417,7 @@ inoremap <c-]> <c-x><c-]>
 " Quick editing ----------------------------------------------------------- {{{
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ef :vsplit ~/.config/fish/config.fish<cr>
 nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
 nnoremap <leader>eb :vsplit ~/.bash_profile<cr>
 nnoremap <leader>eg :vsplit ~/.gitconfig<cr>

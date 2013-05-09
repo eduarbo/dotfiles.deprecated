@@ -1,28 +1,31 @@
 # Useful functions {{{
 
 function serve_this; python -m SimpleHTTPServer; end
-# alias fab 'fab -i ~/.ssh/stevelosh'
 function oldgcc; set -g CC /usr/bin/gcc-4.0 $argv; end
 function tm; tmux -u2 $argv; end
 function c; clear; end
 function hl; less -R; end
 function paththis; set PATH (pwd) $PATH $argv; end
-function clc; ./bin/get-last-commit-url.py | pbcopy; end
-
-function swank; dtach -A /tmp/dtach-swank.sock -r winch lein ritz; end
 
 function ef; vim ~/.config/fish/config.fish; end
 function ev; vim ~/.vimrc; end
 function ed; vim ~/.vim/custom-dictionary.utf-8.add; end
 function eo; vim ~/Dropbox/Org; end
-function eh; vim ~/.hgrc; end
-function ep; vim ~/.pentadactylrc; end
-function em; vim ~/.mutt/muttrc; end
-function ez; vim ~/lib/dotfiles/zsh; end
 function ek; vim ~/lib/dotfiles/keymando/keymandorc.rb; end
 function et; vim ~/.tmux.conf; end
 function eg; vim ~/.gitconfig; end
-function es; vim ~/.slate; end
+
+function server
+  set -l port "8000"
+
+  # Open in the browser
+  chromium-browser "http://localhost:$port/"
+
+  python -m SimpleHTTPServer $port
+end
+
+
+function dev; cd ~/dev/switchfly; end
 
 function fixopenwith
     /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
@@ -35,17 +38,31 @@ function spotlight-off; sudo mdutil -a -i off ; and sudo mv /System/Library/Core
 function spotlight-on; sudo mdutil -a -i on ; and sudo mv /System/Library/CoreServices/SearchOff.bundle/ /System/Library/CoreServices/Search.bundle/ ; and killall SystemUIServer; end
 function spotlight-wat; sudo fs_usage -w -f filesys mdworker | grep "open" ; end
 
-set MUTT_BIN (which mutt)
-function mutt; bash --login -c "cd ~/Desktop; $MUTT_BIN"; end
-
 function h; hg $argv; end
+
 function g; git $argv; end
+function gs; git status; end
+function ga; git add $argv; end
+function gc; git commit $argv; end
+function gca; git commit -a; end
+function gco; git checkout $argv; end
+function gd; git diff $argv; end
+function gl; git log; end
+function gb; git branch $argv; end
+function gm; git merge $argv; end
+function gg; git grep --color -n; end
+function ggi; git grep -ni; end
+function gsa; git submodule add $argv;  end
+function gll; git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative; end
+function stash; git stash; end
+function pop; git stash apply; end
+
+function Chrome; chromium-browser; end
+function gv; gvim; end
 
 function pbc; pbcopy; end
 function pbp; pbpaste; end
 function pbpb; pbp | pb; end
-
-function weechat; weechat-curses $argv; end
 
 function collapse; sed -e 's/  */ /g'; end
 function cuts; cut -d' ' $argv; end
@@ -53,66 +70,11 @@ function cuts; cut -d' ' $argv; end
 function v; vim $argv; end
 function V; vim . $argv; end
 
-function vu; vagrant up; end
-function vs; vagrant suspend; end
-
-function o; open $argv; end
-function oo; open .; end
-
-function wo; workon $argv; end
-function deact; deactivate; end
+function o; nemo $argv; end
+function oo; nemo .; end
 
 function psg -d "Grep for a running process, returning its PID and full string"
     ps auxww | grep -i --color=always $argv | grep -v grep | collapse | cuts -f 2,11-
-end
-
-function hey_virtualbox_shut_down_or_i_will_fucking_cut_you
-    VBoxManage controlvm $argv poweroff
-end
-
-set AG_BIN (which ag)
-function actual_ag
-    # Fuck you fish this is fucking ridiculous.  Let me use $AG_BIN as
-    # a command.  Or at least give me a way to do it like run $AG_BIN args or
-    # something jesus.
-    if test $AG_BIN = '/usr/local/bin/ag'
-        /usr/local/bin/ag $argv
-    else
-        if test $AG_BIN = '/usr/bin/ag'
-            /usr/bin/ag $argv
-        else
-            echo "Fish is a dick, sorry."
-        end
-    end
-end
-function ag -d "Run Ag with appropriate options."
-    if test -f '.agignore'
-        # Extra if statement because I can't figure out how to && things in
-        # a fish conditional and the documentation does not see fit to explain
-        # that little tidbit and can we please get a shell without complete
-        # bullshit as a scripting language syntax?
-        if grep -q 'pragma: skipvcs' '.agignore'
-            actual_ag --search-files -U $argv
-        else
-            actual_ag --search-files $argv
-        end
-    else
-        actual_ag --search-files $argv
-    end
-end
-
-function count_t_tasks; ~/lib/t/t.py --task-dir="~/Dropbox/tasks" --list=tasks.txt | wc -l $argv; end
-# set -g T_TASK_COUNT (count_t_tasks)
-function t
-    ~/lib/t/t.py --task-dir="~/Dropbox/tasks" --list=tasks.txt $argv
-    set -g T_TASK_COUNT (count_t_tasks)
-end
-
-function packfor
-    cp ~/Dropbox/tasks/pack-archive ~/Dropbox/tasks/pack.txt
-end
-function p
-    ~/lib/t/t.py --task-dir="~/Dropbox/tasks" --list=pack.txt $argv
 end
 
 # }}}
@@ -147,13 +109,9 @@ prepend_to_path "/usr/local/bin"
 prepend_to_path "/usr/local/share/python"
 prepend_to_path "/usr/local/sbin"
 prepend_to_path "$HOME/bin"
-prepend_to_path "$HOME/lib/dotfiles/bin"
-prepend_to_path "/opt/local/bin"
-prepend_to_path "/opt/subversion/bin"
-prepend_to_path "$HOME/lib/hg/hg"
-prepend_to_path "$HOME/Library/Haskell/bin"
-prepend_to_path "/usr/local/Cellar/ruby/1.9.3-p194/bin"
-prepend_to_path "/Applications/Postgres.app/Contents/MacOS/bin"
+prepend_to_path "/usr/local/share/python"
+prepend_to_path "/usr/local/share/npm/bin"
+prepend_to_path "/usr/share"
 
 set BROWSER open
 
@@ -161,9 +119,30 @@ set -g -x fish_greeting ''
 set -g -x EDITOR vim
 set -g -x COMMAND_MODE unix2003
 set -g -x RUBYOPT rubygems
-set -g -x CLASSPATH "$CLASSPATH:/usr/local/Cellar/clojure-contrib/1.2.0/clojure-contrib.jar"
 
 set -g -x NODE_PATH "/usr/local/lib/node_modules"
+
+# }}}
+# Switchfly bash tools {{{
+set -g -x TZ "UTC"
+set -g -x HOME /home/eruiz
+set -g -x JAVA_HOME=/usr/lib/jvm/jdk1.7.0
+set -g -x JDK_HOME $JAVA_HOME
+set -g -x ANT_HOME /usr/bin/ant
+set -g -x MAVEN_HOME /usr/share/maven
+set -g -x M2_HOME /usr/share/maven
+set -g -x PLATFORM /usr/local/platform
+set -g -x SWITCHFLY_HOME ~/dev/switchfly
+
+prepend_to_path "$JAVA_HOME/bin"
+prepend_to_path "$ANT_HOME/bin"
+prepend_to_path "$MAVEN_HOME/bin"
+
+###
+# Ant & Maven options
+set -g -x ANT_OPTS "-Xmx512m -Xms512m"
+set -g -x MAVEN_OPTS "-Xmx2G -Xms2G -XX:PermSize=1G -XX:MaxPermSize=1G"
+set -g -x JVM_ARGS "-Xms1024m -Xmx1024m -XX:MaxPermSize=512m"
 
 # }}}
 # Python variables {{{
@@ -171,22 +150,6 @@ set -g -x NODE_PATH "/usr/local/lib/node_modules"
 set -g -x PIP_DOWNLOAD_CACHE "$HOME/.pip/cache"
 set -g -x PYTHONSTARTUP "$HOME/.pythonrc.py"
 set -g -x WORKON_HOME "$HOME/lib/virtualenvs"
-
-prepend_to_path "/usr/local/share/python"
-prepend_to_path "/usr/local/Cellar/PyPi/3.6/bin"
-prepend_to_path "/usr/local/Cellar/python/2.7.1/bin"
-prepend_to_path "/usr/local/Cellar/python/2.7/bin"
-prepend_to_path "/usr/local/Cellar/python/2.6.5/bin"
-
-set -g -x PYTHONPATH ""
-set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.7.1/site-packages"
-set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.7/site-packages"
-set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.6/site-packages"
-set PYTHONPATH "$HOME/lib/python/see:$PYTHONPATH"
-set PYTHONPATH "$HOME/lib/hg/hg:$PYTHONPATH"
-
-set -gx WORKON_HOME "$HOME/lib/virtualenvs"
-. ~/.config/fish/virtualenv.fish
 
 # }}}
 # Z {{{
@@ -216,16 +179,28 @@ function hg_prompt
     hg prompt --angle-brackets $hg_promptstring 2>/dev/null
 end
 
+set fish_git_dirty_color red
+function parse_git_dirty 
+         git diff --quiet HEAD ^&-
+         if test $status = 1
+            echo (set_color $fish_git_dirty_color)"Δ"(set_color normal)
+         end
+end
+function parse_git_branch
+         # git branch outputs lines, the current branch is prefixed with a *
+         set -l branch (git branch ^&- | awk '/*/ {print $2}') 
+         echo $branch (parse_git_dirty)
+end
+
 function git_prompt
-    if git root >/dev/null 2>&1
-        set_color normal
-        printf ' on '
-        set_color magenta
-        printf '%s' (git currentbranch ^/dev/null)
-        set_color green
-        git_prompt_status
-        set_color normal
-    end
+         if test -z (git branch --quiet 2>| awk '/fatal:/ {print "no git"}')
+          set_color normal
+          printf ' on '
+          set_color cyan
+          printf '⭠ '
+          printf (parse_git_branch)
+          set_color normal
+         end 
 end
 
 function prompt_pwd --description 'Print the current working directory, shortend to fit the prompt'
@@ -239,7 +214,7 @@ function fish_prompt
 
     echo
 
-    set_color magenta
+    set_color blue
     printf '%s' (whoami)
     set_color normal
     printf ' at '
@@ -253,12 +228,9 @@ function fish_prompt
     printf '%s' (prompt_pwd)
     set_color normal
 
-    hg_prompt
     git_prompt
 
     echo
-
-    virtualenv_prompt
 
     if test $last_status -eq 0
         set_color white -o
@@ -304,8 +276,11 @@ function ll; ll1 $argv; end
 # }}}
 # Local Settings {{{
 
+# set -g -x PGDATA "/home/eruiz/.pgdata"
+set -g -x TERM xterm-256color
+
 if test -s $HOME/.config/fish/local.fish
-    source $HOME/.config/fish/local.fish
+    . $HOME/.config/fish/local.fish
 end
 
 # }}}
