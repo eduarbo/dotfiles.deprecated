@@ -50,7 +50,7 @@ function gd; git diff $argv; end
 function gl; git log; end
 function gb; git branch $argv; end
 function gm; git merge $argv; end
-function gg; git grep --color -n; end
+function gg; git grep --color -n $argv; end
 function ggi; git grep -ni; end
 function gsa; git submodule add $argv;  end
 function gll; git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative; end
@@ -179,25 +179,27 @@ function hg_prompt
     hg prompt --angle-brackets $hg_promptstring 2>/dev/null
 end
 
-set fish_git_dirty_color red
-function parse_git_dirty 
+set fish_git_dirty_color FA0
+function parse_git_dirty
          git diff --quiet HEAD ^&-
          if test $status = 1
-            echo (set_color $fish_git_dirty_color)"Δ"(set_color normal)
+            echo (set_color $fish_git_dirty_color)"✱"(set_color normal)
          end
 end
 function parse_git_branch
          # git branch outputs lines, the current branch is prefixed with a *
-         set -l branch (git branch ^&- | awk '/*/ {print $2}') 
+         set -l branch (git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/') 
+         # set -l branch (git rev-parse --abbrev-ref HEAD)
          echo $branch (parse_git_dirty)
 end
 
 function git_prompt
          if test -z (git branch --quiet 2>| awk '/fatal:/ {print "no git"}')
-          set_color normal
+          set_color CCC
           printf ' on '
-          set_color cyan
-          printf '⭠ '
+          set_color -o 5AF
+          # printf '⭠'
+          printf '⎇ '
           printf (parse_git_branch)
           set_color normal
          end 
@@ -214,31 +216,32 @@ function fish_prompt
 
     echo
 
-    set_color blue
-    printf '%s' (whoami)
-    set_color normal
-    printf ' at '
+    # set_color blue
+    # printf '%s' (whoami)
+    # set_color normal
+    # printf ' at '
 
-    set_color yellow
-    printf '%s' (hostname|cut -d . -f 1)
-    set_color normal
-    printf ' in '
+    # set_color yellow
+    # printf '%s' (hostname|cut -d . -f 1)
+    # set_color normal
+    # printf ' in '
 
-    set_color $fish_color_cwd
+    if test $last_status != 0
+        set_color -o FA0
+        printf '✘ %d ' $last_status
+    end
+
+    set_color 08D
     printf '%s' (prompt_pwd)
-    set_color normal
 
     git_prompt
 
-    echo
-
-    if test $last_status -eq 0
-        set_color white -o
-        printf '><((Â°> '
-    else
-        set_color red -o
-        printf '[%d] ><((Ë£> ' $last_status
-    end
+    set_color -o F59
+    printf ' ❱'
+    set_color -o FE6
+    printf '❱'
+    set_color -o BE5
+    printf '❱ '
 
     set_color normal
 end
