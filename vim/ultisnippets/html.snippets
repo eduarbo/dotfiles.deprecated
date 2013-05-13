@@ -1,4 +1,6 @@
-snippet shan "XHTML <script> handlebars template"
+extends javascript, css
+
+snippet hbs "XHTML <script> handlebars template"
 <script type="text/x-handlebars" data-template-name="${1:application}">
 	$0
 </script>
@@ -21,6 +23,18 @@ snippet d "XHTML <div>"
 	$0
 </div>
 endsnippet
+
+snippet strong "strong"
+<strong>${1}</strong>
+endsnippet 
+
+snippet b "b"
+<b>${1}</b>
+endsnippet 
+
+snippet span "span"
+<span>${1}</span>
+endsnippet 
 
 snippet h2 "html h2"
 <h2>${1}</h2>

@@ -12,18 +12,24 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-rails.git'
-Bundle 'Lokaltog/powerline'
+Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-surround'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'Lokaltog/vim-powerline'
 Bundle 'SirVer/ultisnips'
 Bundle 'mileszs/ack.vim'
-Bundle 'sjl/badwolf'
 Bundle 'kien/ctrlp.vim'
+Bundle 'sjl/badwolf'
 Bundle 'sjl/gundo.vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'ervandew/supertab'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'tpope/vim-commentary'
 Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-markdown'
+Bundle 'pangloss/vim-javascript'
+Bundle 'othree/html5.vim'
+Bundle 'kana/vim-smartinput'
+Bundle 'sjl/vim-sparkup'
+Bundle 'nono/vim-handlebars'
 " }}}
 " Basic options ----------------------------------------------------------- {{{
 filetype plugin indent on
@@ -237,6 +243,9 @@ endfunction
 function! MakeSpacelessIabbrev(from, to)
     execute "iabbrev <silent> ".a:from." ".a:to."<C-R>=EatChar('\\s')<CR>"
 endfunction
+function! MakeSpacelessBufferIabbrev(from, to)
+    execute "iabbrev <silent> <buffer> ".a:from." ".a:to."<C-R>=EatChar('\\s')<CR>"
+endfunction
 
 call MakeSpacelessIabbrev('gh/',  'http://github.com/')
 
@@ -434,7 +443,9 @@ inoremap <c-]> <c-x><c-]>
 " Quick editing ----------------------------------------------------------- {{{
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ej :vsplit ~/.vim/jshintrc<cr>
 nnoremap <leader>ef :vsplit ~/.config/fish/config.fish<cr>
+
 nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
 nnoremap <leader>eb :vsplit ~/.bash_profile<cr>
 nnoremap <leader>eg :vsplit ~/.gitconfig<cr>
@@ -653,6 +664,15 @@ augroup ft_firefox
 augroup END
 
 " }}}
+" Fish {{{
+augroup ft_fish
+  au!
+
+  au BufNewFile,BufRead *.fish setlocal filetype=fish
+
+  au FileType fish setlocal foldmethod=marker foldmarker={{{,}}}
+augroup END
+" }}}
 " HTML and XML {{{
 
 let g:html_indent_tags = ['p', 'li']
@@ -704,6 +724,7 @@ augroup ft_javascript
     au FileType javascript setlocal tabstop=4
     au FileType javascript setlocal shiftwidth=4
     au FileType javascript setlocal softtabstop=4
+    au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
 
     au BufNewFile,BufRead *.js normal! zR
 
@@ -897,6 +918,25 @@ let g:gundo_tree_statusline = "Gundo"
 let g:gundo_preview_statusline = "Gundo Preview"
 
 " }}}
+" Javascript {{{
+let g:html_indent_inctags = "html,body,head,tbody"
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
+" }}}
+" HTML5 {{{
+
+let g:event_handler_attributes_complete = 0
+let g:rdfa_attributes_complete = 0
+let g:microdata_attributes_complete = 0
+let g:atia_attributes_complete = 0
+
+" }}}
+" Linediff {{{
+
+vnoremap <leader>l :Linediff<cr>
+nnoremap <leader>L :LinediffReset<cr>
+
+" }}}
 " NERD Tree {{{
 
 noremap  <leader>n :NERDTreeToggle<cr>
@@ -945,6 +985,10 @@ endfunction
 nnoremap <silent> <leader><tab> :ScratchToggle<cr>
 
 " }}}
+" Sparkup {{{
+let g:sparkupExecuteMapping = '<c-d>'
+" let g:sparkupNextMapping = '<c-s>'
+" }}}
 " Splice {{{
 
 let g:splice_prefix = "-"
@@ -991,6 +1035,7 @@ let g:syntastic_enable_signs = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_disabled_filetypes = ['html', 'rst']
 let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
+let g:syntastic_javascript_jshint_conf = '$HOME/.vim/jshintrc'
 
 " }}}
 " YankRing {{{
