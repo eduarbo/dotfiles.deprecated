@@ -5,14 +5,31 @@
 " Preamble ---------------------------------------------------------------- {{{
 
 filetype off
-call pathogen#infect()
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+" }}}
+" Plugins ----------------------------------------------------------------- {{{
+Bundle 'gmarik/vundle'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-rails.git'
+Bundle 'Lokaltog/powerline'
+Bundle 'SirVer/ultisnips'
+Bundle 'mileszs/ack.vim'
+Bundle 'sjl/badwolf'
+Bundle 'kien/ctrlp.vim'
+Bundle 'sjl/gundo.vim'
+Bundle 'scrooloose/nerdtree'
+Bundle 'ervandew/supertab'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'tpope/vim-commentary'
+Bundle 'scrooloose/syntastic'
+Bundle 'tpope/vim-markdown'
+" }}}
+" Basic options ----------------------------------------------------------- {{{
 filetype plugin indent on
 set nocompatible
 
 inoremap jj <Esc> " Professor VIM says '87% of users prefer jj over esc', jj abrams disagrees
-
-" }}}
-" Basic options ----------------------------------------------------------- {{{
 
 set encoding=utf-8
 set modelines=0
@@ -684,9 +701,9 @@ augroup ft_javascript
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
     au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    au FileType javascript setlocal tabstop=2
-    au FileType javascript setlocal shiftwidth=2
-    au FileType javascript setlocal softtabstop=2
+    au FileType javascript setlocal tabstop=4
+    au FileType javascript setlocal shiftwidth=4
+    au FileType javascript setlocal softtabstop=4
 
     au BufNewFile,BufRead *.js normal! zR
 
