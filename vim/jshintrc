@@ -21,7 +21,9 @@
         "google",  // Google API variable.
         "Android"  // PhoneGap variable.
     ],
-
+    "globals"       : {
+        "Ember"     : true
+    },
 
     // Development.
     "debug"         : false,  // Allow debugger statements e.g. browser breakpoints.
