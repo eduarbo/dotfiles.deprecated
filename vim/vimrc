@@ -218,8 +218,8 @@ let g:badwolf_html_link_underline = 0
 let g:badwolf_css_props_highlight = 1
 " Make the gutters darker than the background.
 let g:badwolf_darkgutter = 1
-" colorscheme badwolf
-color molokai
+colorscheme badwolf
+" color molokai
 
 " Reload the colorscheme whenever we write the file.
 augroup color_badwolf_dev
@@ -685,6 +685,10 @@ augroup ft_html
     au FileType html setlocal foldmethod=manual
     au FileType html setlocal omnifunc=htmlcomplete#CompleteTags
     au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+    au FileType html setlocal tabstop=4
+    au FileType html setlocal shiftwidth=4
+    au FileType html setlocal softtabstop=4
 
     " Indent tag
     au FileType html nnoremap <buffer> <localleader>= Vat=
