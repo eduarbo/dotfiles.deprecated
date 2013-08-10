@@ -1,15 +1,51 @@
-snippet f "function()"
-function() {
-	${0:// body...}
+snippet use "'use strict'"
+'use strict';
+endsnippet
+
+snippet ife "if ___ else"
+if (${1:true}) {
+    $2
+} else {
+    $3
 }
 endsnippet
 
-snippet ff "(function(){})()"
-(function(${1}) {
-	${0:// body...}
-})(${2});
+snippet try
+try {
+  ${1:/* code */}
+} catch (${2:e}) {
+  ${3:/* handle error */}
+}
 endsnippet
 
-snippet use "'use strict'"
-'use strict';
+snippet sw "Switch statement"
+switch (${1:expression}) {
+  case '${3:case}':
+    ${4:// code}
+    break;
+  ${5}
+  default:
+    ${2:// code}
+}
+endsnippet
+
+snippet case "Case"
+case '${1:case}':
+  ${2:// code}
+  break;
+${3}
+endsnippet
+
+# Functions
+
+snippet f "function ()"
+function ${1:label}($2) {
+    ${VISUAL}$0
+}
+endsnippet
+
+snippet ff "IIFE"
+(function ($1) {
+    ${VISUAL}$0
+}(${2:$1}));
 endsnippet

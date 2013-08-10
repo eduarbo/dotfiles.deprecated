@@ -9,31 +9,31 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 " }}}
 " Plugins ----------------------------------------------------------------- {{{
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-rails.git'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-cucumber'
-Bundle 'vim-ruby/vim-ruby'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'SirVer/ultisnips'
-Bundle 'mileszs/ack.vim'
+Bundle 'ervandew/supertab'
+Bundle 'gmarik/vundle'
+Bundle 'godlygeek/tabular'
+Bundle 'kana/vim-smartinput'
 Bundle 'kien/ctrlp.vim'
+Bundle 'mileszs/ack.vim'
+Bundle 'nono/vim-handlebars'
+Bundle 'othree/html5.vim'
+Bundle 'pangloss/vim-javascript'
+Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/syntastic'
 Bundle 'sjl/badwolf'
 Bundle 'sjl/gundo.vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'ervandew/supertab'
-Bundle 'scrooloose/syntastic'
-Bundle 'pangloss/vim-javascript'
-Bundle 'othree/html5.vim'
-Bundle 'kana/vim-smartinput'
 Bundle 'sjl/vim-sparkup'
-Bundle 'nono/vim-handlebars'
-Bundle 'godlygeek/tabular'
+Bundle 'skwp/vim-rspec'
+Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-cucumber'
+Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-rails.git'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-surround'
 Bundle 'vim-ruby/vim-ruby'
 " }}}
 " Basic options ----------------------------------------------------------- {{{
@@ -283,8 +283,8 @@ vnoremap <c-z> <esc>zv`<ztgv
 nnoremap <leader>( :tabprev<cr>
 nnoremap <leader>) :tabnext<cr>
 nnoremap <C-t> :tabnew<cr>
-nnoremap <C-s> :w<cr>
-inoremap <C-s> <C-o>:w<cr>
+nnoremap <C-g> :w<cr>
+inoremap <C-g> <C-o>:w<cr>
 
 inoremap <C-v> <C-o>"+P
 
@@ -680,8 +680,6 @@ augroup END
 " }}}
 " HTML and XML {{{
 
-let g:html_indent_tags = ['p', 'li']
-
 augroup ft_html
     au!
 
@@ -1031,12 +1029,12 @@ let g:SuperTabCrMapping = 1
 
 "}}}
 " Tabular {{{
-let g:tabular_loaded = 1
+" let g:tabular_loaded = 1
 
-noremap <leader>t, :Tabularize /,<cr>
-noremap <leader>tr :Tabularize /=><cr>
-noremap <leader>t= :Tabularize /=<cr>
-noremap <leader>t: :Tabularize /:<cr>
+noremap <leader>T, :Tabularize /,<cr>
+noremap <leader>Tr :Tabularize /=><cr>
+noremap <leader>T= :Tabularize /=<cr>
+noremap <leader>T: :Tabularize /:<cr>
 " }}}
 " UltiSnips {{{
 

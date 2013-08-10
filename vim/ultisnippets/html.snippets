@@ -6,15 +6,33 @@ snippet hbs "XHTML <script> handlebars template"
 </script>
 endsnippet
 
-snippet dc "div class"
-<div class="$1">
-	$2
+snippet tt "Simple inline tag" i
+<${1:span}>${VISUAL}$2</${1/(\w+).*/$1/}>$3
+endsnippet
+
+snippet t "Simple tag"
+<${1:div}>
+  ${VISUAL}$0
+</${1/(\w+).*/$1/}>
+endsnippet
+
+snippet #
+id="$1"$2
+endsnippet
+
+snippet .
+class="$1"$2
+endsnippet
+
+snippet d# "XHTML <div>"
+<div id="${1:name}">
+	$0
 </div>
 endsnippet
 
-snippet di "XHTML <div>"
-<div id="${1:name}">
-	$0
+snippet d. "div class"
+<div class="$1">
+	$2
 </div>
 endsnippet
 
@@ -32,26 +50,6 @@ snippet b "b"
 <b>${1}</b>
 endsnippet 
 
-snippet span "span"
-<span>${1}</span>
-endsnippet 
-
-snippet h2 "html h2"
-<h2>${1}</h2>
-endsnippet 
-
-snippet h3 "html h3"
-<h3>${1}</h3>
-endsnippet 
-
-snippet h3 "html h4"
-<h4>${1}</h4>
-endsnippet 
-
-snippet h3 "html h5"
-<h5>${1}</h5>
-endsnippet 
-
-snippet h3 "html h6"
-<h6>${1}</h6>
-endsnippet 
+snippet video
+<video src="$1" height="$2" width="$3" preload="${5:none}" autoplay="${6:autoplay}">${7}</video>${8}
+endsnippet
