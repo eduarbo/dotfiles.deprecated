@@ -14,6 +14,11 @@ function eo; vim ~/Dropbox/Org; end
 function ek; vim ~/lib/dotfiles/keymando/keymandorc.rb; end
 function et; vim ~/.tmux.conf; end
 function eg; vim ~/.gitconfig; end
+function r; rails $argv; end
+function rg; rails g $argv; end
+function rn; rails new $argv; end
+function rs; rails s $argv; end
+function rc; rails c $argv; end
 
 function server
   set -l port "8000"
@@ -188,7 +193,7 @@ function parse_git_dirty
 end
 function parse_git_branch
          # git branch outputs lines, the current branch is prefixed with a *
-         set -l branch (git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/') 
+         set -l branch (git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
          # set -l branch (git rev-parse --abbrev-ref HEAD)
          echo $branch (parse_git_dirty)
 end
@@ -276,6 +281,8 @@ function ll; ll1 $argv; end
 # }}}
 # Misc {{{
 
+function Chrome; chromium-browser; end
+
 # }}}
 # Local Settings {{{
 
@@ -286,6 +293,15 @@ if test -s $HOME/.config/fish/local.fish
     . $HOME/.config/fish/local.fish
 end
 
+# rbenv {{{
+set -x PATH $HOME/.rbenv/bin $PATH
+set -x PATH $HOME/.rbenv/shims $PATH
+rbenv rehash >/dev/null ^&1
 # }}}
+
+# }}}
+
+function encore; cd $SWITCHFLY_HOME/webapp-spring; mvn tomcat7:run; end
+function encore_clean; cd $SWITCHFLY_HOME; ant clean all; cd $SWITCHFLY_HOME/webapp-spring; mvn tomcat7:run; end
 
 true
