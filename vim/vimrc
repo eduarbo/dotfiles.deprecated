@@ -43,7 +43,7 @@ set nocompatible
 inoremap jj <Esc> " Professor VIM says '87% of users prefer jj over esc', jj abrams disagrees
 
 set encoding=utf-8
-set modelines=0
+set modeline
 set autoindent                  " Automatically set the indent of a new line (local to buffer)
 set showmode                    " Show current mode down the bottom
 set showcmd                     " Show incomplete cmds down the bottom
