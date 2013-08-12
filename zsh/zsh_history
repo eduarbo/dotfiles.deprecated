@@ -1,0 +1,110 @@
+: 1376200235:0;ls
+: 1376205090:0;prompt adam1
+: 1376205092:0;prompt adam
+: 1376205095:0;prompt adam2
+: 1376205101:0;ls
+: 1376205300:0;..
+: 1376205303:0;cd ..
+: 1376205308:0;ls -al
+: 1376205312:0;ls -al --color
+: 1376205335:0;l
+: 1376205342:0;asd
+: 1376205345:0;asdasd
+: 1376205346:0;asda
+: 1376205347:0;sas
+: 1376205348:0;as
+: 1376205351:0;asasd
+: 1376205361:0;asd
+: 1376205362:0;dsa
+: 1376205365:0;sud
+: 1376205367:0;sudo
+: 1376205827:0;print -Pn "\e]2;$0 (%~) %n@%m\a"
+: 1376206021:0;fortune
+: 1376206024:0;fortune -s
+: 1376206030:0;fortune -s | cowsay
+: 1376206274:0;ls
+: 1376207289:0;rmdir
+: 1376207318:0;ls
+: 1376208147:0;cd
+: 1376208165:0;ls
+: 1376208175:0;cd .dotfiles
+: 1376208187:0;ls
+: 1376208398:0;cd
+: 1376208399:0;ls
+: 1376210394:0;spectrum_ls
+: 1376210581:0;ls
+: 1376210591:0;asdasdasdasd
+: 1376210601:0;spectrum_ls
+: 1376210818:0;echo $(tput colors)
+: 1376211241:0;false
+: 1376211243:0;true
+: 1376211266:0;asssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+: 1376211273:0;'asdasd\
+asdasd\
+'
+: 1376211310:0;ls
+: 1376211469:0;asdasd
+: 1376211471:0;false
+: 1376211474:0;true
+: 1376211557:0;gs
+: 1376211736:0;'asd\
+asda\
+'
+: 1376211937:0;cd
+: 1376211942:0;cd .dotfiles
+: 1376211942:0;ls
+: 1376212832:0;ks
+: 1376212834:0;ls
+: 1376213782:0;'\
+sd\
+'
+: 1376213791:0;ls
+: 1376214380:0;cd
+: 1376214383:0;cd .dotfiles
+: 1376214557:0;ls
+: 1376215802:0;mv ~/spectrum.zsh zsh/lib/
+: 1376215837:0;spectrum_ls
+: 1376215902:0;echo $reset_color
+: 1376215914:0;spectrum_ls
+: 1376216560:0;ls
+: 1376217736:0;export TERM='xterm-256color'
+: 1376217745:0;echo $(tput color)
+: 1376217791:0;/usr/share/terminfo
+: 1376217795:0;ls
+: 1376217797:0;sudo ls
+: 1376217801:0;ls
+: 1376217803:0;-
+: 1376217805:0;ls
+: 1376217847:0;spectrum_ls
+: 1376217878:0;ls
+: 1376217969:0;spectrum_ls
+: 1376218359:0;ls
+: 1376219232:0;(;´༃�ຶЃ�༃�ຶ`)
+: 1376219421:0;ls
+: 1376219523:0;echo $NCOLOR
+: 1376219534:0;$UID
+: 1376219619:0;asdasd
+: 1376220487:0;spectrum_ls
+: 1376221031:0;gs
+: 1376221168:0;ls
+: 1376221170:0;gs
+: 1376221208:0;ls
+: 1376221215:0;vim
+: 1376221237:0;gs
+: 1376221293:0;ls
+: 1376222222:0;lasd
+: 1376222381:0;ls
+: 1376222440:0;sw
+: 1376222443:0;gs
+: 1376222468:0;cd
+: 1376222470:0;ls
+: 1376222529:0;gs
+: 1376222534:0;ls
+: 1376222540:0;l
+: 1376222542:0;ll
+: 1376222583:0;gs
+: 1376222598:0;ls
+: 1376222614:0;gs
+: 1376222652:0;asd
+: 1376222786:0;su
+: 1376222801:0;su root

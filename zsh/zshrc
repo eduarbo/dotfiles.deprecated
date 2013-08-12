@@ -1,0 +1,49 @@
+ZSH=$HOME/.dotfiles/zsh
+export TERM='xterm-256color'
+
+# add a function path
+fpath=($ZSH/functions $ZSH/completions $fpath)
+
+# Load all of the config files in ~/oh-my-zsh that end in .zsh
+# TIP: Add files you don't want in git to .gitignore
+for config_file ($ZSH/lib/*.zsh); do
+  source $config_file
+done
+
+# Use emacs keybindings even if our EDITOR is set to vi
+bindkey -e
+
+# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
+HISTSIZE=9999
+SAVEHIST=9999
+HISTFILE=~/.zsh_history
+setopt appendhistory
+setopt extendedhistory
+setopt histexpiredupsfirst
+setopt histignorealldups
+setopt histignoredups
+setopt histignorespace
+setopt histverify
+setopt incappendhistory
+setopt sharehistory
+
+# Use modern completion system
+autoload -Uz compinit
+compinit -i
+
+# stuff from default oh-my-zsh configuration
+setopt promptsubst
+setopt promptpercent
+
+# remove HEAD^ escaping madness
+unsetopt nomatch
+
+for file in $ZSH/*.zsh; do
+  source $file
+done
+
+print -P "%F{220}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f\n"
+
+# Plugins
+source $ZSH/plugins/syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSH/plugins/history-substring-search/zsh-history-substring-search.zsh
