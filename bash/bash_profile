@@ -65,3 +65,5 @@ shopt -s progcomp
 # }}}
 
 source ~/dev/bash.switchfly/profile.bash
+
+[[ -s /home/eruiz/.nvm/nvm.sh ]] && . /home/eruiz/.nvm/nvm.sh # This loads NVM

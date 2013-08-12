@@ -1,7 +1,7 @@
 ZSH=$HOME/.dotfiles/zsh
 export TERM='xterm-256color'
 
-fpath=($ZSH/functions $fpath)
+fpath=("$ZSH/plugins/completions/src" $fpath)
 
 # Load all of the config files in ~/oh-my-zsh that end in .zsh
 # TIP: Add files you don't want in git to .gitignore
@@ -17,3 +17,6 @@ source $ZSH/plugins/history-substring-search/zsh-history-substring-search.zsh
 # Use modern completion system
 autoload -Uz compinit
 compinit -i
+
+# Portal FTW!
+print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f\n"
