@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 DOTFILES="$HOME/.dotfiles"
 NAME="Eduardo Ruiz"
 EMAIL="eduarbo@gmail.com"

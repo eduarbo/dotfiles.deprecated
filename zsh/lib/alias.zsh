@@ -126,9 +126,3 @@ alias ips="ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+
 
 alias whois="whois -h whois-servers.net"
 # }}}
-
-# Switchfly ---------------------------------------------------------------- {{{
-alias sw='cd ~/dev/switchfly/repos/dev'
-alias repos='cd ~/dev/switchfly/repos'
-alias deploy='cd $SWITCHFLY_HOME/webapp-spring && mvn tomcat7:run'
-# }}}

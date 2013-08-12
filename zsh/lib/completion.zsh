@@ -1,4 +1,7 @@
 zstyle ':completion:*' auto-description 'specify: %d'
+
+# Portal FTW!
+print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f\n"
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''

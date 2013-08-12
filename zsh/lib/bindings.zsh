@@ -1,3 +1,6 @@
+# Use emacs keybindings even if our EDITOR is set to vi
+bindkey -e
+
 # bind UP and DOWN arrow keys
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
