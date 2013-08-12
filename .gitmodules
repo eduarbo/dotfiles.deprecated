@@ -13,3 +13,6 @@
 [submodule "vim/bundle/ultisnips-snippets"]
 	path = vim/bundle/ultisnips-snippets
 	url = git@github.com:eduarbo/ultisnips-snippets.git
+[submodule "zsh/plugins/syntax-highlighting"]
+	path = zsh/plugins/syntax-highlighting
+	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
