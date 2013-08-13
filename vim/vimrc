@@ -450,6 +450,7 @@ inoremap <c-]> <c-x><c-]>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>ej :vsplit ~/.vim/jshintrc<cr>
 nnoremap <leader>ef :vsplit ~/.config/fish/config.fish<cr>
+nnoremap <leader>ez :vsplit ~/.dotfiles/zsh/zshrc<cr>
 
 nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
 nnoremap <leader>eb :vsplit ~/.bash_profile<cr>

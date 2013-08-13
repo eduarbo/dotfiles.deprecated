@@ -34,10 +34,11 @@ alias V='gvim .'
 
 alias n="node"
 alias upd="sudo apt-get update"
-alias in="sudo apt-get install"
+alias install="sudo apt-get install"
+alias remove="sudo apt-get remove"
 
-alias skp='skype --dbpath="~/.Skype.personal"'
-alias skw='skype --dbpath="~/.Skype.work"'
+alias j="z"
+
 # Files & Directories ------------------------------------------------------ {{{
 alias -- -='cd -'
 alias ..='cd ..'
@@ -53,8 +54,6 @@ alias lt='ls -ltr'
 
 alias md='mkdir -p'
 alias rd='rmdir'
-alias mv='mv -i'
-alias rm='rm -i'
 alias RM='rm -vrf'
 
 duh() { # disk usage for humans
