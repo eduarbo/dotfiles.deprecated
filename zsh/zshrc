@@ -13,6 +13,7 @@ unset config_file
 # Plugins
 source $ZSH/plugins/syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSH/plugins/history-substring-search/zsh-history-substring-search.zsh
+source $ZSH/plugins/z/z.sh
 
 # Use modern completion system
 autoload -Uz compinit
