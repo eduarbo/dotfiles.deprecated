@@ -1,7 +1,6 @@
 DOTFILES="$HOME/.dotfiles"
 
 cd ${DOTFILES}
-source ./lib/utils
 
 if [ -d $DOTFILES ]
 then
