@@ -1,18 +1,3 @@
-[submodule "vim/bundle/jade"]
-	path = vim/bundle/jade
-	url = git@github.com:digitaltoad/vim-jade.git
-[submodule "vim/bundle/coffeescript"]
-	path = vim/bundle/coffeescript
-	url = git@github.com:kchmck/vim-coffee-script.git
-[submodule "vim/bundle/typescript"]
-	path = vim/bundle/typescript
-	url = git@github.com:leafgarland/typescript-vim.git
-[submodule "vim/bundle/auto-pairs"]
-	path = vim/bundle/auto-pairs
-	url = git@github.com:vim-scripts/Auto-Pairs.git
-[submodule "vim/bundle/ultisnips-snippets"]
-	path = vim/bundle/ultisnips-snippets
-	url = git@github.com:eduarbo/ultisnips-snippets.git
 [submodule "zsh/plugins/syntax-highlighting"]
 	path = zsh/plugins/syntax-highlighting
 	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
