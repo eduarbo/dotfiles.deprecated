@@ -38,6 +38,8 @@ alias install="sudo apt-get install"
 alias remove="sudo apt-get remove"
 
 alias j="z"
+alias tm="tmux -u2"
+alias cl="clear"
 
 # Files & Directories ------------------------------------------------------ {{{
 alias -- -='cd -'
@@ -55,6 +57,7 @@ alias lt='ls -ltr'
 alias md='mkdir -p'
 alias rd='rmdir'
 alias RM='rm -vrf'
+alias rm='mv --target-directory ~/.local/share/Trash/files'
 
 duh() { # disk usage for humans
   test $# -eq 0 && set -- *
