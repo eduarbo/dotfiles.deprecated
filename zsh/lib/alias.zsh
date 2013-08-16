@@ -57,7 +57,7 @@ alias lt='ls -ltr'
 alias md='mkdir -p'
 alias rd='rmdir'
 alias RM='rm -vrf'
-alias rm='mv --target-directory ~/.local/share/Trash/files'
+# alias rm='mv --target-directory ~/.local/share/Trash/files'
 
 duh() { # disk usage for humans
   test $# -eq 0 && set -- *
