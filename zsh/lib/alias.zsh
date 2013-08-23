@@ -114,9 +114,9 @@ alias gll="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset 
 alias gt='git stash'
 alias gp='git stash apply'
 
-setopt nocompletealiases      # treat `gco` like `git checkout`
-compdef _git tig=git-checkout # treat `tig` like `git checkout`
-compdef hub=git               # treat `hub` like `git`
+# setopt nocompletealiases      # treat `gco` like `git checkout`
+# compdef _git tig=git-checkout # treat `tig` like `git checkout`
+# compdef hub=git               # treat `hub` like `git`
 # }}}
 
 # Misc --------------------------------------------------------------------- {{{
