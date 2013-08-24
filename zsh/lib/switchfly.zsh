@@ -32,3 +32,20 @@ alias sw.start='sw; cd core-webapp; mvn clean tomcat7:run'
 alias sw.stop='tkill'
 alias sw.kill='kill -9 `ps auwx | grep tomcat | grep java | awk '\''{print $2}'\''` || ps auwx | grep tomcat'
 alias sw.init='sw; ant initialize_branch_properties'
+alias ie10='rdesktop ie10.corp.ezrez -g1400x800'
+alias esw='vim ~/.dotfiles/zsh/lib/switchfly.zsh'
+
+tp() {
+cat <<"EOT"
+
+  TP Number | Description            | Link
+  ----------|------------------------|-----------------------------------------
+  1117      | PTO                    | https://tp.switchfly.com/entity/1117
+  2486      | Company Holiday        | https://tp.switchfly.com/entity/2486
+  1118      | SwitchFly Overhead     | https://tp.switchfly.com/entity/1118
+  24482     | Training or Conference | https://tp.switchfly.com/entity/24482
+  19459     | Staff meetings         | https://tp.switchfly.com/entity/19459
+  41097     | Encore Overhead        | https://tp.switchfly.com/entity/41097
+
+EOT
+}
