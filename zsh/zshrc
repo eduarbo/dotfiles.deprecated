@@ -1,5 +1,8 @@
 ZSH=$HOME/.dotfiles/zsh
-# export TERM='xterm-256color'
+
+if [ "$TERM" = "xterm" ]; then
+  export TERM='xterm-256color'
+fi
 
 fpath=("$ZSH/plugins/completions/src" $fpath)
 
