@@ -15,31 +15,72 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 " Plugins ----------------------------------------------------------------- {{{
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
-NeoBundle 'Lokaltog/vim-powerline'
-NeoBundle 'SirVer/ultisnips'
+NeoBundle 'bling/vim-airline'
+NeoBundle 'Shougo/unite.vim'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'kana/vim-smartinput'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'mileszs/ack.vim'
-NeoBundle 'nono/vim-handlebars'
-NeoBundle 'othree/html5.vim'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'sjl/badwolf'
-NeoBundle 'sjl/gundo.vim'
-NeoBundle 'sjl/vim-sparkup'
-NeoBundle 'skwp/vim-rspec'
 NeoBundle 'tpope/vim-commentary'
-NeoBundle 'tpope/vim-cucumber'
 NeoBundle 'tpope/vim-endwise'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-markdown'
-NeoBundle 'tpope/vim-rails.git'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'kshenoy/vim-signature'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'scrooloose/nerdtree'
+" browse the vim undo tree
+NeoBundleLazy 'sjl/gundo.vim', { 'autoload' : {'commands': 'GundoToggle'}}
+" to insert lorem ipsum blocks
+NeoBundleLazy 'vim-scripts/loremipsum', { 'autoload' :
+            \ { 'commands' : 'Loremipsum'}}
+" display thin vertical lines at each indentation level for code indented with spaces
+NeoBundleLazy 'Yggdroot/indentLine', {'autoload': {'filetypes': ['python', 'javascript', 'haml', 'sass']}}
+
+" Javascript {{{
+NeoBundleLazy 'pangloss/vim-javascript', {'autoload':
+            \ {'filetypes': ['handlebars', 'javascript', 'html', 'haml']}}
+NeoBundleLazy 'nono/vim-handlebars', {'autoload':
+            \ {'filetypes': ['handlebars']}}
+" }}}
+" Ruby {{{
+NeoBundleLazy 'vim-ruby/vim-ruby', {'autoload':
+            \ {'filetypes': ['ruby', 'rails']}}
+NeoBundleLazy 'tpope/vim-rails.git', {'autoload':
+            \ {'filetypes': ['ruby', 'rails']}}
+NeoBundleLazy 'tpope/vim-cucumber', {'autoload':
+            \ {'filetypes': ['ruby', 'rails']}}
+NeoBundleLazy 'skwp/vim-rspec', {'autoload':
+            \ {'filetypes': ['ruby', 'rails']}}
+" }}}
+" Git {{{
+NeoBundle 'tpope/vim-fugitive'
+" Git viewer
+NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'],
+            \ 'autoload': {'commands':'Gitv'}}
+" Show git repository changes in the current file
+NeoBundle 'airblade/vim-gitgutter'
+" }}}
+" HTML5 {{{
+NeoBundleLazy 'othree/html5.vim', {'autoload':
+            \ {'filetypes': ['html', 'xhttml', 'css', 'sass', 'scss']}}
+NeoBundleLazy 'mattn/emmet-vim', {'autoload':
+            \ {'filetypes': ['html', 'xhttml', 'css', 'xml', 'xls', 'markdown']}}
+" }}}
+" Colorschemes {{{
+NeoBundle 'tomasr/molokai'
+NeoBundle 'Pychimp/vim-luna'
+NeoBundleLazy 'sjl/badwolf', { 'autoload' :
+        \ { 'unite_sources' : 'colorscheme', }}
+NeoBundleLazy 'nielsmadan/harlequin', { 'autoload' :
+        \ { 'unite_sources' : 'colorscheme', }}
+" }}}
+" Syntax {{{
+NeoBundleLazy 'tpope/vim-markdown'
+NeoBundle 'SirVer/ultisnips'
+NeoBundle 'scrooloose/syntastic'
+NeoBundleLazy 'vim-scripts/JSON.vim', {'autoload': {'filetypes': ['json']}}
+" }}}
 " }}}
 " Basic options ----------------------------------------------------------- {{{
 filetype plugin indent on
@@ -47,6 +88,10 @@ set nocompatible
 
 inoremap jj <Esc> " Professor VIM says '87% of users prefer jj over esc', jj abrams disagrees
 
+let mapleader = ","
+let maplocalleader = "\\"
+
+scriptencoding utf-8
 set encoding=utf-8
 set modeline
 set autoindent                  " Automatically set the indent of a new line (local to buffer)
@@ -61,7 +106,7 @@ set number                      " Line numbers are good
 set laststatus=2                " Always show the status line
 set history=1000                " Store lots of :cmdline history
 set list                        " Hide invisible chars
-set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+set listchars=tab:▸\ ,eol:↵,extends:↷,precedes:↶,trail:·
 set shell=/bin/bash\ --login
 set lazyredraw                  " Do not redraw while running macros
 set matchtime=3                 " how many tenths of a second to blink
@@ -72,7 +117,7 @@ set fillchars=diff:⣿,vert:│     " Customize text for closed folds
 set autowrite
 set autoread                    " Reload files changed outside vim
 set shiftround                  " When at 3 spaces, and I hit > ... go to 4, not 5
-set title
+set title                       " set the terminal title to the current file
 set linebreak
 set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
@@ -101,11 +146,11 @@ set backupskip=/tmp/*,/private/tmp/*"
 set complete=.,w,b,u,t
 set completeopt=longest,menuone,preview
 
-" Save when losing focus
-" au FocusLost * :silent! wall
-
 " Resize splits when the window is resized
 au VimResized * :wincmd =
+
+" Save when losing focus
+" au FocusLost * :silent! wall
 
 " Cursorline {{{
 " Only show cursorline in the current window and in normal mode.
@@ -128,16 +173,6 @@ augroup END
 
 " }}}
 " Trailing whitespace {{{
-" Save {{{
-
-" augroup its2012justfuckingsavealready
-"     au!
-"     au InsertLeave * :silent! wa
-"     au CursorHold * :silent! wa
-"     au CursorHoldI * :silent! wa
-" augroup END
-
-" }}}
 " Only shown when not in insert mode so I don't go insane.
 
 augroup trailing
@@ -155,14 +190,13 @@ set wildignore+=.hg,.git,.svn                    " Version control
 set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.bak,*.?~,*.??~,*.???~,*.~      " Backup files
 set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
-
+set wildignore+=*.jar                            " Java archives
+set wildignore+=*.pyc                            " Python bite code
 set wildignore+=*.luac                           " Lua byte code
-
-set wildignore+=*.pyc                            " Python byte code
-
 set wildignore+=*.orig                           " Merge resolution files
 
 " }}}
@@ -181,9 +215,9 @@ augroup END
 " }}}
 " Tabs, spaces, wrapping {{{
 
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
 set wrap
 set textwidth=80
@@ -195,14 +229,12 @@ set formatoptions=qrn1
 set backup                        " enable backups
 set noswapfile                    " It's 2012, Vim.
 
-if v:version > 702
-  set undodir=~/.vim/tmp/undo//     " undo files
-endif
-set backupdir=~/.vim/tmp/backup// " backups
-set directory=~/.vim/tmp/swap//   " swap files
+set undodir=$HOME/.vim/tmp/undo/     " undo files
+set backupdir=$HOME/.vim/tmp/backup/ " backups
+set directory=$HOME/.vim/tmp/swap/   " swap files
 
 " Make those folders automatically if they don't already exist.
-if v:version > 702 && !isdirectory(expand(&undodir))
+if !isdirectory(expand(&undodir))
     call mkdir(expand(&undodir), "p")
 endif
 if !isdirectory(expand(&backupdir))
@@ -213,16 +245,10 @@ if !isdirectory(expand(&directory))
 endif
 
 " }}}
-" Leader {{{
-
-let mapleader = ","
-let maplocalleader = "\\"
-
-" }}}
 " Color scheme {{{
 
-syntax on
-" set background=dark
+syntax enable
+set background=dark
 let g:badwolf_html_link_underline = 0
 " Turn on CSS properties highlighting
 let g:badwolf_css_props_highlight = 1
@@ -273,6 +299,13 @@ inoremap <c-l> <c-k>l*
 noremap  <F1> :set invfullscreen<CR>
 inoremap <F1> <ESC>:set invfullscreen<CR>a
 
+" Autoload configuration when this file changes ($MYVIMRC) {{{
+
+" also reload the Powerline colorscheme to avoid artifacts
+autocmd! BufWritePost vimrc source % | call Pl#Load()
+
+" }}}
+
 " Stop it, hash key.
 inoremap # X<BS>#
 
@@ -285,20 +318,21 @@ nnoremap <c-z> zvzz
 vnoremap <c-z> <esc>zv`<ztgv
 
 " Tabs
-nnoremap <leader>( :tabprev<cr>
-nnoremap <leader>) :tabnext<cr>
+nnoremap <C-(> :tabprev<cr>
+nnoremap <C-)> :tabnext<cr>
 nnoremap <C-t> :tabnew<cr>
 nnoremap <C-g> :w<cr>
 inoremap <C-g> <C-o>:w<cr>
 
+" TextMate’s key mappings for identation
+nmap <C-{> <<
+nmap <C-}> >>
+vmap <C-{> <gv
+vmap <C-}> >gv
+
 inoremap <C-v> <C-o>"+P
 
-
 nnoremap <C-q> :q<cr>
-
-
-" Go to last edit location with ,.
-nnoremap ,. '.
 
 nnoremap ; :
 
@@ -309,40 +343,18 @@ nnoremap <Enter> o<ESC>
 " Go to previous file
 nnoremap <leader>/ <C-^>
 
-" I constantly hit "u" in visual mode when I mean to "y". Use "gu" for those rare occasions.
-" From https://github.com/henrik/dotfiles/blob/master/vim/config/mappings.vim
-" vnoremap u <nop>
-
-" vnoremap gu u
-
-" For some reason ctags refuses to ignore Python variables, so I'll just hack
-" the tags file with sed and strip them out myself.
-"
 " Sigh.
 nnoremap <leader><cr> :silent !/usr/local/bin/ctags -R . && sed -i .bak -E -e '/^[^	]+	[^	]+.py	.+v$/d' tags<cr>:redraw!<cr>
-
-" Highlight Group(s)
-nnoremap <F8> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-                        \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-                        \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " Clean trailing whitespace
 nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
-" TextMate’s key mappings for identation
-nmap <D-[> <<
-nmap <D-]> >>
-vmap <D-[> <gv
-vmap <D-]> >gv
-
-" Send visual selection to gist.github.com as a private, filetyped Gist
-" Requires the gist command line too (brew install gist)
-vnoremap <leader>G :w !gist -p -t %:e \| pbcopy<cr>
-vnoremap <leader>UG :w !gist -p \| pbcopy<cr>
-
 " Copy/Paste to and from Desktop Environment
 noremap <leader>y "+y
 noremap <leader>p "+gP
+
+" Make the Y behavior similar to D & C
+nnoremap Y y$
 
 " Insert the directory of the current buffer in command line mode
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
@@ -368,10 +380,6 @@ nnoremap <leader>D :diffoff!<cr>
 nnoremap Q gqip
 vnoremap Q gq
 
-" Reformat line.
-" I never use l as a macro register anyway.
-nnoremap ql ^vg_gq
-
 " Easier linewise reselection
 nnoremap <leader>V V`]
 
@@ -382,17 +390,9 @@ nnoremap J mzJ`z
 " The normal use of S is covered by cc, so don't worry about shadowing it.
 nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
 
-" HTML tag closing
-inoremap <C-_> <Space><BS><Esc>:call InsertCloseTag()<cr>a
-
 " Source
 vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
 nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
-
-" Marks and Quotes
-" noremap ' `
-" noremap æ '
-" noremap ` <C-^>
 
 " Select (charwise) the contents of the current line, excluding indentation.
 " Great for pasting Python lines into REPLs.
@@ -422,30 +422,32 @@ nnoremap <leader>i :set list!<cr>
 " Unfuck my screen
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 
-" Drag Lines {{{
+" Move between Vim and Tmux windows {{{
 
-" <m-j> and <m-k> to drag lines in any mode
-noremap ∆ :m+<CR>
-noremap ˚ :m-2<CR>
-inoremap ∆ <Esc>:m+<CR>
-inoremap ˚ <Esc>:m-2<CR>
-vnoremap ∆ :m'>+<CR>gv
-vnoremap ˚ :m-2<CR>gv
-
-" }}}
-" Easy filetype switching {{{
-
-nnoremap _md :set ft=markdown<CR>
-nnoremap _js :set ft=javascript<CR>
-nnoremap _cw :set ft=confluencewiki<CR>
-nnoremap _pd :set ft=python.django<CR>
-nnoremap _d  :set ft=diff<CR>
-
-" }}}
-" Insert Mode Completion {{{
-
-inoremap <c-f> <c-x><c-f>
-inoremap <c-]> <c-x><c-]>
+if exists('$TMUX')
+  function! TmuxOrSplitSwitch(wincmd, tmuxdir)
+    let previous_winnr = winnr()
+    execute "wincmd " . a:wincmd
+    if previous_winnr == winnr()
+      " The sleep and & gives time to get back to vim so tmux's focus tracking
+      " can kick in and send us our ^[[O
+      execute "silent !sh -c 'sleep 0.01; tmux select-pane -" . a:tmuxdir . "' &"
+      redraw!
+    endif
+  endfunction
+  let previous_title = substitute(system("tmux display-message -p '#{pane_title}'"), '\n', '', '')
+  let &t_ti = "\<Esc>]2;vim\<Esc>\\" . &t_ti
+  let &t_te = "\<Esc>]2;". previous_title . "\<Esc>\\" . &t_te
+  nnoremap <silent> <C-h> :call TmuxOrSplitSwitch('h', 'L')<CR>
+  nnoremap <silent> <C-j> :call TmuxOrSplitSwitch('j', 'D')<CR>
+  nnoremap <silent> <C-k> :call TmuxOrSplitSwitch('k', 'U')<CR>
+  nnoremap <silent> <C-l> :call TmuxOrSplitSwitch('l', 'R')<CR>
+else
+  map <C-h> <C-w>h
+  map <C-j> <C-w>j
+  map <C-k> <C-w>k
+  map <C-l> <C-w>l
+endif
 
 " }}}
 
@@ -485,17 +487,14 @@ noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 
 runtime macros/matchit.vim
 map <tab> %
-unmap [%
-unmap ]%
+" unmap [%
+" unmap ]%
 
 " Made D behave
 nnoremap D d$
 
 " Don't move on *
 nnoremap * *<c-o>
-
-" Use c-\ to do c-] but open it in a new split.
-nnoremap <c-\> <c-w>v<c-]>zvzz
 
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
@@ -547,13 +546,6 @@ noremap <leader>v <C-w>v
 noremap <leader>h <C-w>s
 
 " }}}
-" Highlight word {{{
-
-" nnoremap <silent> <leader>h1 :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
-" nnoremap <silent> <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
-" nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
-
-" }}}
 " Visual Mode */# from Scrooloose {{{
 
 function! s:VSetSearch()
@@ -580,6 +572,7 @@ nnoremap <down>  :lnext<cr>zvzz
 " Folding ----------------------------------------------------------------- {{{
 
 set foldlevelstart=0
+set foldmethod=marker
 
 " Space to toggle folds.
 nnoremap <Space> za
@@ -732,6 +725,7 @@ augroup ft_javascript
 
     setlocal foldlevel=99
     au BufNewFile,BufRead jshintrc setlocal filetype=javascript
+    au BufNewFile,BufRead *.hbs setlocal filetype=handlebars
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
     au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
@@ -745,13 +739,28 @@ augroup ft_javascript
 augroup END
 
 " }}}
+" JSON {{{
+
+autocmd BufNewFile,BufRead *.json set ft=json
+
+augroup json_autocmd
+  autocmd!
+  autocmd FileType json set autoindent
+  autocmd FileType json set formatoptions=tcq2l
+  autocmd FileType json set textwidth=78 shiftwidth=2
+  autocmd FileType json set softtabstop=2 tabstop=8
+  autocmd FileType json set expandtab
+  autocmd FileType json set foldmethod=syntax
+augroup END
+" }}}
 " Markdown {{{
 
 augroup ft_markdown
     au!
 
-    au BufNewFile,BufRead *.m*down setlocal filetype=markdown
-    au BufNewFile,BufRead *.md normal! zR
+    au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=markdown
+    au FileType markdown normal! zR
+    au FileType markdown NeoBundleSource vim-markdown
     au FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
     au FileType markdown setlocal spell
 
@@ -945,6 +954,14 @@ let g:microdata_attributes_complete = 0
 let g:atia_attributes_complete = 0
 
 " }}}
+" indentLine {{{
+
+map <silent> <Leader>L :IndentLinesToggle<CR>
+let g:indentLine_enabled = 0
+let g:indentLine_char = '┊'
+let g:indentLine_color_term = 239
+
+" }}}"
 " Linediff {{{
 
 vnoremap <leader>l :Linediff<cr>
@@ -976,10 +993,9 @@ let NERDTreeChDirMode = 2
 let NERDTreeMapJumpFirstChild = 'gK'
 
 " }}}
-" Powerline {{{
+" Airline {{{
 
-let g:Powerline_symbols = 'fancy'
-let g:Powerline_cache_enabled = 1
+let g:airline_powerline_fonts = 1
 
 " }}}
 " Scratch {{{
@@ -998,10 +1014,6 @@ endfunction
 
 nnoremap <silent> <leader><tab> :ScratchToggle<cr>
 
-" }}}
-" Sparkup {{{
-let g:sparkupExecuteMapping = '<c-d>'
-" let g:sparkupNextMapping = '<c-s>'
 " }}}
 " Splice {{{
 
@@ -1059,26 +1071,12 @@ let g:syntastic_disabled_filetypes = ['html', 'rst']
 let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
 let g:syntastic_javascript_jshint_conf = '$HOME/.vim/jshintrc'
 
-" }}}
-" YankRing {{{
-
-function! YRRunAfterMaps()
-    " Shortcut to display a buffer displaying the yankring's contents
-    nnoremap <silent> <leader>y :YRShow<CR>
-
-    " Make Y yank to end of line.
-    nnoremap Y :<C-U>YRYankCount 'y$'<CR>
-
-    " Fix L and H in operator-pending mode, so yH and such works.
-    omap <expr> L YRMapsExpression("", "$")
-    omap <expr> H YRMapsExpression("", "^")
-
-    " Don't clobber the yank register when pasting over text in visual mode.
-    vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr>
-endfunction
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_style_error_symbol  = '⚡'
+let g:syntastic_style_warning_symbol  = '⚡'
 
 " }}}
-
 " }}}
 " Mini-plugins ------------------------------------------------------------ {{{
 " Stuff that should probably be broken out into plugins, but hasn't proved to be
@@ -1220,14 +1218,18 @@ nnoremap <leader>B :call BlockColor()<cr>
 if has('gui_running')
     " GUI Vim
 
-    set guifont=Menlo\ Regular\ for\ Powerline:h12
+    " set guifont=Menlo\ Regular\ for\ Powerline:h12
+    set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h10
 
     " Remove all the UI cruft
-    set go-=T
+    set go-=T                       " Hide the toolbar
+    set go-=m                       " Hide the menu
     set go-=l
     set go-=L
     set go-=r
     set go-=R
+    set go+=rRlLbh                  " show all the scrollbars
+    set go-=rRlLbh                  " hide all the scrollbars
 
     highlight SpellBad term=underline gui=undercurl guisp=Orange
 
@@ -1263,7 +1265,7 @@ if has('gui_running')
         imap <M-BS>         <C-w>
         inoremap <D-BS>     <esc>my0c`y
     elseif has("gui_gtk2")
-      set guifont=Menlo\ for\ Powerline\ 10
+      set guifont=Meslo\ LG\ M\ for\ Powerline\ 10
     else
         " Non-MacVim GUI
     end
@@ -1289,4 +1291,8 @@ if filereadable(expand("~/.vimrc.local"))
 endif
 set t_vb=                       " Visual bell disabled on Linux
 
+" }}}
+" TODO {{{
+" * Add autocompletion: NeoComplete??
+" * Configure Unite?
 " }}}

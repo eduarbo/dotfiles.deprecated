@@ -26,6 +26,26 @@ let s:filetype_overrides = {
 
 let s:filetype_regex_overrides = {}
 
+function! s:check_defined_section(name)
+  if !exists('w:airline_section_{a:name}')
+    if g:airline_section_{a:name} == '__'
+      let w:airline_section_{a:name} = ''
+    else
+      let w:airline_section_{a:name} = g:airline_section_{a:name}
+    endif
+  endif
+endfunction
+
+function! airline#extensions#append_to_section(name, value)
+  call <sid>check_defined_section(a:name)
+  let w:airline_section_{a:name} .= a:value
+endfunction
+
+function! airline#extensions#prepend_to_section(name, value)
+  call <sid>check_defined_section(a:name)
+  let w:airline_section_{a:name} = a:value . w:airline_section_{a:name}
+endfunction
+
 function! airline#extensions#apply_left_override(section1, section2)
   let w:airline_section_a = a:section1
   let w:airline_section_b = a:section2
@@ -36,7 +56,7 @@ endfunction
 
 let s:active_winnr = -1
 function! airline#extensions#update_statusline(...)
-  if s:is_excluded_window(a:000)
+  if s:is_excluded_window()
     return -1
   endif
 
@@ -72,7 +92,7 @@ function! airline#extensions#update_statusline(...)
   endfor
 endfunction
 
-function! s:is_excluded_window(...)
+function! s:is_excluded_window()
   for matchft in g:airline_exclude_filetypes
     if matchft ==# &ft
       return 1
@@ -161,14 +181,17 @@ function! airline#extensions#load()
     call airline#extensions#bufferline#init(s:ext)
   endif
 
+  if get(g:, 'virtualenv_loaded', 0) && get(g:, 'airline#extensions#virtualenv#enabled', 1)
+    call airline#extensions#virtualenv#init(s:ext)
+  endif
+
   if g:airline_section_warning == '__'
+    if (get(g:, 'airline#extensions#whitespace#enabled', 1) && get(g:, 'airline_detect_whitespace', 1))
+      call airline#extensions#whitespace#init(s:ext)
+    endif
     if (get(g:, 'airline#extensions#syntastic#enabled', 1) && get(g:, 'airline_enable_syntastic', 1))
           \ && exists(':SyntasticCheck')
       call airline#extensions#syntastic#init(s:ext)
-    endif
-
-    if (get(g:, 'airline#extensions#whitespace#enabled', 1) && get(g:, 'airline_detect_whitespace', 1))
-      call airline#extensions#whitespace#init(s:ext)
     endif
   endif
 
