@@ -13,32 +13,46 @@ endif
 call neobundle#rc(expand('~/.vim/bundle/'))
 " }}}
 " Plugins ----------------------------------------------------------------- {{{
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'bling/vim-airline'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'ervandew/supertab'
-NeoBundle 'godlygeek/tabular'
 NeoBundle 'kana/vim-smartinput'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'mileszs/ack.vim'
 NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-endwise'
+NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'kshenoy/vim-signature'
-NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'kshenoy/vim-signature'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'SirVer/ultisnips'
+NeoBundle 'tpope/vim-markdown'
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'rking/ag.vim'
+
 " browse the vim undo tree
 NeoBundleLazy 'sjl/gundo.vim', { 'autoload' : {'commands': 'GundoToggle'}}
-" to insert lorem ipsum blocks
-NeoBundleLazy 'vim-scripts/loremipsum', { 'autoload' :
-            \ { 'commands' : 'Loremipsum'}}
-" display thin vertical lines at each indentation level for code indented with spaces
-NeoBundleLazy 'Yggdroot/indentLine', {'autoload': {'filetypes': ['python', 'javascript', 'haml', 'sass']}}
 
+" HTML {{{
+NeoBundleLazy 'othree/html5.vim', {'autoload':
+            \ {'filetypes': ['html', 'xhttml', 'css']}}
+NeoBundleLazy 'mattn/emmet-vim', {'autoload':
+            \ {'filetypes': ['html', 'xhttml', 'handlebars', 'css', 'xml', 'xls', 'markdown']}}
+" }}}
+" Colorschemes {{{
+NeoBundle 'tomasr/molokai'
+NeoBundle 'Pychimp/vim-luna'
+NeoBundle 'sjl/badwolf'
+NeoBundle 'nielsmadan/harlequin'
+" }}}
+" Git {{{
+NeoBundle 'tpope/vim-fugitive'
+" Git viewer
+NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'],
+            \ 'autoload': {'commands':'Gitv'}}
+" }}}
 " Javascript {{{
-NeoBundleLazy 'pangloss/vim-javascript', {'autoload':
+NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':
             \ {'filetypes': ['handlebars', 'javascript', 'html', 'haml']}}
 NeoBundleLazy 'nono/vim-handlebars', {'autoload':
             \ {'filetypes': ['handlebars']}}
@@ -52,34 +66,6 @@ NeoBundleLazy 'tpope/vim-cucumber', {'autoload':
             \ {'filetypes': ['ruby', 'rails']}}
 NeoBundleLazy 'skwp/vim-rspec', {'autoload':
             \ {'filetypes': ['ruby', 'rails']}}
-" }}}
-" Git {{{
-NeoBundle 'tpope/vim-fugitive'
-" Git viewer
-NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'],
-            \ 'autoload': {'commands':'Gitv'}}
-" Show git repository changes in the current file
-NeoBundle 'airblade/vim-gitgutter'
-" }}}
-" HTML5 {{{
-NeoBundleLazy 'othree/html5.vim', {'autoload':
-            \ {'filetypes': ['html', 'xhttml', 'css', 'sass', 'scss']}}
-NeoBundleLazy 'mattn/emmet-vim', {'autoload':
-            \ {'filetypes': ['html', 'xhttml', 'css', 'xml', 'xls', 'markdown']}}
-" }}}
-" Colorschemes {{{
-NeoBundle 'tomasr/molokai'
-NeoBundle 'Pychimp/vim-luna'
-NeoBundleLazy 'sjl/badwolf', { 'autoload' :
-        \ { 'unite_sources' : 'colorscheme', }}
-NeoBundleLazy 'nielsmadan/harlequin', { 'autoload' :
-        \ { 'unite_sources' : 'colorscheme', }}
-" }}}
-" Syntax {{{
-NeoBundleLazy 'tpope/vim-markdown'
-NeoBundle 'SirVer/ultisnips'
-NeoBundle 'scrooloose/syntastic'
-NeoBundleLazy 'vim-scripts/JSON.vim', {'autoload': {'filetypes': ['json']}}
 " }}}
 " }}}
 " Basic options ----------------------------------------------------------- {{{
@@ -113,7 +99,7 @@ set matchtime=3                 " how many tenths of a second to blink
 set showbreak=↪
 set splitbelow
 set splitright
-set fillchars=diff:⣿,vert:│     " Customize text for closed folds
+set fillchars=diff:⣿,vert:┊     " Customize text for closed folds
 set autowrite
 set autoread                    " Reload files changed outside vim
 set shiftround                  " When at 3 spaces, and I hit > ... go to 4, not 5
@@ -215,9 +201,9 @@ augroup END
 " }}}
 " Tabs, spaces, wrapping {{{
 
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set expandtab
 set wrap
 set textwidth=80
@@ -250,10 +236,11 @@ endif
 syntax enable
 set background=dark
 let g:badwolf_html_link_underline = 0
+let g:badwolf_tabline = 2
 " Turn on CSS properties highlighting
-let g:badwolf_css_props_highlight = 1
+" let g:badwolf_css_props_highlight = 1
 " Make the gutters darker than the background.
-let g:badwolf_darkgutter = 1
+" let g:badwolf_darkgutter = 1
 colorscheme badwolf
 " color molokai
 
@@ -301,8 +288,10 @@ inoremap <F1> <ESC>:set invfullscreen<CR>a
 
 " Autoload configuration when this file changes ($MYVIMRC) {{{
 
-" also reload the Powerline colorscheme to avoid artifacts
-autocmd! BufWritePost vimrc source % | call Pl#Load()
+augroup myvimrc
+    au!
+    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
 
 " }}}
 
@@ -351,7 +340,8 @@ nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
 " Copy/Paste to and from Desktop Environment
 noremap <leader>y "+y
-noremap <leader>p "+gP
+noremap <leader>p "+p
+noremap <leader>P "+P
 
 " Make the Y behavior similar to D & C
 nnoremap Y y$
@@ -613,16 +603,6 @@ augroup ft_c
 augroup END
 
 " }}}
-" Haml {{{
-
-augroup ft_css
-    au!
-
-    au BufRead,BufNewFile *.hamlc set ft=haml
-
-augroup END
-
-" }}}
 " CSS and Sass{{{
 
 augroup ft_css
@@ -677,6 +657,16 @@ augroup ft_fish
   au FileType fish setlocal foldmethod=marker foldmarker={{{,}}}
 augroup END
 " }}}
+" Haml {{{
+
+augroup ft_css
+    au!
+
+    au BufRead,BufNewFile *.hamlc set ft=haml
+
+augroup END
+
+" }}}
 " HTML and XML {{{
 
 augroup ft_html
@@ -711,46 +701,34 @@ augroup ft_java
 augroup END
 
 " }}}
-" TypeScript {{{
-
-" autocmd QuickFixCmdPost [^l]* nested cwindow
-" autocmd QuickFixCmdPost    l* nested lwindow
-" autocmd BufWritePost,FileWritePost *.ts :silent !tsc <afile>
-
-" }}}
 " Javascript {{{
 
 augroup ft_javascript
     au!
 
-    setlocal foldlevel=99
     au BufNewFile,BufRead jshintrc setlocal filetype=javascript
     au BufNewFile,BufRead *.hbs setlocal filetype=handlebars
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
-    au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    au FileType javascript setlocal tabstop=4
-    au FileType javascript setlocal shiftwidth=4
-    au FileType javascript setlocal softtabstop=4
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
+    au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    au BufNewFile,BufRead *.js normal zR
 
-    au BufNewFile,BufRead *.js normal! zR
-
+    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+    " positioned inside of them AND the following code doesn't get unfolded.
+    au Filetype javascript inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
 augroup END
 
 " }}}
 " JSON {{{
 
-autocmd BufNewFile,BufRead *.json set ft=json
+autocmd BufNewFile,BufRead *.json set ft=javascript
 
 augroup json_autocmd
   autocmd!
-  autocmd FileType json set autoindent
   autocmd FileType json set formatoptions=tcq2l
-  autocmd FileType json set textwidth=78 shiftwidth=2
-  autocmd FileType json set softtabstop=2 tabstop=8
-  autocmd FileType json set expandtab
-  autocmd FileType json set foldmethod=syntax
+  autocmd FileType json set shiftwidth=2 softtabstop=2 tabstop=8
+  autocmd BufNewFile,BufRead *.json normal zR
 augroup END
 " }}}
 " Markdown {{{
@@ -805,14 +783,6 @@ augroup ft_python
 augroup END
 
 " }}}
-" QuickFix {{{
-
-augroup ft_quickfix
-    au!
-    au Filetype qf setlocal colorcolumn=0 nolist nocursorline nowrap tw=0
-augroup END
-
-" }}}
 " Ruby {{{
 
 augroup ft_ruby
@@ -830,26 +800,19 @@ augroup ft_vagrant
 augroup END
 
 " }}}
-" Vim {{{
-
-augroup ft_vim
-    au!
-
-    au FileType vim setlocal foldmethod=marker
-    au FileType help setlocal textwidth=78
-    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-augroup END
-
-" }}}
 
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
 
-" Ack {{{
+" Ag {{{
 
-nnoremap <leader>a :Ack!<space>
-let g:ackprg = 'ag --nogroup --nocolor --column'
+nnoremap <leader>a :Ag<space>
+" }}}
+" Airline {{{
 
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
 " }}}
 " Commentary {{{
 
@@ -868,12 +831,12 @@ augroup END
 
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_map = '<leader>,'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_split_window = 0
 let g:ctrlp_max_height = 20
-let g:ctrlp_extensions = []
+let g:ctrlp_extensions = ['tag']
+let g:ctrlp_map = '<leader>,'
 
 let g:ctrlp_prompt_mappings = {
 \ 'PrtSelectMove("j")':   ['<c-j>', '<down>', '<s-tab>'],
@@ -904,8 +867,21 @@ let my_ctrlp_ffind_command = "ffind --semi-restricted --dir %s --type e -B -f"
 let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command]
 " let g:ctrlp_user_command = ['.git/', my_ctrlp_ffind_command, my_ctrlp_ffind_command]
 
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+" if executable('ag')
+"   " Use Ag over Grep
+"   set grepprg=ag\ --nogroup\ --nocolor
+
+"   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+"   let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
+" endif
+
 nnoremap <leader>. :CtrlPTag<cr>
 
+" }}}
+" Emmet {{{
+let g:user_emmet_leader_key = '<C-d>'
+let g:use_emmet_complete_tag = 1
 " }}}
 " Fugitive {{{
 
@@ -941,11 +917,6 @@ let g:gundo_tree_statusline = "Gundo"
 let g:gundo_preview_statusline = "Gundo Preview"
 
 " }}}
-" Javascript {{{
-let g:html_indent_inctags = "html,body,head,tbody"
-let g:html_indent_script1 = "inc"
-let g:html_indent_style1 = "inc"
-" }}}
 " HTML5 {{{
 
 let g:event_handler_attributes_complete = 0
@@ -954,19 +925,11 @@ let g:microdata_attributes_complete = 0
 let g:atia_attributes_complete = 0
 
 " }}}
-" indentLine {{{
-
-map <silent> <Leader>L :IndentLinesToggle<CR>
-let g:indentLine_enabled = 0
-let g:indentLine_char = '┊'
-let g:indentLine_color_term = 239
-
-" }}}"
-" Linediff {{{
-
-vnoremap <leader>l :Linediff<cr>
-nnoremap <leader>L :LinediffReset<cr>
-
+" Javascript {{{
+au FileType javascript call JavaScriptFold()
+" let g:html_indent_inctags = "html,body,head,tbody"
+" let g:html_indent_script1 = "inc"
+" let g:html_indent_style1 = "inc"
 " }}}
 " NERD Tree {{{
 
@@ -980,6 +943,8 @@ augroup ps_nerdtree
     au!
 
     au Filetype nerdtree setlocal nolist
+    au Filetype nerdtree nnoremap <buffer> H :vertical resize -10<cr>
+    au Filetype nerdtree nnoremap <buffer> L :vertical resize +10<cr>
     " au Filetype nerdtree nnoremap <buffer> K :q<cr>
 augroup END
 
@@ -993,59 +958,33 @@ let NERDTreeChDirMode = 2
 let NERDTreeMapJumpFirstChild = 'gK'
 
 " }}}
-" Airline {{{
+" YouCompleteMe {{{
 
-let g:airline_powerline_fonts = 1
-
-" }}}
-" Scratch {{{
-
-command! ScratchToggle call ScratchToggle()
-
-function! ScratchToggle()
-    if exists("w:is_scratch_window")
-        unlet w:is_scratch_window
-        exec "q"
-    else
-        exec "normal! :Sscratch\<cr>\<C-W>L"
-        let w:is_scratch_window = 1
-    endif
-endfunction
-
-nnoremap <silent> <leader><tab> :ScratchToggle<cr>
-
-" }}}
-" Splice {{{
-
-let g:splice_prefix = "-"
-
-let g:splice_initial_mode = "grid"
-
-let g:splice_initial_layout_grid = 0
-let g:splice_initial_layout_loupe = 0
-let g:splice_initial_layout_compare = 0
-let g:splice_initial_layout_path = 0
-
-let g:splice_initial_diff_grid = 1
-let g:splice_initial_diff_loupe = 0
-let g:splice_initial_diff_compare = 1
-let g:splice_initial_diff_path = 0
-
-let g:splice_initial_scrollbind_grid = 0
-let g:splice_initial_scrollbind_loupe = 0
-let g:splice_initial_scrollbind_compare = 0
-let g:splice_initial_scrollbind_path = 0
-
-let g:splice_wrap = "nowrap"
-
-" }}}
-" Supertab {{{
-
-let g:SuperTabDefaultCompletionType = "<c-n>"
-let g:SuperTabLongestHighlight = 1
-let g:SuperTabCrMapping = 1
+let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 
 "}}}
+" Syntastic {{{
+
+let g:syntastic_enable_signs = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_java_checker = 'javac'
+let g:syntastic_mode_map = {
+            \ "mode": "active",
+            \ "active_filetypes": [],
+            \ "passive_filetypes": ['java', 'html', 'rst', 'scala']
+            \ }
+
+let g:syntastic_disabled_filetypes = ['html', 'rst']
+let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
+let g:syntastic_javascript_jshint_conf = '$HOME/.vim/jshintrc'
+
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_style_error_symbol  = '⚡'
+let g:syntastic_style_warning_symbol  = '⚡'
+
+" }}}
 " Tabular {{{
 " let g:tabular_loaded = 1
 
@@ -1063,108 +1002,12 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
 
 " }}}
-" Syntastic {{{
 
-let g:syntastic_enable_signs = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_disabled_filetypes = ['html', 'rst']
-let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
-let g:syntastic_javascript_jshint_conf = '$HOME/.vim/jshintrc'
-
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol  = '⚡'
-let g:syntastic_style_warning_symbol  = '⚡'
-
-" }}}
 " }}}
 " Mini-plugins ------------------------------------------------------------ {{{
 " Stuff that should probably be broken out into plugins, but hasn't proved to be
 " worth the time to do so just yet.
 
-" Diffwhite Toggle {{{
-
-set diffopt-=iwhite
-let g:diffwhitespaceon = 0
-function! ToggleDiffWhitespace()
-    if g:diffwhitespaceon
-        set diffopt-=iwhite
-        let g:diffwhitespaceon = 0
-    else
-        set diffopt+=iwhite
-        let g:diffwhitespaceon = 1
-    endif
-    diffupdate
-endfunc
-
-nnoremap <leader>dw :call ToggleDiffWhitespace()<CR>
-
-" }}}
-" Error Toggles {{{
-
-command! ErrorsToggle call ErrorsToggle()
-function! ErrorsToggle() " {{{
-  if exists("w:is_error_window")
-    unlet w:is_error_window
-    exec "q"
-  else
-    exec "Errors"
-    lopen
-    let w:is_error_window = 1
-  endif
-endfunction " }}}
-
-command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
-function! QFixToggle(forced) " {{{
-  if exists("g:qfix_win") && a:forced == 0
-    cclose
-    unlet g:qfix_win
-  else
-    copen 10
-    let g:qfix_win = bufnr("$")
-  endif
-endfunction " }}}
-
-nmap <silent> <f3> :ErrorsToggle<cr>
-nmap <silent> <f4> :QFixToggle<cr>
-
-" }}}
-" Ack motions {{{
-
-" Motions to Ack for things.  Works with pretty much everything, including:
-"
-"   w, W, e, E, b, B, t*, f*, i*, a*, and custom text objects
-"
-" Awesome.
-"
-" Note: If the text covered by a motion contains a newline it won't work.  Ack
-" searches line-by-line.
-
-nnoremap <silent> <leader>A :set opfunc=<SID>AckMotion<CR>g@
-xnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
-
-nnoremap <bs> :Ack! '\b<c-r><c-w>\b'<cr>
-xnoremap <silent> <bs> :<C-U>call <SID>AckMotion(visualmode())<CR>
-
-function! s:CopyMotionForType(type)
-    if a:type ==# 'v'
-        silent execute "normal! `<" . a:type . "`>y"
-    elseif a:type ==# 'char'
-        silent execute "normal! `[v`]y"
-    endif
-endfunction
-
-function! s:AckMotion(type) abort
-    let reg_save = @@
-
-    call s:CopyMotionForType(a:type)
-
-    execute "normal! :Ack! --literal " . shellescape(@@) . "\<cr>"
-
-    let @@ = reg_save
-endfunction
-
-" }}}
 " Indent Guides {{{
 
 let g:indentguides_state = 0
@@ -1177,6 +1020,7 @@ function! IndentGuides() " {{{
         execute '2match IndentGuides /\%(\_^\s*\)\@<=\%(\%'.(0*&sw+1).'v\|\%'.(1*&sw+1).'v\|\%'.(2*&sw+1).'v\|\%'.(3*&sw+1).'v\|\%'.(4*&sw+1).'v\|\%'.(5*&sw+1).'v\|\%'.(6*&sw+1).'v\|\%'.(7*&sw+1).'v\)\s/'
     endif
 endfunction " }}}
+
 hi def IndentGuides guibg=#303030
 nnoremap <leader>I :call IndentGuides()<cr>
 
@@ -1215,6 +1059,8 @@ nnoremap <leader>B :call BlockColor()<cr>
 " }}}
 " Environments (GUI/Console) ---------------------------------------------- {{{
 
+set t_Co=256
+
 if has('gui_running')
     " GUI Vim
 
@@ -1228,8 +1074,6 @@ if has('gui_running')
     set go-=L
     set go-=r
     set go-=R
-    set go+=rRlLbh                  " show all the scrollbars
-    set go-=rRlLbh                  " hide all the scrollbars
 
     highlight SpellBad term=underline gui=undercurl guisp=Orange
 
@@ -1237,6 +1081,9 @@ if has('gui_running')
     set guicursor=n-c:block-Cursor-blinkon0
     set guicursor+=v:block-vCursor-blinkon0
     set guicursor+=i-ci:ver20-iCursor
+
+    map <silent> <F11>
+                \    :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
 
     if has("gui_macvim")
         " Full screen means FULL screen
@@ -1294,5 +1141,6 @@ set t_vb=                       " Visual bell disabled on Linux
 " }}}
 " TODO {{{
 " * Add autocompletion: NeoComplete??
+" * Reconfigure Ctrl-P
 " * Configure Unite?
 " }}}
