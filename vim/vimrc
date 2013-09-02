@@ -7,14 +7,15 @@
 filetype off
 
 if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
 call neobundle#rc(expand('~/.vim/bundle/'))
 " }}}
 " Plugins ----------------------------------------------------------------- {{{
 NeoBundle 'bling/vim-airline'
-NeoBundle 'kana/vim-smartinput'
+" NeoBundle 'kana/vim-smartinput'
+NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'scrooloose/syntastic'
@@ -27,12 +28,19 @@ NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'tpope/vim-markdown'
 NeoBundle 'godlygeek/tabular'
-NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'vim-scripts/YankRing.vim'
 NeoBundle 'rking/ag.vim'
 
 " browse the vim undo tree
 NeoBundleLazy 'sjl/gundo.vim', { 'autoload' : {'commands': 'GundoToggle'}}
 
+NeoBundleLazy 'Yggdroot/indentLine', {'autoload': {'filetypes': ['python', 'javascript']}}
+
+" SQL {{{
+NeoBundleLazy 'exu/pgsql.vim', {'autoload':
+            \ {'filetypes': ['pgsql']}}
+" }}}
 " HTML {{{
 NeoBundleLazy 'othree/html5.vim', {'autoload':
             \ {'filetypes': ['html', 'xhttml', 'css']}}
@@ -52,8 +60,12 @@ NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'],
             \ 'autoload': {'commands':'Gitv'}}
 " }}}
 " Javascript {{{
+NeoBundleLazy 'pangloss/vim-javascript', {'autoload':
+            \ {'filetypes': ['javascript', 'haml']}}
 NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':
-            \ {'filetypes': ['handlebars', 'javascript', 'html', 'haml']}}
+            \ {'filetypes': ['javascript', 'haml']}}
+NeoBundleLazy 'marijnh/tern_for_vim', {'autoload':
+            \ {'filetypes': ['javascript', 'haml']}}
 NeoBundleLazy 'nono/vim-handlebars', {'autoload':
             \ {'filetypes': ['handlebars']}}
 " }}}
@@ -110,10 +122,10 @@ set spellfile=~/.vim/custom-dictionary.utf-8.add
 set pastetoggle=<F2>            " Use it for pasting large amounts of text into Vim, disabling all kinds of smartness and just pasting a whole buffer of text
 
 if v:version > 702
-  set norelativenumber            " It is much faster
-  set undofile
-  set undoreload=10000
-  set colorcolumn=+1
+    set norelativenumber            " It is much faster
+    set undofile
+    set undoreload=10000
+    set colorcolumn=+1
 endif
 
 " Don't try to highlight lines longer than 800 characters.
@@ -135,9 +147,6 @@ set completeopt=longest,menuone,preview
 " Resize splits when the window is resized
 au VimResized * :wincmd =
 
-" Save when losing focus
-" au FocusLost * :silent! wall
-
 " Cursorline {{{
 " Only show cursorline in the current window and in normal mode.
 
@@ -145,25 +154,6 @@ augroup cline
     au!
     au WinLeave,InsertEnter * set nocursorline
     au WinEnter,InsertLeave * set cursorline
-augroup END
-
-" }}}
-" cpoptions+=J, dammit {{{
-
-" Something occasionally removes this.  If I manage to find it I'm going to
-" comment out the line and replace all its characters with 'FUCK'.
-augroup twospace
-    au!
-    au BufRead * :set cpoptions+=J
-augroup END
-
-" }}}
-" Trailing whitespace {{{
-" Only shown when not in insert mode so I don't go insane.
-
-augroup trailing
-    au!
-    au InsertEnter * :set listchars-=trail:⌴
 augroup END
 
 " }}}
@@ -193,9 +183,9 @@ set wildignore+=*.orig                           " Merge resolution files
 augroup line_return
     au!
     au BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     execute 'normal! g`"zvzz' |
-        \ endif
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \     execute 'normal! g`"zvzz' |
+                \ endif
 augroup END
 
 " }}}
@@ -241,17 +231,8 @@ let g:badwolf_tabline = 2
 " let g:badwolf_css_props_highlight = 1
 " Make the gutters darker than the background.
 " let g:badwolf_darkgutter = 1
-colorscheme badwolf
-" color molokai
-
-" Reload the colorscheme whenever we write the file.
-augroup color_badwolf_dev
-    au!
-    au BufWritePost badwolf.vim color badwolf
-augroup END
-
-" Highlight VCS conflict markers
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+" colorscheme badwolf
+colorscheme molokai
 
 " }}}
 
@@ -283,17 +264,8 @@ inoremap <c-l> <c-k>l*
 " Convenience mappings ---------------------------------------------------- {{{
 
 " Fuck you, help key.
-noremap  <F1> :set invfullscreen<CR>
-inoremap <F1> <ESC>:set invfullscreen<CR>a
-
-" Autoload configuration when this file changes ($MYVIMRC) {{{
-
-augroup myvimrc
-    au!
-    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-augroup END
-
-" }}}
+noremap  <F1> <nop>
+inoremap <F1> <nop>
 
 " Stop it, hash key.
 inoremap # X<BS>#
@@ -301,10 +273,9 @@ inoremap # X<BS>#
 " Kill window
 nnoremap K :q<cr>
 
-" Front and center
-" Use :sus for the rare times I want to actually background Vim.
-nnoremap <c-z> zvzz
-vnoremap <c-z> <esc>zv`<ztgv
+" Sort lines
+nnoremap <leader>s vip:!sort<cr>
+vnoremap <leader>s :!sort<cr>
 
 " Tabs
 nnoremap <C-(> :tabprev<cr>
@@ -314,10 +285,10 @@ nnoremap <C-g> :w<cr>
 inoremap <C-g> <C-o>:w<cr>
 
 " TextMate’s key mappings for identation
-nmap <C-{> <<
-nmap <C-}> >>
-vmap <C-{> <gv
-vmap <C-}> >gv
+nmap < <<
+nmap > >>
+vmap < <gv
+vmap > >gv
 
 inoremap <C-v> <C-o>"+P
 
@@ -357,7 +328,7 @@ nnoremap Vaa ggVG
 inoremap <C-u> <esc>mzgUiw`za
 
 " Panic Button
-nnoremap <f9> mzggg?G`z
+nnoremap <leader>` mzggg?G`z
 
 " Emacs bindings in command line mode
 cnoremap <c-a> <home>
@@ -370,8 +341,17 @@ nnoremap <leader>D :diffoff!<cr>
 nnoremap Q gqip
 vnoremap Q gq
 
+" Reformat line.
+" I never use l as a macro register anyway.
+nnoremap ql gqq
+
 " Easier linewise reselection
 nnoremap <leader>V V`]
+
+" Indent/dedent/autoindent what you just pasted.
+nnoremap <lt>> V`]<
+nnoremap ><lt> V`]>
+nnoremap =- V`]=
 
 " Keep the cursor in place while joining lines
 nnoremap J mzJ`z
@@ -383,6 +363,9 @@ nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
 " Source
 vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
 nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
+
+" HTML tag closing
+inoremap <C-_> <space><bs><esc>:call InsertCloseTag()<cr>a
 
 " Select (charwise) the contents of the current line, excluding indentation.
 " Great for pasting Python lines into REPLs.
@@ -403,7 +386,7 @@ command! -bang Wq wq<bang>
 command! -bang WQ wq<bang>
 
 " I suck at typing.
-nnoremap <localleader>= ==
+nnoremap <localleader>- ==
 vnoremap - =
 
 " Toggle [i]nvisible characters
@@ -412,35 +395,9 @@ nnoremap <leader>i :set list!<cr>
 " Unfuck my screen
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 
-" Move between Vim and Tmux windows {{{
-
-if exists('$TMUX')
-  function! TmuxOrSplitSwitch(wincmd, tmuxdir)
-    let previous_winnr = winnr()
-    execute "wincmd " . a:wincmd
-    if previous_winnr == winnr()
-      " The sleep and & gives time to get back to vim so tmux's focus tracking
-      " can kick in and send us our ^[[O
-      execute "silent !sh -c 'sleep 0.01; tmux select-pane -" . a:tmuxdir . "' &"
-      redraw!
-    endif
-  endfunction
-  let previous_title = substitute(system("tmux display-message -p '#{pane_title}'"), '\n', '', '')
-  let &t_ti = "\<Esc>]2;vim\<Esc>\\" . &t_ti
-  let &t_te = "\<Esc>]2;". previous_title . "\<Esc>\\" . &t_te
-  nnoremap <silent> <C-h> :call TmuxOrSplitSwitch('h', 'L')<CR>
-  nnoremap <silent> <C-j> :call TmuxOrSplitSwitch('j', 'D')<CR>
-  nnoremap <silent> <C-k> :call TmuxOrSplitSwitch('k', 'U')<CR>
-  nnoremap <silent> <C-l> :call TmuxOrSplitSwitch('l', 'R')<CR>
-else
-  map <C-h> <C-w>h
-  map <C-j> <C-w>j
-  map <C-k> <C-w>k
-  map <C-l> <C-w>l
-endif
-
-" }}}
-
+" Insert Mode Completion
+inoremap <c-f> <c-x><c-f>
+inoremap <c-]> <c-x><c-]>
 " }}}
 " Quick editing ----------------------------------------------------------- {{{
 
@@ -477,8 +434,8 @@ noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 
 runtime macros/matchit.vim
 map <tab> %
-" unmap [%
-" unmap ]%
+silent! unmap [%
+silent! unmap ]%
 
 " Made D behave
 nnoremap D d$
@@ -539,10 +496,10 @@ noremap <leader>h <C-w>s
 " Visual Mode */# from Scrooloose {{{
 
 function! s:VSetSearch()
-  let temp = @@
-  norm! gvy
-  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-  let @@ = temp
+    let temp = @@
+    norm! gvy
+    let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+    let @@ = temp
 endfunction
 
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
@@ -575,6 +532,18 @@ nnoremap ,z zMzvzz
 " cursor happens to be.
 nnoremap zO zCzO
 
+" "Focus" the current line.  Basically:
+"
+" 1. Close all folds.
+" 2. Open just the folds containing the current line.
+" 3. Move the line to a little bit (15 lines) above the center of the screen.
+" 4. Pulse the cursor line.  My eyes are bad.
+"
+" This mapping wipes out the z mark, which I never use.
+"
+" I use :sus for the rare times I want to actually background Vim.
+nnoremap <c-z> mzzMzvzz15<c-e>`z:Pulse<cr>
+
 function! MyFoldText() " {{{
     let line = getline(v:foldstart)
 
@@ -603,6 +572,88 @@ augroup ft_c
 augroup END
 
 " }}}
+" Clojure {{{
+
+let g:clojure_fold_extra = [
+            \ 'defgauge',
+            \ 'defmeter',
+            \ 'defhistogram',
+            \ 'defcounter',
+            \ 'deftimer',
+            \
+            \ 'defdb',
+            \ 'defentity',
+            \ 'defaspect',
+            \ 'add-aspect',
+            \ 'defmigration',
+            \
+            \ 'defsynth',
+            \ 'definst',
+            \ 'defproject',
+            \
+            \ 'defroutes',
+            \
+            \ 'defrec',
+            \
+            \ 'defparser',
+            \
+            \ 'defform',
+            \ 'defform-',
+            \
+            \ 'defpage',
+            \ 'defsketch'
+            \
+            \ ]
+
+let g:clojure_highlight_extra_defs = [
+            \ 'defproject',
+            \
+            \ 'defroutes'
+            \ ]
+
+augroup ft_clojure
+    au!
+
+    au BufNewFile,BufRead riemann.config set filetype=clojure
+    au FileType clojure silent! call TurnOnClojureFolding()
+    au FileType clojure compiler clojure
+    au FileType clojure setlocal report=100000
+
+    au FileType clojure RainbowParenthesesActivate
+    au syntax clojure RainbowParenthesesLoadRound
+    au syntax clojure RainbowParenthesesLoadSquare
+    au syntax clojure RainbowParenthesesLoadBraces
+
+    " Friendlier Paredit mappings.
+    au FileType clojure noremap <buffer> () :<c-u>call PareditWrap("(", ")")<cr>
+    au FileType clojure noremap <buffer> )( :<c-u>call PareditSplice()<cr>
+    au FileType clojure noremap <buffer> (( :<c-u>call PareditMoveLeft()<cr>
+    au FileType clojure noremap <buffer> )) :<c-u>call PareditMoveRight()<cr>
+    au FileType clojure noremap <buffer> (j :<c-u>call PareditJoin()<cr>
+    au FileType clojure noremap <buffer> (s :<c-u>call PareditSplit()<cr>
+    au FileType clojure noremap <buffer> [ :<c-u>call PareditSmartJumpOpening(0)<cr>
+    au FileType clojure noremap <buffer> ] :<c-u>call PareditSmartJumpClosing(0)<cr>
+    " )))
+
+    " Indent top-level form.
+    au FileType clojure nmap <buffer> <localleader>= mz99[(v%='z
+    " ])
+augroup END
+
+" }}}
+" Clojurescript {{{
+
+augroup ft_clojurescript
+    au!
+
+    au BufNewFile,BufRead *.cljs set filetype=clojurescript
+    au FileType clojurescript call TurnOnClojureFolding()
+
+    " Indent top-level form.
+    au FileType clojurescript nmap <buffer> <localleader>= v((((((((((((=%
+augroup END
+
+" }}}
 " CSS and Sass{{{
 
 augroup ft_css
@@ -614,6 +665,13 @@ augroup ft_css
     au Filetype sass,scss,less,css setlocal foldmarker={,}
     au Filetype sass,scss,less,css setlocal omnifunc=csscomplete#CompleteCSS
     au Filetype sass,scss,less,css setlocal iskeyword+=-
+
+    au BufNewFile,BufRead *.less,*.css,*.scss nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
+
+    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+    " positioned inside of them AND the following code doesn't get unfolded.
+    au BufNewFile,BufRead *.less,*.css,*.sass,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
+    " }
 
 augroup END
 
@@ -650,44 +708,48 @@ augroup END
 " }}}
 " Fish {{{
 augroup ft_fish
-  au!
+    au!
 
-  au BufNewFile,BufRead *.fish setlocal filetype=fish
+    au BufNewFile,BufRead *.fish setlocal filetype=fish
 
-  au FileType fish setlocal foldmethod=marker foldmarker={{{,}}}
+    au FileType fish setlocal foldmethod=marker foldmarker={{{,}}}
 augroup END
 " }}}
 " Haml {{{
 
 augroup ft_css
     au!
-
     au BufRead,BufNewFile *.hamlc set ft=haml
-
 augroup END
 
 " }}}
-" HTML and XML {{{
+" HTML and handlebars {{{
+
+" let g:html_indent_tags = ['p', 'li']
 
 augroup ft_html
     au!
 
     setlocal foldlevel=99
     au BufNewFile,BufRead *.html setlocal filetype=html
-    au FileType html setlocal foldmethod=manual
-    au FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-    au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    au BufNewFile,BufRead *.hbs setlocal filetype=handlebars
+    au FileType html,handlebars setlocal foldmethod=manual
+    au FileType html,handlebars setlocal omnifunc=htmlcomplete#CompleteTags
 
-    au FileType html setlocal tabstop=4
-    au FileType html setlocal shiftwidth=4
-    au FileType html setlocal softtabstop=4
+    au FileType html,handlebars setlocal tabstop=4 shiftwidth=4 softtabstop=4
+
+    " Use <localleader>f to fold the current tag.
+    au FileType html,handlebars nnoremap <buffer> <localleader>f Vatzf
 
     " Indent tag
-    au FileType html nnoremap <buffer> <localleader>= Vat=
+    au FileType html,handlebars nnoremap <buffer> <localleader>- Vat=
 
     " Underscore tags
-    au FileType html inoremap <buffer> <c-t> <%=<space><space>%><left><left><left>
-    au FileType html inoremap <buffer> <c-f> <%<space><space>%><left><left><left>
+    au FileType html,handlebars inoremap <buffer> <c-t> <%=<space><space>%><left><left><left>
+    au FileType html,handlebars inoremap <buffer> <c-r> <%<space><space>%><left><left><left>
+
+    " handlebars tags
+    au FileType handlebars inoremap <buffer> <c-b> {{<space><space>}}<left><left><left>
 augroup END
 
 " }}}
@@ -707,12 +769,12 @@ augroup ft_javascript
     au!
 
     au BufNewFile,BufRead jshintrc setlocal filetype=javascript
-    au BufNewFile,BufRead *.hbs setlocal filetype=handlebars
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
     au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    au BufNewFile,BufRead *.js normal zR
+    au FileType javascript setlocal shiftwidth=4 softtabstop=4 tabstop=4
+    au Filetype javascript setlocal foldlevel=99
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
@@ -725,10 +787,10 @@ augroup END
 autocmd BufNewFile,BufRead *.json set ft=javascript
 
 augroup json_autocmd
-  autocmd!
-  autocmd FileType json set formatoptions=tcq2l
-  autocmd FileType json set shiftwidth=2 softtabstop=2 tabstop=8
-  autocmd BufNewFile,BufRead *.json normal zR
+    autocmd!
+    autocmd FileType json set formatoptions=tcq2l
+    autocmd FileType json set shiftwidth=2 softtabstop=2 tabstop=8
+    autocmd BufNewFile,BufRead *.json normal zR
 augroup END
 " }}}
 " Markdown {{{
@@ -736,11 +798,10 @@ augroup END
 augroup ft_markdown
     au!
 
-    au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=markdown
+    au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=markdown foldlevel=1
     au FileType markdown normal! zR
     au FileType markdown NeoBundleSource vim-markdown
     au FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    au FileType markdown setlocal spell
 
     " Use <localleader>1/2/3 to add headings.
     au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=:redraw<cr>
@@ -760,6 +821,26 @@ augroup ft_nginx
     au BufRead,BufNewFile vhost.nginx                            set ft=nginx
 
     au FileType nginx setlocal foldmethod=marker foldmarker={,}
+augroup END
+
+" }}}
+" Pentadactyl {{{
+
+augroup ft_pentadactyl
+    au!
+    au BufNewFile,BufRead .pentadactylrc set filetype=pentadactyl
+    au BufNewFile,BufRead ~/Library/Caches/TemporaryItems/pentadactyl-*.tmp set nolist wrap linebreak columns=100 colorcolumn=0
+augroup END
+
+" }}}
+" Postgresql {{{
+
+augroup ft_postgres
+    au!
+
+    au BufNewFile,BufRead *.sql set filetype=pgsql
+    au FileType pgsql set foldmethod=indent
+    au FileType pgsql set softtabstop=2 shiftwidth=2
 augroup END
 
 " }}}
@@ -783,12 +864,37 @@ augroup ft_python
 augroup END
 
 " }}}
+" QuickFix {{{
+
+augroup ft_quickfix
+    au!
+    au Filetype qf setlocal colorcolumn=0 nolist nocursorline nowrap tw=0
+augroup END
+
+" }}}
 " Ruby {{{
 
 augroup ft_ruby
     au!
     au Filetype ruby setlocal foldmethod=syntax
+    au BufRead,BufNewFile Capfile setlocal filetype=ruby
     au FileType ruby setlocal omnifunc=rubycomplete#Complete
+augroup END
+
+" }}}
+" Scala {{{
+
+augroup ft_scala
+    au!
+    au Filetype scala setlocal foldmethod=marker foldmarker={,}
+    au Filetype scala compiler maven
+    au Filetype scala let b:dispatch = 'mvn -B package install'
+    au Filetype scala nnoremap <buffer> <localleader>s :SortScalaImports<cr>
+    au Filetype scala nnoremap <buffer> M :call scaladoc#Search(expand("<cword>"))<cr>
+    au Filetype scala vnoremap <buffer> M "ry:call scaladoc#Search(@r)<cr>
+    au Filetype scala nmap <buffer> <localleader>( ysiwbi
+    au Filetype scala nmap <buffer> <localleader>[ ysiwri
+    ")]
 augroup END
 
 " }}}
@@ -800,13 +906,63 @@ augroup ft_vagrant
 augroup END
 
 " }}}
+" Vim {{{
 
+augroup ft_vim
+    au!
+
+    au FileType vim setlocal foldmethod=marker
+    au FileType help setlocal textwidth=78
+    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+    au FileType vim setlocal shiftwidth=4 softtabstop=4 tabstop=4
+augroup END
+
+" }}}
+" Vimrc {{{
+
+" Autoload configuration when this file changes ($MYVIMRC)
+augroup myvimrc
+  au!
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
+" }}}
+" YAML {{{
+
+augroup ft_yaml
+  au!
+
+  au FileType yaml set shiftwidth=2
+augroup END
+
+" }}}
+" XML {{{
+
+augroup ft_xml
+  au!
+
+  au FileType xml setlocal foldmethod=manual
+  au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+  " Use <localleader>f to fold the current tag.
+  au FileType xml nnoremap <buffer> <localleader>f Vatzf
+
+  " Indent tag
+  au FileType xml nnoremap <buffer> <localleader>= Vat=
+augroup END
+
+" }}}
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
 
 " Ag {{{
 
 nnoremap <leader>a :Ag<space>
+let g:ackprg = 'ag --smart-case --nogroup --nocolor --column'
+" }}}
+" Autoclose {{{
+
+nmap <Leader>x <Plug>ToggleAutoCloseMappings
+
 " }}}
 " Airline {{{
 
@@ -821,6 +977,7 @@ xmap <leader>c <Plug>Commentary
 
 augroup plugin_commentary
     au!
+    au FileType htmldjango setlocal commentstring={#\ %s\ #}
     au FileType clojurescript setlocal commentstring=;\ %s
     au FileType puppet setlocal commentstring=#\ %s
     au FileType fish setlocal commentstring=#\ %s
@@ -839,42 +996,44 @@ let g:ctrlp_extensions = ['tag']
 let g:ctrlp_map = '<leader>,'
 
 let g:ctrlp_prompt_mappings = {
-\ 'PrtSelectMove("j")':   ['<c-j>', '<down>', '<s-tab>'],
-\ 'PrtSelectMove("k")':   ['<c-k>', '<up>', '<tab>'],
-\ 'PrtHistory(-1)':       ['<c-n>'],
-\ 'PrtHistory(1)':        ['<c-p>'],
-\ 'ToggleFocus()':        ['<c-tab>'],
-\ }
+            \ 'PrtSelectMove("j")':   ['<c-j>', '<down>', '<s-tab>'],
+            \ 'PrtSelectMove("k")':   ['<c-k>', '<up>', '<tab>'],
+            \ 'PrtHistory(-1)':       ['<c-n>'],
+            \ 'PrtHistory(1)':        ['<c-p>'],
+            \ 'ToggleFocus()':        ['<c-tab>'],
+            \ }
 
 let ctrlp_filter_greps = "".
-    \ "egrep -iv '\\.(" .
-    \ "jar|class|swp|swo|log|so|o|pyc|jpe?g|png|gif|mo|po" .
-    \ ")$' | " .
-    \ "egrep -v '^(\\./)?(" .
-    \ ".git/|.hg/|.svn/" .
-    \ ")'"
+            \ "egrep -iv '\\.(" .
+            \ "jar|class|swp|swo|log|so|o|pyc|jpe?g|png|gif|mo|po" .
+            \ ")$' | " .
+            \ "egrep -v '^(\\./)?(" .
+            \ ".git/|.hg/|.svn/" .
+            \ ")'"
 
 let my_ctrlp_user_command = "" .
-    \ "find %s '(' -type f -or -type l ')' -maxdepth 15 -not -path '*/\\.*/*' | " .
-    \ ctrlp_filter_greps
+            \ "find %s '(' -type f -or -type l ')' -maxdepth 15 -not -path '*/\\.*/*' | " .
+            \ ctrlp_filter_greps
 
 let my_ctrlp_git_command = "" .
-    \ "cd %s && git ls-files --exclude-standard -co | " .
-    \ ctrlp_filter_greps
+            \ "cd %s && git ls-files --exclude-standard -co | " .
+            \ ctrlp_filter_greps
 
 let my_ctrlp_ffind_command = "ffind --semi-restricted --dir %s --type e -B -f"
 
-let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command]
-" let g:ctrlp_user_command = ['.git/', my_ctrlp_ffind_command, my_ctrlp_ffind_command]
-
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-" if executable('ag')
-"   " Use Ag over Grep
-"   set grepprg=ag\ --nogroup\ --nocolor
+if executable('ag')
+    " Use Ag over Grep
+    set grepprg="ag\ --nogroup\ --nocolor"
 
-"   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-"   let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
-" endif
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    let my_ctrlp_user_command = "" .
+                \ 'ag %s -l --nocolor -g "" | ' .
+                \ ctrlp_filter_greps
+
+endif
+
+let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command, my_ctrlp_user_command]
 
 nnoremap <leader>. :CtrlPTag<cr>
 
@@ -925,11 +1084,16 @@ let g:microdata_attributes_complete = 0
 let g:atia_attributes_complete = 0
 
 " }}}
+" IndentLine {{{
+
+map <silent> <Leader>L :IndentLinesToggle<CR>
+let g:indentLine_enabled = 0
+let g:indentLine_char = '┊'
+let g:indentLine_color_term = 239
+
+" }}}
 " Javascript {{{
-au FileType javascript call JavaScriptFold()
-" let g:html_indent_inctags = "html,body,head,tbody"
-" let g:html_indent_script1 = "inc"
-" let g:html_indent_style1 = "inc"
+let g:javascript_conceal = 1
 " }}}
 " NERD Tree {{{
 
@@ -945,7 +1109,6 @@ augroup ps_nerdtree
     au Filetype nerdtree setlocal nolist
     au Filetype nerdtree nnoremap <buffer> H :vertical resize -10<cr>
     au Filetype nerdtree nnoremap <buffer> L :vertical resize +10<cr>
-    " au Filetype nerdtree nnoremap <buffer> K :q<cr>
 augroup END
 
 let NERDTreeHighlightCursorline = 1
@@ -958,12 +1121,23 @@ let NERDTreeChDirMode = 2
 let NERDTreeMapJumpFirstChild = 'gK'
 
 " }}}
-" YouCompleteMe {{{
+" Neocomplete {{{
 
-let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#enable_auto_select = 1
+let g:neocomplete#enable_refresh_always = 1
+let g:neocomplete#max_list = 30
+let g:neocomplete#min_keyword_length = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 1
+let g:neocomplete#data_directory = $HOME.'/.vim/tmp/neocomplete'
 
-"}}}
+" <TAB>: completion.
+inoremap <expr><c-j>  pumvisible() ? "\<C-n>" : "\<c-j>"
+inoremap <expr><c-k>  pumvisible() ? "\<C-p>" : "\<c-k>"
+
+inoremap <expr><C-f>     neocomplete#complete_common_string()
+" }}}
 " Syntastic {{{
 
 let g:syntastic_enable_signs = 1
@@ -992,6 +1166,7 @@ noremap <leader>T, :Tabularize /,<cr>
 noremap <leader>Tr :Tabularize /=><cr>
 noremap <leader>T= :Tabularize /=<cr>
 noremap <leader>T: :Tabularize /:<cr>
+noremap <leader>T<Bar> :Tabularize /<Bar><CR>
 " }}}
 " UltiSnips {{{
 
@@ -1002,12 +1177,39 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
 
 " }}}
+" YankRing {{{
 
+nnoremap <silent> <F4> :YRShow<CR>
+
+function! YRRunAfterMaps()
+    " Make Y yank to end of line.
+    nnoremap Y :<C-U>YRYankCount 'y$'<CR>
+
+    " Fix L and H in operator-pending mode, so yH and such works.
+    omap <expr> L YRMapsExpression("", "$")
+    omap <expr> H YRMapsExpression("", "^")
+
+    " Don't clobber the yank register when pasting over text in visual mode.
+    vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr>
+endfunction
+
+" }}}
 " }}}
 " Mini-plugins ------------------------------------------------------------ {{{
 " Stuff that should probably be broken out into plugins, but hasn't proved to be
 " worth the time to do so just yet.
 
+" Synstack {{{
+
+" Show the stack of syntax hilighting classes affecting whatever is under the
+" cursor.
+function! SynStack()
+    echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
+endfunc
+
+nnoremap <F7> :call SynStack()<CR>
+
+" }}}
 " Indent Guides {{{
 
 let g:indentguides_state = 0
@@ -1112,7 +1314,10 @@ if has('gui_running')
         imap <M-BS>         <C-w>
         inoremap <D-BS>     <esc>my0c`y
     elseif has("gui_gtk2")
-      set guifont=Meslo\ LG\ M\ for\ Powerline\ 10
+        set guifont=Meslo\ LG\ M\ for\ Powerline\ 10
+
+        " Maximize gvim window.
+        set lines=999 columns=999
     else
         " Non-MacVim GUI
     end
@@ -1134,7 +1339,7 @@ let g:ctrlp_custom_ignore = 'static'
 
 " Extend .vimrc
 if filereadable(expand("~/.vimrc.local"))
-  source ~/.vimrc.local
+    source ~/.vimrc.local
 endif
 set t_vb=                       " Visual bell disabled on Linux
 

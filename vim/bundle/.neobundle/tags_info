@@ -1,16 +1,21 @@
-YouCompleteMe
+YankRing.vim
 ag.vim
 badwolf
 ctrlp.vim
+delimitMate
 emmet-vim
 gitv
 gundo.vim
 harlequin
 html5.vim
+indentLine
 molokai
+neocomplete.vim
 nerdtree
+pgsql.vim
 syntastic
 tabular
+tern_for_vim
 ultisnips
 vim-airline
 vim-commentary
@@ -18,6 +23,7 @@ vim-cucumber
 vim-endwise
 vim-fugitive
 vim-handlebars
+vim-javascript
 vim-javascript-syntax
 vim-luna
 vim-markdown
@@ -27,5 +33,4 @@ vim-repeat
 vim-rspec
 vim-ruby
 vim-signature
-vim-smartinput
 vim-surround
