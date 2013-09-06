@@ -24,3 +24,5 @@ compinit -i
 
 # Portal FTW!
 print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f\n"
+
+source $HOME/.secrets
