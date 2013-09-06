@@ -20,7 +20,7 @@ export JVM_ARGS="-Xms1024m -Xmx1024m -XX:MaxPermSize=512m"
 # Aliases
 alias sw='cd $SWITCHFLY_HOME'
 alias repos='cd ~/dev/switchfly/repos'
-alias deploy='cd $SWITCHFLY_HOME/webapp-spring && mvn tomcat7:run'
+alias deploy='cd $SWITCHFLY_HOME/core-webapp && mvn clean tomcat7:run'
 
 alias build="mvn clean install -Dmaven.test.skip=true"
 alias test="mvn clean install"
