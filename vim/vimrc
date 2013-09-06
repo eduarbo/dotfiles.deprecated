@@ -14,7 +14,7 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 " }}}
 " Plugins ----------------------------------------------------------------- {{{
 NeoBundle 'bling/vim-airline'
-" NeoBundle 'kana/vim-smartinput'
+NeoBundle 'mhinz/vim-startify'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-endwise'
@@ -28,14 +28,12 @@ NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'tpope/vim-markdown'
 NeoBundle 'godlygeek/tabular'
-NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'vim-scripts/YankRing.vim'
 NeoBundle 'rking/ag.vim'
 
 " browse the vim undo tree
 NeoBundleLazy 'sjl/gundo.vim', { 'autoload' : {'commands': 'GundoToggle'}}
-
-NeoBundleLazy 'Yggdroot/indentLine', {'autoload': {'filetypes': ['python', 'javascript']}}
 
 " SQL {{{
 NeoBundleLazy 'exu/pgsql.vim', {'autoload':
@@ -63,8 +61,6 @@ NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'],
 NeoBundleLazy 'pangloss/vim-javascript', {'autoload':
             \ {'filetypes': ['javascript', 'haml']}}
 NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':
-            \ {'filetypes': ['javascript', 'haml']}}
-NeoBundleLazy 'marijnh/tern_for_vim', {'autoload':
             \ {'filetypes': ['javascript', 'haml']}}
 NeoBundleLazy 'nono/vim-handlebars', {'autoload':
             \ {'filetypes': ['handlebars']}}
@@ -116,6 +112,7 @@ set autowrite
 set autoread                    " Reload files changed outside vim
 set shiftround                  " When at 3 spaces, and I hit > ... go to 4, not 5
 set title                       " set the terminal title to the current file
+set t_vb=                       " Visual bell disabled on Linux
 set linebreak
 set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
@@ -231,8 +228,7 @@ let g:badwolf_tabline = 2
 " let g:badwolf_css_props_highlight = 1
 " Make the gutters darker than the background.
 " let g:badwolf_darkgutter = 1
-" colorscheme badwolf
-colorscheme molokai
+colorscheme badwolf
 
 " }}}
 
@@ -258,14 +254,12 @@ iabbrev lsad ಥ_ಥ
 iabbrev lhap ಥ‿ಥ
 iabbrev lmis ಠ‿ಠ
 
-inoremap <c-l> <c-k>l*
-
 " }}}
 " Convenience mappings ---------------------------------------------------- {{{
 
 " Fuck you, help key.
-noremap  <F1> <nop>
-inoremap <F1> <nop>
+noremap  <F1> <ESC>
+inoremap <F1> <ESC>
 
 " Stop it, hash key.
 inoremap # X<BS>#
@@ -284,17 +278,25 @@ nnoremap <C-t> :tabnew<cr>
 nnoremap <C-g> :w<cr>
 inoremap <C-g> <C-o>:w<cr>
 
-" TextMate’s key mappings for identation
-nmap < <<
-nmap > >>
-vmap < <gv
-vmap > >gv
+"key mappings for identation
+" nnoremap < <<_
+" nnoremap > >>_
+vnoremap < <gv
+vnoremap > >gv
 
 inoremap <C-v> <C-o>"+P
 
 nnoremap <C-q> :q<cr>
 
 nnoremap ; :
+
+" Move lines
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " Insert New Line
 nnoremap <S-Enter> O<ESC> " awesome, inserts new line without going into insert mode
@@ -395,9 +397,6 @@ nnoremap <leader>i :set list!<cr>
 " Unfuck my screen
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 
-" Insert Mode Completion
-inoremap <c-f> <c-x><c-f>
-inoremap <c-]> <c-x><c-]>
 " }}}
 " Quick editing ----------------------------------------------------------- {{{
 
@@ -824,15 +823,6 @@ augroup ft_nginx
 augroup END
 
 " }}}
-" Pentadactyl {{{
-
-augroup ft_pentadactyl
-    au!
-    au BufNewFile,BufRead .pentadactylrc set filetype=pentadactyl
-    au BufNewFile,BufRead ~/Library/Caches/TemporaryItems/pentadactyl-*.tmp set nolist wrap linebreak columns=100 colorcolumn=0
-augroup END
-
-" }}}
 " Postgresql {{{
 
 augroup ft_postgres
@@ -852,6 +842,7 @@ augroup ft_python
     au FileType python setlocal define=^\s*\\(def\\\\|class\\)
     au FileType man nnoremap <buffer> <cr> :q<cr>
     au FileType python setlocal omnifunc=pythoncomplete#Complete
+    au FileType python setlocal shiftwidth=4 softtabstop=4 tabstop=4
 
     " Jesus tapdancing Christ, built-in Python syntax, you couldn't let me
     " override this in a normal way, could you?
@@ -994,6 +985,7 @@ let g:ctrlp_split_window = 0
 let g:ctrlp_max_height = 20
 let g:ctrlp_extensions = ['tag']
 let g:ctrlp_map = '<leader>,'
+let g:ctrlp_custom_ignore = 'static'
 
 let g:ctrlp_prompt_mappings = {
             \ 'PrtSelectMove("j")':   ['<c-j>', '<down>', '<s-tab>'],
@@ -1084,14 +1076,6 @@ let g:microdata_attributes_complete = 0
 let g:atia_attributes_complete = 0
 
 " }}}
-" IndentLine {{{
-
-map <silent> <Leader>L :IndentLinesToggle<CR>
-let g:indentLine_enabled = 0
-let g:indentLine_char = '┊'
-let g:indentLine_color_term = 239
-
-" }}}
 " Javascript {{{
 let g:javascript_conceal = 1
 " }}}
@@ -1121,22 +1105,34 @@ let NERDTreeChDirMode = 2
 let NERDTreeMapJumpFirstChild = 'gK'
 
 " }}}
-" Neocomplete {{{
+" YouCompleteMe {{{
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<C-j>']
+let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>', '<C-k>']
+" }}}
+" Startify {{{
 
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#enable_auto_select = 1
-let g:neocomplete#enable_refresh_always = 1
-let g:neocomplete#max_list = 30
-let g:neocomplete#min_keyword_length = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 1
-let g:neocomplete#data_directory = $HOME.'/.vim/tmp/neocomplete'
+let g:startify_enable_special = 0
+let g:startify_show_dir = 1
+let g:startify_show_files = 1
+let g:startify_show_sessions = 0
+let g:startify_bookmarks = [
+            \ '~/.vim/vimrc',
+            \ '~/.dotfiles/zsh/lib/alias.zsh',
+            \ '~/.dotfiles/zsh/zshrc.zsh',
+            \ '~/dev/switchfly/repos/dev/core-webapp/src/main/webapp/resources/encore',
+            \ ]
 
-" <TAB>: completion.
-inoremap <expr><c-j>  pumvisible() ? "\<C-n>" : "\<c-j>"
-inoremap <expr><c-k>  pumvisible() ? "\<C-p>" : "\<c-k>"
-
-inoremap <expr><C-f>     neocomplete#complete_common_string()
+let g:startify_custom_header = [
+            \ '                                 ________  __ __        ',
+            \ '            __                  /\_____  \/\ \\ \       ',
+            \ '    __  __ /\_\    ___ ___      \/___//''/''\ \ \\ \    ',
+            \ '   /\ \/\ \\/\ \ /'' __` __`\        /'' /''  \ \ \\ \_ ',
+            \ '   \ \ \_/ |\ \ \/\ \/\ \/\ \      /'' /''__  \ \__ ,__\',
+            \ '    \ \___/  \ \_\ \_\ \_\ \_\    /\_/ /\_\  \/_/\_\_/  ',
+            \ '     \/__/    \/_/\/_/\/_/\/_/    \//  \/_/     \/_/    ',
+            \ '',
+            \ '',
+            \ ]"
 " }}}
 " Syntastic {{{
 
@@ -1170,9 +1166,9 @@ noremap <leader>T<Bar> :Tabularize /<Bar><CR>
 " }}}
 " UltiSnips {{{
 
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsExpandTrigger="<C-l>"
+let g:UltiSnipsJumpForwardTrigger="<C-l>"
+let g:UltiSnipsJumpBackwardTrigger="<C-h>"
 
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
 
@@ -1313,12 +1309,14 @@ if has('gui_running')
 
         imap <M-BS>         <C-w>
         inoremap <D-BS>     <esc>my0c`y
+
     elseif has("gui_gtk2")
         set guifont=Meslo\ LG\ M\ for\ Powerline\ 10
 
         " Maximize gvim window.
         set lines=999 columns=999
     else
+
         " Non-MacVim GUI
     end
 else
@@ -1331,21 +1329,9 @@ else
 endif
 
 " }}}
-" Other ------------------------------------------------------------------- {{{
-
-" Projects {{
-let g:ctrlp_custom_ignore = 'static'
-" }}
-
-" Extend .vimrc
-if filereadable(expand("~/.vimrc.local"))
-    source ~/.vimrc.local
-endif
-set t_vb=                       " Visual bell disabled on Linux
-
-" }}}
 " TODO {{{
-" * Add autocompletion: NeoComplete??
-" * Reconfigure Ctrl-P
-" * Configure Unite?
+" * Rebuild README
+" * Create vim installer script
+" * Fix < and > mappings in normal mode
+" * Create a plugin to toggle between false and true with C-x and C-a.
 " }}}

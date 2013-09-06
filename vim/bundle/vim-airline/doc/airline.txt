@@ -50,7 +50,7 @@ values):
   let g:airline_detect_paste=1
 <
 * enable iminsert detection >
-  let g:airline_detect_iminsert=1
+  let g:airline_detect_iminsert=0
 <
 * determine whether inactive windows should have the left section collapsed to
   only the filename of that buffer.  >
@@ -71,7 +71,7 @@ values):
     endif
   endfunction
 <
-* enable/disable usage of patched powerline font symbols >
+* enable/disable automatic selection of patched powerline font symbols >
   let g:airline_powerline_fonts=0
 <
 * define the set of text to display for each mode.  >
@@ -122,54 +122,58 @@ CUSTOMIZATION                                        *airline-customization*
 
 The following are some unicode symbols for customizing the left/right
 separators, as well as the powerline font glyths.
+
+Note: You must define the dictionary first before setting values: >
+  let g:airline_symbols = {}
 >
   " unicode symbols
   let g:airline_left_sep = '»'
   let g:airline_left_sep = '▶'
   let g:airline_right_sep = '«'
   let g:airline_right_sep = '◀'
-  let g:airline_linecolumn_prefix = '␊ '
-  let g:airline_linecolumn_prefix = '␤ '
-  let g:airline_linecolumn_prefix = '¶ '
-  let g:airline#extensions#branch#symbol = '⎇ '
-  let g:airline#extensions#paste#symbol = 'ρ'
-  let g:airline#extensions#paste#symbol = 'Þ'
-  let g:airline#extensions#paste#symbol = '∥'
-  let g:airline#extensions#whitespace#symbol = 'Ξ'
+  let g:airline_symbols.linenr = '␊'
+  let g:airline_symbols.linenr = '␤'
+  let g:airline_symbols.linenr = '¶'
+  let g:airline_symbols.branch = '⎇'
+  let g:airline_symbols.paste = 'ρ'
+  let g:airline_symbols.paste = 'Þ'
+  let g:airline_symbols.paste = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
 
   " powerline symbols
   let g:airline_left_sep = ''
   let g:airline_left_alt_sep = ''
   let g:airline_right_sep = ''
   let g:airline_right_alt_sep = ''
-  let g:airline#extensions#branch#symbol = ' '
-  let g:airline#extensions#readonly#symbol = ''
-  let g:airline_linecolumn_prefix = ' '
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
 
   " old vim-powerline symbols
   let g:airline_left_sep = '⮀'
   let g:airline_left_alt_sep = '⮁'
   let g:airline_right_sep = '⮂'
   let g:airline_right_alt_sep = '⮃'
-  let g:airline#extensions#branch#symbol = '⭠'
-  let g:airline#extensions#readonly#symbol = '⭤'
-  let g:airline_linecolumn_prefix = '⭡'
+  let g:airline_symbols.branch = '⭠'
+  let g:airline_symbols.readonly = '⭤'
+  let g:airline_symbols.linenr = '⭡'
 <
 
 For more intricate customizations, you can replace the predefined sections
 with the usual statusline syntax.
 
-Note: Many of these settings can also be controlled with |airline-configuration|
-variables, which is useful for sections which by default host more than one
-extension.
+Note: If you define any section variables it will replace the default values
+entirely.  If you want to disable only certain parts of a section you can try
+using variables defined in the |airline-configuration| or |airline_extensions|
+section.
 >
   variable names                default contents
   ----------------------------------------------------------------------------
-  let g:airline_section_a       (the mode/paste indicator)
-  let g:airline_section_b       (the fugitive/lawrencium branch indicator)
+  let g:airline_section_a       (mode, paste, iminsert)
+  let g:airline_section_b       (hunks, branch)
   let g:airline_section_c       (bufferline or filename)
   let g:airline_section_gutter  (readonly, csv)
-  let g:airline_section_x       (tagbar, virtualenv, filetype)
+  let g:airline_section_x       (tagbar, filetype, virtualenv)
   let g:airline_section_y       (fileencoding, fileformat)
   let g:airline_section_z       (percentage, line number, column number)
   let g:airline_section_warning (syntastic, whitespace)
@@ -185,7 +189,32 @@ EXTENSIONS                                              *airline-extensions*
 Most extensions are enabled by default and lazily loaded when the
 corresponding plugin (if any) is detected.
 
-                                                            *airline-branch*
+-------------------------------------                      *airline-default*
+The default extension understands all of the `g:` variables in the
+|airline-configuration| section, however it also has some more fine-tuned
+configuration values that you can use.
+
+* control which sections get truncated and at what width. >
+  let g:airline#extensions#default#section_truncate_width = {
+      \ 'b': 88,
+      \ 'x': 60,
+      \ 'y': 88,
+      \ 'z': 45,
+      \ })
+
+  " Note: set to an empty dictionary to disable truncation.
+  let g:airline#extensions#default#section_truncate_width = {}
+<
+-------------------------------------                   *airline-bufferline*
+vim-bufferline <https://github.com/bling/vim-bufferline>
+
+* enable/disable bufferline integration >
+  let g:airline#extensions#bufferline#enabled = 1
+<
+* determine whether bufferline will overwrite customization variables >
+  let g:airline#extensions#bufferline#overwrite_variables = 1
+<
+-------------------------------------                       *airline-branch*
 fugitive.vim <https://github.com/tpope/vim-fugitive>
 lawrencium   <https://bitbucket.org/ludovicchabant/vim-lawrencium>
 
@@ -195,19 +224,19 @@ lawrencium   <https://bitbucket.org/ludovicchabant/vim-lawrencium>
 * change the text for when no branch is detected >
   let g:airline#extensions#branch#empty_message = ''
 <
-                                                         *airline-syntastic*
+-------------------------------------                    *airline-syntastic*
 syntastic <https://github.com/scrooloose/syntastic>
 
 * enable/disable syntastic integration >
   let g:airline#extensions#syntastic#enabled = 1
 <
-                                                            *airline-tagbar*
+-------------------------------------                       *airline-tagbar*
 tagbar <https://github.com/majutsushi/>
 
 * enable/disable tagbar integration >
   let g:airline#extensions#tagbar#enabled = 1
 <
-                                                               *airline-csv*
+-------------------------------------                          *airline-csv*
 csv.vim <https://github.com/chrisbra/csv.vim>
 
 * enable/disable csv integration for displaying the current column. >
@@ -217,11 +246,11 @@ csv.vim <https://github.com/chrisbra/csv.vim>
   let g:airline#extensions#csv#column_display = 'Number' (default)
   let g:airline#extensions#csv#column_display = 'Name'
 <
-                                                             *airline-hunks*
+-------------------------------------                        *airline-hunks*
 vim-gitgutter <https://github.com/airblade/vim-gitgutter>
 vim-signify <https://github.com/mhinz/vim-signify>
 
-* enable/disable showing a summary of changed hunks under source control.
+* enable/disable showing a summary of changed hunks under source control. >
   let g:airline#extensions#hunks#enabled = 1
 <
 * enable/disable showing only non-zero hunks. >
@@ -230,7 +259,23 @@ vim-signify <https://github.com/mhinz/vim-signify>
 * set hunk count symbols. >
   let g:airline#extensions#hunks#hunk_symbols = ['+', '~', '-']
 <
-                                                        *airline-whitespace*
+-------------------------------------                        *airline-ctrlp*
+ctrlp <https://github.com/kien/ctrlp.vim>
+
+* configure which mode colors should ctrlp window use (takes effect
+  only if the active airline theme doesn't define ctrlp colors) >
+  let g:airline#extensions#ctrlp#color_template = 'insert' (default)
+  let g:airline#extensions#ctrlp#color_template = 'normal'
+  let g:airline#extensions#ctrlp#color_template = 'visual'
+  let g:airline#extensions#ctrlp#color_template = 'replace'
+<
+-------------------------------------                   *airline-virtualenv*
+virtualenv <https://github.com/jmcantrell/vim-virtualenv>
+
+* enable/disable virtualenv integration >
+  let g:airline#extensions#virtualenv#enabled = 1
+<
+-------------------------------------                   *airline-whitespace*
 * enable/disable detection of whitespace errors. >
   let g:airline#extensions#whitespace#enabled = 1
 <
@@ -247,30 +292,82 @@ vim-signify <https://github.com/mhinz/vim-signify>
   let g:airline#extensions#whitespace#trailing_format = 'trailing[%s]'
   let g:airline#extensions#whitespace#mixed_indent_format = 'mixed-indent[%s]'
 <
-                                                             *airline-ctrlp*
-ctrlp <https://github.com/kien/ctrlp.vim>
-
-* configure which mode colors should ctrlp window use (takes effect
-  only if the active airline theme doesn't define ctrlp colors) >
-  let g:airline#extensions#ctrlp#color_template = 'insert' (default)
-  let g:airline#extensions#ctrlp#color_template = 'normal'
-  let g:airline#extensions#ctrlp#color_template = 'visual'
-  let g:airline#extensions#ctrlp#color_template = 'replace'
+-------------------------------------                      *airline-tabline*
+* enable/disable enhanced tabline. >
+  let g:airline#extensions#tabline#enabled = 0
 <
-                                                        *airline-virtualenv*
+* configure the formatting of filenames (see |filename-modifiers|). >
+  let g:airline#extensions#tabline#fnamemod = ':p:.'
+<
+* configure filename match rules to exclude from the tabline. >
+  let g:airline#extensions#tabline#excludes = []
+<
+Note: Enabling this extension will modify |showtabline| and |guioptions|.
 
-virtualenv <https://github.com/jmcantrell/vim-virtualenv>
+==============================================================================
+ADVANCED CUSTOMIZATION                      *airline-advanced-customization*
 
-* enable/disable virtualenv integration >
-  let g:airline#extensions#virtualenv#enabled = 1
+The defaults will accomodate the mass majority of users with minimal
+configuration. However, if you want to reposition sections or contents you can
+do so with built-in helper functions, which makes it possible to create
+sections in a more declarative style.
+
+-------------------------------------                        *airline-parts*
+A part is something that contains metadata that eventually gets rendered into
+the statusline. You can define parts that contain constant strings or
+functions. Defining parts is needed if you want to use features like automatic
+insertion of separators or hiding based on window width.
+
+For example, this is how you would define a part function: >
+  call airline#parts#define_function('foo', 'GetFooText')
+<
+Here is how you would define a part that is visible only if the window width
+greater than a minimum width. >
+  call airline#parts#define_minwidth('foo', 50)
+<
+Note: Part definitions are combinative; e.g. the two examples above modify the
+same `foo` part.
+
+Note: Look at the source code and tests for the full API.
+
+-------------------------------------                     *airline-sections*
+Once a part is defined, you can use helper functions to generate the
+statuslines for each section. For example, to use the part above, we could
+define a section like this: >
+  function! AirlineInit()
+    let g:airline_section_a = airline#section#create(['mode', ' ', 'foo'])
+    let g:airline_section_b = airline#section#create_left(['ffenc','file'])
+  endfunction
+  autocmd VimEnter * call AirlineInit()
+<
+This will create a section with the `mode`, followed by a space, and our `foo`
+part in section `a`. Section `b` will have two parts with a left-side
+separator. Have a look at the code/tests for all available options.
+
+Note: The use of `VimEnter` is important, because most extensions are lazily
+loaded, so we must give them a chance to define their parts before we can use
+them.
+
+Note: The `airline#section#create` function and friends will do its best to
+create a section with the appropriate separators, but it only works for
+function and text parts. Special |statusline| items like %f or raw parts will
+not work as it is not possible to inspect their widths/contents before
+rendering to the statusline.
 
 ==============================================================================
 FUNCREFS                                                  *airline-funcrefs*
 
 vim-airline internally uses funcrefs to integrate with third party plugins,
-and you can tap into this functionality to extend it for you needs.
+and you can tap into this functionality to extend it for you needs. This is
+the most powerful way to customize the statusline, and sometimes it may be
+easier to go this route than the above methods.
 
-                                                       *add_statusline_func*
+Every section can have two values. The default value is the global `g:`
+variable which is used in the absense of a `w:` value. This makes it very easy
+to override only certain parts of the statusline by only defining window-local
+variables for a subset of all sections.
+
+-------------------------------------                  *add_statusline_func*
 The following is an example of how you can extend vim-airline to support a
 new plugin. >
   function! MyPlugin(...)
@@ -283,7 +380,7 @@ new plugin. >
   endfunction
   call airline#add_statusline_func('MyPlugin')
 <
-                                                    *remove_statusline_func*
+-------------------------------------               *remove_statusline_func*
 You can also remove a function as well, which is useful for when you want a
 temporary override. >
   call airline#remove_statusline_func('MyPlugin')
@@ -293,23 +390,29 @@ temporary override. >
 PIPELINE                                                  *airline-pipeline*
 
 Sometimes you want to do more than just use overrides.  The statusline funcref
-is invoked and passed a bunch of arguments.  The first of these arguments is
-the statusline builder.  You can use this to build completely custom
-statuslines to your liking.  Here is an example: >
+is invoked and passed two arguments.  The first of these arguments is the
+statusline builder.  You can use this to build completely custom statuslines
+to your liking.  Here is an example: >
 >
   function! MyPlugin(...)
     " first variable is the statusline builder
     let builder = a:1
 
-    " build and set the statusline
     " WARNING: the API for the builder is not finalized and may change
     call builder.add_section('Normal', '%f')
     call builder.add_section('WarningMsg', '%{getcwd()}')
-    call setwinvar(winnr(), '&statusline', builder.build())
+    call builder.split()
+    call builder.add_section('airline_z', '%p%%')
 
-    return -1
+    " tell the core to use the contents of the builder
+    return 1
   endfunction
 <
+The above example uses various some example highlight groups to demonstrate
+that you can make any combination from the loaded colorscheme.  However, if
+you want colors to change between modes, you should use one of the section
+highlight groups, e.g. `airline_a` and `airline_b`.
+
 The second variable is the context, which is a dictionary containing various
 values such as whether the statusline is active or not, and the window number.
 >
@@ -318,8 +421,7 @@ values such as whether the statusline is active or not, and the window number.
     'active': 'whether the window is active or not',
   }
 <
-
-                                             *airline-pipeline-return-codes*
+-------------------------------------        *airline-pipeline-return-codes*
 The pipeline accepts various return codes and can be used to determine the
 next action.  The following are the supported codes: >
    0   the default, continue on with the next funcref
@@ -331,13 +433,6 @@ funcref from executing.
 
 ==============================================================================
 WRITING EXTENSIONS                              *airline-writing-extensions*
-
-The basic idea is that the statusline is rendered with a series of overrides.
-For each section that the algorithm encounters, it will first check to see if
-there is a window-local variable of the section.  If it exists, the value will
-be used, otherwise, the global variable of the section will be used.  This
-means it is possible to override only one or two sections of the statusline.
-See |add_statusline_func| for an example of a simple extension.
 
 For contributions into the plugin, here are the following guidelines:
 

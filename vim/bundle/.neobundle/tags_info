@@ -1,4 +1,5 @@
 YankRing.vim
+YouCompleteMe
 ag.vim
 badwolf
 ctrlp.vim
@@ -8,14 +9,11 @@ gitv
 gundo.vim
 harlequin
 html5.vim
-indentLine
 molokai
-neocomplete.vim
 nerdtree
 pgsql.vim
 syntastic
 tabular
-tern_for_vim
 ultisnips
 vim-airline
 vim-commentary
@@ -28,9 +26,11 @@ vim-javascript-syntax
 vim-luna
 vim-markdown
 vim-multiple-cursors
+vim-pentadactyl
 vim-rails
 vim-repeat
 vim-rspec
 vim-ruby
 vim-signature
+vim-startify
 vim-surround

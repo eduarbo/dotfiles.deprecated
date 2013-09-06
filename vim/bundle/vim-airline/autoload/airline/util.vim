@@ -1,6 +1,29 @@
 " MIT License. Copyright (c) 2013 Bailey Ling.
 " vim: et ts=2 sts=2 sw=2
 
+call airline#init#bootstrap()
+
+function! airline#util#wrap(text, minwidth)
+  if a:minwidth > 0 && winwidth(0) < a:minwidth
+    return ''
+  endif
+  return a:text
+endfunction
+
+function! airline#util#append(text, minwidth)
+  if a:minwidth > 0 && winwidth(0) < a:minwidth
+    return ''
+  endif
+  return empty(a:text) ? '' : '  '.g:airline_left_alt_sep.' '.a:text
+endfunction
+
+function! airline#util#prepend(text, minwidth)
+  if a:minwidth > 0 && winwidth(0) < a:minwidth
+    return ''
+  endif
+  return empty(a:text) ? '' : a:text.' '.g:airline_right_alt_sep.' '
+endfunction
+
 if v:version >= 704
   function! airline#util#getwinvar(winnr, key, def)
     return getwinvar(a:winnr, a:key, a:def)
