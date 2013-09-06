@@ -1031,7 +1031,7 @@ nnoremap <leader>. :CtrlPTag<cr>
 
 " }}}
 " Emmet {{{
-let g:user_emmet_leader_key = '<C-d>'
+let g:user_emmet_leader_key = '<C-a>'
 let g:use_emmet_complete_tag = 1
 " }}}
 " Fugitive {{{
