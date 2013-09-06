@@ -1,7 +1,8 @@
 !#include "/home/eduarbo/.colors/dotshare"
-#include "/home/eduarbo/.colors/rainbow"
-#include "/home/eduarbo/.colors/urxvt_fix"
+!#include "/home/eduarbo/.colors/rainbow"
+!#include "/home/eduarbo/.colors/urxvt_fix"
 
+XTerm*termName        : xterm-256color
 Xcursor.theme         : Vanilla-DMZ-AA
 
 *.charClass           :33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48,35:48,58:48,63:48,61:48,44:48,38:48,59:48
