@@ -14,7 +14,6 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 " }}}
 " Plugins ----------------------------------------------------------------- {{{
 NeoBundle 'bling/vim-airline'
-NeoBundle 'mhinz/vim-startify'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-endwise'
@@ -1109,31 +1108,6 @@ let NERDTreeMapJumpFirstChild = 'gK'
 let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<C-j>']
 let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>', '<C-k>']
 " }}}
-" Startify {{{
-
-let g:startify_enable_special = 0
-let g:startify_show_dir = 1
-let g:startify_show_files = 1
-let g:startify_show_sessions = 0
-let g:startify_bookmarks = [
-            \ '~/.vim/vimrc',
-            \ '~/.dotfiles/zsh/lib/alias.zsh',
-            \ '~/.dotfiles/zsh/zshrc.zsh',
-            \ '~/dev/switchfly/repos/dev/core-webapp/src/main/webapp/resources/encore',
-            \ ]
-
-let g:startify_custom_header = [
-            \ '                                 ________  __ __        ',
-            \ '            __                  /\_____  \/\ \\ \       ',
-            \ '    __  __ /\_\    ___ ___      \/___//''/''\ \ \\ \    ',
-            \ '   /\ \/\ \\/\ \ /'' __` __`\        /'' /''  \ \ \\ \_ ',
-            \ '   \ \ \_/ |\ \ \/\ \/\ \/\ \      /'' /''__  \ \__ ,__\',
-            \ '    \ \___/  \ \_\ \_\ \_\ \_\    /\_/ /\_\  \/_/\_\_/  ',
-            \ '     \/__/    \/_/\/_/\/_/\/_/    \//  \/_/     \/_/    ',
-            \ '',
-            \ '',
-            \ ]"
-" }}}
 " Syntastic {{{
 
 let g:syntastic_enable_signs = 1
@@ -1330,8 +1304,7 @@ endif
 
 " }}}
 " TODO {{{
-" * Rebuild README
 " * Create vim installer script
-" * Fix < and > mappings in normal mode
 " * Create a plugin to toggle between false and true with C-x and C-a.
+" * Add more customized snippets
 " }}}
