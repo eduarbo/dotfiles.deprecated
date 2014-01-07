@@ -20,7 +20,7 @@ endsnippet
 
 snippet sw "Switch statement"
 switch (${1:expression}) {
-  case '${3:case}':
+  case "${3:case}":
     ${4:// code}
     break;
   ${5}
@@ -30,7 +30,7 @@ switch (${1:expression}) {
 endsnippet
 
 snippet case "Case"
-case '${1:case}':
+case "${1:case}":
   ${2:// code}
   break;
 ${3}
@@ -44,8 +44,38 @@ function ${1:label}($2) {
 }
 endsnippet
 
-snippet ff "IIFE"
+snippet ff "Immediately-Invoked Function Expression (iife)"
 (function ($1) {
     ${VISUAL}$0
 }(${2:$1}));
+endsnippet
+
+# Mocha
+
+snippet be "before (js)"
+before(function () {
+	$0
+});
+endsnippet
+
+snippet af "after (js)"
+after(function () {
+	$0
+});
+endsnippet
+
+snippet des "Describe (js)"
+describe("${1:description}", function () {
+	$0
+});
+endsnippet
+
+snippet it "it (js)"
+it("${1:description}", function () {
+	$0
+});
+endsnippet
+
+snippet ex "expect (js)"
+expect(${1:target})$0;
 endsnippet

@@ -100,7 +100,7 @@ set laststatus=2                " Always show the status line
 set history=1000                " Store lots of :cmdline history
 set list                        " Hide invisible chars
 set listchars=tab:▸\ ,eol:↵,extends:↷,precedes:↶,trail:·
-set shell=/bin/bash\ --login
+set shell=/bin/zsh\ --login
 set lazyredraw                  " Do not redraw while running macros
 set matchtime=3                 " how many tenths of a second to blink
 set showbreak=↪
@@ -967,6 +967,7 @@ xmap <leader>c <Plug>Commentary
 
 augroup plugin_commentary
     au!
+    au FileType handlebars setlocal commentstring={{!\ %s\ }}
     au FileType htmldjango setlocal commentstring={#\ %s\ #}
     au FileType clojurescript setlocal commentstring=;\ %s
     au FileType puppet setlocal commentstring=#\ %s
@@ -1030,7 +1031,7 @@ nnoremap <leader>. :CtrlPTag<cr>
 
 " }}}
 " Emmet {{{
-let g:user_emmet_leader_key = '<C-a>'
+let g:user_emmet_leader_key = '<C-e>'
 let g:use_emmet_complete_tag = 1
 " }}}
 " Fugitive {{{
