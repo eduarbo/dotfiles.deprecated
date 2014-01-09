@@ -1,6 +1,16 @@
 *.swp
+*~
 .netrwhist
 .DS_Store
 vim/tmp/*
 vim/custom-dictionary.utf-8.add.spl
 node_modules
+
+# Emacs files
+*.elc
+.emacs.d/history
+.emacs.d/saveplace
+.emacs.d/elpa/
+.emacs.d/auto-save-list/
+.emacs.d/packages/
+.emacs.d/el-get/
