@@ -8,6 +8,9 @@ node_modules
 
 # Emacs files
 *.elc
+*#
+.#*
+!.#
 .emacs.d/history
 .emacs.d/saveplace
 .emacs.d/elpa/
