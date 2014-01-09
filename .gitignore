@@ -11,9 +11,10 @@ node_modules
 *#
 .#*
 !.#
-.emacs.d/history
-.emacs.d/saveplace
+.emacs.d/history/
+.emacs.d/saveplace/
 .emacs.d/elpa/
 .emacs.d/auto-save-list/
 .emacs.d/packages/
 .emacs.d/el-get/
+.emacs.d/backups/
