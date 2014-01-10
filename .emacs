@@ -22,15 +22,22 @@
 (setq el-get-packages
   '(el-get
     package
+    flycheck
+    key-chord
     nyan-mode
     expand-region
     smartparens
+    undo-tree
+    rainbow-delimiters
+    rainbow-mode
+    drag-stuff
     ))
 
 (el-get 'sync el-get-packages)
 
-;; General configurations
+;; General configurations ------------------------------------------------------------------------------- {{{
 
+(require 'functions)
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("ELPA"      . "http://tromey.com/elpa/"))
@@ -102,3 +109,63 @@
 (random t)
 
 (setq fill-column)
+
+;; Dired jump
+(require 'dired-x)
+
+;; enable erase-buffer command
+(put 'erase-buffer 'disabled nil)
+
+(delete-selection-mode +1)
+
+(electric-pair-mode +1)
+
+;; store all backup and autosave files in the tmp dir
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+;; }}}
+
+;; Hooks ------------------------------------------------------------------------------------------------ {{{
+
+;; Whitespace Cleanup
+(add-hook 'before-save-hook 'whitespace-cleanup)
+(add-hook 'makefile-mode-hook 'indent-tabs-mode)
+
+(add-hook 'prog-mode-hook 'subword-mode)
+
+;; }}}
+
+;; Mappings --------------------------------------------------------------------------------------------- {{{
+
+(global-set-key (kbd "M-o") 'smart-open-line)
+(global-set-key (kbd "M-O") 'smart-open-line-above)
+
+(global-set-key (kbd "C-^") 'top-join-line)
+
+;; remap C-a to `smarter-move-beginning-of-line'
+(global-set-key [remap move-beginning-of-line] 'smarter-move-beginning-of-line)
+
+;; Shortcut to instant access to .emacs init file
+(global-set-key (kbd "C-c E") 'find-user-init-file)
+
+;; Remmaping Kill Whole Line
+(global-set-key [remap kill-whole-line] 'smart-kill-whole-line)
+
+;; Go Back to Previous Window
+(global-set-key (kbd "C-x O") (lambda ()
+                                (interactive)
+                                (other-window -1)))
+
+(global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)
+
+;; {{{
+
+;; TODO ------------------------------------------------------------------------------------------------- {{{
+
+;; - Replace hook to get rid of whitespaces with ethan-wspace
+;; - Drag stuff is not being initialized
+
+;; }}}
