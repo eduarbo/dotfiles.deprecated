@@ -1,3 +1,9 @@
+Requirements
+============
+
+* Git (you don't say!)
+* textinfo (It's required by flycheck to compile some files)
+
 Bindings
 ========
 

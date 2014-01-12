@@ -1,0 +1,6 @@
+(:name monokai-theme
+       :description "Monokai theme. That's it!"
+       :type github
+       :pkgname "oneKelvinSmith/monokai-emacs"
+       :post-init (add-to-list 'custom-theme-load-path
+                               default-directory))
