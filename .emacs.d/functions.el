@@ -95,4 +95,29 @@ Repeated invocations toggle between the two most recently open buffers."
                       (point))))
         (comment-or-uncomment-region start end)))
 
+(defun kill-region-or-backward-word ()
+  (interactive)
+  (if (region-active-p)
+      (kill-region (region-beginning) (region-end))
+    (backward-kill-word 1)))
+
+(defun copy-to-end-of-line ()
+  (interactive)
+  (kill-ring-save (point)
+                  (line-end-position))
+  (message "Copied to end of line"))
+
+(defun copy-line (arg)
+  "Copy to end of line, or as many lines as prefix argument"
+  (interactive "P")
+  (if (null arg)
+      (copy-to-end-of-line)
+    (copy-whole-lines (prefix-numeric-value arg))))
+
+(defun save-region-or-current-line (arg)
+  (interactive "P")
+  (if (region-active-p)
+      (kill-ring-save (region-beginning) (region-end))
+    (copy-line arg)))
+
 (provide 'functions)

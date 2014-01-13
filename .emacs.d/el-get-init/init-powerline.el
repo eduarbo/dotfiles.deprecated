@@ -1,16 +1,12 @@
-(require 'powerline)
-
 (powerline-default-theme)
 
-;; colors...
-;;(setq powerline-color1 "#222")      ;; dark grey;
-;;(setq powerline-color2 "#444")      ;; slightly lighter grey
+(custom-set-variables
+ '(powerline-default-separator 'zigzag))
 
-;; Setup colors
-(setq powerline-color1 "#598559"
-      powerline-color2 "#383838")
-(set-face-foreground 'mode-line "#030303")
-(set-face-background 'mode-line "#f0dfaf")
-
-;; shape...
-(setq powerline-arrow-shape 'slate)
+(custom-set-faces
+ '(mode-line           ((t (:background "#69B7F0" :foreground "#30261C" :box nil))))
+ '(powerline-active1   ((t (:background "#403831" :foreground "#E7F3EF"))))
+ '(powerline-active2   ((t (:background "#30261C" :foreground "#E7F3EF"))))
+ '(mode-line-inactive  ((t (:background "#666666" :foreground "#333333" :box nil))))
+ '(powerline-inactive1 ((t (:background "#403831" :foreground "#AAAAAA"))))
+ '(powerline-inactive2 ((t (:background "#30261C" :foreground "#AAAAAA")))))

@@ -17,6 +17,11 @@ Bindings
 `C-/`                           Undo
 `C-?`                           Redo
 `C-u`                           Undo Tree Visualizer
+`C-'`                           Expand region
+`C-M-\`                         Indent Region or Buffer
+`C-h`                           Backspace
+`M-h`                           Delete word backwards
+`C-c SPC`                       Ace jump mode
 
 Key Chords
 ==========
