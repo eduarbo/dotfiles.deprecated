@@ -6,8 +6,7 @@ fi
 
 fpath=("$ZSH/plugins/completions/src" $fpath)
 
-# Load all of the config files in ~/oh-my-zsh that end in .zsh
-# TIP: Add files you don't want in git to .gitignore
+# Load all of the config files in the lib directroy that end in .zsh
 for config_file ($ZSH/lib/*.zsh); do
   source $config_file
 done
@@ -25,4 +24,4 @@ compinit -i
 # Portal FTW!
 print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f\n"
 
-source $HOME/.zshrc.local
+[[ -e "$HOME/.zshrc.local" ]] && source $HOME/.zshrc.local
