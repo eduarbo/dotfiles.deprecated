@@ -81,6 +81,7 @@
     powerline
     drag-stuff
     js2-mode
+    skewer-mode
     ))
 
 (el-get 'sync el-get-packages)
@@ -119,7 +120,7 @@
 ;;       `((".*" ,temporary-file-directory t)))
 
 ;; Fullscreen on startup
-(set-frame-parameter nil 'fullscreen 'fullboth)
+;(set-frame-parameter nil 'fullscreen 'fullboth)
 
 ;; }}}
 

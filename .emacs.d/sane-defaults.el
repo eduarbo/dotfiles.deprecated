@@ -121,10 +121,13 @@
     (dotimes (i 10)
       (when (= p (point)) ad-do-it))))
 
-;; Smooth scrolling
+;; Smooth scrolling. No more fucking jumps!
 (setq redisplay-dont-pause t
       scroll-step 1
-      scroll-conservatively 50
+      scroll-conservatively 10000
+      scroll-up-aggressively 0.01
+      scroll-down-aggressively 0.01
+      auto-window-vscroll nil
       scroll-margin 5
       scroll-up-margin 5)
 

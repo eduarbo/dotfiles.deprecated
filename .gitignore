@@ -12,6 +12,11 @@ vim/bundle
 *#
 .#*
 !.#
+.emacs.d/ac-comphist.dat
+.emacs.d/.places
+.emacs.d/.mc-lists*
+.emacs.d/history
+.emacs.d/eshell/
 .emacs.d/history/
 .emacs.d/saveplace/
 .emacs.d/elpa/
