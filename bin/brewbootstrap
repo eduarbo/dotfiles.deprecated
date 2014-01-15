@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 desired_formulae=(
 'coreutils' # GNU core utilities (those that come with OS X are outdated)
 'zsh'
@@ -8,6 +9,7 @@ desired_formulae=(
 'ack'
 'bash-completion'
 'jpeg'
+'emacs --cocoa'
 'macvim --override-system-vim'
 'node'
 'pngcrush'
