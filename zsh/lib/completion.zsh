@@ -1,3 +1,4 @@
+#!/bin/zsh
 #
 # Sets completion options.
 #

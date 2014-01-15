@@ -1,3 +1,4 @@
+#!/bin/zsh
 # Sets terminal window and tab titles.
 #
 # Authors:

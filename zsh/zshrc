@@ -21,6 +21,8 @@ source $ZSH/plugins/z/z.sh
 autoload -Uz compinit
 compinit -i
 
+set -o emacs
+
 # Portal FTW!
 print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f\n"
 

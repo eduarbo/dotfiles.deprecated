@@ -1,3 +1,4 @@
+#!/bin/zsh
 # Rbenv
 if [[ -s "$HOME/.rbenv/bin/rbenv" ]]; then
   path=("$HOME/.rbenv/bin" $path)

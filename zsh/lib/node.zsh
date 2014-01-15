@@ -1,3 +1,4 @@
+#!/bin/zsh
 # Loads the Node Version Manager and enables npm completion.
 
 # Load NVM into the shell session.

@@ -1,3 +1,4 @@
+#!/bin/zsh
 # Keep 9999 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=9999
 SAVEHIST=9999
