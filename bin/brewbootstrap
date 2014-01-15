@@ -2,6 +2,7 @@
 
 desired_formulae=(
 'coreutils' # GNU core utilities (those that come with OS X are outdated)
+'zsh'
 'bash'
 'git'
 'ack'
@@ -20,7 +21,6 @@ desired_formulae=(
 'tmux'
 'ffind'
 'the_silver_searcher'
-'bash-completion'
 'reattach-to-user-namespace'
 )
 
