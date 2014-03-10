@@ -23,6 +23,8 @@ alias eo='vim ~/Dropbox/Org'
 alias ek='vim ~/lib/dotfiles/keymando/keymandorc.rb'
 alias et='vim ~/.tmux.conf'
 alias eg='vim ~/.gitconfig'
+alias e='emacsclient -t'
+alias ec='emacsclient -c'
 
 alias r='rails'
 alias rg='rails g'
@@ -128,4 +130,15 @@ alias localip="ipconfig getifaddr en1"
 alias ips="ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)\|[a-fA-F0-9:]\+\)' | sed -e 's/inet6* //'"
 
 alias whois="whois -h whois-servers.net"
+
+# Empty the Trash on all mounted volumes and the main HDD
+# Also, clear Apple’s System Logs to improve shell startup speed
+alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
+
+# Copy my public key to my clipboard
+alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
+
+# Recursively delete `.DS_Store` files
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
 # }}}
