@@ -53,11 +53,143 @@
     -->
     <autogen>--KeyToKey-- KeyCode::SHIFT_L, ModifierFlag::SHIFT_R, KeyCode::KEY_0, ModifierFlag::SHIFT_L, KeyCode::KEY_9, ModifierFlag::SHIFT_L</autogen>
     <autogen>--KeyToKey-- KeyCode::SHIFT_R, ModifierFlag::SHIFT_L, KeyCode::KEY_9, ModifierFlag::SHIFT_L, KeyCode::KEY_0, ModifierFlag::SHIFT_L</autogen>
+  </item>
 
-    <!--
-        Remap Rshift+Space to ') ', because when typing an end paren and
-        then a space I tend to hit space before I let go of rshift.
-    -->
-    <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::SHIFT_R, KeyCode::KEY_0, ModifierFlag::SHIFT_L, KeyCode::SPACE</autogen>
+  <item>
+    <name>Switch Profile</name>
+    <identifier>private.switch_profile</identifier>
+    <autogen>__KeyToKey__ KeyCode::KEY_1, ModifierFlag::FN, KeyCode::VK_OPEN_URL_APP_KeyRemap4MacBook_Profile0</autogen>
+    <autogen>__KeyToKey__ KeyCode::KEY_2, ModifierFlag::FN, KeyCode::VK_OPEN_URL_APP_KeyRemap4MacBook_Profile1</autogen>
+    <autogen>__KeyToKey__ KeyCode::KEY_3, ModifierFlag::FN, KeyCode::VK_OPEN_URL_APP_KeyRemap4MacBook_Profile2</autogen>
+  </item>
+
+  <item>
+    <name>Change "hyper + bracket keys" to "move focus to previous/next tab in application".</name>
+    <identifier>private.hyper_to_command_shift_brackets</identifier>
+    <autogen>
+      __KeyToKey__
+      KeyCode::BRACKET_LEFT,
+      ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+      KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::BRACKET_RIGHT,
+      ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+      KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_R | ModifierFlag::SHIFT_R
+    </autogen>
+  </item>
+
+  <item>
+    <name>Remap Caps Lock to Delete</name>
+    <appendix>OS X doesn't have a Delete. This maps Caps lock (F19) to Delete.</appendix>
+    <appendix>You can use this key in your own custom keyboard shortcuts you create in apps.</appendix>
+
+    <identifier>private.f19_to_delete</identifier>
+
+    <autogen>
+      --KeyToKey--
+      KeyCode::F19,
+      KeyCode::DELETE
+    </autogen>
+  </item>
+
+  <item>
+    <name>Control_R to Fn (When you type Fn only, send Escape</name>
+    <identifier>private.fn_to_escape</identifier>
+    <autogen>
+      __KeyOverlaidModifier__
+      KeyCode::CONTROL_R,
+
+      KeyCode::FN,
+      KeyCode::ESCAPE
+    </autogen>
+  </item>
+
+  <item>
+    <name>Option keys to Control</name>
+    <appendix>(+ When you type Option_R only, send Bracket_Right</appendix>
+    <appendix>(+ When you type Option_L only, send Bracket_Left</appendix>
+
+    <identifier>remap.option_to_control_brackets</identifier>
+    <autogen>__KeyOverlaidModifier__ KeyCode::OPTION_L, KeyCode::CONTROL_L, KeyCode::BRACKET_LEFT</autogen>
+    <autogen>__KeyOverlaidModifier__ KeyCode::OPTION_R, KeyCode::CONTROL_R, KeyCode::BRACKET_RIGHT</autogen>
+  </item>
+
+  <item>
+    <name>Shift + Space to Hyper</name>
+    <appendix>(Shift + Space to Hyper</appendix>
+    <identifier>private.shift_space_to_Hyper</identifier>
+    <autogen>
+      __KeyToKey__
+      KeyCode::SPACE,
+      ModifierFlag::SHIFT_L,
+
+      KeyCode::COMMAND_L,
+      ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::SPACE,
+      ModifierFlag::SHIFT_R,
+
+      KeyCode::COMMAND_L,
+      ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L
+    </autogen>
+  </item>
+
+  <item>
+    <name>Hyper custom shortcuts</name>
+    <appendix>Adds shortcuts to arrow navigations to move with Hyper + HJKL</appendix>
+    <appendix>Shortcut to add a tilde with Hyper + Semicolon</appendix>
+    <appendix>Shortcut to add a N tilde with Hyper + N</appendix>
+
+    <identifier>private.f-zero</identifier>
+
+    <autogen>
+      __KeyToKey__
+      KeyCode::H,
+      ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+
+      KeyCode::CURSOR_LEFT
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::J,
+      ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+
+      KeyCode::CURSOR_DOWN
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::K,
+      ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+
+      KeyCode::CURSOR_UP
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::L,
+      ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+
+      KeyCode::CURSOR_RIGHT
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::SEMICOLON,
+      ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+
+      KeyCode::E,
+      ModifierFlag::OPTION_L
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::N,
+      ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+
+      KeyCode::N,
+      ModifierFlag::OPTION_L
+    </autogen>
+
   </item>
 </root>
