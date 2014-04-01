@@ -7,10 +7,21 @@ fi
 fpath=("$ZSH/plugins/completions/src" $fpath)
 
 # Load all of the config files in the lib directroy that end in .zsh
-for config_file ($ZSH/lib/*.zsh); do
-  source $config_file
-done
-unset config_file
+# for config_file ($ZSH/lib/*.zsh); do
+#   source $config_file
+# done
+# unset config_file
+
+source $ZSH/lib/alias.zsh
+source $ZSH/lib/environment.zsh
+source $ZSH/lib/git.zsh
+source $ZSH/lib/bindings.zsh
+source $ZSH/lib/history.zsh
+source $ZSH/lib/title.zsh
+source $ZSH/lib/spectrum.zsh
+source $ZSH/lib/completion.zsh
+source $ZSH/lib/prompt.zsh
+# source $ZSH/lib/ruby.zsh
 
 # Plugins
 source $ZSH/plugins/syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -24,6 +35,7 @@ compinit -i
 set -o emacs
 
 # Portal FTW!
-print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f\n"
+print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f"
 
 [[ -e "$HOME/.zshrc.local" ]] && source $HOME/.zshrc.local
+source $ZSH/lib/node.zsh

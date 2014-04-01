@@ -1,20 +1,102 @@
 #!/bin/zsh
-if [ $UID -eq 0 ]; then NCOLOR="red"; else NCOLOR="green"; fi
-local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
 
-PROMPT='%F{032}%~%f\
-$(git_prompt_info) \
-%F{214}%(!.#.%B%F{208}❱%f%F{214}❱%f%F{220}❱%f%b)%f '
+# Shows git branch and whether it's dirty using the fastest method available.
+# Command execution time will be displayed if it exceeds the set threshold.
+# Shows the current path in the title and the current directory and command when a process is running.
+# Nice Prompt
+#
+# For my own and others sanity
+# git:
+# %b => current branch
+# %a => current action (rebase/merge)
+# prompt:
+# %F => color dict
+# %f => reset color
+# %~ => current path
+# %* => time
+# %n => username
+# %m => shortname host
+# %(?..) => prompt conditional - %(condition.true.false)
 
-PROMPT2='%F{214}❱%f '
-RPS1='${return_code}'
+# turns seconds into human readable time
+# 165392 => 1d 21h 56m 32s
 
-RPROMPT='%F{208}※%f %F{246}%n at %B%m%b%f'
-
-# GIT_PROMPT_PREFIX="%F{214} ⭠ %f%F{148}"
-GIT_PROMPT_PREFIX="%F{214} on %f%F{148}"
-GIT_PROMPT_CLEAN=""
-GIT_PROMPT_DIRTY=""
+GIT_PROMPT_PREFIX="%F{214} on%f%F{148}"
 GIT_PROMPT_SUFFIX="%f"
-RUBY_PROMPT_PREFIX=""
-RUBY_PROMPT_SUFFIX=""
+
+prompt_human_time() {
+  local tmp=$1
+  local days=$(( tmp / 60 / 60 / 24 ))
+  local hours=$(( tmp / 60 / 60 % 24 ))
+  local minutes=$(( tmp / 60 % 60 ))
+  local seconds=$(( tmp % 60 ))
+  (( $days > 0 )) && echo -n "${days}d "
+  (( $hours > 0 )) && echo -n "${hours}h "
+  (( $minutes > 0 )) && echo -n "${minutes}m "
+  echo "${seconds}s"
+}
+
+# displays the exec time of the last command if set threshold was exceeded
+prompt_cmd_exec_time() {
+  local stop=$(date +%s)
+  local start=${cmd_timestamp:-$stop}
+  integer elapsed=$stop-$start
+  (($elapsed > ${PURE_CMD_MAX_EXEC_TIME:=5})) && prompt_human_time $elapsed
+}
+
+prompt_preexec() {
+  cmd_timestamp=$(date +%s)
+
+  # shows the current dir and executed command in the title when a process is active
+  print -Pn "\e]0;"
+  echo -nE "$PWD:t: $2"
+  print -Pn "\a"
+}
+
+# string length ignoring ansi escapes
+prompt_string_length() {
+  echo ${#${(S%%)1//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+}
+
+prompt_precmd() {
+  # shows the full path in the title
+  print -Pn '\e]0;%~\a'
+
+  # git info
+  vcs_info
+
+  local prompt_preprompt='\n%F{032}%~%f$(git_prompt_info) %F{242}`prompt_cmd_exec_time`%f'
+
+  print -P $prompt_preprompt
+  # reset value since `preexec` isn't always triggered
+  unset cmd_timestamp
+}
+
+prompt_setup() {
+  # prevent percentage showing up
+  # if output doesn't end with a newline
+  export PROMPT_EOL_MARK=''
+
+  prompt_opts=(cr subst percent)
+
+  autoload -Uz add-zsh-hook
+  autoload -Uz vcs_info
+
+  add-zsh-hook precmd prompt_precmd
+  add-zsh-hook preexec prompt_preexec
+
+  zstyle ':vcs_info:*' enable git
+  zstyle ':vcs_info:git*' formats ' %b'
+  zstyle ':vcs_info:git*' actionformats ' %b|%a'
+
+  local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
+
+  PROMPT='%F{214}%(!.#.%B%F{208}❱%f%F{214}❱%f%F{220}❱%f%b)%f '
+
+  PROMPT2='%F{214}❱%f '
+  RPS1='${return_code}'
+
+  RPROMPT='%F{208}※%f %F{246}%n at %B%m%b%f'
+}
+
+prompt_setup "$@"

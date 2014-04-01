@@ -35,7 +35,6 @@ alias rc='rails c'
 alias v='gvim'
 alias V='gvim .'
 
-alias n="node"
 alias upd="sudo apt-get update"
 alias install="sudo apt-get install"
 alias remove="sudo apt-get remove"
