@@ -30,6 +30,9 @@ NeoBundle 'godlygeek/tabular'
 NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'vim-scripts/YankRing.vim'
 NeoBundle 'rking/ag.vim'
+NeoBundle 'vim-scripts/SyntaxRange'
+NeoBundle 'tybenz/vimdeck'
+NeoBundle 'slim-template/vim-slim'
 
 " browse the vim undo tree
 NeoBundleLazy 'sjl/gundo.vim', { 'autoload' : {'commands': 'GundoToggle'}}
@@ -805,6 +808,7 @@ augroup ft_markdown
     au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=:redraw<cr>
     au Filetype markdown nnoremap <buffer> <localleader>2 yypVr-:redraw<cr>
     au Filetype markdown nnoremap <buffer> <localleader>3 mzI###<space>`zllll <ESC>
+    au Filetype markdown set nofoldenable    " disable folding"
 augroup END
 
 " }}}
@@ -1238,7 +1242,7 @@ if has('gui_running')
     " GUI Vim
 
     " set guifont=Menlo\ Regular\ for\ Powerline:h12
-    set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h10
+    set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h12
 
     " Remove all the UI cruft
     set go-=T                       " Hide the toolbar
