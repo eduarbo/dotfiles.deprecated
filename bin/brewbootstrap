@@ -9,7 +9,7 @@ desired_formulae=(
 'ack'
 'bash-completion'
 'jpeg'
-'emacs --cocoa'
+'emacs --HEAD --use-git-head --cocoa --srgb'
 'macvim --override-system-vim'
 'node'
 'pngcrush'
@@ -21,9 +21,12 @@ desired_formulae=(
 'libjpeg'
 'rename'
 'tmux'
-'ffind'
 'the_silver_searcher'
 'reattach-to-user-namespace'
+'rbenv ruby-build'
+'python --framework'
+'gtypist'
+'https://raw.github.com/Homebrew/homebrew-dupes/master/rsync.rb'
 )
 
 source ~/.dotfiles/lib/utils
