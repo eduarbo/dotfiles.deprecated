@@ -13,3 +13,9 @@
 /tmp/*
 /Volumes/*
 */.Trash
+/Users/*/Movies/*
+/Users/*/Music/*
+/Users/*/Pictures/*
+/Users/*/Downloads/*
+/Users/*/Dropbox/*
+/Users/*/Library/Mail/*

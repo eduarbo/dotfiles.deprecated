@@ -1,39 +1,42 @@
 #!/bin/sh
 
+# Ask for the administrator password upfront
+sudo -v
+
 # IMPORTANT: Make sure you update the `DST` variable to
 # match the name of the destination backup drive
 
 PROG=$0
-RSYNC="/usr/bin/rsync"
 SRC="/"
-DST="/Volumes/eduarbo backup/"
-EXCLUDE="$HOME/.dotfiles/backup_excludes.txt"
+DST="/Volumes/backup/"
+EXCLUDE="$HOME/.dotfiles/.backupignore"
 
-# -v increase verbosity
-# -a turns on archive mode (recursive copy + retain attributes)
-# -x don't cross device boundaries (ignore mounted volumes)
-# -S handles spare files efficiently
-# -H preserves hard-links
-# --extended-attributes preserves ACLs and Resource Forks
-# --delete deletes any files that have been deleted locally
-# --delete-excluded deletes any files (on DST) that are part of the list of excluded files
-# --exclude-from reference a list of files to exclude
+# -v                      increase verbosity
+# -a                      turns on archive mode (recursive copy + retain attributes)
+# -x                      don't cross device boundaries (ignore mounted volumes)
+# -S                      handles spare files efficiently
+# -H                      preserves hard-links
+# --acls                  update the destination ACLs to be the same as the source ACLs
+# --delete                delete any files that have been deleted locally
+# --delete-excluded       delete any files (on DST) that are part of the list of excluded files
+# --exclude-from          reference a list of files to exclude
+# --xattrs                update the remote extended attributes to be the same as the local ones
 
 if [ ! -r "$SRC" ]; then
-  /usr/bin/logger -t $PROG "Source $SRC not readable - Cannot start the sync process"
+  logger -t $PROG "Source $SRC not readable - Cannot start the sync process"
   exit;
 fi
 
 if [ ! -w "$DST" ]; then
-  /usr/bin/logger -t $PROG "Destination $DST not writeable - Cannot start the sync process"
+  logger -t $PROG "Destination $DST not writeable - Cannot start the sync process"
   exit;
 fi
 
-/usr/bin/logger -t $PROG "Start rsync"
+logger -t $PROG "Start rsync"
 
-sudo $RSYNC -vax -S -H --extended-attributes --delete --delete-excluded --exclude-from=$EXCLUDE "$SRC" "$DST"
+sudo rsync -vax -S -H --acls --delete --delete-excluded --exclude-from=$EXCLUDE "$SRC" "$DST"
 
-/usr/bin/logger -t $PROG "End rsync"
+logger -t $PROG "End rsync"
 
 # make the backup bootable - comment this out if needed
 sudo bless -folder "$DST"/System/Library/CoreServices
