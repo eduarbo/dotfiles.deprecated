@@ -8,3 +8,5 @@ if [[ -s "$HOME/.rbenv/bin/rbenv" ]]; then
 elif (( $+commands[rbenv] )); then
   eval "$(rbenv init - --no-rehash zsh)"
 fi
+
+export PATH=$HOME/.rbenv/shims:$PATH

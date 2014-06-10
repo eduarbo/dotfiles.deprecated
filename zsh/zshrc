@@ -21,7 +21,7 @@ source $ZSH/lib/title.zsh
 source $ZSH/lib/spectrum.zsh
 source $ZSH/lib/completion.zsh
 source $ZSH/lib/prompt.zsh
-# source $ZSH/lib/ruby.zsh
+source $ZSH/lib/ruby.zsh
 
 # Plugins
 source $ZSH/plugins/syntax-highlighting/zsh-syntax-highlighting.zsh

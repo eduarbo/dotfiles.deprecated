@@ -7,8 +7,8 @@ else # OS X `ls`
 fi
 
 # Shortcuts ---------------------------------------------------------------- {{{
-alias open='xdg-open'
-alias o='xdg-open'
+# alias open='xdg-open'
+alias o='open'
 alias scp='rsync --rsh=ssh -CarvP'
 alias top='top -o cpu'
 
@@ -32,8 +32,8 @@ alias rn='rails new'
 alias rs='rails s'
 alias rc='rails c'
 
-alias v='gvim'
-alias V='gvim .'
+alias v='mvim'
+alias V='mvim .'
 
 alias upd="sudo apt-get update"
 alias install="sudo apt-get install"
@@ -140,4 +140,5 @@ alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pa
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
+alias todo="vim ~/todo.md"
 # }}}
