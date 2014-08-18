@@ -141,4 +141,9 @@ alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pa
 alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
 alias todo="vim ~/todo.md"
+
+
+# Google translate cli aliases
+alias trse="trs {=es}"
+alias trsf="trs {=fr}"
 # }}}

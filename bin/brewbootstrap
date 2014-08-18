@@ -26,6 +26,7 @@ desired_formulae=(
 'rbenv ruby-build'
 'python --framework'
 'gtypist'
+'libtranslate-bin'
 'https://raw.github.com/Homebrew/homebrew-dupes/master/rsync.rb'
 )
 
