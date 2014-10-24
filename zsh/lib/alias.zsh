@@ -102,19 +102,45 @@ mount-dir-ro() {
 alias g='git'
 alias gs='git status'
 alias ga='git add'
+alias gt='git tag -n'                       # show tags with <n> lines of each tag message
+
 alias gc='git commit'
-alias gca='git commit -a'
-alias gco='git checkout'
-alias gd='git diff'
-alias gl='git log'
+alias gcm='git commit -m'
+alias gca='git commit -am'
+
+alias gco='git checkout'                    # checkout
+alias gnb='git checkout -b'                 # create and switch to a new branch (mnemonic: "git new branch branchname...")
+
+alias gd='git diff'                         # diff unstaged changes
+alias gdc='git diff --cached'               # diff staged changes
+
+alias gl="git log --color --date=short --pretty=format:'%C(auto)%h %Cgreen%cD %C(cyan)%cr %Cblue[%cn]%C(auto)%d%n%Creset%B'"
+alias glg="git log --color --graph --date=short --pretty=format:'%C(auto)%h %Cgreen%cD %C(cyan)%cr %Cblue[%cn]%C(auto)%d%n%Creset%B'"
+alias gll="git log --color --date=short --pretty=format:'%C(auto)%h %Cgreen%cr %Cblue[%cn]%C(auto) %d%Creset%s'"
+alias glm='git log --color --author="$(git config user.name)" --pretty=format:"%C(auto)%h %Cgreen%cr%Creset %s" --date=short'
+
 alias gb='git branch'
+alias gbb='git branch -v'
 alias gm='git merge'
-alias gg='git grep --color -n'
+alias gf='git fetch'
+alias gps='git push'
+alias gpl='git pull'
+alias grc='git rebase --continue'
+alias grs='git rebase --skip'
+alias gmt='git mergetool'                   # fire up the merge tool
+alias gfl='git log -u'                      # show changes to a file
+
+alias gg='git grep --break --heading --line-number'
 alias ggi='git grep -ni'
-alias gsa='git submodule add $argv=' end
-alias gll="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
-alias gt='git stash'
-alias gp='git stash apply'
+
+# stash
+alias gss='git stash'                       # stash changes
+alias gsa='git stash apply'                 # apply stash
+alias gsl='git stash list'                  # list stashes
+alias gsp='git stash pop'                   # pop stash
+alias gsd='git stash drop'                  # drop stashes
+
+alias gcp='git cherry-pick -x'              # grab a change from a branch
 
 # setopt nocompletealiases      # treat `gco` like `git checkout`
 # compdef _git tig=git-checkout # treat `tig` like `git checkout`

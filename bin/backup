@@ -4,6 +4,7 @@
 sudo -v
 
 REMOTE=""
+MEDIA=""
 DST_REMOTE="eduarbo@eduarbo.com:backup/osx"
 DST_MEDIA_REMOTE="eduarbo@eduarbo.com:backup/media"
 
@@ -34,6 +35,7 @@ do
   case "${option}"
     in
     r) REMOTE="true";;
+    m) MEDIA="true";;
   esac
 done
 
@@ -55,7 +57,7 @@ fi
 
 logger -t $PROG "Start rsync"
 
-if [ -w "$DST" ]; then
+if [ -w "$DST" && $MEDIA != "true" ]; then
   sudo rsync $OPTS $SRC $DST
 else
   M="Destination $DST not readable - Cannot sync files"

@@ -88,6 +88,7 @@ let mapleader = ","
 let maplocalleader = "\\"
 
 scriptencoding utf-8
+
 set encoding=utf-8
 set modeline
 set autoindent                  " Automatically set the indent of a new line (local to buffer)
@@ -119,6 +120,7 @@ set linebreak
 set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
 set pastetoggle=<F2>            " Use it for pasting large amounts of text into Vim, disabling all kinds of smartness and just pasting a whole buffer of text
+set lazyredraw
 
 if v:version > 702
     set norelativenumber            " It is much faster
@@ -963,6 +965,7 @@ nmap <Leader>x <Plug>ToggleAutoCloseMappings
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#branch#enabled = 1
+
 " }}}
 " Commentary {{{
 
@@ -1086,7 +1089,6 @@ let g:javascript_conceal = 1
 " NERD Tree {{{
 
 noremap  <leader>n :NERDTreeToggle<cr>
-inoremap <leader>n <esc>:NERDTreeToggle<cr>
 
 " Open the project tree and expose current file in the nerdtree with ,N
 nnoremap <Leader>N :NERDTreeFind<CR>
