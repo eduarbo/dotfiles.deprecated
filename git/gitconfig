@@ -25,6 +25,7 @@
 
   # diff
   last = diff HEAD^                 # diff last committed change
+  wdiff = diff --word-diff=plain
 
   # log
   changes = log --pretty=format:\"%C(auto)%h %Cgreen%cr %Cblue[%cn] %C(bold white)%s%Creset\" --name-status
