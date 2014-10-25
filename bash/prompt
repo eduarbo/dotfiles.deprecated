@@ -29,7 +29,7 @@ function prompt {
   local BOLD="\[\033[1m\]"
   local RESET="\[\033[0m\]"
 
-  export PS1="\n${YELLOW}${BOLD}⚡ ${GREEN}\w${CYAN}\$(__git_ps1 ' ⭠ %s') ${YELLOW}\$ ${RESET}"
+  export PS1="\n${BOLD}${GREEN}\w${YELLOW}\$(__git_ps1 ' on ${RESET}${YELLOW}%s') ${RESET}${YELLOW}❱${BOLD}${YELLOW}❱${GREEN}❱ ${RESET}"
 
   export PS2="${BOLD}${YELLOW}❯ ${RESET}"
 }

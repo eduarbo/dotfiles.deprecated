@@ -1,44 +1,96 @@
 #!/bin/bash
-
-DOTFILES=$HOME/.dotfiles
+DOT=$HOME/.dotfiles
 
 export PATH="\
-$HOME/bin:\
 /usr/local/bin:\
-/usr/local/share/python:\
-/usr/local/share/npm/bin:\
+$PATH:\
+$HOME/bin:\
 /usr/share:\
 $HOME/lib/sbt/bin:\
-$PATH:\
 "&>/dev/null
 
-# Load files
-files=(bash_functions bash_aliases bash_exports)
+_brew_prefix=$(brew --prefix)
+# Exports ------------------------------------------------------------------ {{{
+# Make vim the default editor
+export EDITOR="vim"
+export VISUAL=$EDITOR
 
-for file in ${files[@]}; do
-  file="$DOTFILES/bash/$file"
-  [ -e "$file" ] && source "$file"
-done
+export HISTFILE=~/.history
 
-# Choose prompt theme
-source "$DOTFILES/bash/prompt_minimalist"
+# Ignore duplicate commands in the history
+export HISTCONTROL=ignoredups:erasedups
 
-bind -f $DOTFILES/bash/bash_bindings
+# Increase the maximum number of lines contained in the history file
+# (default is 500)
+export HISTFILESIZE=500000
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
+# Increase the maximum number of commands to remember
+# (default is 500)
+export HISTSIZE=100000
+
+# Make some commands not show up in history
+export HISTIGNORE="l[sla]:rm:mv:mkdir:cd:[bf]g:exit:logout"
+
+# Don't clear the screen after quitting a manual page
+export MANPAGER="less -X"
+
+if hash brew 2>/dev/null; then
+  # Export PhantomJS bin location (be explicit in case Homebrew is not installed
+  # in the default location)
+  if [ -f $_brew_prefix/bin/phantomjs ]; then
+    export PHANTOMJS_BIN="$_brew_prefix/bin/phantomjs"
+  fi
+fi
+
+# Make new shells get the history lines from all previous
+# shells instead of the default "last window closed" history
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+# some settings to be more colorful
+export CLICOLOR=1
+export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
+export CLICOLOR=true
+export LSCOLORS=ExGxFxdxCxDxDxBxBxExEx
+
+export LESS="-R"
+[[ -z $DISPLAY ]] && export DISPLAY=":0.0"
+
+# set 256 color profile where possible
+if [[ $COLORTERM == gnome-* && $TERM == xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+    export TERM=gnome-256color
+elif infocmp xterm-256color >/dev/null 2>&1; then
+    export TERM=xterm-256color
+fi
+# }}}
+# Source ------------------------------------------------------------------- {{{
+if hash brew 2>/dev/null; then
+  if [ -f $_brew_prefix/etc/bash_completion ]; then
+    source $_brew_prefix/etc/bash_completion
+  fi
+fi
+
+source "$DOT/bash/aliases"
+source "$DOT/bash/prompt"
+# }}}
+# Options ------------------------------------------------------------------ {{{
+# Autocorrect typos in path names when using `cd`
+shopt -s cdspell
+
+# Check the window size after each command and, if necessary, update the values
+# of LINES and COLUMNS.
 shopt -s checkwinsize
-
-# Case-insensitive globbing (used in pathname expansion)
-shopt -s nocaseglob
 
 # append to the history file, don't overwrite it
 shopt -s histappend >/dev/null 2>&1
 
-# Autocorrect typos in path names when using `cd`
-shopt -s cdspell
+# Case-insensitive globbing (used in pathname expansion)
+shopt -s nocaseglob
 
-# no duplicates in bash history and ignore same sucessive entries. 
+# Node Completion - Auto-generated, do not touch.
+shopt -s progcomp
+# }}}
+# Customize to your needs -------------------------------------------------- {{{
+# no duplicates in bash history and ignore same sucessive entries.
 set match-hidden-files off
 set page-completions off
 set completion-query-items 350
@@ -53,17 +105,9 @@ done
 # Autocomplete for 'g' as well
 complete -o default -o nospace -F _git g
 
-# Customize to your needs...
+unset _brew_prefix;
 
-# {{{
-# Node Completion - Auto-generated, do not touch.
-shopt -s progcomp
-# for f in $(command ls ~/.node-completion); do
-#   f="$HOME/.node-completion/$f"
-#   test -f "$f" && . "$f"
-# done
+[[ -e "$HOME/.secrets" ]] && source $HOME/.secrets
+# Bash-specific
+[[ -e "$HOME/.bash_profile.local" ]] && source $HOME/.bash_profile.local
 # }}}
-
-source ~/dev/bash.switchfly/profile.bash
-
-[[ -s /home/eruiz/.nvm/nvm.sh ]] && . /home/eruiz/.nvm/nvm.sh # This loads NVM
