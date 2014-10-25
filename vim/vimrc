@@ -265,6 +265,9 @@ iabbrev lmis ಠ‿ಠ
 noremap  <F1> <ESC>
 inoremap <F1> <ESC>
 
+" Format File
+map <F8> mzgg=G'z
+
 " Stop it, hash key.
 inoremap # X<BS>#
 
@@ -919,7 +922,7 @@ augroup END
 " Autoload configuration when this file changes ($MYVIMRC)
 augroup myvimrc
   au!
-  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYVIMRC | endif
 augroup END
 " }}}
 " YAML {{{
