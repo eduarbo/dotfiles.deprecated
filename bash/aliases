@@ -111,6 +111,9 @@ alias loadtime="/usr/bin/time $SHELL -i -c exit"
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
+
+# Lists the ten most used commands.
+alias history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
 # }}}
 # Files & Directories ------------------------------------------------------ {{{
 alias -- -='cd -'

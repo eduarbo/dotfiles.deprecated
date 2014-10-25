@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 # get the name of the branch we are on
 function git_prompt_info() {
     # check if we're in a git repo

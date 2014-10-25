@@ -1,29 +1,86 @@
 DOT=$HOME/.dotfiles
-ZSH=$DOT/zsh
 
 if [ "$TERM" = "xterm" ]; then
   export TERM='xterm-256color'
 fi
 
-fpath=("$ZSH/plugins/completions/src" $fpath)
+fpath=("$DOT/zsh/plugins/completions/src" $fpath)
 
+# Source scripts ----------------------------------------------------------- {{{
 source $DOT/bash/aliases
-source $ZSH/lib/environment.zsh
-source $ZSH/lib/git.zsh
-source $ZSH/lib/bindings.zsh
-source $ZSH/lib/history.zsh
-source $ZSH/lib/title.zsh
-source $ZSH/lib/spectrum.zsh
-source $ZSH/lib/completion.zsh
-source $ZSH/lib/prompt.zsh
-source $ZSH/lib/node.zsh
-source $ZSH/lib/ruby.zsh
+source $DOT/bash/environment
+source $DOT/bash/git
+source $DOT/bash/title
+source $DOT/zsh/prompt
+# }}}
+# History ------------------------------------------------------------------ {{{
+# Keep 9999 lines of history within the shell and save it to ~/.zsh_history:
+HISTSIZE=9999
+SAVEHIST=9999
+HISTFILE=~/.zsh_history
 
-# Plugins
-source $ZSH/plugins/syntax-highlighting/zsh-syntax-highlighting.zsh
-source $ZSH/plugins/history-substring-search/zsh-history-substring-search.zsh
-source $ZSH/plugins/z/z.sh
+# setopt SHARE_HISTORY          # Shares history between all sessions
+setopt BANG_HIST              # Treats the ! character specially during expansion
+setopt EXTENDED_HISTORY       # Writes the history file in the :start:elapsed;command format
+setopt HIST_EXPIRE_DUPS_FIRST # Expires a duplicate event first when trimming history
+setopt HIST_EXPIRE_DUPS_FIRST # Expires a duplicate event first when trimming history
+setopt HIST_FIND_NO_DUPS      # Does not display a previously found event
+setopt HIST_IGNORE_ALL_DUPS   # Deletes an old recorded event if a new event is a duplicate
+setopt HIST_IGNORE_DUPS       # Does not record an event that was just recorded again
+setopt HIST_IGNORE_SPACE      # Does not record an event starting with a space
+setopt HIST_SAVE_NO_DUPS      # Does not write a duplicate event to the history file
+setopt HIST_VERIFY            # Does not execute immediately upon history expansion
+setopt INC_APPEND_HISTORY     # Writes to the history file immediately, not when the shell exits
+# }}}
+# Bindings ----------------------------------------------------------------- {{{
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+  function zle-line-init() {
+    echoti smkx
+  }
+  function zle-line-finish() {
+    echoti rmkx
+  }
+  zle -N zle-line-init
+  zle -N zle-line-finish
+fi
+# Use emacs keybindings even if our EDITOR is set to vi
+bindkey -e
 
+if test "${TERM#screen}" != "$TERM"; then
+  bindkey '^[[A' history-substring-search-up
+  bindkey '^[[B' history-substring-search-down
+fi
+
+if [[ "${terminfo[kcbt]}" != "" ]]; then
+  # [Shift-Tab] - move through the completion menu backwards
+  bindkey "${terminfo[kcbt]}" reverse-menu-complete
+fi
+
+if [[ "${terminfo[kcuu1]}" != "" ]]; then
+  # start typing + [Up-Arrow] - fuzzy find history forward
+  bindkey "${terminfo[kcuu1]}" up-line-or-search
+fi
+if [[ "${terminfo[kcud1]}" != "" ]]; then
+  # start typing + [Down-Arrow] - fuzzy find history backward
+  bindkey "${terminfo[kcud1]}" down-line-or-search
+fi
+
+# bind P and N for EMACS mode
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+
+# [Space] - do history expansion
+bindkey ' ' magic-space 
+# }}}
+# Plugins ------------------------------------------------------------------ {{{
+source $DOT/zsh/plugins/syntax-highlighting/zsh-syntax-highlighting.zsh
+source $DOT/zsh/plugins/history-substring-search/zsh-history-substring-search.zsh
+source $DOT/zsh/plugins/z/z.sh
+source $DOT/zsh/plugins/completion
+source $DOT/zsh/plugins/node
+source $DOT/zsh/plugins/ruby
+# }}}
+# Other stuff -------------------------------------------------------------- {{{
 # # Use modern completion system
 autoload -Uz compinit
 compinit -i
@@ -34,3 +91,4 @@ set -o emacs
 print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f"
 
 [[ -e "$HOME/.zshrc.local" ]] && source $HOME/.zshrc.local
+# }}}
