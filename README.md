@@ -21,6 +21,11 @@ However, *without* semantic support for C-family languages run:
     ./install.sh
 
 
+###Aliases
+
+There are nice aliases for git, ruby, shortcuts, files & directories and some
+OS-specific aliases (Linux and OSX).
+
 Credits
 -------
 Inspiration and code was taken from many sources, including:

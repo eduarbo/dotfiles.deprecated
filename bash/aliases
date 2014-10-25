@@ -1,14 +1,80 @@
-#!/bin/zsh
+#!/bin/bash
+
+# Setup -------------------------------------------------------------------- {{{
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
-	colorflag="--color"
+  _colorflag="--color"
 else # OS X `ls`
-	colorflag="-G"
+  _colorflag="-G"
 fi
 
+# Allow aliases to be with sudo
+alias sudo="sudo "
+
+### Get os name via uname ###
+_myos="$(uname)"
+# }}}
+# Linux aliases ------------------------------------------------------------ {{{
+if [ $_myos = "Linux" ]; then
+  # Variables with Linux-specific commands to be used in common aliases
+  _open='xdg-open'
+
+  ##########################
+  # Linux-specific aliases #
+  ##########################
+
+  alias update="sudo apt-get update"
+  alias install="sudo apt-get install"
+  alias remove="sudo apt-get remove"
+
+fi
+# }}}
+# OSX aliases -------------------------------------------------------------- {{{
+if [ $_myos = "Darwin" ]; then
+  # Variables with OSX-specific commands to be used in common aliases
+  _open='open'
+
+  ########################
+  # OSX-specific aliases #
+  ########################
+
+  # Empty the Trash on all mounted volumes and the main HDD
+  # Also, clear Apple’s System Logs to improve shell startup speed
+  alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
+
+  # JavaScriptCore REPL
+  _jscbin="/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc";
+  [ -e "${_jscbin}" ] && alias jsc="${_jscbin}";
+  unset _jscbin;
+
+  # Merge PDF files
+  # Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
+  _joinpy='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
+  [ -e "${_joinpy}" ] && alias mergepdf="${_joinpy}";
+
+  # Google translate cli aliases
+  alias trse="trs {=es}"
+  alias trsf="trs {=fr}"
+
+  # Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
+  alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update'
+
+  # Recursively delete `.DS_Store` files
+  alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
+  # Lock the screen (when going AFK)
+  alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+
+fi
+# }}}
 # Shortcuts ---------------------------------------------------------------- {{{
-# alias open='xdg-open'
-alias o='open'
+unset _myos;
+
+alias open="${_open}"
+alias o="${_open}"
+alias oo="${_open} ."
+unset _open;
+
 alias scp='rsync --rsh=ssh -CarvP'
 alias top='top -o cpu'
 
@@ -23,6 +89,7 @@ alias eo='vim ~/Dropbox/Org'
 alias ek='vim ~/lib/dotfiles/keymando/keymandorc.rb'
 alias et='vim ~/.tmux.conf'
 alias eg='vim ~/.gitconfig'
+alias todo="vim ~/todo.md"
 alias e='emacsclient -t'
 alias ec='emacsclient -c'
 
@@ -35,14 +102,16 @@ alias rc='rails c'
 alias v='mvim'
 alias V='mvim .'
 
-alias upd="sudo apt-get update"
-alias install="sudo apt-get install"
-alias remove="sudo apt-get remove"
-
 alias j="z"
 alias tm="tmux -u2"
 alias cl="clear"
 
+# Reload the sell and return the load time
+alias loadtime="/usr/bin/time $SHELL -i -c exit"
+
+# Reload the shell (i.e. invoke as a login shell)
+alias reload="exec $SHELL -l"
+# }}}
 # Files & Directories ------------------------------------------------------ {{{
 alias -- -='cd -'
 alias ..='cd ..'
@@ -50,16 +119,16 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
-alias l="ls -l ${colorflag}" # List all files colorized in long format
-alias la="ls -lA ${colorflag}" # List all files colorized in long format, including dot files
-alias lsd='ls -l ${colorflag} | grep "^d"' # List only directories
-alias ls="command ls -h ${colorflag}"
+alias l="ls -l ${_colorflag}" # List all files colorized in long format
+alias la="ls -lA ${_colorflag}" # List all files colorized in long format, including dot files
+alias lsd='ls -l ${_colorflag} | grep "^d"' # List only directories
+alias ls="command ls -h ${_colorflag}"
 alias lt='ls -ltr'
+unset _colorflag;
 
 alias md='mkdir -p'
 alias rd='rmdir'
 alias RM='rm -vrf'
-# alias rm='mv --target-directory ~/.local/share/Trash/files'
 
 duh() { # disk usage for humans
   test $# -eq 0 && set -- *
@@ -93,11 +162,10 @@ buc() { # undo backup copy
 }
 
 mount-dir-ro() {
-  sudo mount --bind "$@" &&
+sudo mount --bind "$@" &&
   sudo mount -o remount,ro,bind "$@"
 }
 # }}}
-
 # Git ---------------------------------------------------------------------- {{{
 alias g='git'
 alias gs='git status'
@@ -146,7 +214,6 @@ alias gcp='git cherry-pick -x'              # grab a change from a branch
 # compdef _git tig=git-checkout # treat `tig` like `git checkout`
 # compdef hub=git               # treat `hub` like `git`
 # }}}
-
 # Misc --------------------------------------------------------------------- {{{
 alias server='python -m SimpleHTTPServer'
 
@@ -156,20 +223,11 @@ alias ips="ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+
 
 alias whois="whois -h whois-servers.net"
 
-# Empty the Trash on all mounted volumes and the main HDD
-# Also, clear Apple’s System Logs to improve shell startup speed
-alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
-
 # Copy my public key to my clipboard
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
-# Recursively delete `.DS_Store` files
-alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+# Kill all the tabs in Chrome to free up memory
+# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
+alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
 
-alias todo="vim ~/todo.md"
-
-
-# Google translate cli aliases
-alias trse="trs {=es}"
-alias trsf="trs {=fr}"
 # }}}
