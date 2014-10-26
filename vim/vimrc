@@ -7,10 +7,18 @@
 filetype off
 
 if has('vim_starting')
-    set runtimepath+=~/.vim/neobundle.vim/
-endif
+   set nocompatible               " Be iMproved
 
-call neobundle#rc(expand('~/.vim/bundle/'))
+   " Required:
+   set runtimepath+=~/.vim/bundle/neobundle.vim/
+ endif
+
+" Required:
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
 " }}}
 " Plugins ----------------------------------------------------------------- {{{
 NeoBundle 'bling/vim-airline'
@@ -78,9 +86,13 @@ NeoBundleLazy 'skwp/vim-rspec', {'autoload':
             \ {'filetypes': ['ruby', 'rails']}}
 " }}}
 " }}}
+call neobundle#end()
 " Basic options ----------------------------------------------------------- {{{
 filetype plugin indent on
-set nocompatible
+
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
 
 inoremap jj <Esc> " Professor VIM says '87% of users prefer jj over esc', jj abrams disagrees
 
