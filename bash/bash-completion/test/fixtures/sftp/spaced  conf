@@ -1,6 +1,0 @@
-    UserKnownHostsFile known_hosts
-
-    # Unindented
-Host gee jar
-	# Indented, multiple hosts
-    HostName hus
