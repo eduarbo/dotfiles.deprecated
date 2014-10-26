@@ -1,7 +1,5 @@
 DOT=$HOME/.dotfiles
 
-fpath=("$DOT/zsh/plugins/completions/src" $fpath)
-
 # Options ------------------------------------------------------------------ {{{
 # Smart URLs
 autoload -Uz url-quote-magic
@@ -48,6 +46,7 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
 fi
 # }}}
 # Source scripts ----------------------------------------------------------- {{{
+source $DOT/bash/checks
 source $DOT/bash/aliases
 source $DOT/zsh/prompt
 # }}}
@@ -112,9 +111,16 @@ bindkey -M emacs '^N' history-substring-search-down
 bindkey ' ' magic-space 
 # }}}
 # Plugins ------------------------------------------------------------------ {{{
-source $DOT/zsh/plugins/syntax-highlighting/zsh-syntax-highlighting.zsh
-source $DOT/zsh/plugins/history-substring-search/zsh-history-substring-search.zsh
-source $DOT/zsh/plugins/z/z.sh
+if [ $HAS_BREW ]; then
+  _plugins=(
+  `brew --prefix`/etc/profile.d/z.sh
+  `brew --prefix`/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  `brew --prefix`/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
+  )
+  fpath=(`brew --prefix`/share/zsh-completions $fpath)
+  for plugin ($_plugins) [ -f $plugin ] && source $plugin
+  unset _plugins
+fi
 source $DOT/zsh/plugins/completion
 source $DOT/zsh/plugins/node
 source $DOT/zsh/plugins/title
