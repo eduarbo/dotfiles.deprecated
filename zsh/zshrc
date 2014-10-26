@@ -1,137 +1,15 @@
 DOT=$HOME/.dotfiles
 
-# Options ------------------------------------------------------------------ {{{
-# Smart URLs
-autoload -Uz url-quote-magic
-zle -N self-insert url-quote-magic
-
-setopt BRACE_CCL          # Allow brace character class list expansion.
-setopt COMBINING_CHARS    # Combine zero-length punctuation characters (accents)
-                          # with the base character.
-setopt RC_QUOTES          # Allow 'Henry''s Garage' instead of 'Henry'\''s Garage'.
-unsetopt MAIL_WARNING     # Don't print a warning message if a mail file has been accessed.
-
-setopt LONG_LIST_JOBS     # List jobs in the long format by default.
-setopt AUTO_RESUME        # Attempt to resume existing job before creating a new process.
-setopt NOTIFY             # Report status of background jobs immediately.
-unsetopt BG_NICE          # Don't run all background jobs at a lower priority.
-unsetopt HUP              # Don't kill jobs on shell exit.
-unsetopt CHECK_JOBS       # Don't report on jobs when shell exit.
-
-setopt auto_cd
-setopt cdablevarS
-setopt multios
-setopt prompt_subst
-setopt promptpercent
-setopt promptsubst
-unsetopt menu_complete   # do not autoselect the first completion entry
-unsetopt flowcontrol
-setopt auto_menu         # show completion menu on succesive tab press
-setopt complete_in_word
-setopt always_to_end
-
-zmodload -i zsh/complist
-
-# remove HEAD^ escaping madness
-unsetopt nomatch
-
-autoload colors; colors;
-export LSCOLORS="Gxfxcxdxbxegedabagacad"
-
-# set 256 color profile where possible
-if [[ $COLORTERM == gnome-* && $TERM == xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
-    export TERM=gnome-256color
-elif infocmp xterm-256color >/dev/null 2>&1; then
-    export TERM=xterm-256color
-fi
-# }}}
-# Source scripts ----------------------------------------------------------- {{{
-source $DOT/bash/checks
+source $DOT/lib/checks
 source $DOT/bash/aliases
+source $DOT/zsh/colors
+source $DOT/zsh/history
+source $DOT/zsh/options
+source $DOT/zsh/bindings
 source $DOT/zsh/prompt
-# }}}
-# History ------------------------------------------------------------------ {{{
-# Keep 9999 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=9999
-SAVEHIST=9999
-HISTFILE=~/.history
-
-# setopt SHARE_HISTORY          # Shares history between all sessions
-setopt BANG_HIST              # Treats the ! character specially during expansion
-# Commented to keep compatibility with bash histfile
-# setopt EXTENDED_HISTORY       # Writes the history file in the :start:elapsed;command format
-setopt HIST_EXPIRE_DUPS_FIRST # Expires a duplicate event first when trimming history
-setopt HIST_EXPIRE_DUPS_FIRST # Expires a duplicate event first when trimming history
-setopt HIST_FIND_NO_DUPS      # Does not display a previously found event
-setopt HIST_IGNORE_ALL_DUPS   # Deletes an old recorded event if a new event is a duplicate
-setopt HIST_IGNORE_DUPS       # Does not record an event that was just recorded again
-setopt HIST_IGNORE_SPACE      # Does not record an event starting with a space
-setopt HIST_SAVE_NO_DUPS      # Does not write a duplicate event to the history file
-setopt HIST_VERIFY            # Does not execute immediately upon history expansion
-setopt INC_APPEND_HISTORY     # Writes to the history file immediately, not when the shell exits
-# }}}
-# Bindings ----------------------------------------------------------------- {{{
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
-  function zle-line-init() {
-    echoti smkx
-  }
-  function zle-line-finish() {
-    echoti rmkx
-  }
-  zle -N zle-line-init
-  zle -N zle-line-finish
-fi
-# Use emacs keybindings even if our EDITOR is set to vi
-bindkey -e
-
-if test "${TERM#screen}" != "$TERM"; then
-  bindkey '^[[A' history-substring-search-up
-  bindkey '^[[B' history-substring-search-down
-fi
-
-if [[ "${terminfo[kcbt]}" != "" ]]; then
-  # [Shift-Tab] - move through the completion menu backwards
-  bindkey "${terminfo[kcbt]}" reverse-menu-complete
-fi
-
-if [[ "${terminfo[kcuu1]}" != "" ]]; then
-  # start typing + [Up-Arrow] - fuzzy find history forward
-  bindkey "${terminfo[kcuu1]}" up-line-or-search
-fi
-if [[ "${terminfo[kcud1]}" != "" ]]; then
-  # start typing + [Down-Arrow] - fuzzy find history backward
-  bindkey "${terminfo[kcud1]}" down-line-or-search
-fi
-
-# bind P and N for EMACS mode
-bindkey -M emacs '^P' history-substring-search-up
-bindkey -M emacs '^N' history-substring-search-down
-
-# [Space] - do history expansion
-bindkey ' ' magic-space 
-# }}}
-# Plugins ------------------------------------------------------------------ {{{
-if [ $HAS_BREW ]; then
-  _plugins=(
-  `brew --prefix`/etc/profile.d/z.sh
-  `brew --prefix`/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  `brew --prefix`/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
-  )
-  fpath=(`brew --prefix`/share/zsh-completions $fpath)
-  for plugin ($_plugins) [ -f $plugin ] && source $plugin
-  unset _plugins
-fi
-source $DOT/zsh/plugins/completion
-source $DOT/zsh/plugins/node
-source $DOT/zsh/plugins/title
-source $DOT/zsh/plugins/ruby
-# }}}
-# Other stuff -------------------------------------------------------------- {{{
-# # Use modern completion system
-autoload -Uz compinit
-compinit -i
-
-set -o emacs
+source $DOT/zsh/title
+source $DOT/zsh/plugins
+source $DOT/zsh/completion
 
 # Portal FTW!
 print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f"
@@ -139,4 +17,3 @@ print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f"
 [[ -e "$HOME/.secrets" ]] && source $HOME/.secrets
 # Zsh-specific
 [[ -e "$HOME/.zshrc.local" ]] && source $HOME/.zshrc.local
-# }}}

@@ -1,0 +1,24 @@
+#!/bin/zsh
+if [ $HAS_BREW ]; then
+  _brew_prefix="/usr/local"
+  fpath=($_brew_prefix/share/zsh-completions $fpath)
+  _files=(
+  $_brew_prefix/etc/profile.d/z.sh
+  $_brew_prefix/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  $_brew_prefix/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
+  )
+  for file ($_files) [ -f $file ] && source $file
+  unset _file _brew_prefix
+fi
+
+# Rbenv
+if [[ -s "$HOME/.rbenv/bin/rbenv" ]]; then
+  path=("$HOME/.rbenv/bin" $path)
+  eval "$(rbenv init - --no-rehash zsh)"
+
+# Load package manager installed rbenv into the shell session.
+elif (( $+commands[rbenv] )); then
+  eval "$(rbenv init - --no-rehash zsh)"
+fi
+
+export PATH=$HOME/.rbenv/shims:$PATH

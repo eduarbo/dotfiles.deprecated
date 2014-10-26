@@ -1,0 +1,39 @@
+#!/bin/zsh
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+  function zle-line-init() {
+    echoti smkx
+  }
+  function zle-line-finish() {
+    echoti rmkx
+  }
+  zle -N zle-line-init
+  zle -N zle-line-finish
+fi
+# Use emacs keybindings even if our EDITOR is set to vi
+bindkey -e
+
+if test "${TERM#screen}" != "$TERM"; then
+  bindkey '^[[A' history-substring-search-up
+  bindkey '^[[B' history-substring-search-down
+fi
+
+if [[ "${terminfo[kcbt]}" != "" ]]; then
+  # [Shift-Tab] - move through the completion menu backwards
+  bindkey "${terminfo[kcbt]}" reverse-menu-complete
+fi
+
+if [[ "${terminfo[kcuu1]}" != "" ]]; then
+  # start typing + [Up-Arrow] - fuzzy find history forward
+  bindkey "${terminfo[kcuu1]}" up-line-or-search
+fi
+if [[ "${terminfo[kcud1]}" != "" ]]; then
+  # start typing + [Down-Arrow] - fuzzy find history backward
+  bindkey "${terminfo[kcud1]}" down-line-or-search
+fi
+
+# bind P and N for EMACS mode
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+
+# [Space] - do history expansion
+bindkey ' ' magic-space 

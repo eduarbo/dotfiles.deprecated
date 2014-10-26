@@ -1,0 +1,46 @@
+#!/bin/zsh
+# Smart URLs
+autoload -Uz url-quote-magic
+zle -N self-insert url-quote-magic
+
+set -o emacs
+
+setopt BRACE_CCL          # Allow brace character class list expansion.
+setopt COMBINING_CHARS    # Combine zero-length punctuation characters (accents)
+                          # with the base character.
+setopt RC_QUOTES          # Allow 'Henry''s Garage' instead of 'Henry'\''s Garage'.
+unsetopt MAIL_WARNING     # Don't print a warning message if a mail file has been accessed.
+
+setopt LONG_LIST_JOBS     # List jobs in the long format by default.
+setopt AUTO_RESUME        # Attempt to resume existing job before creating a new process.
+setopt NOTIFY             # Report status of background jobs immediately.
+unsetopt BG_NICE          # Don't run all background jobs at a lower priority.
+unsetopt HUP              # Don't kill jobs on shell exit.
+unsetopt CHECK_JOBS       # Don't report on jobs when shell exit.
+
+setopt auto_cd
+setopt cdablevarS
+setopt multios
+setopt prompt_subst
+setopt promptpercent
+setopt promptsubst
+unsetopt menu_complete   # do not autoselect the first completion entry
+unsetopt flowcontrol
+setopt auto_menu         # show completion menu on succesive tab press
+setopt complete_in_word
+setopt always_to_end
+
+zmodload -i zsh/complist
+
+# remove HEAD^ escaping madness
+unsetopt nomatch
+
+autoload colors; colors;
+export LSCOLORS="Gxfxcxdxbxegedabagacad"
+
+# set 256 color profile where possible
+if [[ $COLORTERM == gnome-* && $TERM == xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+    export TERM=gnome-256color
+elif infocmp xterm-256color >/dev/null 2>&1; then
+    export TERM=xterm-256color
+fi
