@@ -1,0 +1,21 @@
+proc setup {} {
+    save_env
+}
+
+
+proc teardown {} {
+    assert_env_unmodified
+}
+
+
+setup
+
+
+set options {--wipe -s --start= -e --end= -q --quiet -h --help}
+assert_complete $options "arch -"
+
+
+sync_after_int
+
+
+teardown

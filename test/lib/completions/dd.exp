@@ -1,0 +1,33 @@
+proc setup {} {
+    save_env
+}
+
+
+proc teardown {} {
+    assert_env_unmodified
+}
+
+
+setup
+
+
+assert_complete_any "dd --"
+
+
+sync_after_int
+
+
+set test "option should be suffixed with ="
+set cmd "dd if"
+send "$cmd\t"
+expect -ex "$cmd"
+expect {
+    -re "^=$" { pass $test }
+    -re {^\\=$} { xfail $test }
+}
+
+
+sync_after_int
+
+
+teardown
