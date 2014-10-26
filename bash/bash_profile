@@ -1,6 +1,8 @@
 #!/bin/bash
 DOT=$HOME/.dotfiles
 
+source $DOT/lib/checks
+
 export PATH="\
 /usr/local/bin:\
 $PATH:\
@@ -9,7 +11,7 @@ $HOME/bin:\
 $HOME/lib/sbt/bin:\
 "&>/dev/null
 
-_brew_prefix=$(brew --prefix)
+_brew_prefix='/usr/local'
 # Exports ------------------------------------------------------------------ {{{
 # Make vim the default editor
 export EDITOR="vim"
@@ -34,7 +36,7 @@ export HISTIGNORE="l[sla]:rm:mv:mkdir:cd:[bf]g:exit:logout"
 # Don't clear the screen after quitting a manual page
 export MANPAGER="less -X"
 
-if hash brew 2>/dev/null; then
+if [[ $HAS_BREW ]]; then
   # Export PhantomJS bin location (be explicit in case Homebrew is not installed
   # in the default location)
   if [ -f $_brew_prefix/bin/phantomjs ]; then
@@ -63,10 +65,14 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
 fi
 # }}}
 # Source ------------------------------------------------------------------- {{{
-if hash brew 2>/dev/null; then
-  if [ -f $_brew_prefix/etc/bash_completion ]; then
-    source $_brew_prefix/etc/bash_completion
-  fi
+if [[ $HAS_BREW ]]; then
+  _files=(
+  $_brew_prefix/etc/bash_completion
+  )
+  for file in $_files; do
+    [[ -f $file ]] && source $file
+  done
+  unset _files
 fi
 
 source "$DOT/bash/aliases"
