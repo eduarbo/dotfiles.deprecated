@@ -14,8 +14,7 @@ git, coreutils and rsync. Later you can install the full list of packages with
 the commands `brewbootstrap` and `npmbootstrap`) simply run:
 
 ```bash
-$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)"
---minimal
+$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)" --minimal
 ```
 
 However, if you have enough time to do a full installation (Install all Homebrew
@@ -30,8 +29,7 @@ To install some common OSX Apps (listed below) in this step, just run this
 command instead:
 
 ```bash
-$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)
---with-apps"
+$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install) --with-apps"
 ```
 
 ###Vim plugins
