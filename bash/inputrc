@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 # inputrc
 
 # Use case-insensitive TAB autocompletion

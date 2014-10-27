@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Sets terminal window and tab titles.
 #
 # Authors:

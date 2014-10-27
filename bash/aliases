@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Setup -------------------------------------------------------------------- {{{
 # Detect which `ls` flavor is in use
