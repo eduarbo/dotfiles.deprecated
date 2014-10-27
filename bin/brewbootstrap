@@ -1,47 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-
-desired_formulae=(
-'coreutils' # GNU core utilities (those that come with OS X are outdated)
-'zsh'
-'bash'
-'git'
-'ack'
-'bash-completion'
-'jpeg'
-'emacs --HEAD --use-git-head --cocoa --srgb'
-'macvim --override-system-vim'
-'node'
-'pngcrush'
-'tree'
-'wget'
-'gist'
-'ctags'
-'webkit2png'
-'libjpeg'
-'rename'
-'tmux'
-'the_silver_searcher'
-'reattach-to-user-namespace'
-'rbenv ruby-build'
-'python --framework'
-'gtypist'
-'tig'
-'libtranslate-bin'
-'https://raw.github.com/Homebrew/homebrew-dupes/master/rsync.rb'
-)
-
-source ~/.dotfiles/lib/utils
+source "${HOME}/.dotfiles/lib/utils"
+cd
 
 # Check for Homebrew
-if ! type_exists 'brew'; then
-  echo
+if [[ ! -x `which brew` ]]; then
   e_error "Error: Homebrew not found."
   echo "Installing Homebrew..."
-  ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
+  # ruby -e "$(curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-if type_exists 'brew'; then
+if [[ -x `which brew` ]]; then
   e_header "Updating Homebrew..."
   # Use the latest version of Homebrew
   brew update
@@ -53,6 +22,31 @@ if type_exists 'brew'; then
   [[ $? ]] && e_success "Done"
 
   e_header "Checking status of desired Homebrew formulae..."
+
+  desired_formulae=(
+  'coreutils' # GNU core utilities (those that come with OS X are outdated)
+  'python --framework'
+  'git'
+  'zsh'
+  'bash'
+  'z'
+  'bash-completion'
+  'zsh-completions'
+  'macvim --override-system-vim'
+  'zsh-syntax-highlighting'
+  'zsh-history-substring-search'
+  'ack'
+  'the_silver_searcher'
+  'emacs --HEAD --use-git-head --cocoa --srgb'
+  'brew-cask'
+  'node'
+  'rbenv ruby-build'
+  'tmux'
+  'reattach-to-user-namespace' # tmux Copy & Paste
+  'tig'
+  'gtypist'
+  )
+
   for index in ${!desired_formulae[*]}
   do
     if ! formula_exists ${desired_formulae[$index]}; then
@@ -72,6 +66,15 @@ if type_exists 'brew'; then
     [[ $? ]] && e_success "Done"
   fi
 
+  # use latest rsync rather than out-dated OS X rsync
+  # install separately from the main formulae list to fix gh-19
+  if ! formula_exists rsync; then
+    # Store the name (and options) of every missing formula
+    brew install https://raw.github.com/Homebrew/homebrew-dupes/master/rsync.rb
+  fi
+
   # Remove outdated versions from the Cellar
-  # brew cleanup
+  brew cleanup
+  unset missing_formulae list_formulae desired_formulae
 fi
+
