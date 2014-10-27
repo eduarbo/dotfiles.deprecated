@@ -163,7 +163,7 @@ else
 fi
 
 # Reload shell
-reload
+source ${HOME}/.zshrc
 
 # Install OSX Apps
 if [[ ${_with_apps} ]]; then
