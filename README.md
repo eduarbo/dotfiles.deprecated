@@ -29,7 +29,7 @@ To install some common OSX Apps (listed below) in this step, just run this
 command instead:
 
 ```bash
-$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install) --with-apps"
+$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)" --with-apps
 ```
 
 ###Vim plugins
