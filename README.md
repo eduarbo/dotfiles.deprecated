@@ -13,33 +13,43 @@ To install with only the essential brew packages (Latest versions of bash, zsh,
 git, coreutils and rsync. Later you can install the full list of packages with
 the commands `brewbootstrap` and `npmbootstrap`) simply run:
 
-    $ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)"
-    --minimal
+```bash
+$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)"
+--minimal
+```
 
 However, if you have enough time to do a full installation (Install all Homebrew
 and Node packages listed below) run the same command without the `--minimal`
 parameter:
 
-    $ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)"
+```bash
+$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)"
+```
 
 To install some common OSX Apps (listed below) in this step, just run this
 command instead:
 
-    $ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)
-    --with-apps"
+```bash
+$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)
+--with-apps"
+```
 
 ###Vim plugins
 
 You will need to complie YCM.
 If you want semantic support for C-family languages run:
 
-    cd ~/.vim/bundle/YouCompleteMe
-    ./install.sh --clang-completer
+```bash
+cd ~/.vim/bundle/YouCompleteMe
+./install.sh --clang-completer
+```
 
 However, *without* semantic support for C-family languages run:
 
-    cd ~/.vim/bundle/YouCompleteMe
-    ./install.sh
+```bash
+cd ~/.vim/bundle/YouCompleteMe
+./install.sh
+```
 
 ###Aliases
 
