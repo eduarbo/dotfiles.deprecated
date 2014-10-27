@@ -1,0 +1,193 @@
+#!/usr/bin/env bash
+
+DOTFILES_DIRECTORY="${HOME}/.dotfiles"
+DOTFILES_TARBALL_PATH="https://github.com/eduarbo/dotfiles/tarball/master"
+DOTFILES_GIT_REMOTE="git@github.com:eduarbo/dotfiles.git"
+
+# If missing, download and extract the dotfiles repository
+if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
+  printf "$(tput setaf 7)Downloading dotfiles...\033[m\n"
+  mkdir ${DOTFILES_DIRECTORY}
+  # Get the tarball
+  curl -fsSLo ${HOME}/dotfiles.tar.gz ${DOTFILES_TARBALL_PATH}
+  # Extract to the dotfiles directory
+  tar -zxf ${HOME}/dotfiles.tar.gz --strip-components 1 -C ${DOTFILES_DIRECTORY}
+  # Remove the tarball
+  rm -rf ${HOME}/dotfiles.tar.gz
+fi
+
+cd ${DOTFILES_DIRECTORY}
+source ./lib/utils
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+
+cat <<EOT
+Usage: $(basename "$0") [options]
+
+Options:
+-h, --help           Print this help text
+--minimal            Minimal Installation: Install only essential brew packages
+--with-apps          Run caskbootstrap to install listed apps
+
+Copyright (c) Eduardo Ruiz
+Licensed under the MIT license.
+EOT
+
+  exit
+fi
+
+# Test for known flags
+for opt in $@
+do
+  case $opt in
+    --minimal) _minimal=true ;;
+    --with-apps) _with_apps=true ;;
+    -*|--*) e_warning "Warning: invalid option $opt" ;;
+  esac
+done
+
+# If missing, download and extract the dotfiles repository
+if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
+  printf "$(tput setaf 7)Downloading dotfiles...\033[m\n"
+  mkdir ${DOTFILES_DIRECTORY}
+  # Get the tarball
+  curl -fsSLo ${HOME}/dotfiles.tar.gz ${DOTFILES_TARBALL_PATH}
+  # Extract to the dotfiles directory
+  tar -zxf ${HOME}/dotfiles.tar.gz --strip-components 1 -C ${DOTFILES_DIRECTORY}
+  # Remove the tarball
+  rm -rf ${HOME}/dotfiles.tar.gz
+fi
+
+# Before relying on Homebrew, check that packages can be compiled
+if ! type_exists 'gcc'; then
+  e_error "The XCode Command Line Tools must be installed first."
+  printf "  Download them from: https://developer.apple.com/downloads\n"
+  printf "  Then run: `~/.dotfiles/install`\n"
+  exit 1
+fi
+
+# Check for Homebrew, Update and install Git if it's missing
+./bin/brewbootstrap --only-git
+
+# Initialize the git repository if it's missing
+if ! is_git_repo; then
+  e_header "Initializing git repository..."
+  git init
+  git remote add origin ${DOTFILES_GIT_REMOTE}
+  git fetch origin master
+  # Reset the index and working tree to the fetched HEAD
+  # (submodules are cloned in the subsequent sync step)
+  git reset --hard FETCH_HEAD
+  # Remove any untracked files
+  git clean -fd
+fi
+
+# sync with the remote repository
+e_header "Syncing dotfiles..."
+# Pull down the latest changes
+git pull --rebase origin master
+
+_link() {
+  # Force create/replace the symlink.
+  ln -fs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
+}
+
+_backup() {
+  if [ -e "${1}" ]; then
+    [ -e "${1}.old" ] rm -rf "${1}.old"
+    mv "${1}" "${1}.old"
+    printf "Moved \`${1}\` to \`${1}.old\`\n"
+  fi
+}
+
+_mirrorfiles() {
+  # Backup directories if they are already there.
+  _backup "${HOME}/.gitconfig"
+  _backup "${HOME}/.vim"
+  _backup "${HOME}/.emacs.d"
+
+  # Copy `.gitconfig`.
+  # Any global git commands in `~/.bash_profile.local` will be written to
+  # `.gitconfig`. This prevents them being committed to the repository.
+  rsync -avz --quiet ${DOTFILES_DIRECTORY}/git/gitconfig  ${HOME}/.gitconfig
+
+  # Create the necessary symbolic links between the `.dotfiles` and `HOME`
+  _link "zsh/zshrc"          ".zshrc"
+  _link "zsh/zshenv"         ".zshenv"
+  _link "bash/bashrc"        ".bashrc"
+  _link "bash/bash_profile"  ".bash_profile"
+  _link "bash/inputrc"       ".inputrc"
+  _link "git/gitattributes"  ".gitattributes"
+  _link "git/gitignore"      ".gitignore"
+  _link "vim"                ".vim"
+  _link "vim/gvimrc"         ".gvimrc"
+  _link "vim/vimrc"          ".vimrc"
+  _link "emacs.d"            ".emacs.d"
+  _link "jshintrc"           ".jshintrc"
+  _link "tmux.conf"          ".tmux.conf"
+  _link "bin/*"              "bin/"
+  # link "org.pqrs.KeyRemap4MacBook"      "Library/Preferences/org.pqrs.KeyRemap4MacBook"
+  # link "fish/config.fish"   ".config/fish/config.fish"
+
+  #Copy fonts to Fonts directory
+  rsync -avz --quiet ${DOTFILES}/fonts/*  ${HOME}/Library/Fonts
+
+  e_success "Dotfiles update complete!"
+}
+
+# Ask before potentially overwriting files
+seek_confirmation "Warning: This step may overwrite your existing dotfiles."
+
+if is_confirmed; then
+  _mirrorfiles
+  printf "Time to change your default shell to zsh!\n"
+  chsh -s `which zsh`
+  /usr/bin/env zsh
+  source ${HOME}/.zshrc
+else
+  printf "Aborting...\n"
+fi
+
+# Install and update packages
+if [[ ${_minimal} ]]; then
+  printf "Installing essential Homebrew packages...\n"
+  # Install Homebrew formulae
+  ./bin/brewbootstrap --no-update --minimal
+  printf "Skipped node and extra Hombrew packages installation.\n"
+else
+  printf "Installing complete Homebrew and node packages, this will take some time...\n"
+  # Install Homebrew formulae
+  ./bin/brewbootstrap --no-update
+  # Install Node packages
+  ./bin/npmbootstrap
+fi
+
+# Reload shell
+reload
+
+# Install OSX Apps
+if [[ ${_with_apps} ]]; then
+  printf "Installing Apps with Cask...\n"
+  ./bin/caskbootstrap
+else
+  printf "Skipped Apps installations.\n"
+fi
+
+# Ask before potentially overwriting OS X defaults
+seek_confirmation "Warning: This step may modify your OS X system defaults."
+
+if is_confirmed; then
+  ./bin/osxdefaults
+  e_success "OS X settings updated! You may need to restart."
+else
+  printf "Skipped OS X settings update.\n"
+fi
+
+e_success "AWESOME! We have finished it. Don't forget to run \`brew doctor\`. Enjoy! ಠ‿ಠ "
+
+if [[ ${_minimal} ]]; then
+  printf "You installed the minimal packages. To install the complete list of Homebrew packages run \`brewbootstrap\` and for the node packages run \`nodebootstrap\`\n"
+else
+if [[ ! ${_with_apps} ]]; then
+  printf "To install the listed Apps just run \`caskbootstrap\`\n"
+else

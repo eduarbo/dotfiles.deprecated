@@ -5,9 +5,30 @@ This is a collection of my configuration files under a Unix system.
 
 Installation
 ------------
-Coming soon...
+The installation step requires the XCode Command Line Tools and may overwrite
+existing dotfiles in your HOME, .vim and .emacs.d directories.
 
-###Plugins
+
+To install with only the essential brew packages (Latest versions of bash, zsh,
+git, coreutils and rsync. Later you can install the full list of packages with
+the commands `brewbootstrap` and `npmbootstrap`) simply run:
+
+    $ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)"
+    --minimal
+
+However, if you have enough time to do a full installation (Install all Homebrew
+and Node packages listed below) run the same command without the `--minimal`
+parameter:
+
+    $ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)"
+
+To install some common OSX Apps (listed below) in this step, just run this
+command instead:
+
+    $ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)
+    --with-apps"
+
+###Vim plugins
 
 You will need to complie YCM.
 If you want semantic support for C-family languages run:
@@ -20,7 +41,6 @@ However, *without* semantic support for C-family languages run:
     cd ~/.vim/bundle/YouCompleteMe
     ./install.sh
 
-
 ###Aliases
 
 There are nice aliases for git, ruby, shortcuts, files & directories and some
@@ -28,15 +48,14 @@ OS-specific aliases (Linux and OSX).
 
 Credits
 -------
-Inspiration and code was taken from many sources, including:
+Inspiration and some code was taken from many sources, including:
 
 * [@joedicastro](https://github.com/joedicastro/dotfiles)
 * [@necolas](https://github.com/necolas/dotfiles)
 * [@mathiasbynens](https://github.com/mathiasbynens/dotfiles)
 * [@sjl](https://bitbucket.org/sjl/dotfiles)
 
-Also, I would like to thank [@Framallo](https://github.com/framallo) for transmit me the passion for Vim :)
-
 TODO
 ----
-* Make .gitconfig more general. Get rid of my harcoded email and name
+* Make .gitconfig more general. Get rid of my harcoded email and name, maybe?
+* Make the installation script compatible with Linux
