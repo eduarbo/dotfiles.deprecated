@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+DOTFILES_DIRECTORY="${HOME}/.dotfiles"
+source ${DOTFILES_DIRECTORY}/lib/utils
+
+# List of Apps
+_apps=(
+'iterm2'
+'vlc'
+'transmission'
+'skype'
+'chrome'
+'dropbox'
+'firefox'
+'alfred'
+)
+
+# Check for cask
+if ! type_exists 'cask'; then
+  echo
+  e_error "Error: cask not found."
+
+  if ! type_exists 'brew'; then
+    e_error "You should install first Homebrew in order to install Cask"
+    exit
+  else
+    echo "Installing cask"
+    brew install brew-cask
+  fi
+fi
+
+if type_exists 'cask'; then
+  e_header "Installing Cask packages..."
+
+  # Install packages globally and quietly
+  npm install $_apps --global --quiet
+
+  [[ $? ]] && e_success "Done"
+fi
