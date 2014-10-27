@@ -1,59 +1,128 @@
 #!/usr/bin/env bash
+DOTFILES_DIRECTORY="${HOME}/.dotfiles"
+source "${DOTFILES_DIRECTORY}/lib/utils"
 
-source "${HOME}/.dotfiles/lib/utils"
-cd
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+
+cat <<EOT
+Usage: $(basename "$0") [options]
+
+Options:
+-h, --help      Print this help text
+--minimal       Install only essential packages
+--only-git      Only git is installed
+--no-update     Skip brew update
+
+Copyright (c) Eduardo Ruiz
+Licensed under the MIT license.
+EOT
+
+  exit
+fi
+
+# Test for known flags
+for opt in $@
+do
+  case $opt in
+    --minimal) _minimal=true ;;
+    --only-git) _only_git=true ;;
+    --no-update) _no_update=true ;;
+    -*|--*) e_warning "Warning: invalid option $opt" ;;
+  esac
+done
 
 # Check for Homebrew
 if [[ ! -x `which brew` ]]; then
   e_error "Error: Homebrew not found."
   echo "Installing Homebrew..."
-  # ruby -e "$(curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install)"
+  ruby -e "$(curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install)"
+  _no_update=true
+fi
+
+# Check for git
+if [[ ${_only_git} ]]; then
+  if ! type_exists 'git'; then
+    if [[ ! ${_no_update} ]]; then
+      e_header "Updating Homebrew..."
+      brew update
+      [[ $? ]] && e_success "Done"
+    fi
+    e_header "Installing Git..."
+    brew install git
+    [[ $? ]] && e_success "Done"
+  else
+    e_header "Git is already installed"
+  fi
+
+  exit 1
 fi
 
 if [[ -x `which brew` ]]; then
-  e_header "Updating Homebrew..."
-  # Use the latest version of Homebrew
-  brew update
-  [[ $? ]] && e_success "Done"
+  if [[ ! ${_no_update} ]]; then
+    e_header "Updating Homebrew..."
+    # Use the latest version of Homebrew
+    brew update
+    [[ $? ]] && e_success "Done"
 
-  e_header "Updating any existing Homebrew formulae..."
-  # Upgrade any already-installed formulae
-  brew upgrade
-  [[ $? ]] && e_success "Done"
+    e_header "Updating any existing Homebrew formulae..."
+    # Upgrade any already-installed formulae
+    brew upgrade
+    [[ $? ]] && e_success "Done"
+  fi
 
   e_header "Checking status of desired Homebrew formulae..."
 
-  desired_formulae=(
+  base_formulae=(
   'coreutils' # GNU core utilities (those that come with OS X are outdated)
-  'python --framework'
   'git'
-  'zsh'
   'bash'
-  'z'
   'bash-completion'
+  'zsh'
   'zsh-completions'
-  'macvim --override-system-vim'
   'zsh-syntax-highlighting'
   'zsh-history-substring-search'
+  'z'
+  )
+
+  extra_formulae=(
   'ack'
   'the_silver_searcher'
-  'emacs --HEAD --use-git-head --cocoa --srgb'
   'brew-cask'
+  'python --framework'
+  'macvim --override-system-vim'
   'node'
   'rbenv ruby-build'
   'tmux'
   'reattach-to-user-namespace' # tmux Copy & Paste
   'tig'
   'gtypist'
+  # 'emacs --HEAD --use-git-head --cocoa --srgb'
   )
 
-  for index in ${!desired_formulae[*]}
-  do
-    if ! formula_exists ${desired_formulae[$index]}; then
+  # TODO: Delete after test
+  if [[ ! ${_minimal} ]]; then
+    echo "No minimal"
+  else
+    echo "minimal"
+  fi
+    exit 1
+
+  for index in ${!base_formulae[*]}; do
+    if ! formula_exists ${base_formulae[$index]}; then
       # Store the name (and options) of every missing formula
-      missing_formulae=("${missing_formulae[@]}" "${desired_formulae[$index]}")
+      missing_formulae=("${missing_formulae[@]}" "${base_formulae[$index]}")
     fi
   done
+
+  # Conditionally add extra formulas
+  if [[ ! ${_minimal} ]]; then
+    for index in ${!extra_formulae[*]}; do
+      if ! formula_exists ${extra_formulae[$index]}; then
+        # Store the name (and options) of every missing formula
+        missing_formulae=("${missing_formulae[@]}" "${extra_formulae[$index]}")
+      fi
+    done
+  fi
 
   if [[ "$missing_formulae" ]]; then
     # Convert the array of missing formula into a list of space-separate strings
@@ -75,6 +144,6 @@ if [[ -x `which brew` ]]; then
 
   # Remove outdated versions from the Cellar
   brew cleanup
-  unset missing_formulae list_formulae desired_formulae
+  unset missing_formulae list_formulae base_formulae
 fi
 
