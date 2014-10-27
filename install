@@ -162,9 +162,6 @@ else
   ./bin/npmbootstrap
 fi
 
-# Reload shell
-source ${HOME}/.zshrc
-
 # Install OSX Apps
 if [[ ${_with_apps} ]]; then
   printf "Installing Apps with Cask...\n"
@@ -183,7 +180,7 @@ else
   printf "Skipped OS X settings update.\n"
 fi
 
-e_success "AWESOME! We have finished it. Don't forget to run \`brew doctor\`. Enjoy! ಠ‿ಠ "
+e_success "AWESOME! We have finished. Don't forget to run \`brew doctor\`. Enjoy! ಠ‿ಠ "
 
 if [[ ${_minimal} ]]; then
   printf "You installed the minimal packages. To install the complete list of Homebrew packages run \`brewbootstrap\` and for the node packages run \`nodebootstrap\`\n"
