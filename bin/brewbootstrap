@@ -99,14 +99,6 @@ if [[ -x `which brew` ]]; then
   # 'emacs --HEAD --use-git-head --cocoa --srgb'
   )
 
-  # TODO: Delete after test
-  if [[ ! ${_minimal} ]]; then
-    echo "No minimal"
-  else
-    echo "minimal"
-  fi
-    exit 1
-
   for index in ${!base_formulae[*]}; do
     if ! formula_exists ${base_formulae[$index]}; then
       # Store the name (and options) of every missing formula
