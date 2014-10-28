@@ -149,6 +149,7 @@ if [[ ${_minimal} ]]; then
   printf "Installing essential Homebrew packages...\n"
   # Install Homebrew formulae
   ./bin/brewbootstrap --no-update --minimal
+  e_success "Essential Homebrew packages installation complete!"
   printf "Skipped node and extra Hombrew packages installation.\n"
 else
   printf "Installing complete Homebrew and node packages, this will take some time...\n"
@@ -156,12 +157,14 @@ else
   ./bin/brewbootstrap --no-update
   # Install Node packages
   ./bin/npmbootstrap
+  e_success "Node & Homebrew packages installation complete!"
 fi
 
 # Install OSX Apps
 if [[ ${_with_apps} ]]; then
   printf "Installing Apps with Cask...\n"
   ./bin/caskbootstrap
+  e_success "OSX Apps installation complete!"
 else
   printf "Skipped Apps installations.\n"
 fi
@@ -177,11 +180,11 @@ else
 fi
 
 if [[ ${_minimal} ]]; then
-  e_header "You installed the minimal packages. To install the complete list of Homebrew packages run \`brewbootstrap\` and for the node packages run \`nodebootstrap\`"
+  e_warning "You installed the minimal packages. To install the complete list of Homebrew packages run \`brewbootstrap\` and for the node packages run \`nodebootstrap\`"
 fi
 
 if [[ ! ${_with_apps} ]]; then
-  e_header "To install the listed Apps just run \`caskbootstrap\`"
+  e_warning "If you want to install some common OSX Apps just run \`caskbootstrap\`"
 fi
 
 e_success "AWESOME! We have finished. It's time to change your default shell to ZSH. Don't forget to run \`brew doctor\`. Enjoy! ಠ‿ಠ"
