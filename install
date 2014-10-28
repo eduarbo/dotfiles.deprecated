@@ -93,8 +93,8 @@ _link() {
 }
 
 _backup() {
-  if [ -e "${1}" ]; then
-    [ -e "${1}.old" ] rm -rf "${1}.old"
+  if [[ -e "${1}" ]]; then
+    [[ -e "${1}.old" ]] && rm -rf "${1}.old"
     mv "${1}" "${1}.old"
     printf "Moved \`${1}\` to \`${1}.old\`\n"
   fi
