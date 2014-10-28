@@ -1,7 +1,8 @@
-My config files for Vim and Unix shell.
-=======================================
+My config files for Vim, bash, zsh and more in OSX
+==================================================
 
-This is a collection of my configuration files under a Unix system.
+This is a collection of my configuration files under OSX (I'm working to get the
+installation script working in Linux)
 
 Installation
 ------------
