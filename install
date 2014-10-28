@@ -140,10 +140,6 @@ seek_confirmation "Warning: This step may overwrite your existing dotfiles."
 
 if is_confirmed; then
   _mirrorfiles
-  printf "Time to change your default shell to zsh!\n"
-  chsh -s `which zsh`
-  /usr/bin/env zsh
-  source ${HOME}/.zshrc
 else
   printf "Aborting...\n"
 fi
@@ -180,11 +176,12 @@ else
   printf "Skipped OS X settings update.\n"
 fi
 
-e_success "AWESOME! We have finished. Don't forget to run \`brew doctor\`. Enjoy! ಠ‿ಠ "
-
 if [[ ${_minimal} ]]; then
-  printf "You installed the minimal packages. To install the complete list of Homebrew packages run \`brewbootstrap\` and for the node packages run \`nodebootstrap\`\n"
+  e_header "You installed the minimal packages. To install the complete list of Homebrew packages run \`brewbootstrap\` and for the node packages run \`nodebootstrap\`"
 else
 if [[ ! ${_with_apps} ]]; then
-  printf "To install the listed Apps just run \`caskbootstrap\`\n"
+  e_header "To install the listed Apps just run \`caskbootstrap\`"
 else
+
+e_success "AWESOME! We have finished. It's time to change your default shell to ZSH. Don't forget to run \`brew doctor\`. Enjoy! ಠ‿ಠ "
+chsh -s `which zsh`
