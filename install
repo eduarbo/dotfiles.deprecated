@@ -125,12 +125,14 @@ _mirrorfiles() {
   _link "emacs.d"            ".emacs.d"
   _link "jshintrc"           ".jshintrc"
   _link "tmux.conf"          ".tmux.conf"
-  _link "bin/*"              "bin/"
   # link "org.pqrs.KeyRemap4MacBook"      "Library/Preferences/org.pqrs.KeyRemap4MacBook"
   # link "fish/config.fish"   ".config/fish/config.fish"
 
+  # Link all binary files into ~/bin/ dir
+  ln -fs ${DOTFILES_DIRECTORY}/bin/* ${HOME}/bin/
+
   #Copy fonts to Fonts directory
-  rsync -avz --quiet ${DOTFILES}/fonts/*  ${HOME}/Library/Fonts
+  rsync -avz --quiet ${DOTFILES_DIRECTORY}/fonts/*  ${HOME}/Library/Fonts
 
   e_success "Dotfiles update complete!"
 }
@@ -149,7 +151,6 @@ if [[ ${_minimal} ]]; then
   printf "Installing essential Homebrew packages...\n"
   # Install Homebrew formulae
   ./bin/brewbootstrap --no-update --minimal
-  e_success "Essential Homebrew packages installation complete!"
   printf "Skipped node and extra Hombrew packages installation.\n"
 else
   printf "Installing complete Homebrew and node packages, this will take some time...\n"
@@ -157,7 +158,6 @@ else
   ./bin/brewbootstrap --no-update
   # Install Node packages
   ./bin/npmbootstrap
-  e_success "Node & Homebrew packages installation complete!"
 fi
 
 # Install OSX Apps
