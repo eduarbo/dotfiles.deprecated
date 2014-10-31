@@ -1,22 +1,35 @@
 #!/usr/bin/env bash
-
 DOTFILES_DIRECTORY="${HOME}/.dotfiles"
 source ${DOTFILES_DIRECTORY}/lib/utils
 
 # List of Apps
 _apps=(
 'iterm2'
+'alfred'
+'caffeine'
+'filezilla'
+'onepassword'
+'grandperspective'
+'jing'
+'karabiner'
+'seil'
+'spectacle'
+'spotify'
+'telegram'
+'the-unarchiver'
 'vlc'
+'steam'
+'calibre'
 'transmission'
 'skype'
-'chrome'
+'google-chrome'
 'dropbox'
 'firefox'
-'alfred'
+'adobe-reader'
 )
 
 # Check for cask
-if ! type_exists 'cask'; then
+if ! formula_exists 'brew-cask' >/dev/null; then
   echo
   e_error "Error: cask not found."
 
@@ -29,11 +42,13 @@ if ! type_exists 'cask'; then
   fi
 fi
 
-if type_exists 'cask'; then
+if formula_exists 'brew-cask' >/dev/null; then
   e_header "Installing Cask packages..."
 
-  # Install packages globally and quietly
-  npm install $_apps --global --quiet
+  # Install Apps
+  brew cask update
+  brew cask install ${_apps[@]}
+  brew cask cleanup
 
   [[ $? ]] && e_success "Done"
 fi
