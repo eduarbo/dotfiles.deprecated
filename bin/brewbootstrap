@@ -85,12 +85,12 @@ if [[ -x `which brew` ]]; then
   )
 
   extra_formulae=(
+  'ctags'
   'ack'
   'the_silver_searcher'
   'brew-cask'
   'python --framework'
   'macvim --override-system-vim'
-  'node'
   'rbenv ruby-build'
   'tmux'
   'reattach-to-user-namespace' # tmux Copy & Paste
