@@ -16,12 +16,13 @@ _myos="$(uname)"
 # }}}
 # Linux aliases ------------------------------------------------------------ {{{
 if [ $_myos = "Linux" ]; then
-  # Variables with Linux-specific commands to be used in common aliases
-  _open='xdg-open'
-
   ##########################
   # Linux-specific aliases #
   ##########################
+
+  alias open="xdg-open"
+  alias o="xdg-open"
+  alias oo="xdg-open ."
 
   alias update="sudo apt-get update"
   alias install="sudo apt-get install"
@@ -31,12 +32,13 @@ fi
 # }}}
 # OSX aliases -------------------------------------------------------------- {{{
 if [ $_myos = "Darwin" ]; then
-  # Variables with OSX-specific commands to be used in common aliases
-  _open='open'
-
   ########################
   # OSX-specific aliases #
   ########################
+
+  alias open="open"
+  alias o="open"
+  alias oo="open ."
 
   # Empty the Trash on all mounted volumes and the main HDD
   # Also, clear Apple’s System Logs to improve shell startup speed
@@ -73,11 +75,6 @@ fi
 # Shortcuts ---------------------------------------------------------------- {{{
 unset _myos;
 
-alias open="${_open}"
-alias o="${_open}"
-alias oo="${_open} ."
-unset _open;
-
 alias scp='rsync --rsh=ssh -CarvP'
 alias top='top -o cpu'
 
@@ -109,6 +106,8 @@ alias j="z"
 alias tm="tmux -u2"
 alias cl="clear"
 
+alias t="task"
+
 # Reload the sell and return the load time
 alias loadtime="/usr/bin/time $SHELL -i -c exit"
 
@@ -116,7 +115,7 @@ alias loadtime="/usr/bin/time $SHELL -i -c exit"
 alias reload="exec $SHELL -l"
 
 # Lists the ten most used commands.
-alias history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
+alias historystat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
 # }}}
 # Files & Directories ------------------------------------------------------ {{{
 alias -- -='cd -'
@@ -124,6 +123,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
 
 alias l="ls -l ${_colorflag}" # List all files colorized in long format
 alias la="ls -lA ${_colorflag}" # List all files colorized in long format, including dot files
@@ -186,6 +186,7 @@ alias gco='git checkout'                    # checkout
 alias gnb='git checkout -b'                 # create and switch to a new branch (mnemonic: "git new branch branchname...")
 
 alias gd='git diff'                         # diff unstaged changes
+alias gdt='git difftool'                    # Git difftool
 alias gdc='git diff --cached'               # diff staged changes
 
 alias gl="git log --color --date=short --pretty=format:'%C(auto)%h %Cgreen%cD %C(cyan)%cr %Cblue[%cn]%C(auto)%d%n%Creset%B'"
