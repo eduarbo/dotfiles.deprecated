@@ -125,6 +125,7 @@ _mirrorfiles() {
   _link "emacs.d"            ".emacs.d"
   _link "jshintrc"           ".jshintrc"
   _link "tmux.conf"          ".tmux.conf"
+  _link "ctags"              ".ctags"
   # link "org.pqrs.KeyRemap4MacBook"      "Library/Preferences/org.pqrs.KeyRemap4MacBook"
   # link "fish/config.fish"   ".config/fish/config.fish"
 
@@ -145,6 +146,10 @@ if is_confirmed; then
 else
   printf "Aborting...\n"
 fi
+
+# Configure vim plugins
+printf "Setting up YouCompleteMe vim plugin\n"
+bash ~/.vim/bundle/YouCompleteMe/install.sh --clang-completer
 
 # Install and update packages
 if [[ ${_minimal} ]]; then
