@@ -5,7 +5,8 @@
 vim/tmp/*
 vim/custom-dictionary.utf-8.add.spl
 node_modules
-vim/bundle
+vim/bundle/**
+vim/plugged/**
 
 # Emacs files
 *.elc
