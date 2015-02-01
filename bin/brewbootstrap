@@ -70,6 +70,8 @@ if [[ -x `which brew` ]]; then
     [[ $? ]] && e_success "Done"
   fi
 
+  brew tap homebrew/dupes
+
   e_header "Checking status of desired Homebrew formulae..."
 
   base_formulae=(
@@ -85,8 +87,11 @@ if [[ -x `which brew` ]]; then
   )
 
   extra_formulae=(
+  'gnutls --default-names' #required by Taskwarrior
+  'rsync --default-names'
   'ctags'
   'ack'
+  'openssl'
   'the_silver_searcher'
   'brew-cask'
   'python --framework'
@@ -94,7 +99,11 @@ if [[ -x `which brew` ]]; then
   'rbenv ruby-build'
   'tmux'
   'reattach-to-user-namespace' # tmux Copy & Paste
+  'task'
+  'vit'
   'tig'
+  'fortune'
+  'cowsay'
   'gtypist'
   # 'emacs --HEAD --use-git-head --cocoa --srgb'
   )
@@ -125,13 +134,6 @@ if [[ -x `which brew` ]]; then
     brew install $list_formulae
 
     [[ $? ]] && e_success "Done"
-  fi
-
-  # use latest rsync rather than out-dated OS X rsync
-  # install separately from the main formulae list to fix gh-19
-  if ! formula_exists rsync; then
-    # Store the name (and options) of every missing formula
-    brew install https://raw.github.com/Homebrew/homebrew-dupes/master/rsync.rb
   fi
 
   # Remove outdated versions from the Cellar

@@ -20,7 +20,7 @@ sudo pmset -a standbydelay 86400
 sudo nvram SystemAudioVolume=" "
 
 # Disable transparency in the menu bar and elsewhere on Yosemite
-defaults write com.apple.universalaccess reduceTransparency -bool true
+# defaults write com.apple.universalaccess reduceTransparency -bool true
 
 # Menu bar: hide the Time Machine, Volume, and User icons
 for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
@@ -532,14 +532,14 @@ sudo mdutil -E / > /dev/null
 defaults write com.apple.terminal StringEncodings -array 4
 
 # Use a modified version of the Solarized Dark theme by default in Terminal.app
-TERM_PROFILE='Solarized Dark xterm-256color';
-CURRENT_PROFILE="$(defaults read com.apple.terminal 'Default Window Settings')";
-if [ "${CURRENT_PROFILE}" != "${TERM_PROFILE}" ]; then
-	open "${HOME}/init/${TERM_PROFILE}.terminal";
-	sleep 1; # Wait a bit to make sure the theme is loaded
-	defaults write com.apple.terminal 'Default Window Settings' -string "${TERM_PROFILE}";
-	defaults write com.apple.terminal 'Startup Window Settings' -string "${TERM_PROFILE}";
-fi;
+# TERM_PROFILE='Solarized Dark xterm-256color';
+# CURRENT_PROFILE="$(defaults read com.apple.terminal 'Default Window Settings')";
+# if [ "${CURRENT_PROFILE}" != "${TERM_PROFILE}" ]; then
+# 	open "${HOME}/init/${TERM_PROFILE}.terminal";
+# 	sleep 1; # Wait a bit to make sure the theme is loaded
+# 	defaults write com.apple.terminal 'Default Window Settings' -string "${TERM_PROFILE}";
+# 	defaults write com.apple.terminal 'Startup Window Settings' -string "${TERM_PROFILE}";
+# fi;
 
 # Enable “focus follows mouse” for Terminal.app and all X11 apps
 # i.e. hover over a window and start typing in it without clicking first
