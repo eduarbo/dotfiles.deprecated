@@ -90,6 +90,7 @@ alias ek='vim ~/lib/dotfiles/keymando/keymandorc.rb'
 alias et='vim ~/.tmux.conf'
 alias eg='vim ~/.gitconfig'
 alias todo="vim ~/todo.md"
+alias vtp="vim ~/tp.md"
 alias e='emacsclient -t'
 alias ec='emacsclient -c'
 
@@ -105,8 +106,6 @@ alias V='mvim .'
 alias j="z"
 alias tm="tmux -u2"
 alias cl="clear"
-
-alias t="task"
 
 # Reload the sell and return the load time
 alias loadtime="/usr/bin/time $SHELL -i -c exit"
@@ -172,6 +171,10 @@ sudo mount --bind "$@" &&
   sudo mount -o remount,ro,bind "$@"
 }
 # }}}
+# Taskwarrior -------------------------------------------------------------- {{{
+alias t="task"
+alias ta="task add"
+# }}}
 # Git ---------------------------------------------------------------------- {{{
 alias g='git'
 alias gs='git status'
@@ -236,5 +239,4 @@ alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pa
 # Kill all the tabs in Chrome to free up memory
 # [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
 alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
-
 # }}}
