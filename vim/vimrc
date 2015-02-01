@@ -8,7 +8,7 @@ filetype off
 " Plugins ----------------------------------------------------------------- {{{
 call plug#begin()
 Plug 'tpope/vim-sensible'
-Plug 'bling/vim-airline'
+Plug 'itchyny/lightline.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
@@ -19,7 +19,6 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'kshenoy/vim-signature'
 Plug 'kien/ctrlp.vim'
 Plug 'SirVer/ultisnips'
-Plug 'tpope/vim-markdown'
 Plug 'godlygeek/tabular'
 Plug 'vim-scripts/YankRing.vim'
 Plug 'rking/ag.vim'
@@ -29,12 +28,15 @@ Plug 'slim-template/vim-slim'
 Plug 'majutsushi/tagbar'
 Plug 'farseer90718/vim-taskwarrior'
 Plug 'mhinz/vim-startify'
+Plug 'tpope/vim-markdown', {'for': 'markdown'}
 
 " NERD tree will be loaded on the first invocation of NERDTreeToggle command
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
 Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
+
+" Plug 'ervandew/eclim', {'build': {'mac': 'ant -Declipse.home=/opt/homebrew-cask/Caskroom/eclipse-java/4.4.0/eclipse -Dvim.files='.escape(expand('~/.bundle/eclim'), '')}}
 
 " browse the vim undo tree
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
@@ -709,12 +711,11 @@ augroup ft_java
     au FileType java nnoremap <silent> <buffer> <localleader>i :JavaImport<cr>
     au FileType java nnoremap <silent> <buffer> <localleader>d :JavaDocSearch -x declarations<cr>
     au FileType java nnoremap <silent> <buffer> <cr> :JavaSearchContext<cr>
-    au FileType java let g:EclimJavaSearchSingleResult = 'edit'
+    " au FileType java let g:EclimJavaSearchSingleResult = 'edit'
 
     au Filetype java map <buffer> <F8> :ProjectBuild
     au Filetype java map <buffer> <F9> :Java
     " au Filetype java map <buffer> <F10> :cnext<Return>
-    au FileType java NeoBundleSource eclim
 augroup END
 " }}}
 " Javascript {{{
@@ -750,7 +751,6 @@ augroup ft_markdown
 
     au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=markdown foldlevel=1
     au FileType markdown normal! zR
-    au FileType markdown NeoBundleSource vim-markdown
     au FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
 
     " Use <localleader>1/2/3 to add headings.
@@ -878,11 +878,6 @@ augroup END
 nnoremap <leader>a :Ag<space>
 let g:ackprg = 'ag --smart-case --nogroup --nocolor --column'
 " }}}
-" Airline {{{
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#syntastic#enabled = 1
-let g:airline#extensions#branch#enabled = 1
-" }}}
 " Commentary {{{
 nmap <leader>c <Plug>CommentaryLine
 xmap <leader>c <Plug>Commentary
@@ -992,6 +987,140 @@ let g:atia_attributes_complete = 0
 " Javascript {{{
 let g:javascript_conceal = 1
 " }}}
+" Lightline {{{
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+      \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+      \ },
+      \ 'component_function': {
+      \   'modified': 'MyModified',
+      \   'readonly': 'MyReadonly',
+      \   'fugitive': 'MyFugitive',
+      \   'filename': 'MyFilename',
+      \   'fileformat': 'MyFileformat',
+      \   'filetype': 'MyFiletype',
+      \   'fileencoding': 'MyFileencoding',
+      \   'mode': 'MyMode',
+      \   'ctrlpmark': 'CtrlPMark',
+      \ },
+      \ 'component_expand': {
+      \   'syntastic': 'SyntasticStatuslineFlag',
+      \ },
+      \ 'component_type': {
+      \   'syntastic': 'error',
+      \ },
+      \ 'separator': { 'left': '⮀', 'right': '⮂' },
+      \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+      \ }
+
+
+function! MyModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! MyReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+endfunction
+
+function! MyFilename()
+  let fname = expand('%:t')
+  return fname == 'ControlP' ? g:lightline.ctrlp_item :
+        \ fname == '__Tagbar__' ? g:lightline.fname :
+        \ fname =~ '__Gundo\|NERD_tree' ? '' :
+        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \ &ft == 'unite' ? unite#get_status_string() :
+        \ &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ ('' != fname ? fname : '[No Name]') .
+        \ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyFugitive()
+  try
+    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+      let mark = '⭠ '  " edit here for cool mark
+      let _ = fugitive#head()
+      return strlen(_) ? mark._ : ''
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! MyFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! MyFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! MyFileencoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyMode()
+  let fname = expand('%:t')
+  return fname == '__Tagbar__' ? 'Tagbar' :
+        \ fname == 'ControlP' ? 'CtrlP' :
+        \ fname == '__Gundo__' ? 'Gundo' :
+        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+        \ fname =~ 'NERD_tree' ? 'NERDTree' :
+        \ &ft == 'unite' ? 'Unite' :
+        \ &ft == 'vimfiler' ? 'VimFiler' :
+        \ &ft == 'vimshell' ? 'VimShell' :
+        \ winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+function! CtrlPMark()
+  if expand('%:t') =~ 'ControlP'
+    call lightline#link('iR'[g:lightline.ctrlp_regex])
+    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
+          \ , g:lightline.ctrlp_next], 0)
+  else
+    return ''
+  endif
+endfunction
+
+let g:ctrlp_status_func = {
+  \ 'main': 'CtrlPStatusFunc_1',
+  \ 'prog': 'CtrlPStatusFunc_2',
+  \ }
+
+function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
+  let g:lightline.ctrlp_regex = a:regex
+  let g:lightline.ctrlp_prev = a:prev
+  let g:lightline.ctrlp_item = a:item
+  let g:lightline.ctrlp_next = a:next
+  return lightline#statusline(0)
+endfunction
+
+function! CtrlPStatusFunc_2(str)
+  return lightline#statusline(0)
+endfunction
+
+let g:tagbar_status_func = 'TagbarStatusFunc'
+
+function! TagbarStatusFunc(current, sort, fname, ...) abort
+    let g:lightline.fname = a:fname
+  return lightline#statusline(0)
+endfunction
+
+augroup AutoSyntastic
+  autocmd!
+  autocmd BufWritePost *.c,*.cpp call s:syntastic()
+augroup END
+function! s:syntastic()
+  SyntasticCheck
+  call lightline#update()
+endfunction
+
+let g:unite_force_overwrite_statusline = 0
+let g:vimfiler_force_overwrite_statusline = 0
+let g:vimshell_force_overwrite_statusline = 0
+" }}}
 " NERD Tree {{{
 noremap  <leader>n :NERDTreeToggle<cr>
 
@@ -1021,7 +1150,7 @@ let g:startify_custom_header =
 
 let g:startify_bookmarks = [
       \ '~/.vim/vimrc',
-      \ '/data/vim/golfing',
+      \ '/.zshrc',
       \ ]
 
 let g:startify_custom_footer =
@@ -1098,7 +1227,7 @@ endfunction
 " YouCompleteMe {{{
 let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<C-j>']
 let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>', '<C-k>']
-let g:EclimCompletionMethod = 'omnifunc'
+" let g:EclimCompletionMethod = 'omnifunc'
 " }}}
 " }}}
 " Mini-plugins ------------------------------------------------------------ {{{
