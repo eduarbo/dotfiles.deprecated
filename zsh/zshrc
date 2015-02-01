@@ -11,6 +11,14 @@ source $DOT/zsh/title
 source $DOT/zsh/plugins
 source $DOT/zsh/completion
 
+export EDITOR='vim'
+export VISUAL=$EDITOR
+export PAGER='less'
+
+# force 256-color gruvbox palette
+# https://github.com/morhetz/gruvbox-generalized/tree/master/iterm2
+# ~/.vim/bundle/gruvbox/gruvbox_256palette_osx.sh
+
 # Portal FTW!
 print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f"
 
