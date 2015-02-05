@@ -28,10 +28,11 @@ Plug 'slim-template/vim-slim'
 Plug 'majutsushi/tagbar'
 Plug 'farseer90718/vim-taskwarrior'
 Plug 'mhinz/vim-startify'
+Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'tpope/vim-markdown', {'for': 'markdown'}
 
 " NERD tree will be loaded on the first invocation of NERDTreeToggle command
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'scrooloose/nerdtree'
 
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
 Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
@@ -490,8 +491,20 @@ set foldmethod=marker
 nnoremap <Space> za
 vnoremap <Space> za
 
-" "Refocus" folds
-nnoremap <leader>z zMzvzz
+" Zoom / Restore window.
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+nnoremap <silent> <leader>z :ZoomToggle<CR>
 
 " Make zO recursively open whatever top level fold we're in, no matter where the
 " cursor happens to be.
@@ -943,6 +956,7 @@ endif
 let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command, my_ctrlp_user_command]
 
 nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <leader>b :CtrlPBuffer<cr>
 " }}}
 " Emmet {{{
 let g:user_emmet_leader_key = '<C-g>'
@@ -1156,6 +1170,9 @@ let g:startify_bookmarks = [
 let g:startify_custom_footer =
       \ ['', "   Vim is charityware. Please read ':help uganda'.", '']
 
+" CtrlP and NERDTree open a split in Startify!!!
+autocmd User Startified setlocal buftype=
+
 " }}}
 " Syntastic {{{
 let g:syntastic_enable_signs = 1
@@ -1201,6 +1218,9 @@ let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-h>"
 
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
+" }}}
+" Vim-Go {{{
+let g:go_doc_keywordprg_enabled = 0
 " }}}
 " Vim-Notes {{{
 let g:notes_directories = ['~/Documents/Notes', '~/Dropbox/Notes']
