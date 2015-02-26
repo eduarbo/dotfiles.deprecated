@@ -7,40 +7,56 @@ filetype off
 " }}}
 " Plugins ----------------------------------------------------------------- {{{
 call plug#begin()
-Plug 'tpope/vim-sensible'
+" A light and configurable statusline/tabline for Vim. The lightweight version of Powerline
 Plug 'itchyny/lightline.vim'
-Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'kshenoy/vim-signature'
 Plug 'kien/ctrlp.vim'
 Plug 'SirVer/ultisnips'
-Plug 'godlygeek/tabular'
-Plug 'vim-scripts/YankRing.vim'
 Plug 'rking/ag.vim'
-Plug 'vim-scripts/SyntaxRange'
-Plug 'tybenz/vimdeck'
-Plug 'slim-template/vim-slim'
-Plug 'majutsushi/tagbar'
-Plug 'farseer90718/vim-taskwarrior'
 Plug 'mhinz/vim-startify'
-Plug 'fatih/vim-go', {'for': 'go'}
-Plug 'tpope/vim-markdown', {'for': 'markdown'}
+Plug 'bkad/CamelCaseMotion'
+Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
+Plug 'papanikge/vim-voogle'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'tpope/vim-unimpaired'
+Plug 'Yggdroot/indentLine'
+Plug 'Chiel92/vim-autoformat', {'do': 'npm install -g js-beautify'}
+
+" Provides insert mode auto-completion for quotes, parens, brackets, etc.
+Plug 'Raimondi/delimitMate'
+
+" Plug 'vim-scripts/SyntaxRange'
+Plug 'majutsushi/tagbar'
 
 " NERD tree will be loaded on the first invocation of NERDTreeToggle command
 Plug 'scrooloose/nerdtree'
 
+" Place, toggle and display marks
+Plug 'kshenoy/vim-signature'
+
+" Maintains a history of previous yanks, changes and deletes
+Plug 'vim-scripts/YankRing.vim'
+
+" Toggle the display of the quickfix list and the location-list.
+Plug 'Valloric/ListToggle'
+
+" Interactive command execution in Vim
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
-Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
+" Navigate files at the speed of Vim. Used by Ember.vim
+" Plug 'dsawardekar/portkey'
 
-" Plug 'ervandew/eclim', {'build': {'mac': 'ant -Declipse.home=/opt/homebrew-cask/Caskroom/eclipse-java/4.4.0/eclipse -Dvim.files='.escape(expand('~/.bundle/eclim'), '')}}
-
-" browse the vim undo tree
+" Browse the vim undo tree
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
+
+Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'tpope/vim-markdown', {'for': 'markdown'}
+Plug 'elzr/vim-json', {'for': 'json'}
+Plug 'nono/vim-handlebars', {'for': 'handlebars'}
 
 " SQL {{{
 Plug 'exu/pgsql.vim', {'for': 'pgsql'}
@@ -57,11 +73,14 @@ Plug 'chriskempson/vim-tomorrow-theme'
 " }}}
 " Git {{{
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 " }}}
 " Javascript {{{
-Plug 'pangloss/vim-javascript', {'for': ['javascript', 'haml']}
-Plug 'jelera/vim-javascript-syntax', {'for': ['javascript', 'haml']}
-Plug 'nono/vim-handlebars', {'for': 'handlebars'}
+Plug 'jelera/vim-javascript-syntax', {'for': 'javascript'}
+Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
+" Plug 'pangloss/vim-javascript', {'for': ['javascript', 'haml']}
+" Plug 'dsawardekar/ember.vim', {'for': 'javascript'}
+" Plug 'marijnh/tern_for_vim', {'for': 'javascript', 'do': '~/.vim/plugged/tern_for_vim && npm install'}
 " }}}
 " Ruby {{{
 Plug 'vim-ruby/vim-ruby', {'for': ['ruby', 'rails']}
@@ -113,6 +132,8 @@ set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
 set pastetoggle=<F2>            " Use it for pasting large amounts of text into Vim, disabling all kinds of smartness and just pasting a whole buffer of text
 set lazyredraw
+set ssop-=options    " do not store global and local values in a session
+set ssop-=folds      " do not store folds
 
 if v:version > 702
     set norelativenumber            " It is much faster
@@ -183,8 +204,12 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 set wrap
-set textwidth=80
+set textwidth=120
 set formatoptions=qrn1
+
+if v:version > 703 || v:version == 703 && has("patch541")
+    set formatoptions+=j " Delete comment character when joining commented lines
+endif
 " }}}
 " Backups {{{
 set backup                        " enable backups
@@ -246,8 +271,8 @@ inoremap # X<BS>#
 nnoremap K :q<cr>
 
 " Sort lines
-nnoremap <leader>s vip:!sort<cr>
-vnoremap <leader>s :!sort<cr>
+nnoremap <leader>S vip:!sort<cr>
+vnoremap <leader>S :!sort<cr>
 
 " Tabs
 nnoremap <C-(> :tabprev<cr>
@@ -268,14 +293,6 @@ nnoremap ; :
 
 " Use c-\ to do c-] but open it in a new split.
 nnoremap <c-\> <c-w>v<c-]>zvzz
-
-" Move lines
-nnoremap <A-j> :m .+1<CR>==
-nnoremap <A-k> :m .-2<CR>==
-inoremap <A-j> <Esc>:m .+1<CR>==gi
-inoremap <A-k> <Esc>:m .-2<CR>==gi
-vnoremap <A-j> :m '>+1<CR>gv=gv
-vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " Insert New Line
 nnoremap <S-Enter> O<ESC> " awesome, inserts new line without going into insert mode
@@ -724,7 +741,6 @@ augroup ft_java
     au FileType java nnoremap <silent> <buffer> <localleader>i :JavaImport<cr>
     au FileType java nnoremap <silent> <buffer> <localleader>d :JavaDocSearch -x declarations<cr>
     au FileType java nnoremap <silent> <buffer> <cr> :JavaSearchContext<cr>
-    " au FileType java let g:EclimJavaSearchSingleResult = 'edit'
 
     au Filetype java map <buffer> <F8> :ProjectBuild
     au Filetype java map <buffer> <F9> :Java
@@ -734,10 +750,9 @@ augroup END
 " Javascript {{{
 augroup ft_javascript
     au!
-
-    au BufNewFile,BufRead jshintrc setlocal filetype=javascript
-    au FileType javascript setlocal foldmethod=marker
-    au FileType javascript setlocal foldmarker={,}
+    " au FileType javascript setlocal foldmethod=marker
+    " au FileType javascript setlocal foldmarker={,}
+    au FileType javascript call JavaScriptFold()
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
     au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     au FileType javascript setlocal shiftwidth=4 softtabstop=4 tabstop=4
@@ -749,12 +764,16 @@ augroup ft_javascript
 augroup END
 " }}}
 " JSON {{{
-autocmd BufNewFile,BufRead *.json set ft=javascript
+autocmd! BufRead,BufNewFile *.json set filetype=json
+autocmd BufNewFile,BufRead .jshintrc setlocal filetype=json
 
 augroup json_autocmd
     autocmd!
+    autocmd FileType json set autoindent
     autocmd FileType json set formatoptions=tcq2l
     autocmd FileType json set shiftwidth=2 softtabstop=2 tabstop=8
+    autocmd FileType json set foldmethod=syntax
+    autocmd FileType json set expandtab
     autocmd BufNewFile,BufRead *.json normal zR
 augroup END
 " }}}
@@ -858,12 +877,15 @@ augroup ft_vim
 augroup END
 " }}}
 " Vimrc {{{
-" Autoload configuration when this file changes ($MYVIMRC)
 augroup myvimrc
     au!
-    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYVIMRC | endif
-    augroup END
-    " }}}
+    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC |
+                \ if has('gui_running') |
+                \   so $MYVIMRC |
+                \ endif
+augroup END
+" Autoload configuration when this file changes ($MYVIMRC)
+" }}}
 " YAML {{{
 augroup ft_yaml
     au!
@@ -890,6 +912,30 @@ augroup END
 " Ag {{{
 nnoremap <leader>a :Ag<space>
 let g:ackprg = 'ag --smart-case --nogroup --nocolor --column'
+" }}}
+" Autoformat {{{
+noremap <leader>f :Autoformat<CR><CR>
+" }}}
+" CamelCaseMotion {{{
+map <S-W> <Plug>CamelCaseMotion_w
+map <S-B> <Plug>CamelCaseMotion_b
+map <S-E> <Plug>CamelCaseMotion_e
+
+" Replace the default 'w', 'b' and 'e' mappings instead of defining additional mappings ',w', ',b' and ',e'
+" map <silent> w <Plug>CamelCaseMotion_w
+" map <silent> b <Plug>CamelCaseMotion_b
+" map <silent> e <Plug>CamelCaseMotion_e
+" sunmap w
+" sunmap b
+" sunmap e
+
+" Replace default 'iw' text-object and define 'ib' and 'ie' motions:
+" omap <silent> iw <Plug>CamelCaseMotion_iw
+" xmap <silent> iw <Plug>CamelCaseMotion_iw
+" omap <silent> ib <Plug>CamelCaseMotion_ib
+" xmap <silent> ib <Plug>CamelCaseMotion_ib
+" omap <silent> ie <Plug>CamelCaseMotion_ie
+" xmap <silent> ie <Plug>CamelCaseMotion_ie
 " }}}
 " Commentary {{{
 nmap <leader>c <Plug>CommentaryLine
@@ -958,6 +1004,39 @@ let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command, my_ctrlp_user_command
 nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
 " }}}
+" EasyMotion {{{
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+" Bi-directional find motion
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+nmap <localleader>s <Plug>(easymotion-s)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap <localleader>s <Plug>(easymotion-s2)
+
+" Turn on case insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <localleader>l <Plug>(easymotion-lineforward)
+map <localleader>j <Plug>(easymotion-j)
+map <localleader>k <Plug>(easymotion-k)
+map <localleader>h <Plug>(easymotion-linebackward)
+
+let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
+
+" " Gif config
+" map  / <Plug>(easymotion-sn)
+" omap / <Plug>(easymotion-tn)
+
+" " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" " Without these mappings, `n` & `N` works fine. (These mappings just provide
+" " different highlight method and have some other features )
+" map  n <Plug>(easymotion-next)
+" map  N <Plug>(easymotion-prev)
+" }}}
 " Emmet {{{
 let g:user_emmet_leader_key = '<C-g>'
 let g:use_emmet_complete_tag = 1
@@ -968,8 +1047,8 @@ nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>ga :Gadd<cr>
 nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gco :Gcheckout<cr>
-nnoremap <leader>gci :Gcommit<cr>
+nnoremap <leader>go :Gcheckout<cr>
+nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :Gremove<cr>
 nnoremap <leader>gl :Shell git gl -18<cr>:wincmd \|<cr>
@@ -983,6 +1062,15 @@ augroup END
 " "Hub"
 nnoremap <leader>gh :Gbrowse<cr>
 vnoremap <leader>gh :Gbrowse<cr>
+" }}}
+" GitGutter {{{
+" }}}
+" Go {{{
+let g:go_doc_keywordprg_enabled = 0
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
 " }}}
 " Gundo {{{
 nnoremap <F5> :GundoToggle<CR>
@@ -998,137 +1086,137 @@ let g:rdfa_attributes_complete = 0
 let g:microdata_attributes_complete = 0
 let g:atia_attributes_complete = 0
 " }}}
-" Javascript {{{
-let g:javascript_conceal = 1
+" IndentLine {{{
+let g:indentLine_char = '┆'
 " }}}
 " Lightline {{{
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
-      \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'component_function': {
-      \   'modified': 'MyModified',
-      \   'readonly': 'MyReadonly',
-      \   'fugitive': 'MyFugitive',
-      \   'filename': 'MyFilename',
-      \   'fileformat': 'MyFileformat',
-      \   'filetype': 'MyFiletype',
-      \   'fileencoding': 'MyFileencoding',
-      \   'mode': 'MyMode',
-      \   'ctrlpmark': 'CtrlPMark',
-      \ },
-      \ 'component_expand': {
-      \   'syntastic': 'SyntasticStatuslineFlag',
-      \ },
-      \ 'component_type': {
-      \   'syntastic': 'error',
-      \ },
-      \ 'separator': { 'left': '⮀', 'right': '⮂' },
-      \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
-      \ }
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+            \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+            \ },
+            \ 'component_function': {
+            \   'modified': 'MyModified',
+            \   'readonly': 'MyReadonly',
+            \   'fugitive': 'MyFugitive',
+            \   'filename': 'MyFilename',
+            \   'fileformat': 'MyFileformat',
+            \   'filetype': 'MyFiletype',
+            \   'fileencoding': 'MyFileencoding',
+            \   'mode': 'MyMode',
+            \   'ctrlpmark': 'CtrlPMark',
+            \ },
+            \ 'component_expand': {
+            \   'syntastic': 'SyntasticStatuslineFlag',
+            \ },
+            \ 'component_type': {
+            \   'syntastic': 'error',
+            \ },
+            \ 'separator': { 'left': '⮀', 'right': '⮂' },
+            \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+            \ }
 
 
 function! MyModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+    return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
 endfunction
 
 function! MyReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+    return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
 endfunction
 
 function! MyFilename()
-  let fname = expand('%:t')
-  return fname == 'ControlP' ? g:lightline.ctrlp_item :
-        \ fname == '__Tagbar__' ? g:lightline.fname :
-        \ fname =~ '__Gundo\|NERD_tree' ? '' :
-        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \ &ft == 'unite' ? unite#get_status_string() :
-        \ &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ ('' != fname ? fname : '[No Name]') .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
+    let fname = expand('%:t')
+    return fname == 'ControlP' ? g:lightline.ctrlp_item :
+                \ fname == '__Tagbar__' ? g:lightline.fname :
+                \ fname =~ '__Gundo\|NERD_tree' ? '' :
+                \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+                \ &ft == 'unite' ? unite#get_status_string() :
+                \ &ft == 'vimshell' ? vimshell#get_status_string() :
+                \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+                \ ('' != fname ? fname : '[No Name]') .
+                \ ('' != MyModified() ? ' ' . MyModified() : '')
 endfunction
 
 function! MyFugitive()
-  try
-    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-      let mark = '⭠ '  " edit here for cool mark
-      let _ = fugitive#head()
-      return strlen(_) ? mark._ : ''
-    endif
-  catch
-  endtry
-  return ''
+    try
+        if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+            let mark = '⭠ '  " edit here for cool mark
+            let _ = fugitive#head()
+            return strlen(_) ? mark._ : ''
+        endif
+    catch
+    endtry
+    return ''
 endfunction
 
 function! MyFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
+    return winwidth(0) > 70 ? &fileformat : ''
 endfunction
 
 function! MyFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
 endfunction
 
 function! MyFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+    return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
 endfunction
 
 function! MyMode()
-  let fname = expand('%:t')
-  return fname == '__Tagbar__' ? 'Tagbar' :
-        \ fname == 'ControlP' ? 'CtrlP' :
-        \ fname == '__Gundo__' ? 'Gundo' :
-        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-        \ fname =~ 'NERD_tree' ? 'NERDTree' :
-        \ &ft == 'unite' ? 'Unite' :
-        \ &ft == 'vimfiler' ? 'VimFiler' :
-        \ &ft == 'vimshell' ? 'VimShell' :
-        \ winwidth(0) > 60 ? lightline#mode() : ''
+    let fname = expand('%:t')
+    return fname == '__Tagbar__' ? 'Tagbar' :
+                \ fname == 'ControlP' ? 'CtrlP' :
+                \ fname == '__Gundo__' ? 'Gundo' :
+                \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+                \ fname =~ 'NERD_tree' ? 'NERDTree' :
+                \ &ft == 'unite' ? 'Unite' :
+                \ &ft == 'vimfiler' ? 'VimFiler' :
+                \ &ft == 'vimshell' ? 'VimShell' :
+                \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
 function! CtrlPMark()
-  if expand('%:t') =~ 'ControlP'
-    call lightline#link('iR'[g:lightline.ctrlp_regex])
-    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-          \ , g:lightline.ctrlp_next], 0)
-  else
-    return ''
-  endif
+    if expand('%:t') =~ 'ControlP'
+        call lightline#link('iR'[g:lightline.ctrlp_regex])
+        return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
+                    \ , g:lightline.ctrlp_next], 0)
+    else
+        return ''
+    endif
 endfunction
 
 let g:ctrlp_status_func = {
-  \ 'main': 'CtrlPStatusFunc_1',
-  \ 'prog': 'CtrlPStatusFunc_2',
-  \ }
+            \ 'main': 'CtrlPStatusFunc_1',
+            \ 'prog': 'CtrlPStatusFunc_2',
+            \ }
 
 function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-  let g:lightline.ctrlp_regex = a:regex
-  let g:lightline.ctrlp_prev = a:prev
-  let g:lightline.ctrlp_item = a:item
-  let g:lightline.ctrlp_next = a:next
-  return lightline#statusline(0)
+    let g:lightline.ctrlp_regex = a:regex
+    let g:lightline.ctrlp_prev = a:prev
+    let g:lightline.ctrlp_item = a:item
+    let g:lightline.ctrlp_next = a:next
+    return lightline#statusline(0)
 endfunction
 
 function! CtrlPStatusFunc_2(str)
-  return lightline#statusline(0)
+    return lightline#statusline(0)
 endfunction
 
 let g:tagbar_status_func = 'TagbarStatusFunc'
 
 function! TagbarStatusFunc(current, sort, fname, ...) abort
     let g:lightline.fname = a:fname
-  return lightline#statusline(0)
+    return lightline#statusline(0)
 endfunction
 
 augroup AutoSyntastic
-  autocmd!
-  autocmd BufWritePost *.c,*.cpp call s:syntastic()
+    autocmd!
+    autocmd BufWritePost *.c,*.cpp call s:syntastic()
 augroup END
 function! s:syntastic()
-  SyntasticCheck
-  call lightline#update()
+    SyntasticCheck
+    call lightline#update()
 endfunction
 
 let g:unite_force_overwrite_statusline = 0
@@ -1160,15 +1248,15 @@ let NERDTreeMapJumpFirstChild = 'gK'
 " }}}
 " Startify {{{
 let g:startify_custom_header =
-    \ map(split(system('fortune | cowsay -f stegosaurus'), '\n'), '"   ". v:val') + ['','']
+            \ map(split(system('fortune | cowsay -f stegosaurus'), '\n'), '"   ". v:val') + ['','']
 
 let g:startify_bookmarks = [
-      \ '~/.vim/vimrc',
-      \ '/.zshrc',
-      \ ]
+            \ '~/.vim/vimrc',
+            \ '/.zshrc',
+            \ ]
 
 let g:startify_custom_footer =
-      \ ['', "   Vim is charityware. Please read ':help uganda'.", '']
+            \ ['', "   Vim is charityware. Please read ':help uganda'.", '']
 
 " CtrlP and NERDTree open a split in Startify!!!
 autocmd User Startified setlocal buftype=
@@ -1186,31 +1274,24 @@ let g:syntastic_mode_map = {
 
 let g:syntastic_disabled_filetypes = ['html', 'rst']
 let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
-let g:syntastic_javascript_jshint_conf = '$HOME/.vim/jshintrc'
+let g:syntastic_javascript_jshint_args = '--config $HOME/.jshintrc'
 
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_style_error_symbol  = '⚡'
 let g:syntastic_style_warning_symbol  = '⚡'
-" }}}
-" Tabular {{{
-" let g:tabular_loaded = 1
-noremap <leader>T, :Tabularize /,<cr>
-noremap <leader>Tr :Tabularize /=><cr>
-noremap <leader>T= :Tabularize /=<cr>
-noremap <leader>T: :Tabularize /:<cr>
-noremap <leader>T<Bar> :Tabularize /<Bar><CR>
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 " }}}
 " Tagbar {{{
 nmap <F3> :TagbarToggle<CR>
 " }}}
-" Taskwarrior {{{
-augroup TaskwarriorMapping
-    autocmd!
-    autocmd FileType taskreport nmap <buffer> {key}
-                \ <Plug>(taskwarrior_...)
-    autocmd FileType taskreport nunmap <buffer> {key}
-augroup END
+" Tern {{{
+let g:tern_map_keys=1
+let g:tern_show_arguments_hits='on_hold'
 " }}}
 " UltiSnips {{{
 let g:UltiSnipsExpandTrigger="<C-l>"
@@ -1218,9 +1299,6 @@ let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-h>"
 
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
-" }}}
-" Vim-Go {{{
-let g:go_doc_keywordprg_enabled = 0
 " }}}
 " Vim-Notes {{{
 let g:notes_directories = ['~/Documents/Notes', '~/Dropbox/Notes']
@@ -1247,7 +1325,6 @@ endfunction
 " YouCompleteMe {{{
 let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<C-j>']
 let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>', '<C-k>']
-" let g:EclimCompletionMethod = 'omnifunc'
 " }}}
 " }}}
 " Mini-plugins ------------------------------------------------------------ {{{
@@ -1262,21 +1339,6 @@ function! SynStack()
 endfunc
 
 nnoremap <F7> :call SynStack()<CR>
-" }}}
-" Indent Guides {{{
-let g:indentguides_state = 0
-function! IndentGuides() " {{{
-    if g:indentguides_state
-        let g:indentguides_state = 0
-        2match None
-    else
-        let g:indentguides_state = 1
-        execute '2match IndentGuides /\%(\_^\s*\)\@<=\%(\%'.(0*&sw+1).'v\|\%'.(1*&sw+1).'v\|\%'.(2*&sw+1).'v\|\%'.(3*&sw+1).'v\|\%'.(4*&sw+1).'v\|\%'.(5*&sw+1).'v\|\%'.(6*&sw+1).'v\|\%'.(7*&sw+1).'v\)\s/'
-    endif
-endfunction " }}}
-
-hi def IndentGuides guibg=#303030
-nnoremap <leader>I :call IndentGuides()<cr>
 " }}}
 " Block Colors {{{
 let g:blockcolor_state = 0
@@ -1305,6 +1367,32 @@ hi def BlockColor4 guibg=#3d3d3d
 hi def BlockColor5 guibg=#444444
 " }}}
 nnoremap <leader>B :call BlockColor()<cr>
+" }}}
+" SignatureGitGutter {{{
+" This function returns the highlight group used by git-gutter depending on how the line was edited (added/modified/deleted)
+" It must be placed in the vimrc (or in any file that is sourced by vim)
+function! SignatureGitGutter(lnum)
+    let gg_line_state = filter(copy(gitgutter#diff#process_hunks(gitgutter#hunk#hunks())), 'v:val[0] == a:lnum')
+    "echo gg_line_state
+
+    if len(gg_line_state) == 0
+        return 'Exception'
+    endif
+
+    if gg_line_state[0][1] =~ 'added'
+        return 'GitGutterAdd'
+    elseif gg_line_state[0][1] =~ 'modified'
+        return 'GitGutterChange'
+    elseif gg_line_state[0][1] =~ 'removed'
+        return 'GitGutterDelete'
+    endif
+endfunction
+
+" Next, assign it to g:SignatureMarkTextHL
+let g:SignatureMarkTextHL = 'SignatureGitGutter(a:lnum)'
+
+" Now everytime Signature wants to place a sign, it calls this function and thus, we can dynamically assign a Highlight group g:SignatureMarkTextHL
+" The advantage of doing it this way is that this decouples Signature from git-gutter. Both can remain unaware of the other.
 " }}}
 " }}}
 " Environments (GUI/Console) ---------------------------------------------- {{{

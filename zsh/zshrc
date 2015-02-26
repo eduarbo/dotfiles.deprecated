@@ -17,7 +17,7 @@ export PAGER='less'
 
 # force 256-color gruvbox palette
 # https://github.com/morhetz/gruvbox-generalized/tree/master/iterm2
-# ~/.vim/bundle/gruvbox/gruvbox_256palette_osx.sh
+~/.vim/plugged/gruvbox/gruvbox_256palette_osx.sh
 
 # Portal FTW!
 print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f"

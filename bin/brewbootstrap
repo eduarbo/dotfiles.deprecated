@@ -83,7 +83,8 @@ if [[ -x `which brew` ]]; then
   'zsh-completions'
   'zsh-syntax-highlighting'
   'zsh-history-substring-search'
-  'z'
+  'selecta'
+  'fasd'
   )
 
   extra_formulae=(
@@ -95,7 +96,7 @@ if [[ -x `which brew` ]]; then
   'the_silver_searcher'
   'brew-cask'
   'python --framework'
-  'macvim --override-system-vim'
+  'macvim --with-cscope --with-lua --env-std --override-system-vim'
   'rbenv ruby-build'
   'tmux'
   'reattach-to-user-namespace' # tmux Copy & Paste
