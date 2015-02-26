@@ -764,8 +764,7 @@ augroup ft_javascript
 augroup END
 " }}}
 " JSON {{{
-autocmd! BufRead,BufNewFile *.json set filetype=json
-autocmd BufNewFile,BufRead .jshintrc setlocal filetype=json
+autocmd! BufRead,BufNewFile *.json,jshintrc set filetype=json
 
 augroup json_autocmd
     autocmd!
@@ -1088,6 +1087,9 @@ let g:atia_attributes_complete = 0
 " }}}
 " IndentLine {{{
 let g:indentLine_char = '┆'
+" }}}
+" JSON {{{
+let g:vim_json_syntax_conceal = 0
 " }}}
 " Lightline {{{
 let g:lightline = {
@@ -1467,6 +1469,7 @@ else
 endif
 " }}}
 " TODO {{{
-" * Create a plugin to toggle between false and true with C-x and C-a.
 " * Add more customized snippets
+" * replace C-f mapping to avoid conflicts with tmux prefix
+" * fix folding on javascript files
 " }}}
