@@ -50,7 +50,6 @@
     "boss"          : false,  // true: Tolerate assignments where comparisons would be expected
     "debug"         : false,  // true: Allow debugger statements e.g. browser breakpoints.
     "eqnull"        : false,  // true: Tolerate use of `== null`
-    // "es5"           : false,  // true: Allow ES5 syntax (ex: getters and setters)
     "esnext"        : false,  // true: Allow ES.next (ES6) syntax (ex: `const`, `let`)
     "moz"           : false,  // true: Allow Mozilla specific syntax (extends and overrides esnext features)
                               //    (ex: `for each`, multiple try/catch, function expression…)
@@ -123,6 +122,7 @@
         "moment": false,
         "TestUtils": false,
         "server": false,
-        "expect": false
+        "expect": false,
+        "_": false
     }
 }
