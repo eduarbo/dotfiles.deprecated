@@ -16,16 +16,17 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'kien/ctrlp.vim'
 Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 Plug 'rking/ag.vim'
-Plug 'mhinz/vim-startify'
 Plug 'bkad/CamelCaseMotion'
 Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
 Plug 'papanikge/vim-voogle'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'tpope/vim-unimpaired'
-Plug 'Yggdroot/indentLine'
-Plug 'Chiel92/vim-autoformat', {'do': 'npm install -g js-beautify'}
+Plug 'vim-scripts/SyntaxComplete'
+Plug 'AndrewRadev/linediff.vim'
+Plug 'danro/rename.vim'
 
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
 Plug 'Raimondi/delimitMate'
@@ -70,15 +71,17 @@ Plug 'tomasr/molokai'
 Plug 'sjl/badwolf'
 Plug 'morhetz/gruvbox'
 Plug 'chriskempson/vim-tomorrow-theme'
+Plug 'chriskempson/base16-vim'
 " }}}
 " Git {{{
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 " }}}
 " Javascript {{{
-Plug 'jelera/vim-javascript-syntax', {'for': 'javascript'}
+" Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+Plug 'othree/yajs.vim', {'for': 'javascript'}
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
-" Plug 'pangloss/vim-javascript', {'for': ['javascript', 'haml']}
+Plug 'maksimr/vim-jsbeautify', {'for': 'javascript', 'do': 'npm install -g js-beautify'}
 " Plug 'dsawardekar/ember.vim', {'for': 'javascript'}
 " Plug 'marijnh/tern_for_vim', {'for': 'javascript', 'do': '~/.vim/plugged/tern_for_vim && npm install'}
 " }}}
@@ -105,6 +108,7 @@ set modeline
 set autoindent                  " Automatically set the indent of a new line (local to buffer)
 set showmode                    " Show current mode down the bottom
 set showcmd                     " Show incomplete cmds down the bottom
+set scrolljump=10
 set hidden
 set visualbell                  " No sounds
 set ttyfast                     " Improves redrawing
@@ -204,7 +208,7 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 set wrap
-set textwidth=120
+set textwidth=80
 set formatoptions=qrn1
 
 if v:version > 703 || v:version == 703 && has("patch541")
@@ -332,9 +336,6 @@ nnoremap <leader>` mzggg?G`z
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 
-" Diffoff
-nnoremap <leader>D :diffoff!<cr>
-
 " Formatting, TextMate-style
 nnoremap Q gqip
 vnoremap Q gq
@@ -357,10 +358,6 @@ nnoremap J mzJ`z
 " Split line (sister to [J]oin lines)
 " The normal use of S is covered by cc, so don't worry about shadowing it.
 nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
-
-" Source
-vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
-nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
 
 " HTML tag closing
 inoremap <C-_> <space><bs><esc>:call InsertCloseTag()<cr>a
@@ -395,7 +392,9 @@ nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 " }}}
 " Quick editing ----------------------------------------------------------- {{{
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>ej :vsplit ~/.vim/jshintrc<cr>
+nnoremap <leader>ej :vsplit ~/.jshintrc<cr>
+nnoremap <leader>ec :vsplit ~/.editorconfig<cr>
+nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
 nnoremap <leader>ef :vsplit ~/.config/fish/config.fish<cr>
 nnoremap <leader>ez :vsplit ~/.dotfiles/zsh/zshrc<cr>
 
@@ -473,14 +472,20 @@ noremap k gk
 noremap gj j
 noremap gk k
 
-" Easy buffer navigation
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
+" this allows all window commands in insert mode and i'm not accidentally deleting words anymore :-)
+inoremap <C-w> <C-o><C-w>
 
-noremap <leader>v <C-w>v
-noremap <leader>h <C-w>s
+" Easy buffer navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+nnoremap - <C-w>-
+nnoremap + <C-w>+
+
+nnoremap <leader>v <C-w>v
+nnoremap <leader>s <C-w>s
 " }}}
 " Visual Mode */# from Scrooloose {{{
 function! s:VSetSearch()
@@ -697,7 +702,7 @@ augroup ft_fish
 augroup END
 " }}}
 " Haml {{{
-augroup ft_css
+augroup ft_haml
     au!
     au BufRead,BufNewFile *.hamlc set ft=haml
 augroup END
@@ -706,9 +711,9 @@ augroup END
 augroup ft_html
     au!
 
-    setlocal foldlevel=99
     au BufNewFile,BufRead *.html setlocal filetype=html
     au BufNewFile,BufRead *.hbs setlocal filetype=handlebars
+    au FileType html,handlebars setlocal foldlevel=99
     au FileType html,handlebars setlocal foldmethod=manual
     au FileType html,handlebars setlocal omnifunc=htmlcomplete#CompleteTags
 
@@ -750,9 +755,9 @@ augroup END
 " Javascript {{{
 augroup ft_javascript
     au!
-    " au FileType javascript setlocal foldmethod=marker
-    " au FileType javascript setlocal foldmarker={,}
-    au FileType javascript call JavaScriptFold()
+    au FileType javascript setlocal foldmethod=marker
+    au FileType javascript setlocal foldmarker={,}
+    au Filetype javascript setlocal foldtext=getline(v:foldstart)
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
     au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     au FileType javascript setlocal shiftwidth=4 softtabstop=4 tabstop=4
@@ -764,10 +769,9 @@ augroup ft_javascript
 augroup END
 " }}}
 " JSON {{{
-autocmd! BufRead,BufNewFile *.json,jshintrc set filetype=json
-
-augroup json_autocmd
+augroup ft_json
     autocmd!
+    autocmd BufRead,BufNewFile *.json,*jshintrc set filetype=json
     autocmd FileType json set autoindent
     autocmd FileType json set formatoptions=tcq2l
     autocmd FileType json set shiftwidth=2 softtabstop=2 tabstop=8
@@ -780,8 +784,9 @@ augroup END
 augroup ft_markdown
     au!
 
-    au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=markdown foldlevel=1
+    au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=markdown
     au FileType markdown normal! zR
+    au FileType markdown setlocal foldlevel=1
     au FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
 
     " Use <localleader>1/2/3 to add headings.
@@ -840,6 +845,7 @@ augroup END
 " Ruby {{{
 augroup ft_ruby
     au!
+    au BufRead,BufNewFile Vagrantfile set ft=ruby
     au Filetype ruby setlocal foldmethod=syntax
     au BufRead,BufNewFile Capfile setlocal filetype=ruby
     au FileType ruby setlocal omnifunc=rubycomplete#Complete
@@ -851,18 +857,12 @@ augroup ft_scala
     au Filetype scala setlocal foldmethod=marker foldmarker={,}
     au Filetype scala compiler maven
     au Filetype scala let b:dispatch = 'mvn -B package install'
-    au Filetype scala nnoremap <buffer> <localleader>s :SortScalaImports<cr>
+    au Filetype scala nnoremap <buffer> <localleader>S :SortScalaImports<cr>
     au Filetype scala nnoremap <buffer> M :call scaladoc#Search(expand("<cword>"))<cr>
     au Filetype scala vnoremap <buffer> M "ry:call scaladoc#Search(@r)<cr>
     au Filetype scala nmap <buffer> <localleader>( ysiwbi
     au Filetype scala nmap <buffer> <localleader>[ ysiwri
     ")]
-augroup END
-" }}}
-" Vagrant {{{
-augroup ft_vagrant
-    au!
-    au BufRead,BufNewFile Vagrantfile set ft=ruby
 augroup END
 " }}}
 " Vim {{{
@@ -878,12 +878,12 @@ augroup END
 " Vimrc {{{
 augroup myvimrc
     au!
-    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC |
+    au BufWritePost .vimrc,vimrc,.gvimrc,gvimrc so $MYVIMRC |
                 \ if has('gui_running') |
                 \   so $MYVIMRC |
                 \ endif
 augroup END
-" Autoload configuration when this file changes ($MYVIMRC)
+" autoload configuration when this file changes ($MYVIMRC)
 " }}}
 " YAML {{{
 augroup ft_yaml
@@ -909,11 +909,8 @@ augroup END
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
 " Ag {{{
-nnoremap <leader>a :Ag<space>
+nnoremap <leader>a :AgFromSearch<CR>
 let g:ackprg = 'ag --smart-case --nogroup --nocolor --column'
-" }}}
-" Autoformat {{{
-noremap <leader>f :Autoformat<CR><CR>
 " }}}
 " CamelCaseMotion {{{
 map <S-W> <Plug>CamelCaseMotion_w
@@ -1002,6 +999,7 @@ let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command, my_ctrlp_user_command
 
 nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
+nnoremap <leader>m :CtrlPMRUFiles<cr>
 " }}}
 " EasyMotion {{{
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
@@ -1062,8 +1060,6 @@ augroup END
 nnoremap <leader>gh :Gbrowse<cr>
 vnoremap <leader>gh :Gbrowse<cr>
 " }}}
-" GitGutter {{{
-" }}}
 " Go {{{
 let g:go_doc_keywordprg_enabled = 0
 
@@ -1085,8 +1081,17 @@ let g:rdfa_attributes_complete = 0
 let g:microdata_attributes_complete = 0
 let g:atia_attributes_complete = 0
 " }}}
-" IndentLine {{{
-let g:indentLine_char = '┆'
+" JSBeautify {{{
+autocmd FileType javascript nnoremap <buffer>  <leader>f :call JsBeautify()<cr>
+autocmd FileType javascript vnoremap <buffer>  <leader>f :call RangeJsBeautify()<cr>
+autocmd FileType javascript vnoremap <buffer>  = :call RangeJsBeautify()<cr>
+" for html
+autocmd FileType html nnoremap <buffer> <leader>f :call HtmlBeautify()<cr>
+autocmd FileType html vnoremap <buffer> <leader>f :call RangeHtmlBeautify()<cr>
+" for css or scss
+autocmd FileType css nnoremap <buffer> <leader>f :call CSSBeautify()<cr>
+autocmd FileType css vnoremap <buffer> <leader>f :call RangeCSSBeautify()<cr>
+
 " }}}
 " JSON {{{
 let g:vim_json_syntax_conceal = 0
@@ -1225,6 +1230,15 @@ let g:unite_force_overwrite_statusline = 0
 let g:vimfiler_force_overwrite_statusline = 0
 let g:vimshell_force_overwrite_statusline = 0
 " }}}
+" Linediff {{{
+vnoremap <leader>d :Linediff<cr>
+nnoremap <leader>D :LinediffReset<cr>
+" }}}
+" ListToggle {{{
+let g:lt_location_list_toggle_map = '<leader>l'
+let g:lt_quickfix_list_toggle_map = '<leader>q'
+let g:lt_height = 10
+" }}}
 " NERD Tree {{{
 noremap  <leader>n :NERDTreeToggle<cr>
 
@@ -1248,22 +1262,6 @@ let NERDChristmasTree = 1
 let NERDTreeChDirMode = 2
 let NERDTreeMapJumpFirstChild = 'gK'
 " }}}
-" Startify {{{
-let g:startify_custom_header =
-            \ map(split(system('fortune | cowsay -f stegosaurus'), '\n'), '"   ". v:val') + ['','']
-
-let g:startify_bookmarks = [
-            \ '~/.vim/vimrc',
-            \ '/.zshrc',
-            \ ]
-
-let g:startify_custom_footer =
-            \ ['', "   Vim is charityware. Please read ':help uganda'.", '']
-
-" CtrlP and NERDTree open a split in Startify!!!
-autocmd User Startified setlocal buftype=
-
-" }}}
 " Syntastic {{{
 let g:syntastic_enable_signs = 1
 let g:syntastic_check_on_open = 1
@@ -1276,7 +1274,7 @@ let g:syntastic_mode_map = {
 
 let g:syntastic_disabled_filetypes = ['html', 'rst']
 let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
-let g:syntastic_javascript_jshint_args = '--config $HOME/.jshintrc'
+let g:syntastic_javascript_checkers = ['jshint']
 
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
@@ -1325,8 +1323,11 @@ function! YRRunAfterMaps()
 endfunction
 " }}}
 " YouCompleteMe {{{
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<C-j>']
-let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>', '<C-k>']
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<C-p>']
+let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>', '<C-n>']
+
+" enable completion from tags
+let g:ycm_collect_identifiers_from_tags_files = 1
 " }}}
 " }}}
 " Mini-plugins ------------------------------------------------------------ {{{
@@ -1370,32 +1371,6 @@ hi def BlockColor5 guibg=#444444
 " }}}
 nnoremap <leader>B :call BlockColor()<cr>
 " }}}
-" SignatureGitGutter {{{
-" This function returns the highlight group used by git-gutter depending on how the line was edited (added/modified/deleted)
-" It must be placed in the vimrc (or in any file that is sourced by vim)
-function! SignatureGitGutter(lnum)
-    let gg_line_state = filter(copy(gitgutter#diff#process_hunks(gitgutter#hunk#hunks())), 'v:val[0] == a:lnum')
-    "echo gg_line_state
-
-    if len(gg_line_state) == 0
-        return 'Exception'
-    endif
-
-    if gg_line_state[0][1] =~ 'added'
-        return 'GitGutterAdd'
-    elseif gg_line_state[0][1] =~ 'modified'
-        return 'GitGutterChange'
-    elseif gg_line_state[0][1] =~ 'removed'
-        return 'GitGutterDelete'
-    endif
-endfunction
-
-" Next, assign it to g:SignatureMarkTextHL
-let g:SignatureMarkTextHL = 'SignatureGitGutter(a:lnum)'
-
-" Now everytime Signature wants to place a sign, it calls this function and thus, we can dynamically assign a Highlight group g:SignatureMarkTextHL
-" The advantage of doing it this way is that this decouples Signature from git-gutter. Both can remain unaware of the other.
-" }}}
 " }}}
 " Environments (GUI/Console) ---------------------------------------------- {{{
 " set t_Co=256
@@ -1403,7 +1378,6 @@ let g:SignatureMarkTextHL = 'SignatureGitGutter(a:lnum)'
 if has('gui_running')
     " GUI Vim
 
-    colorscheme gruvbox
     set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline:h12
 
     " Remove all the UI cruft
@@ -1459,6 +1433,8 @@ if has('gui_running')
     else
         " Non-MacVim GUI
     end
+
+    colorscheme gruvbox
 else
     " Console Vim
     " For me, this means iTerm2, possibly through tmux
@@ -1471,5 +1447,6 @@ endif
 " TODO {{{
 " * Add more customized snippets
 " * replace C-f mapping to avoid conflicts with tmux prefix
-" * fix folding on javascript files
+" * Move filetype specific options to ftplugins dir
+" * Replace jshint by eslint
 " }}}
