@@ -82,15 +82,15 @@ alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dev='cd ~/dev'
 
-alias ef='vim ~/.config/fish/config.fish'
-alias ev='vim ~/.vimrc'
+alias ec='vim ~/.editorconfig'
 alias ed='vim ~/.vim/custom-dictionary.utf-8.add'
-alias eo='vim ~/Dropbox/Org'
-alias ek='vim ~/lib/dotfiles/keymando/keymandorc.rb'
-alias et='vim ~/.tmux.conf'
+alias ef='vim ~/.config/fish/config.fish'
 alias eg='vim ~/.gitconfig'
+alias ej='vim ~/.jshintrc'
+alias et='vim ~/.tmux.conf'
+alias ev='vim ~/.dotfiles/vimrc'
 alias todo="vim ~/todo.md"
-alias vtp="vim ~/tp.md"
+alias etp="vim ~/tp.md"
 alias e='emacsclient -t'
 alias ec='emacsclient -c'
 
@@ -248,4 +248,4 @@ alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pa
 # Kill all the tabs in Chrome to free up memory
 # [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
 alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
-# }}}
+# }}i
