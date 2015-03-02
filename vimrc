@@ -26,10 +26,13 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/SyntaxComplete'
 Plug 'AndrewRadev/linediff.vim'
-Plug 'tpope/vim-eunuch'
 Plug 'terryma/vim-expand-region'
 Plug 'sheerun/vim-polyglot'
 Plug 'dyng/ctrlsf.vim'
+
+" Vim sugar for the UNIX shell commands that need it the most. Features include:
+" :Remove, :Unlink, :Move, :Chmod, :Mkdir, :Find, :Locate, :Wall, :SudoWrite, :SudoEdit
+Plug 'tpope/vim-eunuch'
 
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
 Plug 'Raimondi/delimitMate'
@@ -51,47 +54,41 @@ Plug 'Valloric/ListToggle'
 
 " Interactive command execution in Vim
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
-" Navigate files at the speed of Vim. Used by Ember.vim
-" Plug 'dsawardekar/portkey'
 
 " Browse the vim undo tree
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 
-Plug 'fatih/vim-go', {'for': 'go'}
-Plug 'tpope/vim-markdown', {'for': 'markdown'}
-Plug 'elzr/vim-json', {'for': 'json'}
-Plug 'nono/vim-handlebars', {'for': 'handlebars'}
-
-" SQL {{{
-Plug 'exu/pgsql.vim', {'for': 'pgsql'}
-" }}}
-" HTML {{{
-Plug 'othree/html5.vim', {'for': ['html', 'xhttml', 'css']}
-Plug 'mattn/emmet-vim', {'for': ['html', 'xhttml', 'handlebars', 'css', 'xml', 'xls', 'markdown']}
-" }}}
-" Colorschemes {{{
-Plug 'tomasr/molokai'
-Plug 'sjl/badwolf'
-Plug 'morhetz/gruvbox'
-Plug 'chriskempson/base16-vim'
-" }}}
 " Git {{{
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 " }}}
+" HTML {{{
+Plug 'mattn/emmet-vim', {'for': ['html', 'xhttml', 'handlebars', 'css', 'xml', 'xls', 'markdown']}
+" }}}
 " Javascript {{{
+" Covered by vim-polyglot
 " Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 " Plug 'jelera/vim-javascript-syntax', {'for': 'javascript'}
-Plug 'othree/yajs.vim', {'for': 'javascript'}
+" Plug 'othree/yajs.vim', {'for': 'javascript'}
+
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
 Plug 'maksimr/vim-jsbeautify', {'for': 'javascript', 'do': 'npm install -g js-beautify'}
 " Plug 'marijnh/tern_for_vim', {'for': 'javascript', 'do': '~/.vim/plugged/tern_for_vim && npm install'}
 " }}}
 " Ruby {{{
-Plug 'vim-ruby/vim-ruby', {'for': ['ruby', 'rails']}
 Plug 'tpope/vim-rails', {'for': ['ruby', 'rails']}
 Plug 'tpope/vim-cucumber', {'for': ['ruby', 'rails']}
 Plug 'skwp/vim-rspec', {'for': ['ruby', 'rails']}
+" }}}
+" SQL {{{
+Plug 'exu/pgsql.vim', {'for': 'pgsql'}
+" }}}
+
+" Colorschemes {{{
+Plug 'tomasr/molokai'
+Plug 'sjl/badwolf'
+Plug 'morhetz/gruvbox'
+Plug 'chriskempson/base16-vim'
 " }}}
 call plug#end()
 " }}}
@@ -401,11 +398,13 @@ nnoremap <leader>i :set list!<cr>
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 " }}}
 " Quick editing ----------------------------------------------------------- {{{
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>ej :vsplit ~/.jshintrc<cr>
 nnoremap <leader>ec :vsplit ~/.editorconfig<cr>
-nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
+nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
 nnoremap <leader>ef :vsplit ~/.config/fish/config.fish<cr>
+nnoremap <leader>eg :vsplit ~/.gitconfig<cr>
+nnoremap <leader>ej :vsplit ~/.jshintrc<cr>
+nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>ez :vsplit ~/.dotfiles/zsh/zshrc<cr>
 
 nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
@@ -952,8 +951,7 @@ augroup plugin_commentary
     au FileType handlebars setlocal commentstring={{!\ %s\ }}
     au FileType htmldjango setlocal commentstring={#\ %s\ #}
     au FileType clojurescript setlocal commentstring=;\ %s
-    au FileType puppet setlocal commentstring=#\ %s
-    au FileType fish setlocal commentstring=#\ %s
+    au FileType puppet,fish,tmux setlocal commentstring=#\ %s
 augroup END
 " }}}
 " CtrlSF {{{
