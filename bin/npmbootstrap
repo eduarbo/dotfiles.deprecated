@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # List of npm packages
-node_packages="bower grunt prettyjson less jshint express jade wintersmith jitsu complete"
+node_packages="bower grunt prettyjson less express jade wintersmith jitsu complete"
 
 source ~/.dotfiles/lib/utils
 

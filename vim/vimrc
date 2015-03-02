@@ -11,7 +11,7 @@ call plug#begin()
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
-Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic', {'do': 'npm install -g jshint'}
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'kien/ctrlp.vim'
@@ -73,7 +73,6 @@ Plug 'mattn/emmet-vim', {'for': ['html', 'xhttml', 'handlebars', 'css', 'xml', '
 Plug 'tomasr/molokai'
 Plug 'sjl/badwolf'
 Plug 'morhetz/gruvbox'
-Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'chriskempson/base16-vim'
 " }}}
 " Git {{{
@@ -961,6 +960,9 @@ augroup END
 vmap     <leader>a <Plug>CtrlSFVwordPath
 nmap     <leader>a <Plug>CtrlSFCwordPath
 nnoremap <leader>A :CtrlSFOpen<CR>
+nnoremap <leader>A :CtrlSFOpen<CR>
+au FileType ctrlsf nnoremap <buffer> <leader>A :CtrlSFClose<CR>
+
 let g:ctrlsf_ackprg = 'ag'
 " }}}
 " Ctrl-P {{{
