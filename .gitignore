@@ -9,6 +9,8 @@ vim/bundle/**
 vim/plugged/**
 vim/session
 vim/sessions
+tmux/plugins/*
+!tmux/plugins/tpm
 
 # Emacs files
 *.elc
