@@ -26,7 +26,10 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/SyntaxComplete'
 Plug 'AndrewRadev/linediff.vim'
-Plug 'danro/rename.vim'
+Plug 'tpope/vim-eunuch'
+Plug 'terryma/vim-expand-region'
+Plug 'sheerun/vim-polyglot'
+Plug 'dyng/ctrlsf.vim'
 
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
 Plug 'Raimondi/delimitMate'
@@ -79,10 +82,10 @@ Plug 'airblade/vim-gitgutter'
 " }}}
 " Javascript {{{
 " Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+" Plug 'jelera/vim-javascript-syntax', {'for': 'javascript'}
 Plug 'othree/yajs.vim', {'for': 'javascript'}
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
 Plug 'maksimr/vim-jsbeautify', {'for': 'javascript', 'do': 'npm install -g js-beautify'}
-" Plug 'dsawardekar/ember.vim', {'for': 'javascript'}
 " Plug 'marijnh/tern_for_vim', {'for': 'javascript', 'do': '~/.vim/plugged/tern_for_vim && npm install'}
 " }}}
 " Ruby {{{
@@ -234,9 +237,20 @@ if !isdirectory(expand(&directory))
     call mkdir(expand(&directory), "p")
 endif
 " }}}
-" Color scheme {{{
+" Colorscheme {{{
 syntax enable
+" Workaround to fix cursorline on diffmode
+" if !&diff
+"   set cursorline
+" endif
+
 set background=dark
+
+" Guvbox specific
+" let g:gruvbox_contrast_dark = "hard"
+let g:gruvbox_invert_selection = 0
+
+colorscheme gruvbox
 " }}}
 " }}}
 " Abbreviations ----------------------------------------------------------- {{{
@@ -264,9 +278,6 @@ iabbrev lmis ಠ‿ಠ
 " Fuck you, help key.
 noremap  <F1> <ESC>
 inoremap <F1> <ESC>
-
-" Format File
-map <F6> mzgg=G'z
 
 " Stop it, hash key.
 inoremap # X<BS>#
@@ -909,7 +920,7 @@ augroup END
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
 " Ag {{{
-nnoremap <leader>a :AgFromSearch<CR>
+" nnoremap <leader>a :AgFromSearch<CR>
 let g:ackprg = 'ag --smart-case --nogroup --nocolor --column'
 " }}}
 " CamelCaseMotion {{{
@@ -945,6 +956,12 @@ augroup plugin_commentary
     au FileType puppet setlocal commentstring=#\ %s
     au FileType fish setlocal commentstring=#\ %s
 augroup END
+" }}}
+" CtrlSF {{{
+vmap     <leader>a <Plug>CtrlSFVwordPath
+nmap     <leader>a <Plug>CtrlSFCwordPath
+nnoremap <leader>A :CtrlSFOpen<CR>
+let g:ctrlsf_ackprg = 'ag'
 " }}}
 " Ctrl-P {{{
 let g:ctrlp_dont_split = 'NERD_tree_2'
@@ -1288,6 +1305,7 @@ let g:syntastic_check_on_wq = 0
 " }}}
 " Tagbar {{{
 nmap <F3> :TagbarToggle<CR>
+let g:tagbar_autofocus = 1
 " }}}
 " Tern {{{
 let g:tern_map_keys=1
@@ -1373,12 +1391,8 @@ nnoremap <leader>B :call BlockColor()<cr>
 " }}}
 " }}}
 " Environments (GUI/Console) ---------------------------------------------- {{{
-" set t_Co=256
-
 if has('gui_running')
     " GUI Vim
-
-    set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline:h12
 
     " Remove all the UI cruft
     set go-=T                       " Hide the toolbar
@@ -1426,27 +1440,25 @@ if has('gui_running')
         inoremap <D-BS>     <esc>my0c`y
 
     elseif has("gui_gtk2")
-        set guifont=Meslo\ LG\ M\ for\ Powerline\ 10
-
         " Maximize gvim window.
         set lines=999 columns=999
     else
         " Non-MacVim GUI
     end
-
-    colorscheme gruvbox
 else
     " Console Vim
     " For me, this means iTerm2, possibly through tmux
 
-    colorscheme Tomorrow-Night
+    set t_Co=256
+
     " Mouse support
     set mouse=a
 endif
+
+set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline:h12
 " }}}
 " TODO {{{
 " * Add more customized snippets
-" * replace C-f mapping to avoid conflicts with tmux prefix
 " * Move filetype specific options to ftplugins dir
 " * Replace jshint by eslint
 " }}}
