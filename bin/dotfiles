@@ -52,6 +52,7 @@ _mirrorfiles() {
   'bashrc'
   'ctags'
   'emacs.d'
+  'gitconfig'
   'gitattributes'
   'gitignore'
   'inputrc'
@@ -71,7 +72,7 @@ _mirrorfiles() {
   # Copy `.gitconfig`.
   # Any global git commands in `~/.bash_profile.local` will be written to
   # `.gitconfig`. This prevents them being committed to the repository.
-  rsync -avz --quiet ${DOTFILES_DIRECTORY}/gitconfig  ${HOME}/.gitconfig
+  # rsync -avz --quiet ${DOTFILES_DIRECTORY}/gitconfig  ${HOME}/.gitconfig
 
   # Link all binary files into ~/bin/ dir
   ln -fs ${DOTFILES_DIRECTORY}/bin/* ${HOME}/bin/
