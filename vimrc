@@ -29,6 +29,7 @@ Plug 'AndrewRadev/linediff.vim'
 Plug 'terryma/vim-expand-region'
 Plug 'sheerun/vim-polyglot'
 Plug 'dyng/ctrlsf.vim'
+Plug 'shime/vim-livedown', {'do': 'npm install -g livedown'}
 
 " Vim sugar for the UNIX shell commands that need it the most. Features include:
 " :Remove, :Unlink, :Move, :Chmod, :Mkdir, :Find, :Locate, :Wall, :SudoWrite, :SudoEdit
@@ -1255,6 +1256,9 @@ nnoremap <leader>D :LinediffReset<cr>
 let g:lt_location_list_toggle_map = '<leader>l'
 let g:lt_quickfix_list_toggle_map = '<leader>q'
 let g:lt_height = 10
+" }}}
+" Livedown {{{
+nmap <leader>P :LivedownPreview<CR>
 " }}}
 " NERD Tree {{{
 noremap  <leader>n :NERDTreeToggle<cr>

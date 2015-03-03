@@ -13,7 +13,7 @@ To install only the essential brew packages (Latest versions of bash, zsh,
 git, coreutils and rsync) simply run:
 
 ```bash
-$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)" -- --minimal
+$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/bin/dotfiles)" -- --minimal
 ```
 
 **Note:** Later you can install the full list of packages with the commands
@@ -24,14 +24,14 @@ and Node packages listed below) run the same command without the `--minimal`
 parameter:
 
 ```bash
-$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)"
+$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/bin/dotfiles)"
 ```
 
 To install some common OSX Apps (listed below) in this step, just run this
 command instead:
 
 ```bash
-$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/install)" -- --with-apps
+$ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/bin/dotfiles)" -- --with-apps
 ```
 
 
@@ -129,25 +129,6 @@ Display tags of a file ordered by scope with `<F8>`
 
 ###UltiSnips
 Snippet management for the Vim editor. Expand trigger with `<C-l>`
-
-
-Vim plugins extra configuration
--------------------------------
-
-You will need to complie YCM.
-If you want semantic support for C-family languages run:
-
-```bash
-cd ~/.vim/bundle/YouCompleteMe
-./install.sh --clang-completer
-```
-
-However, *without* semantic support for C-family languages run:
-
-```bash
-cd ~/.vim/bundle/YouCompleteMe
-./install.sh
-```
 
 
 Notes
