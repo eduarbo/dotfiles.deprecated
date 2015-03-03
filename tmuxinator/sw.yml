@@ -1,0 +1,50 @@
+# ~/.tmuxinator/sw.yml
+
+name: sw
+root: ~/
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre:
+#   - git fetch
+#   - git stash
+#   - git pull
+#   - git pop
+#   - mvn clean install -DskipTests -Pdependencies
+#   - ant migrate
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+startup_window: shell
+
+project_name: switchfly
+project_root: ~/switchfly/repos/dev
+windows:
+  - shell:
+      layout: 6788,272x63,0,0{97x63,0,0,1,174x63,98,0[174x31,98,0,3,174x31,98,32,5]}
+      panes:
+        - encore-dir:
+          - cd core-webapp/src/main/webapp/resources/encore
+          - mvim
+        - #empty, will just run plain bash
+        - #empty, will just run plain bash
+  - server&assets:
+      layout: main-vertical
+      panes:
+        - gulp:
+          - cd asset-packaging
+          - gulp package.all --app=encore
+          - gulp package.watch --app=encore
+        - tomcat:
+          - cd core-webapp
+          - mvn clean tomcat7:run

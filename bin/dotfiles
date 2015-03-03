@@ -59,6 +59,7 @@ _mirrorfiles() {
   'jshintrc'
   'tmux'
   'tmux.conf'
+  'tmuxinator'
   'vim'
   'vimrc'
   'zshenv'
