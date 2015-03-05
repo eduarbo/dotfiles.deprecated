@@ -111,6 +111,7 @@ set showcmd                     " Show incomplete cmds down the bottom
 set scrolljump=10
 set hidden
 set visualbell                  " No sounds
+set t_vb=                       " Visual bell disabled on Linux
 set ttyfast                     " Improves redrawing
 set ruler                       " Always show current positions along the bottom
 set backspace=indent,eol,start  " Allow backspace in insert mode
@@ -130,7 +131,6 @@ set autowrite
 set autoread                    " Reload files changed outside vim
 set shiftround                  " When at 3 spaces, and I hit > ... go to 4, not 5
 set title                       " set the terminal title to the current file
-set t_vb=                       " Visual bell disabled on Linux
 set linebreak
 set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
@@ -269,7 +269,6 @@ iabbrev ldis ಠ_ಠ
 iabbrev lsad ಥ_ಥ
 iabbrev lhap ಥ‿ಥ
 iabbrev lmis ಠ‿ಠ
-
 " }}}
 " Convenience mappings ---------------------------------------------------- {{{
 " Fuck you, help key.
@@ -297,8 +296,6 @@ nnoremap <C-t> :tabnew<cr>
 vnoremap < <gv
 vnoremap > >gv
 
-inoremap <C-v> <C-o>"+P
-
 nnoremap <C-q> :q<cr>
 
 nnoremap ; :
@@ -322,7 +319,6 @@ nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 " Copy/Paste to and from Desktop Environment
 noremap <leader>y "+y
 noremap <leader>p "+p
-noremap <leader>P "+P
 
 " Make the Y behavior similar to D & C
 nnoremap Y y$
@@ -722,25 +718,24 @@ augroup ft_html
     au!
 
     au BufNewFile,BufRead *.html setlocal filetype=html
-    au BufNewFile,BufRead *.hbs setlocal filetype=handlebars
-    au FileType html,handlebars setlocal foldlevel=99
-    au FileType html,handlebars setlocal foldmethod=manual
-    au FileType html,handlebars setlocal omnifunc=htmlcomplete#CompleteTags
+    au FileType html* setlocal foldlevel=99
+    au FileType html* setlocal foldmethod=manual
+    au FileType html* setlocal omnifunc=htmlcomplete#CompleteTags
 
-    au FileType html,handlebars setlocal tabstop=4 shiftwidth=4 softtabstop=4
+    au FileType html* setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
     " Use <localleader>f to fold the current tag.
-    au FileType html,handlebars nnoremap <buffer> <localleader>f Vatzf
+    au FileType html* nnoremap <buffer> <localleader>f Vatzf
 
     " Indent tag
-    au FileType html,handlebars nnoremap <buffer> <localleader>- Vat=
+    au FileType html* nnoremap <buffer> <localleader>- Vat=
 
     " Underscore tags
-    au FileType html,handlebars inoremap <buffer> <c-t> <%=<space><space>%><left><left><left>
-    au FileType html,handlebars inoremap <buffer> <c-r> <%<space><space>%><left><left><left>
+    au FileType html* inoremap <buffer> <c-t> <%=<space><space>%><left><left><left>
+    au FileType html* inoremap <buffer> <c-r> <%<space><space>%><left><left><left>
 
     " handlebars tags
-    au FileType handlebars inoremap <buffer> <c-b> {{<space><space>}}<left><left><left>
+    au FileType html.handlebars inoremap <buffer> <c-b> {{<space><space>}}<left><left><left>
 augroup END
 " }}}
 " Java {{{
@@ -781,7 +776,6 @@ augroup END
 " JSON {{{
 augroup ft_json
     autocmd!
-    autocmd BufRead,BufNewFile *.json,*jshintrc set filetype=json
     autocmd FileType json set autoindent
     autocmd FileType json set formatoptions=tcq2l
     autocmd FileType json set shiftwidth=2 softtabstop=2 tabstop=8
@@ -1464,5 +1458,4 @@ set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline:h12
 " TODO {{{
 " * Add more customized snippets
 " * Move filetype specific options to ftplugins dir
-" * Replace jshint by eslint
 " }}}
