@@ -395,18 +395,18 @@ nnoremap <leader>i :set list!<cr>
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 " }}}
 " Quick editing ----------------------------------------------------------- {{{
-nnoremap <leader>ec :vsplit ~/.editorconfig<cr>
+nnoremap <leader>ec :vsplit ~/.dotfiles/editorconfig<cr>
 nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
 nnoremap <leader>ef :vsplit ~/.config/fish/config.fish<cr>
-nnoremap <leader>eg :vsplit ~/.gitconfig<cr>
-nnoremap <leader>ej :vsplit ~/.jshintrc<cr>
-nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>eg :vsplit ~/.dotfiles/gitconfig<cr>
+nnoremap <leader>ej :vsplit ~/.dotfiles/jshintrc<cr>
+nnoremap <leader>et :vsplit ~/.dotfiles/tmux.conf<cr>
+nnoremap <leader>ev :vsplit ~/.dotfiles/vimrc<cr>
 nnoremap <leader>ez :vsplit ~/.dotfiles/zsh/zshrc<cr>
 
 nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
-nnoremap <leader>eb :vsplit ~/.bash_profile<cr>
-nnoremap <leader>eg :vsplit ~/.gitconfig<cr>
+nnoremap <leader>eb :vsplit ~/.dotfiles/bash_profile<cr>
+nnoremap <leader>eg :vsplit ~/.dotfiles/gitconfig<cr>
 " }}}
 " Searching and movement -------------------------------------------------- {{{
 " Use sane regexes.
