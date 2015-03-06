@@ -22,14 +22,22 @@ Plug 'bkad/CamelCaseMotion'
 Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
 Plug 'papanikge/vim-voogle'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'tejr/vim-tmux'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/SyntaxComplete'
 Plug 'AndrewRadev/linediff.vim'
 Plug 'terryma/vim-expand-region'
-Plug 'sheerun/vim-polyglot'
 Plug 'dyng/ctrlsf.vim'
 Plug 'shime/vim-livedown', {'do': 'npm install -g livedown'}
+Plug 'honza/dockerfile.vim'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
+Plug 'guns/vim-clojure-static', {'for': 'clojure'}
+Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'leshill/vim-json', {'for': 'json'}
+Plug 'mitsuhiko/vim-python-combined', {'for': 'python'}
+Plug 'kien/rainbow_parentheses.vim'
 
 " Vim sugar for the UNIX shell commands that need it the most. Features include:
 " :Remove, :Unlink, :Move, :Chmod, :Mkdir, :Find, :Locate, :Wall, :SudoWrite, :SudoEdit
@@ -59,24 +67,33 @@ Plug 'Shougo/vimproc.vim', {'do': 'make'}
 " Browse the vim undo tree
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 
+" CSS, SASS, LESS {{{
+Plug 'JulesWang/css.vim', {'for': '*css'}
+Plug 'cakebaker/scss-syntax.vim', {'for': '*scss*'}
+Plug 'hail2u/vim-css3-syntax', {'for': '*css'}
+Plug 'groenewege/vim-less', {'for': 'less*'}
+" }}}
 " Git {{{
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-git'
 " }}}
 " HTML {{{
-Plug 'mattn/emmet-vim', {'for': ['html', 'xhttml', 'handlebars', 'css', 'xml', 'xls', 'markdown']}
+Plug 'mustache/vim-mustache-handlebars', {'for': ['html.mustache', 'html.handlebars']}
+Plug 'tpope/vim-haml', {'for': 'haml'}
+Plug 'othree/html5.vim', {'for': 'html*'}
+Plug 'mattn/emmet-vim', {'for': ['html*', 'xhttml', '*css', 'xml', 'xls', 'markdown']}
 " }}}
 " Javascript {{{
-" Covered by vim-polyglot
-" Plug 'pangloss/vim-javascript', {'for': 'javascript'}
-" Plug 'jelera/vim-javascript-syntax', {'for': 'javascript'}
-" Plug 'othree/yajs.vim', {'for': 'javascript'}
-
+Plug 'othree/yajs.vim', {'for': 'javascript'}
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
+Plug 'jason0x43/vim-js-indent', {'for': 'javascript'}
 Plug 'maksimr/vim-jsbeautify', {'for': 'javascript', 'do': 'npm install -g js-beautify'}
+Plug 'leafgarland/typescript-vim', {'for': 'javascript'}
 " Plug 'marijnh/tern_for_vim', {'for': 'javascript', 'do': '~/.vim/plugged/tern_for_vim && npm install'}
 " }}}
 " Ruby {{{
+Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 Plug 'tpope/vim-rails', {'for': ['ruby', 'rails']}
 Plug 'tpope/vim-cucumber', {'for': ['ruby', 'rails']}
 Plug 'skwp/vim-rspec', {'for': ['ruby', 'rails']}
@@ -656,20 +673,20 @@ augroup END
 augroup ft_css
     au!
 
-    au BufNewFile,BufRead *.less setlocal filetype=less
+    au BufNewFile,BufRead *.less setlocal filetype=less.scss.css
+    au BufRead,BufNewFile *.scss set filetype=scss.css
 
-    au Filetype sass,scss,less,css setlocal foldmethod=marker
-    au Filetype sass,scss,less,css setlocal foldmarker={,}
-    au Filetype sass,scss,less,css setlocal omnifunc=csscomplete#CompleteCSS
-    au Filetype sass,scss,less,css setlocal iskeyword+=-
+    au Filetype *css setlocal foldmethod=marker
+    au Filetype *css setlocal foldmarker={,}
+    au Filetype *css setlocal omnifunc=csscomplete#CompleteCSS
+    au Filetype *css setlocal iskeyword+=-
 
-    au BufNewFile,BufRead *.less,*.css,*.scss nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
+    au Filetype *css nnoremap <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au BufNewFile,BufRead *.less,*.css,*.sass,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
+    au FileType *css inoremap <buffer> {<cr> {}<left><cr><space><space>.<cr><esc>kA<bs>
     " }
-
 augroup END
 " }}}
 " Django {{{
@@ -707,17 +724,18 @@ augroup ft_fish
     au FileType fish setlocal foldmethod=marker foldmarker={{{,}}}
 augroup END
 " }}}
+" Go {{{
+" }}}
 " Haml {{{
 augroup ft_haml
     au!
-    au BufRead,BufNewFile *.hamlc set ft=haml
+    au BufRead,BufNewFile *.hamlc setlocal ft=haml
 augroup END
 " }}}
 " HTML and handlebars {{{
 augroup ft_html
     au!
 
-    au BufNewFile,BufRead *.html setlocal filetype=html
     au FileType html* setlocal foldlevel=99
     au FileType html* setlocal foldmethod=manual
     au FileType html* setlocal omnifunc=htmlcomplete#CompleteTags
@@ -735,7 +753,7 @@ augroup ft_html
     au FileType html* inoremap <buffer> <c-r> <%<space><space>%><left><left><left>
 
     " handlebars tags
-    au FileType html.handlebars inoremap <buffer> <c-b> {{<space><space>}}<left><left><left>
+    au FileType *.handlebars inoremap <buffer> <c-b> {{<space><space>}}<left><left><left>
 augroup END
 " }}}
 " Java {{{
@@ -1108,6 +1126,9 @@ autocmd FileType css vnoremap <buffer> <leader>f :call RangeCSSBeautify()<cr>
 " JSON {{{
 let g:vim_json_syntax_conceal = 0
 " }}}
+" JS-Indent {{{
+let g:js_indent_flat_switch = 1
+" }}}
 " Lightline {{{
 let g:lightline = {
             \ 'colorscheme': 'wombat',
@@ -1276,6 +1297,27 @@ let NERDTreeDirArrows = 1
 let NERDChristmasTree = 1
 let NERDTreeChDirMode = 2
 let NERDTreeMapJumpFirstChild = 'gK'
+" }}}
+" Rainbow parentheses {{{
+" let g:rbpt_colorpairs = [
+"     \ ['brown',       'RoyalBlue3'],
+"     \ ['Darkblue',    'SeaGreen3'],
+"     \ ['darkgray',    'DarkOrchid3'],
+"     \ ['darkgreen',   'firebrick3'],
+"     \ ['darkcyan',    'RoyalBlue3'],
+"     \ ['darkred',     'SeaGreen3'],
+"     \ ['darkmagenta', 'DarkOrchid3'],
+"     \ ['brown',       'firebrick3'],
+"     \ ['gray',        'RoyalBlue3'],
+"     \ ['black',       'SeaGreen3'],
+"     \ ['darkmagenta', 'DarkOrchid3'],
+"     \ ['Darkblue',    'firebrick3'],
+"     \ ['darkgreen',   'RoyalBlue3'],
+"     \ ['darkcyan',    'SeaGreen3'],
+"     \ ['darkred',     'DarkOrchid3'],
+"     \ ['red',         'firebrick3'],
+"     \ ]
+nmap <leader>r :RainbowParenthesesToggle<CR>
 " }}}
 " Syntastic {{{
 let g:syntastic_enable_signs = 1
