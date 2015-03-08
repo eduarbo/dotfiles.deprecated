@@ -56,7 +56,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'kshenoy/vim-signature'
 
 " Maintains a history of previous yanks, changes and deletes
-Plug 'vim-scripts/YankRing.vim'
+" Plug 'vim-scripts/YankRing.vim'
 
 " Toggle the display of the quickfix list and the location-list.
 Plug 'Valloric/ListToggle'
@@ -112,8 +112,6 @@ call plug#end()
 " }}}
 " Basic options ----------------------------------------------------------- {{{
 filetype plugin indent on
-
-inoremap jj <Esc> " Professor VIM says '87% of users prefer jj over esc', jj abrams disagrees
 
 let mapleader = ","
 let maplocalleader = "\\"
@@ -252,7 +250,7 @@ if !isdirectory(expand(&directory))
 endif
 " }}}
 " Colorscheme {{{
-syntax enable
+syntax on
 " Workaround to fix cursorline on diffmode
 " if !&diff
 "   set cursorline
@@ -281,6 +279,9 @@ function! MakeSpacelessBufferIabbrev(from, to)
 endfunction
 
 call MakeSpacelessIabbrev('gh/',  'http://github.com/')
+call MakeSpacelessIabbrev('ghe/',  'http://github.com/eduarbo')
+call MakeSpacelessIabbrev('me/',  'Eduardo Ruiz Macias')
+call MakeSpacelessIabbrev('em/',  'eduarbo@gmail.com')
 
 iabbrev ldis ಠ_ಠ
 iabbrev lsad ಥ_ಥ
@@ -288,6 +289,9 @@ iabbrev lhap ಥ‿ಥ
 iabbrev lmis ಠ‿ಠ
 " }}}
 " Convenience mappings ---------------------------------------------------- {{{
+" Better than jj
+inoremap jk <Esc>
+
 " Fuck you, help key.
 noremap  <F1> <ESC>
 inoremap <F1> <ESC>
@@ -312,8 +316,6 @@ nnoremap <C-t> :tabnew<cr>
 " nnoremap > >>_
 vnoremap < <gv
 vnoremap > >gv
-
-nnoremap <C-q> :q<cr>
 
 nnoremap ; :
 
@@ -358,12 +360,11 @@ cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 
 " Formatting, TextMate-style
-nnoremap Q gqip
+" nnoremap Q gqip
 vnoremap Q gq
 
-" Reformat line.
-" I never use l as a macro register anyway.
-nnoremap ql gqq
+" shortcut for @j macro
+nnoremap Q @j
 
 " Easier linewise reselection
 nnoremap <leader>V V`]
@@ -446,7 +447,7 @@ set virtualedit+=block
 noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 
 runtime macros/matchit.vim
-map <tab> %
+nnoremap <tab> %
 silent! unmap [%
 silent! unmap ]%
 
@@ -632,7 +633,7 @@ let g:clojure_highlight_extra_defs = [
 augroup ft_clojure
     au!
 
-    au BufNewFile,BufRead riemann.config set filetype=clojure
+    au BufNewFile,BufRead riemann.config setlocal filetype=clojure
     au FileType clojure silent! call TurnOnClojureFolding()
     au FileType clojure compiler clojure
     au FileType clojure setlocal report=100000
@@ -662,7 +663,7 @@ augroup END
 augroup ft_clojurescript
     au!
 
-    au BufNewFile,BufRead *.cljs set filetype=clojurescript
+    au BufNewFile,BufRead *.cljs setlocal filetype=clojurescript
     au FileType clojurescript call TurnOnClojureFolding()
 
     " Indent top-level form.
@@ -674,7 +675,7 @@ augroup ft_css
     au!
 
     au BufNewFile,BufRead *.less setlocal filetype=less.scss.css
-    au BufRead,BufNewFile *.scss set filetype=scss.css
+    au BufRead,BufNewFile *.scss setlocal filetype=scss.css
 
     au Filetype *css setlocal foldmethod=marker
     au Filetype *css setlocal foldmarker={,}
@@ -794,11 +795,11 @@ augroup END
 " JSON {{{
 augroup ft_json
     autocmd!
-    autocmd FileType json set autoindent
-    autocmd FileType json set formatoptions=tcq2l
-    autocmd FileType json set shiftwidth=2 softtabstop=2 tabstop=8
-    autocmd FileType json set foldmethod=syntax
-    autocmd FileType json set expandtab
+    autocmd FileType json setlocal autoindent
+    autocmd FileType json setlocal formatoptions=tcq2l
+    autocmd FileType json setlocal shiftwidth=2 softtabstop=2 tabstop=8
+    autocmd FileType json setlocal foldmethod=syntax
+    autocmd FileType json setlocal expandtab
     autocmd BufNewFile,BufRead *.json normal zR
 augroup END
 " }}}
@@ -806,7 +807,7 @@ augroup END
 augroup ft_markdown
     au!
 
-    au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=markdown
+    au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} setlocal filetype=markdown
     au FileType markdown normal! zR
     au FileType markdown setlocal foldlevel=1
     au FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -815,17 +816,17 @@ augroup ft_markdown
     au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=:redraw<cr>
     au Filetype markdown nnoremap <buffer> <localleader>2 yypVr-:redraw<cr>
     au Filetype markdown nnoremap <buffer> <localleader>3 mzI###<space>`zllll <ESC>
-    au Filetype markdown set nofoldenable    " disable folding"
+    au Filetype markdown setlocal nofoldenable    " disable folding"
 augroup END
 " }}}
 " Nginx {{{
 augroup ft_nginx
     au!
 
-    au BufRead,BufNewFile /etc/nginx/conf/*                      set ft=nginx
-    au BufRead,BufNewFile /etc/nginx/sites-available/*           set ft=nginx
-    au BufRead,BufNewFile /usr/local/etc/nginx/sites-available/* set ft=nginx
-    au BufRead,BufNewFile vhost.nginx                            set ft=nginx
+    au BufRead,BufNewFile /etc/nginx/conf/*                      setlocal ft=nginx
+    au BufRead,BufNewFile /etc/nginx/sites-available/*           setlocal ft=nginx
+    au BufRead,BufNewFile /usr/local/etc/nginx/sites-available/* setlocal ft=nginx
+    au BufRead,BufNewFile vhost.nginx                            setlocal ft=nginx
 
     au FileType nginx setlocal foldmethod=marker foldmarker={,}
 augroup END
@@ -834,9 +835,9 @@ augroup END
 augroup ft_postgres
     au!
 
-    au BufNewFile,BufRead *.sql set filetype=pgsql
-    au FileType pgsql set foldmethod=indent
-    au FileType pgsql set softtabstop=2 shiftwidth=2
+    au BufNewFile,BufRead *.sql setlocal filetype=pgsql
+    au FileType pgsql setlocal foldmethod=indent
+    au FileType pgsql setlocal softtabstop=2 shiftwidth=2
 augroup END
 " }}}
 " Python {{{
@@ -867,9 +868,8 @@ augroup END
 " Ruby {{{
 augroup ft_ruby
     au!
-    au BufRead,BufNewFile Vagrantfile set ft=ruby
+    au BufRead,BufNewFile Vagrantfile,Capfile setlocal filetype=ruby
     au Filetype ruby setlocal foldmethod=syntax
-    au BufRead,BufNewFile Capfile setlocal filetype=ruby
     au FileType ruby setlocal omnifunc=rubycomplete#Complete
 augroup END
 " }}}
@@ -900,18 +900,14 @@ augroup END
 " Vimrc {{{
 augroup myvimrc
     au!
-    au BufWritePost .vimrc,vimrc,.gvimrc,gvimrc so $MYVIMRC |
-                \ if has('gui_running') |
-                \   so $MYVIMRC |
-                \ endif
+    au BufWritePost .vimrc,vimrc so %
 augroup END
-" autoload configuration when this file changes ($MYVIMRC)
 " }}}
 " YAML {{{
 augroup ft_yaml
     au!
 
-    au FileType yaml set shiftwidth=2
+    au FileType yaml setlocal shiftwidth=2
 augroup END
 " }}}
 " XML {{{
@@ -968,11 +964,14 @@ augroup plugin_commentary
 augroup END
 " }}}
 " CtrlSF {{{
-vmap     <leader>a <Plug>CtrlSFVwordPath
-nmap     <leader>a <Plug>CtrlSFCwordPath
+nnoremap <leader>a <Plug>CtrlSFCwordPath
+vnoremap <leader>a <Plug>CtrlSFCwordPath
 nnoremap <leader>A :CtrlSFOpen<CR>
-nnoremap <leader>A :CtrlSFOpen<CR>
+vnoremap <leader>A :CtrlSFOpen<CR>
 au FileType ctrlsf nnoremap <buffer> <leader>A :CtrlSFClose<CR>
+au FileType ctrlsf vnoremap <buffer> <leader>A :CtrlSFClose<CR>
+" For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
+noremap q q
 
 let g:ctrlsf_ackprg = 'ag'
 " }}}
