@@ -964,14 +964,13 @@ augroup plugin_commentary
 augroup END
 " }}}
 " CtrlSF {{{
-nnoremap <leader>a <Plug>CtrlSFCwordPath
-vnoremap <leader>a <Plug>CtrlSFCwordPath
+vmap     <leader>a <Plug>CtrlSFVwordPath
+nmap     <leader>a <Plug>CtrlSFCwordPath
 nnoremap <leader>A :CtrlSFOpen<CR>
 vnoremap <leader>A :CtrlSFOpen<CR>
 au FileType ctrlsf nnoremap <buffer> <leader>A :CtrlSFClose<CR>
 au FileType ctrlsf vnoremap <buffer> <leader>A :CtrlSFClose<CR>
 " For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
-noremap q q
 
 let g:ctrlsf_ackprg = 'ag'
 " }}}
@@ -1088,6 +1087,10 @@ augroup END
 " "Hub"
 nnoremap <leader>gh :Gbrowse<cr>
 vnoremap <leader>gh :Gbrowse<cr>
+" }}}
+" GitGutter {{{
+nmap [h <Plug>GitGutterPrevHunk
+nmap ]h <Plug>GitGutterNextHunk
 " }}}
 " Go {{{
 let g:go_doc_keywordprg_enabled = 0
