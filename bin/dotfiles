@@ -47,6 +47,7 @@ _backup() {
 }
 
 _mirrorfiles() {
+  # List of files to link in the $HOME dir
   list=(
   'bash_profile'
   'bashrc'
@@ -69,6 +70,12 @@ _mirrorfiles() {
   for file in ${list[@]}; do
     _link $file ".$file"
   done
+
+  # Karabiner
+  _link "karabiner/private.xml" "Library/Application Support/Karabiner/private.xml"
+  _link "karabiner/org.pqrs.Karabiner.plist" "Library/Preferences/org.pqrs.Karabiner.plist"
+  # Seil
+  _link "karabiner/org.pqrs.Seil.plist" "Library/Preferences/org.pqrs.Seil.plist"
 
   # Copy `.gitconfig`.
   # Any global git commands in `~/.bash_profile.local` will be written to
