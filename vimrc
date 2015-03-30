@@ -38,6 +38,7 @@ Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'leshill/vim-json', {'for': 'json'}
 Plug 'mitsuhiko/vim-python-combined', {'for': 'python'}
 Plug 'kien/rainbow_parentheses.vim'
+Plug 'benmills/vimux'
 
 " Vim sugar for the UNIX shell commands that need it the most. Features include:
 " :Remove, :Unlink, :Move, :Chmod, :Mkdir, :Find, :Locate, :Wall, :SudoWrite, :SudoEdit
@@ -1359,6 +1360,9 @@ let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-h>"
 
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
+" }}}
+" Vimux {{{
+nnoremap <localleader>x :call VimuxRunLastCommand()<CR>
 " }}}
 " Vim-Notes {{{
 let g:notes_directories = ['~/Documents/Notes', '~/Dropbox/Notes']
