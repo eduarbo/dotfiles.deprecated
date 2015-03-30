@@ -26,6 +26,7 @@ _apps=(
 'dropbox'
 'firefox'
 'adobe-reader'
+'omnidisksweeper'
 )
 
 # Check for cask
