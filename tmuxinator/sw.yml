@@ -37,7 +37,6 @@ windows:
           - cd core-webapp/src/main/webapp/resources/encore
           - mvim
         - #empty, will just run plain bash
-        - #empty, will just run plain bash
   - server&assets:
       layout: main-vertical
       panes:
