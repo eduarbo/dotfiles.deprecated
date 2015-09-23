@@ -124,7 +124,8 @@
         "server": false,
         "expect": false,
         "_": false,
-        "Handlebars": false
+        "Handlebars": false,
+        "Select2": true
     }
 }
 // vim: set ft=json syntax=javascript :
