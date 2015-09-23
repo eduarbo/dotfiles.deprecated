@@ -25,10 +25,6 @@ if [[ $TMUX = "" ]]; then
 else
   export TERM="screen-256color"
 fi
-# force 256-color gruvbox palette
-# https://github.com/morhetz/gruvbox-generalized/tree/master/iterm2
-GRUVBOX="$HOME/.dotfiles/vim/plugged/gruvbox/gruvbox_256palette_osx.sh"
-[[ -e $GRUVBOX ]] && source $GRUVBOX
 
 [[ -e "$HOME/.secrets" ]] && source $HOME/.secrets
 # Zsh-specific
