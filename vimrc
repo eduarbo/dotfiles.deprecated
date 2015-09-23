@@ -19,7 +19,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'rking/ag.vim'
 Plug 'bkad/CamelCaseMotion'
-Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
+Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 Plug 'papanikge/vim-voogle'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tejr/vim-tmux'
@@ -35,7 +35,7 @@ Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'guns/vim-clojure-static', {'for': 'clojure'}
 Plug 'fatih/vim-go', {'for': 'go'}
-Plug 'leshill/vim-json', {'for': 'json'}
+Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'mitsuhiko/vim-python-combined', {'for': 'python'}
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'benmills/vimux'
@@ -90,7 +90,7 @@ Plug 'othree/yajs.vim', {'for': 'javascript'}
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
 Plug 'jason0x43/vim-js-indent', {'for': 'javascript'}
 Plug 'maksimr/vim-jsbeautify', {'for': 'javascript', 'do': 'npm install -g js-beautify'}
-Plug 'leafgarland/typescript-vim', {'for': 'javascript'}
+Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
 " Plug 'marijnh/tern_for_vim', {'for': 'javascript', 'do': '~/.vim/plugged/tern_for_vim && npm install'}
 " }}}
 " Ruby {{{
@@ -742,7 +742,7 @@ augroup ft_html
     au FileType html* setlocal foldmethod=manual
     au FileType html* setlocal omnifunc=htmlcomplete#CompleteTags
 
-    au FileType html* setlocal tabstop=4 shiftwidth=4 softtabstop=4
+    au FileType html* setlocal tabstop=2 shiftwidth=2 softtabstop=4
 
     " Use <localleader>f to fold the current tag.
     au FileType html* nnoremap <buffer> <localleader>f Vatzf
@@ -780,6 +780,7 @@ augroup END
 " Javascript {{{
 augroup ft_javascript
     au!
+    au BufRead,BufNewFile *.es6 setfiletype javascript
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
     au Filetype javascript setlocal foldtext=getline(v:foldstart)
@@ -798,9 +799,8 @@ augroup ft_json
     autocmd!
     autocmd FileType json setlocal autoindent
     autocmd FileType json setlocal formatoptions=tcq2l
-    autocmd FileType json setlocal shiftwidth=2 softtabstop=2 tabstop=8
+    autocmd FileType json setlocal tabstop=8
     autocmd FileType json setlocal foldmethod=syntax
-    autocmd FileType json setlocal expandtab
     autocmd BufNewFile,BufRead *.json normal zR
 augroup END
 " }}}
@@ -838,7 +838,6 @@ augroup ft_postgres
 
     au BufNewFile,BufRead *.sql setlocal filetype=pgsql
     au FileType pgsql setlocal foldmethod=indent
-    au FileType pgsql setlocal softtabstop=2 shiftwidth=2
 augroup END
 " }}}
 " Python {{{
@@ -907,8 +906,6 @@ augroup END
 " YAML {{{
 augroup ft_yaml
     au!
-
-    au FileType yaml setlocal shiftwidth=2
 augroup END
 " }}}
 " XML {{{
@@ -1335,6 +1332,7 @@ let g:syntastic_mode_map = {
 let g:syntastic_disabled_filetypes = ['html', 'rst']
 let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
 let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_loc_list_height = 3
 
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
@@ -1355,9 +1353,9 @@ let g:tern_map_keys=1
 let g:tern_show_arguments_hits='on_hold'
 " }}}
 " UltiSnips {{{
-let g:UltiSnipsExpandTrigger="<C-l>"
-let g:UltiSnipsJumpForwardTrigger="<C-l>"
-let g:UltiSnipsJumpBackwardTrigger="<C-h>"
+let g:UltiSnipsExpandTrigger="<Tab>"
+let g:UltiSnipsJumpForwardTrigger="<Tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
 " }}}
@@ -1387,8 +1385,8 @@ function! YRRunAfterMaps()
 endfunction
 " }}}
 " YouCompleteMe {{{
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<C-p>']
-let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>', '<C-n>']
+let g:ycm_key_list_select_completion = ['<Down>', '<C-p>']
+let g:ycm_key_list_previous_completion = ['<Up>', '<C-n>']
 
 " enable completion from tags
 let g:ycm_collect_identifiers_from_tags_files = 1
@@ -1435,6 +1433,8 @@ hi def BlockColor5 guibg=#444444
 " }}}
 nnoremap <leader>B :call BlockColor()<cr>
 " }}}
+vnoremap <leader>64d y:let @"=system('base64 --decode', @")<cr>gvP
+vnoremap <leader>64e y:let @"=system('base64', @")<cr>gvP
 " }}}
 " Environments (GUI/Console) ---------------------------------------------- {{{
 if has('gui_running')
