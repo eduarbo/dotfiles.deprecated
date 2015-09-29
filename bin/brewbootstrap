@@ -110,6 +110,7 @@ if [[ -x `which brew` ]]; then
   'tig'
   'fortune'
   'cowsay'
+  '--HEAD fzf'
   'gtypist'
   # 'emacs --HEAD --use-git-head --cocoa --srgb'
   )
