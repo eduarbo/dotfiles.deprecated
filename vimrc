@@ -14,34 +14,38 @@ Plug 'tpope/vim-endwise'
 Plug 'scrooloose/syntastic', {'do': 'npm install -g jshint'} " TODO: make it load faster
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim', {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'rking/ag.vim'
 Plug 'bkad/CamelCaseMotion'
 Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'tejr/vim-tmux'
+Plug 'tejr/vim-tmux', {'for': 'tmux'}
 Plug 'Lokaltog/vim-easymotion'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/SyntaxComplete'
-Plug 'AndrewRadev/linediff.vim'
+Plug 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
 Plug 'terryma/vim-expand-region' " select increasingly larger regions of text using the same key combination
 Plug 'dyng/ctrlsf.vim'
 Plug 'shime/vim-livedown', {'do': 'npm install -g livedown', 'for': 'markdown'}
-Plug 'honza/dockerfile.vim'
-Plug 'godlygeek/tabular'
-Plug 'neovimhaskell/haskell-vim'
+Plug 'docker/docker', {'rtp': '/contrib/syntax/vim/', 'for': 'dockerfile'}
+Plug 'junegunn/vim-easy-align', {'on': 'EasyAlign'}
+Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'guns/vim-clojure-static', {'for': 'clojure'}
-Plug 'elixir-lang/vim-elixir'
+Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}
 Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'hdima/python-syntax', {'for': 'python'}
 Plug 'kien/rainbow_parentheses.vim'
-Plug 'benmills/vimux'
-Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'benmills/vimux', {'on': ['VimuxRunCommand', 'VimuxRunLastCommand']}
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
+Plug 'ryanoasis/vim-devicons'
+" Plug 'ktonga/vim-follow-my-lead'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install', 'on': 'FZF' }
+Plug 'junegunn/fzf.vim', {'on': 'FZF'}
 
 " Vim sugar for the UNIX shell commands that need it the most. Features include:
 " :Remove, :Unlink, :Move, :Chmod, :Mkdir, :Find, :Locate, :Wall, :SudoWrite, :SudoEdit
@@ -51,7 +55,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'Raimondi/delimitMate'
 
 " Plug 'vim-scripts/SyntaxRange'
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimfiler.vim'
@@ -895,10 +899,10 @@ augroup ft_vim
 augroup END
 " }}}
 " Vimrc {{{
-augroup myvimrc
-    au!
-    au BufWritePost .vimrc,vimrc so %
-augroup END
+" augroup myvimrc
+"     au!
+"     au BufWritePost .vimrc,vimrc so %
+" augroup END
 " }}}
 " YAML {{{
 augroup ft_yaml
@@ -1020,6 +1024,7 @@ endif
 
 let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command, my_ctrlp_user_command]
 
+nnoremap <leader>, :CtrlP<cr>
 nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>m :CtrlPMRUFiles<cr>
@@ -1073,15 +1078,17 @@ nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :Gremove<cr>
 nnoremap <leader>gl :Shell git gl -18<cr>:wincmd \|<cr>
 
+" "Hub"
+nnoremap <leader>gh :Gbrowse<cr>
+vnoremap <leader>gh :Gbrowse<cr>
+
 augroup ft_fugitive
     au!
 
     au BufNewFile,BufRead .git/index setlocal nolist
 augroup END
-
-" "Hub"
-nnoremap <leader>gh :Gbrowse<cr>
-vnoremap <leader>gh :Gbrowse<cr>
+" }}}
+" FZF {{{
 " }}}
 " GitGutter {{{
 nmap [h <Plug>GitGutterPrevHunk
@@ -1193,11 +1200,13 @@ function! LightLineFugitive()
 endfunction
 
 function! LightLineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
+    " return winwidth(0) > 70 ? &fileformat : ''
+    return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
 endfunction
 
 function! LightLineFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+    " return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
 endfunction
 
 function! LightLineFileencoding()
@@ -1360,6 +1369,13 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
 " Vimux {{{
 nnoremap <localleader>x :call VimuxRunLastCommand()<CR>
 " }}}
+" Vim-Easy-Align {{{
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+" }}}
 " Vim-Go {{{
 " prevent "vim-go" from showing a quickfix window when |g:go_fmt_command| fails
 let g:go_fmt_fail_silently = 1
@@ -1501,12 +1517,15 @@ else
 
     " Mouse support
     set mouse=a
+    nnoremap <leader>, :FZF<cr>
 endif
 
 set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline:h12
+" set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline\ Plus\ Nerd\ Files\ Plus\ Octicons\ Plus\ Pomicons:h12
 " }}}
 " TODO {{{
 " * Add more customized snippets
 " * Move filetype specific options to ftplugins dir
 " * Configure VimFiler
+" * Check if it's worth using Unite
 " }}}

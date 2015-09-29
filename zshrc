@@ -31,6 +31,22 @@ export PATH="$PATH:$GOPATH/bin"
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PATH=$PATH:$HOME/.cabal/bin
 
+# FZF (move to plugins) {{{
+export FZF_DEFAULT_OPTS="--extended --cycle"
+
+# Setting ag as the default source for fzf
+# export FZF_DEFAULT_COMMAND='ag -l -g ""'
+export FZF_DEFAULT_COMMAND='
+  (git ls-tree -r --name-only HEAD ||
+   ag -l -g "" ||
+   find * -name ".*" -prune -o -type f -print -o -type l -print) 2> /dev/null'
+
+# To apply the command to CTRL-T as well
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# }}}
+
 [[ -e "$HOME/.secrets" ]] && source $HOME/.secrets
 
 # Zsh-specific
