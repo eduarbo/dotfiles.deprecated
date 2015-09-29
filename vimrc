@@ -14,7 +14,7 @@ Plug 'tpope/vim-endwise'
 Plug 'scrooloose/syntastic', {'do': 'npm install -g jshint'} " TODO: make it load faster
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'kien/ctrlp.vim', {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
+Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'rking/ag.vim'
@@ -151,6 +151,7 @@ set title                       " set the terminal title to the current file
 set linebreak
 set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
+" TODO: map it to a more accessible key, I use it a lot!
 set pastetoggle=<F2>            " Use it for pasting large amounts of text into Vim, disabling all kinds of smartness and just pasting a whole buffer of text
 set lazyredraw
 set ssop-=options    " do not store global and local values in a session
@@ -1004,11 +1005,13 @@ let my_ctrlp_user_command = "" .
             \ "find %s '(' -type f -or -type l ')' -maxdepth 15 -not -path '*/\\.*/*' | " .
             \ ctrlp_filter_greps
 
+let my_ctrlp_hg_command = "hg --cwd %s locate -I ."
+
 let my_ctrlp_git_command = "" .
             \ "cd %s && git ls-files --exclude-standard -co | " .
             \ ctrlp_filter_greps
 
-let my_ctrlp_ffind_command = "ffind --semi-restricted --dir %s --type e -B -f"
+let my_ctrlp_ag_command = "ag %s -l --nocolor -g "" | " . ctrlp_filter_greps
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
@@ -1016,13 +1019,20 @@ if executable('ag')
     set grepprg="ag\ --nogroup\ --nocolor"
 
     " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    let my_ctrlp_user_command = "" .
-                \ 'ag %s -l --nocolor -g "" | ' .
-                \ ctrlp_filter_greps
+    let my_ctrlp_user_command = my_ctrlp_ag_command
 
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
 endif
 
-let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command, my_ctrlp_user_command]
+" Multiple VCS's:
+let g:ctrlp_user_command = {
+\ 'types': {
+    \ 1: ['.git', my_ctrlp_git_command],
+    \ 2: ['.hg', my_ctrlp_hg_command],
+    \ },
+\ 'fallback': my_ctrlp_user_command
+\ }
 
 nnoremap <leader>, :CtrlP<cr>
 nnoremap <leader>. :CtrlPTag<cr>
