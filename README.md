@@ -1,8 +1,7 @@
-My config files for Vim, bash, zsh and more in OSX
-==================================================
+My beatufil config files for vim, zsh, tmux and more in OSX
+===========================================================
 
-This is a collection of my configuration files under OSX (I'm working to get the
-installation script working in Linux too)
+This is a collection of my configuration files under OSX.
 
 Installation
 ------------
@@ -34,7 +33,6 @@ command instead:
 $ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/bin/dotfiles)" -- --with-apps
 ```
 
-
 Aliases
 -------
 
@@ -42,8 +40,8 @@ There are nice aliases for git, ruby, shortcuts, files & directories and some
 OS-specific aliases (Linux and OSX).
 
 
-Vim Plugins
------------
+Vim Plugins (outdated)
+----------------------
 
 ###Ag
 Ag can be used as a replacement for ack but faster. This plugin will allow you
@@ -149,5 +147,5 @@ Inspiration and some code was taken from many sources, including:
 
 TODO
 ----
-* Make .gitconfig more general. Get rid of my harcoded email and name, maybe?
-* Make the installation script compatible with Linux
+* Make .gitconfig more general. Get rid of my harcoded email and name
+* simplify bootstrap scripts in one file

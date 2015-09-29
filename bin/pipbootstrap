@@ -2,7 +2,7 @@
 
 packages="flake8"
 
-source ~/.dotfiles/lib/utils
+source "$HOME/.dotfiles/lib/utils"
 
 if ! type_exists 'pip'; then
   echo
