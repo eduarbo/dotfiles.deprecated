@@ -11,7 +11,7 @@ call plug#begin()
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
-Plug 'scrooloose/syntastic', {'do': 'npm install -g jshint'}
+Plug 'scrooloose/syntastic', {'do': 'npm install -g jshint'} " TODO: make it load faster
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'kien/ctrlp.vim'
@@ -20,25 +20,28 @@ Plug 'honza/vim-snippets'
 Plug 'rking/ag.vim'
 Plug 'bkad/CamelCaseMotion'
 Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
-Plug 'papanikge/vim-voogle'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tejr/vim-tmux'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/SyntaxComplete'
 Plug 'AndrewRadev/linediff.vim'
-Plug 'terryma/vim-expand-region'
+Plug 'terryma/vim-expand-region' " select increasingly larger regions of text using the same key combination
 Plug 'dyng/ctrlsf.vim'
-Plug 'shime/vim-livedown', {'do': 'npm install -g livedown'}
+Plug 'shime/vim-livedown', {'do': 'npm install -g livedown', 'for': 'markdown'}
 Plug 'honza/dockerfile.vim'
 Plug 'godlygeek/tabular'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'guns/vim-clojure-static', {'for': 'clojure'}
+Plug 'elixir-lang/vim-elixir'
 Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'elzr/vim-json', {'for': 'json'}
-Plug 'mitsuhiko/vim-python-combined', {'for': 'python'}
+Plug 'hdima/python-syntax', {'for': 'python'}
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'benmills/vimux'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 " Vim sugar for the UNIX shell commands that need it the most. Features include:
 " :Remove, :Unlink, :Move, :Chmod, :Mkdir, :Find, :Locate, :Wall, :SudoWrite, :SudoEdit
@@ -50,14 +53,11 @@ Plug 'Raimondi/delimitMate'
 " Plug 'vim-scripts/SyntaxRange'
 Plug 'majutsushi/tagbar'
 
-" NERD tree will be loaded on the first invocation of NERDTreeToggle command
-Plug 'scrooloose/nerdtree'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimfiler.vim'
 
 " Place, toggle and display marks
 Plug 'kshenoy/vim-signature'
-
-" Maintains a history of previous yanks, changes and deletes
-" Plug 'vim-scripts/YankRing.vim'
 
 " Toggle the display of the quickfix list and the location-list.
 Plug 'Valloric/ListToggle'
@@ -99,13 +99,10 @@ Plug 'tpope/vim-rails', {'for': ['ruby', 'rails']}
 Plug 'tpope/vim-cucumber', {'for': ['ruby', 'rails']}
 Plug 'skwp/vim-rspec', {'for': ['ruby', 'rails']}
 " }}}
-" SQL {{{
-Plug 'exu/pgsql.vim', {'for': 'pgsql'}
-" }}}
 
 " Colorschemes {{{
-Plug 'tomasr/molokai'
-Plug 'sjl/badwolf'
+" Plug 'tomasr/molokai'
+" Plug 'sjl/badwolf'
 Plug 'morhetz/gruvbox'
 Plug 'chriskempson/base16-vim'
 " }}}
@@ -836,8 +833,8 @@ augroup END
 augroup ft_postgres
     au!
 
-    au BufNewFile,BufRead *.sql setlocal filetype=pgsql
-    au FileType pgsql setlocal foldmethod=indent
+    au BufNewFile,BufRead *.sql.pre,*.sql.post setlocal filetype=sql
+    au FileType sql setlocal foldmethod=indent
 augroup END
 " }}}
 " Python {{{
@@ -1133,18 +1130,26 @@ let g:js_indent_flat_switch = 1
 let g:lightline = {
             \ 'colorscheme': 'wombat',
             \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
-            \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+            \   'left': [
+            \       ['mode', 'paste'],
+            \       ['fugitive', 'filename'],
+            \       ['ctrlpmark']
+            \   ],
+            \   'right': [
+            \       ['syntastic', 'lineinfo' ],
+            \       ['percent'],
+            \       ['filetype']
+            \   ]
             \ },
             \ 'component_function': {
-            \   'modified': 'MyModified',
-            \   'readonly': 'MyReadonly',
-            \   'fugitive': 'MyFugitive',
-            \   'filename': 'MyFilename',
-            \   'fileformat': 'MyFileformat',
-            \   'filetype': 'MyFiletype',
-            \   'fileencoding': 'MyFileencoding',
-            \   'mode': 'MyMode',
+            \   'modified': 'LightLineModified',
+            \   'readonly': 'LightLineReadonly',
+            \   'fugitive': 'LightLineFugitive',
+            \   'filename': 'LightLineMode',
+            \   'fileformat': 'LightLineFileformat',
+            \   'filetype': 'LightLineFiletype',
+            \   'fileencoding': 'LightLineFileencoding',
+            \   'mode': 'LightLineFilename',
             \   'ctrlpmark': 'CtrlPMark',
             \ },
             \ 'component_expand': {
@@ -1158,62 +1163,58 @@ let g:lightline = {
             \ }
 
 
-function! MyModified()
-    return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+function! LightLineModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
 endfunction
 
-function! MyReadonly()
-    return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+function! LightLineReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
 endfunction
 
-function! MyFilename()
-    let fname = expand('%:t')
-    return fname == 'ControlP' ? g:lightline.ctrlp_item :
-                \ fname == '__Tagbar__' ? g:lightline.fname :
-                \ fname =~ '__Gundo\|NERD_tree' ? '' :
-                \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-                \ &ft == 'unite' ? unite#get_status_string() :
-                \ &ft == 'vimshell' ? vimshell#get_status_string() :
-                \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-                \ ('' != fname ? fname : '[No Name]') .
-                \ ('' != MyModified() ? ' ' . MyModified() : '')
+function! LightLineFilename()
+  let fname = expand('%:t')
+  return fname == 'ControlP' ? g:lightline.ctrlp_item :
+        \ fname == '__Tagbar__' ? g:lightline.fname :
+        \ fname =~ '__Gundo\|NERD_tree' ? '' :
+        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \ &ft == 'unite' ? unite#get_status_string() :
+        \ &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+        \ ('' != fname ? fname : '[No Name]') .
+        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
 endfunction
 
-function! MyFugitive()
-    try
-        if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-            let mark = '⭠ '  " edit here for cool mark
-            let _ = fugitive#head()
-            return strlen(_) ? mark._ : ''
-        endif
-    catch
-    endtry
-    return ''
+function! LightLineFugitive()
+  if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
+    let _ = fugitive#head()
+    return strlen(_) ? '⭠ '._ : ''
+  endif
+  return ''
 endfunction
 
-function! MyFileformat()
-    return winwidth(0) > 70 ? &fileformat : ''
+function! LightLineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
 endfunction
 
-function! MyFiletype()
-    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+function! LightLineFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
 endfunction
 
-function! MyFileencoding()
-    return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+function! LightLineFileencoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
 endfunction
 
-function! MyMode()
-    let fname = expand('%:t')
-    return fname == '__Tagbar__' ? 'Tagbar' :
-                \ fname == 'ControlP' ? 'CtrlP' :
-                \ fname == '__Gundo__' ? 'Gundo' :
-                \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-                \ fname =~ 'NERD_tree' ? 'NERDTree' :
-                \ &ft == 'unite' ? 'Unite' :
-                \ &ft == 'vimfiler' ? 'VimFiler' :
-                \ &ft == 'vimshell' ? 'VimShell' :
-                \ winwidth(0) > 60 ? lightline#mode() : ''
+function! LightLineMode()
+  let fname = expand('%:t')
+  return fname == '__Tagbar__' ? 'Tagbar' :
+        \ fname == 'ControlP' ? 'CtrlP' :
+        \ fname == '__Gundo__' ? 'Gundo' :
+        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+        \ fname =~ 'NERD_tree' ? 'NERDTree' :
+        \ &ft == 'unite' ? 'Unite' :
+        \ &ft == 'vimfiler' ? 'VimFiler' :
+        \ &ft == 'vimshell' ? 'VimShell' :
+        \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
 function! CtrlPMark()
@@ -1250,10 +1251,14 @@ function! TagbarStatusFunc(current, sort, fname, ...) abort
     return lightline#statusline(0)
 endfunction
 
+" Workaround to display error message in Lightline in red
 augroup AutoSyntastic
     autocmd!
-    autocmd BufWritePost *.c,*.cpp call s:syntastic()
+    autocmd BufWritePost *.c,*.cpp,*.js,*.py,*.go,*.hbs,*.json call s:syntastic()
+    autocmd BufWritePost *.rb,*.scss,*.sass,*.sh,.vimrc,vimrc call s:syntastic()
+    autocmd BufWritePost *.zsh,*.sql,*.sql.pre,*.sql.post call s:syntastic()
 augroup END
+
 function! s:syntastic()
     SyntasticCheck
     call lightline#update()
@@ -1262,6 +1267,7 @@ endfunction
 let g:unite_force_overwrite_statusline = 0
 let g:vimfiler_force_overwrite_statusline = 0
 let g:vimshell_force_overwrite_statusline = 0
+let g:vimfiler_quick_look_command = 'qlmanage -p'
 " }}}
 " Linediff {{{
 vnoremap <leader>d :Linediff<cr>
@@ -1275,28 +1281,19 @@ let g:lt_height = 10
 " Livedown {{{
 nmap <leader>P :LivedownPreview<CR>
 " }}}
-" NERD Tree {{{
-noremap  <leader>n :NERDTreeToggle<cr>
-
-" Open the project tree and expose current file in the nerdtree with ,N
-nnoremap <Leader>N :NERDTreeFind<CR>
-
-augroup ps_nerdtree
-    au!
-
-    au Filetype nerdtree setlocal nolist
-    au Filetype nerdtree nnoremap <buffer> H :vertical resize -10<cr>
-    au Filetype nerdtree nnoremap <buffer> L :vertical resize +10<cr>
-augroup END
-
-let NERDTreeHighlightCursorline = 1
-let NERDTreeIgnore = ['\~$', '.*\.pyc$']
-
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDChristmasTree = 1
-let NERDTreeChDirMode = 2
-let NERDTreeMapJumpFirstChild = 'gK'
+" vimFiler {{{
+noremap  <leader>n :VimFilerExplorer -parent<cr>
+nnoremap <Leader>N :VimFilerExplorer -parent -find<CR>
+let g:vimfiler_as_default_explorer = 1
+call vimfiler#custom#profile('default', 'context', {
+      \ 'safe' : 0,
+      \ 'status': 1
+      \ })
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_file_icon = '-'
+let g:vimfiler_marked_file_icon = '*'
 " }}}
 " Rainbow parentheses {{{
 " let g:rbpt_colorpairs = [
@@ -1320,9 +1317,6 @@ let NERDTreeMapJumpFirstChild = 'gK'
 nmap <leader>r :RainbowParenthesesToggle<CR>
 " }}}
 " Syntastic {{{
-let g:syntastic_enable_signs = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_java_checker = 'javac'
 let g:syntastic_mode_map = {
             \ "mode": "active",
             \ "active_filetypes": [],
@@ -1332,7 +1326,9 @@ let g:syntastic_mode_map = {
 let g:syntastic_disabled_filetypes = ['html', 'rst']
 let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
 let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_loc_list_height = 3
+let g:syntastic_java_checker = 'javac'
+let g:syntastic_html_tidy_exec = 'tidy'
+let g:syntastic_python_checkers = ['flake8'] " Other checkers: pep8, pylint, python, pyflakes
 
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
@@ -1340,9 +1336,11 @@ let g:syntastic_style_error_symbol  = '⚡'
 let g:syntastic_style_warning_symbol  = '⚡'
 
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_signs = 1
+let g:syntastic_loc_list_height = 3
 " }}}
 " Tagbar {{{
 nmap <F3> :TagbarToggle<CR>
@@ -1361,6 +1359,10 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
 " }}}
 " Vimux {{{
 nnoremap <localleader>x :call VimuxRunLastCommand()<CR>
+" }}}
+" Vim-Go {{{
+" prevent "vim-go" from showing a quickfix window when |g:go_fmt_command| fails
+let g:go_fmt_fail_silently = 1
 " }}}
 " Vim-Notes {{{
 let g:notes_directories = ['~/Documents/Notes', '~/Dropbox/Notes']
@@ -1506,4 +1508,5 @@ set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline:h12
 " TODO {{{
 " * Add more customized snippets
 " * Move filetype specific options to ftplugins dir
+" * Configure VimFiler
 " }}}
