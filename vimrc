@@ -971,8 +971,6 @@ vnoremap <leader>A :CtrlSFOpen<CR>
 au FileType ctrlsf nnoremap <buffer> <leader>A :CtrlSFClose<CR>
 au FileType ctrlsf vnoremap <buffer> <leader>A :CtrlSFClose<CR>
 " For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
-
-let g:ctrlsf_ackprg = 'ag'
 " }}}
 " Ctrl-P {{{
 let g:ctrlp_dont_split = 'NERD_tree_2'
