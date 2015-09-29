@@ -26,6 +26,13 @@ else
   export TERM="screen-256color"
 fi
 
+export GOPATH=~/dev/go
+export PATH="$PATH:$GOPATH/bin"
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
+export PATH=$PATH:$HOME/.cabal/bin
+
 [[ -e "$HOME/.secrets" ]] && source $HOME/.secrets
+
 # Zsh-specific
 [[ -e "$HOME/.zshrc.local" ]] && source $HOME/.zshrc.local
+# vim: set ft=zsh :
