@@ -83,24 +83,29 @@ if [[ -x `which brew` ]]; then
   'zsh-completions'
   'zsh-syntax-highlighting'
   'zsh-history-substring-search'
-  'selecta'
-  'fasd'
   )
 
   extra_formulae=(
   'gnutls --default-names' #required by Taskwarrior
   'rsync --default-names'
+  'nvm'
+  'selecta'
+  'fasd'
   'ctags'
   'ack'
+  'mercurial'
   'openssl'
   'the_silver_searcher'
   'brew-cask'
+  'go'
   'python --framework'
   'macvim --with-cscope --with-lua --env-std --override-system-vim'
-  'rbenv ruby-build'
+  'ruby-install chruby'
+  'libsass sassc'
   'tmux'
   'reattach-to-user-namespace' # tmux Copy & Paste
   'task'
+  'shellcheck checkbashisms'
   'vit'
   'tig'
   'fortune'
@@ -141,4 +146,3 @@ if [[ -x `which brew` ]]; then
   brew cleanup
   unset missing_formulae list_formulae base_formulae
 fi
-

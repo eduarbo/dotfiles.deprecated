@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # List of npm packages
-node_packages="bower grunt grunt-cli gulp gulp-util gulp-sass ember-cli prettyjson less express jade wintersmith jitsu complete"
+node_packages="avn avn-nvm bower gulp gulp-util gulp-sass ember-cli prettyjson less express jade jade-lint wintersmith jitsu complete jsonlint"
 
 source ~/.dotfiles/lib/utils
 
@@ -15,7 +15,11 @@ if ! type_exists 'npm'; then
     exit
   else
     echo "Installing npm"
-    brew install node
+    brew install nvm
+    source ~/.nvm/nvm.sh
+    nvm install stable
+    nvm use stable
+    nvm alias default stable
   fi
 fi
 
