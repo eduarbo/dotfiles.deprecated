@@ -31,7 +31,7 @@ if [ $_myos = "Linux" ]; then
 fi
 # }}}
 # OSX aliases -------------------------------------------------------------- {{{
-if [ $_myos = "Darwin" ]; then
+if [ "$_myos" = "Darwin" ]; then
   ########################
   # OSX-specific aliases #
   ########################
@@ -250,4 +250,4 @@ alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pa
 # Kill all the tabs in Chrome to free up memory
 # [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
 alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
-# }}i
+# }}}

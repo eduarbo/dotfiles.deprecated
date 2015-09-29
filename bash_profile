@@ -1,7 +1,6 @@
-#!/usr/bin/env bash
-DOT=$HOME/.dotfiles
+DOT="$HOME/.dotfiles"
 
-source $DOT/lib/checks
+source "$DOT/lib/checks"
 
 export PATH="\
 /usr/local/bin:\
@@ -69,8 +68,8 @@ if [[ $HAS_BREW ]]; then
   _files=(
   $_brew_prefix/etc/bash_completion
   )
-  for file in $_files; do
-    [[ -f $file ]] && source $file
+  for file in "${_files[@]}"; do
+    [[ -f "$file" ]] && source "$file"
   done
   unset _files
 fi
@@ -113,7 +112,17 @@ complete -o default -o nospace -F _git g
 
 unset _brew_prefix;
 
-[[ -e "$HOME/.secrets" ]] && source $HOME/.secrets
+chrubyPath="/usr/local/share/chruby/chruby.sh"
+[[ -e $chrubyPath ]] && source $chrubyPath
+
+[[ -s "$HOME/.nvm" ]] && source "$HOME/.nvm/nvm.sh"  # This loads nvm
+
+[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
+
+[[ -e "$HOME/.secrets" ]] && source "$HOME/.secrets"
+
 # Bash-specific
-[[ -e "$HOME/.bash_profile.local" ]] && source $HOME/.bash_profile.local
+[[ -e "$HOME/.bash_profile.local" ]] && source "$HOME/.bash_profile.local"
 # }}}
+
+# vim: set ft=sh :
