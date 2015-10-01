@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-gems="sqlint pg_query sass tmuxinator"
+gems="sqlint pg_query tmuxinator rubocop"
 
 source ~/.dotfiles/lib/utils
 
