@@ -4,29 +4,45 @@ source ${DOTFILES_DIRECTORY}/lib/utils
 
 # List of Apps
 _apps=(
-'iterm2'
+# dependencies:
+'java' # required by jdownloader
+
+# don't need to be in a specific order
+# 'android-studio'
+'adobe-reader'
 'alfred'
+'android-file-transfer'
+'appcleaner'
 'caffeine'
+'calibre'
+'colorsnapper'
+'dropbox'
 'filezilla'
-'onepassword'
+'firefox'
+'flux'
+'google-chrome'
+'google-earth-pro'
 'grandperspective'
+'handbrake'
+'iterm2'
+'jdownloader'
 'jing'
 'karabiner'
+'omnidisksweeper'
+'onepassword'
+'openemu'
 'seil'
+'silverlight'
+'skype'
 'spectacle'
 'spotify'
-'telegram'
-'the-unarchiver'
-'vlc'
 'steam'
-'calibre'
+'sublime-text'
+'the-unarchiver'
 'transmission'
-'skype'
-'google-chrome'
-'dropbox'
-'firefox'
-'adobe-reader'
-'omnidisksweeper'
+'unetbootin'
+'virtualbox'
+'vlc'
 )
 
 # Check for cask
@@ -48,7 +64,7 @@ if formula_exists 'brew-cask' >/dev/null; then
 
   # Install Apps
   brew cask update
-  brew cask install ${_apps[@]}
+  brew cask install "${_apps[@]}"
   brew cask cleanup
 
   [[ $? ]] && e_success "Done"
