@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # List of npm packages
-node_packages="avn avn-nvm bower gulp gulp-util gulp-sass ember-cli prettyjson less express jade jade-lint wintersmith jitsu complete jsonlint"
+node_packages="avn avn-nvm bower gulp gulp-util gulp-sass ember-cli prettyjson less express jade jade-lint wintersmith jitsu complete jsonlint vimlint"
 
 source ~/.dotfiles/lib/utils
 
