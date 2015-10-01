@@ -112,6 +112,7 @@ if [[ -x `which brew` ]]; then
   'cowsay'
   '--HEAD fzf'
   'gtypist'
+  'cppcheck'
   # 'emacs --HEAD --use-git-head --cocoa --srgb'
   )
 
