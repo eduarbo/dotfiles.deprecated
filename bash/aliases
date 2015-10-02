@@ -126,6 +126,8 @@ alias reload="exec $SHELL -l"
 
 # Lists the ten most used commands.
 alias historystat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
+
+alias py="python"
 # }}}
 # Files & Directories ------------------------------------------------------ {{{
 alias -- -='cd -'
