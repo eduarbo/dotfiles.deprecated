@@ -40,94 +40,83 @@ There are nice aliases for git, ruby, shortcuts, files & directories and some
 OS-specific aliases (Linux and OSX).
 
 
-Vim Plugins (outdated)
-----------------------
+Vim Plugins
+-----------
 
-###Ag
-Ag can be used as a replacement for ack but faster. This plugin will allow you
-to run ag from vim, and shows the results in a split window.
+- [**Bracketed Paste**](http://github.com/ConradIrwin/vim-bracketed-paste): Enables transparent pasting into vim. (i.e. no more :set paste!)
+- [**CammelCaseMotion**](http://github.com/bkad/CamelCaseMotion): Provide CamelCase motion through words
+- [**Commentary**](http://github.com/tpope/vim-commentary): Comment or uncomment lines with `<leader>c`
+- [**CtrlP**](http://github.com/ctrlpvim/ctrlp.vim): Full path fuzzy file, buffer, Most Recent Used (MRU), tag, ... finder with an intuitive interface. You can take advantage of some code-searching tools like Ag or Pt that are faster than Ack and find
+- [**CtrlSF**](http://github.com/dyng/ctrlsf.vim): An ack/ag powered code search and view tool, like ack.vim or :vimgrep but together with more context, and let you edit in-place with powerful edit mode
+- [**DelimitMate**](http://github.com/Raimondi/delimitMate): Automatic closing of quotes, parentheses, brackets, etc
+- [**Devicons**](http://github.com/ryanoasis/vim-devicons): Adds font icons (glyphs ★♨☢) to programming languages, libraries, and web developer filetypes for: NERDTree, powerline, vim-airline, ctrlp, unite, lightline.vim, vimfiler, and flagship
+- [**Easy Align**](http://github.com/junegunn/vim-easy-align): A simple, easy-to-use alignment plugin
+- [**Easy Motion**](http://github.com/Lokaltog/vim-easymotion): EasyMotion provides a much simpler way to use some motions in vim. It takes the <number> out of <number>w or <number>f{char} by highlighting all possible choices and allowing you to press one key to jump directly to the target
+- [**Emmet**](http://github.com/mattn/emmet-vim): Editor plugin for high-speed HTML, XML, XSL (or any other structured code format) coding and editing
+- [**Endwise**](http://github.com/tpope/vim-endwise): Helps to end certain structures automatically. Useful for Lua, Ruby, sh, VimScript, C and others
+- [**Eunuch**](http://github.com/tpope/vim-eunuch): Vim sugar for the UNIX shell commands that need it the most
+- [**Expand Region**](http://github.com/): Allows you to visually select increasingly larger regions of text using the same key combination
+- [**FZF**](http://github.com/junegunn/fzf.vim): A command-line fuzzy finder written in Go. It is blazingly fast!
+- [**Fugitive**](http://github.com/tpope/vim-fugitive): A Git wrapper so awesome, it should be illegal
+- [**GitGutter**](http://github.com/airblade/vim-gitgutter): A Vim plugin which shows a git diff in the 'gutter' (sign column). It shows whether each line has been added, modified, and where lines have been removed. You can also stage and revert individual hunks
+- [**Gruvbox**](http://github.com/morhetz/gruvbox): My favorite color scheme for Vim, heavily inspired by [badwolf](https://github.com/sjl/badwolf), [jellybeans](https://github.com/nanotech/jellybeans.vim) and [solarized](http://ethanschoonover.com/solarized)
+- [**Gundo**](http://github.com/sjl/gundo.vim): Graph your undo tree with `<F5>` so you can actually USE it
+- [**JsDoc**](http://github.com/heavenshell/vim-jsdoc): Generate JsDoc to your JavaScript code
+- [**LightLine**](http://github.com/itchyny/lightline.vim): Fast and lightweight alternative to powerline with nice themes
+- [**Linediff**](http://github.com/AndrewRadev/linediff.vim): The linediff plugin provides a simple command, `:Linediff`, which is used to diff two separate blocks of text
+- [**ListToggle**](http://github.com/Valloric/ListToggle): Toggling the display of the quickfix list and the location-list
+- [**Livedown**](http://github.com/shime/vim-livedown): Live Markdown previews for your favourite editor
+- [**NERD Tree**](http://github.com/scrooloose/nerdtree): Allows you to explore your filesystem and to open files and directories
+- [**Pad**](http://github.com/fmoralesc/vim-pad): A quick notetaking plugin for vim
+- [**Rainbow Parentheses**](http://github.com/kien/rainbow_parentheses.vim): Better Rainbow Parentheses
+- [**Repeat**](http://github.com/tpope/vim-repeat): Enable repeating supported plugin maps with "."
+- [**Signature**](http://github.com/kshenoy/vim-signature): Place, toggle and display marks
+- [**Snippets**](http://github.com/honza/vim-snippets): Snippets files for various programming languages
+- [**Surround**](http://github.com/tpope/vim-surround): Mappings to easily delete, change and add such surroundings in pairs
+- [**Syntastic**](http://github.com/scrooloose/syntastic): Syntax checking on the fly that runs files through external syntax checkers and displays any resulting errors to the user
+- [**Tagbar**](http://github.com/majutsushi/tagbar): Display tags of a file ordered by scope with `<F8>`
+- [**Tmux Navigator**](http://github.com/christoomey/vim-tmux-navigator): Seamless navigation between tmux panes and vim splits
+- [**UltiSnips**](http://github.com/majutsushi/tagbar): Snippet management. Expand trigger with `<C-l>`
+- [**Unimpaired**](http://github.com/tpope/vim-unimpaired): Pairs of handy bracket mappings 
+- [**Vimproc**](http://github.com/Shougo/vimproc.vim): Asynchronous execution plugin for Vim
+- [**Vimux**](http://github.com/benmills/vimux): Easily interact with tmux from vim
+- [**YouCompleteMe**](http://github.com/Valloric/YouCompleteMe): Code-completion engine
 
-`<leader>a` to run Ag
+Other plugins that provides a better syntax highlighting, indentation and
+mappings for:
+ [C++](http://github.com/octol/vim-cpp-enhanced-highlight),
+ [CSS3](http://github.com/hail2u/vim-css3-syntax),
+ [CSS](http://github.com/JulesWang/css.vim),
+ [Clojure](http://github.com/guns/vim-clojure-static),
+ [Cucumber](http://github.com/tpope/vim-cucumber),
+ [Docker](http://github.com/docker/docker/contrib/syntax/vim/),
+ [Elixir](http://github.com/elixir-lang/vim-elixir),
+ [Git](http://github.com/tpope/vim-git), [Go](http://github.com/fatih/vim-go),
+ [Haml](http://github.com/tpope/vim-haml),
+ [Handlebars/Mustache](http://github.com/mustache/vim-mustache-handlebars),
+ [Haskell](http://github.com/neovimhaskell/haskell-vim),
+ [Html5](http://github.com/othree/html5.vim),
+ [JS Beautify](http://github.com/maksimr/vim-jsbeautify),
+ [JS Indent](http://github.com/jason0x43/vim-js-indent),
+ [JS Libraries](http://github.com/othree/javascript-libraries-syntax.vim),
+ [JSON](http://github.com/elzr/vim-json),
+ [Javascript](http://github.com/othree/yajs.vim),
+ [LESS](http://github.com/groenewege/vim-less),
+ [Markdown](http://github.com/plasticboy/vim-markdown),
+ [Python](http://github.com/hdima/python-syntax),
+ [Rails](http://github.com/tpope/vim-rails),
+ [Rspec](http://github.com/skwp/vim-rspec),
+ [Ruby](http://github.com/vim-ruby/vim-ruby),
+ [SCSS](http://github.com/cakebaker/scss-syntax.vim),
+ [TypeScript](http://github.com/leafgarland/typescript-vim),
+ [Vim](http://github.com/tejr/vim-tmux)
 
-###Airline
-Fast and lightweight alternative to powerline.
 
-###Commentary
-Comment or uncomment lines with `<leader>c`
-
-###CtrlP
-Full path fuzzy file, buffer, Most Recent Used (MRU), tag, ... finder with an
-intuitive interface.
-
-MAPPINGS:
-  - `<leader>,` Open the CtrlP prompt
-
-Once inside the prompt:
-  - `<C-f>` Scroll to the 'next' search mode in the sequence.
-  - `<C-b>` Scroll to the 'previous' search mode in the sequence.
-
-###DelimitMate
-Automatic closing of quotes, parenthesis, brackets, etc.
-
-###Emmet
-Editor plugin for high-speed HTML, XML, XSL (or any other structured code
-format) coding and editing
-
-MAPPINGS:
-  - `<C-g>,` Expand abbreviation
-  - `<C-g>n` Go to Next Edit Point in insert mode
-  - `<C-g>N` Go to Previous Edit Point in insert mode
-  - `<C-g>k` Remove tag
-  - `<C-g>/` Toggle comment
-
-###Endwise
-Helps to end certain structures automatically. Useful for Lua, Ruby, sh,
-VimScript, C and others.
-
-###Fugitive
-A Git wrapper so awesome, it should be illegal
-
-MAPPINGS:
-  - `<leader>gd` Git diff
-  - `<leader>ggs` Git status
-  - `<leader>ggw` Git write
-  - `<leader>gga` Git add
-  - `<leader>ggb` Git blame
-  - `<leader>ggco` Git checkout
-  - `<leader>ggci` Git commit
-  - `<leader>ggm` Git move
-  - `<leader>ggr` Git remove
-  - `<leader>ggl` Git log
-
-###Gundo
-Graph your undo tree with `<F5>` so you can actually USE it.
-
-###NERD Tree
-Allows you to explore your filesystem and to open files and directories.
-
-MAPPINGS:
-  - `<leader>n` Toggle NERD Tree
-  - `<leader>N` Find the current file in the tree
-
-###Syntastic
-Syntax checking on the fly.
-
-###Tabular
-Configurable, flexible, intuitive text aligning.
-
-MAPPINGS:
-  - `<leader>T,` Line up text at the commas
-  - `<leader>Tr` Line up text at the rockets =>
-  - `<leader>T=` Line up text at the equal sign
-  - `<leader>T:` Line up text at the colons
-  - `<leader>T/` Line up text at the slash
-
-###Tagbar
-Display tags of a file ordered by scope with `<F8>`
-
-###UltiSnips
-Snippet management for the Vim editor. Expand trigger with `<C-l>`
-
+Vim Dependencies:
+- [FZF](https://github.com/junegunn/fzf)
+- [Livedown](https://github.com/shime/livedown)
+Recomended:
+- [Ag]()
 
 Notes
 -----
