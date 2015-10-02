@@ -43,6 +43,7 @@ _apps=(
 'unetbootin'
 'virtualbox'
 'vlc'
+'wireshark'
 )
 
 # Check for cask
