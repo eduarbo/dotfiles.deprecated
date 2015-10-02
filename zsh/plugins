@@ -1,38 +1,44 @@
 #!/bin/zsh
-if [ $HAS_BREW ]; then
-  _brew_prefix="/usr/local"
-  fpath=($_brew_prefix/share/zsh-completions $fpath)
-  _files=(
-  $_brew_prefix/etc/profile.d/z.sh
-  $_brew_prefix/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  $_brew_prefix/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
-  )
-  for file ($_files) [[ -f $file ]] && source $file
-  unset _files _brew_prefix
-fi
+#
+eval "$(fasd --init auto)"
 
-lazy_source () {
-  eval "$1 () { [ -f $2 ] && source $2 && $1 \$@ }"
-}
-
-chrubyPath="/usr/local/share/chruby/chruby.sh"
-if [[ -e $chrubyPath ]]; then
-  source $chrubyPath
-  chruby ruby
-fi
-
-# Rbenv
-if (( $+commands[rbenv] )); then
-  path=("$HOME/.rbenv/bin" $path)
-  eval "$(rbenv init - --no-rehash zsh)"
-fi
-
+# Node version manager
 lazy_source nvm "$HOME/.nvm/nvm.sh"
 
 # Automatic Version Manager for Node
-[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
+source_file "$HOME/.avn/bin/avn.sh"
 
 # force 256-color gruvbox palette
 # https://github.com/morhetz/gruvbox-generalized/tree/master/iterm2
-GRUVBOX="$HOME/.dotfiles/vim/plugged/gruvbox/gruvbox_256palette_osx.sh"
-[[ -e $GRUVBOX ]] && source $GRUVBOX
+source_file "$HOME/.dotfiles/vim/plugged/gruvbox/gruvbox_256palette_osx.sh"
+
+if [ $HAS_BREW ]; then
+  source_file "$BREW_LOCATION/share/chruby/chruby.sh" "chruby ruby"
+
+  # FZF {{{
+  export FZF_DEFAULT_OPTS="--extended --cycle"
+
+  # Setting ag as the default source for fzf
+  export FZF_DEFAULT_COMMAND='
+  (git ls-tree -r --name-only HEAD ||
+    ag -l -g "" ||
+    find * -name ".*" -prune -o -type f -print -o -type l -print) 2> /dev/null'
+
+  # To apply the command to CTRL-T as well
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+  source_file "$BREW_LOCATION/opt/fzf/shell/completion.zsh"
+  source_file "$BREW_LOCATION/opt/fzf/shell/key-bindings.zsh"
+  # }}}
+
+  fpath=($BREW_LOCATION/share/zsh-completions $fpath)
+  _files=(
+  $BREW_LOCATION/etc/profile.d/z.sh
+  $BREW_LOCATION/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
+  $BREW_LOCATION/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  )
+  for file ($_files) [[ -f $file ]] && source $file
+  unset _files BREW_LOCATION
+else
+  echo "Can't find Homebrew :("
+fi
