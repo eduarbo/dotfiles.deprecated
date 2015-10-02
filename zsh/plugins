@@ -31,9 +31,7 @@ if [ $HAS_BREW ]; then
   source_file "$BREW_LOCATION/opt/fzf/shell/key-bindings.zsh"
   # }}}
 
-  fpath=($BREW_LOCATION/share/zsh-completions $fpath)
   _files=(
-  $BREW_LOCATION/etc/profile.d/z.sh
   $BREW_LOCATION/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
   $BREW_LOCATION/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   )

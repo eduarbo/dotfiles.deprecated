@@ -121,7 +121,6 @@ if [[ -x `which brew` ]]; then
   'tig'
   'tmux'
   'vit'
-  'z'
   # 'emacs --HEAD --use-git-head --cocoa --srgb'
   )
 

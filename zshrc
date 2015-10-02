@@ -8,7 +8,6 @@ source $DOT/zsh/options
 source $DOT/zsh/bindings
 source $DOT/zsh/prompt
 source $DOT/zsh/title
-source $DOT/zsh/completion
 
 export EDITOR='vim'
 export VISUAL=$EDITOR
@@ -35,5 +34,7 @@ print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f"
 
 # zsh-syntax-highlighting.zsh needs to be sourced at the end
 source $DOT/zsh/plugins
+# need to call compinit after fpath
+source $DOT/zsh/completion
 
 # vim: set ft=zsh :

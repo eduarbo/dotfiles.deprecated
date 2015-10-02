@@ -1,26 +1,5 @@
 #!/usr/bin/env bash
 
-if [[ $(uname) = 'Linux' ]]; then
-    IS_LINUX=1
-fi
-
-if [[ $(uname) = 'Darwin' ]]; then
-    IS_MAC=1
-fi
-
-if [[ -x `which brew` ]]; then
-    HAS_BREW=1
-    BREW_LOCATION=`brew --prefix`
-fi
-
-if [[ -x `which apt-get` ]]; then
-    HAS_APT=1
-fi
-
-if [[ -x `which yum` ]]; then
-    HAS_YUM=1
-fi
-
 lazy_source () {
   eval "$1 () { [ -f $2 ] && source $2 && $1 \$@ }"
 }
@@ -88,3 +67,23 @@ formula_exists() {
     e_warning "Missing formula: $1"
     return 1
 }
+
+_os_name=$(uname)
+
+if [[ $_os_name = 'Linux' ]]; then
+    IS_LINUX=1
+fi
+
+if [[ $_os_name = 'Darwin' ]]; then
+    IS_MAC=1
+fi
+
+if [[ -x `which brew` ]]; then
+    HAS_BREW=1
+    BREW_LOCATION='/usr/local'
+    # BREW_LOCATION=`brew --prefix`
+elif [[ -x `which apt-get` ]]; then
+    HAS_APT=1
+elif [[ -x `which yum` ]]; then
+    HAS_YUM=1
+fi

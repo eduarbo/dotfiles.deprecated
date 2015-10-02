@@ -11,6 +11,11 @@ if [[ "$TERM" == 'dumb' ]]; then
   return 1
 fi
 
+if [ $HAS_BREW ]; then
+  # Add zsh-completions to $fpath
+  fpath=($BREW_LOCATION/share/zsh-completions $fpath)
+fi
+
 # Load and initialize the completion system ignoring insecure directories.
 autoload -Uz compinit && compinit -i
 
@@ -35,14 +40,13 @@ unsetopt FLOW_CONTROL      # Disable start/stop characters in shell editor.
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path "${ZDOTDIR:-$HOME}/.zcompcache"
 
-# Case-insensitive (all), partial-word, and then substring completion.
-if zstyle -t ':prezto:module:completion:*' case-sensitive; then
-  zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-  setopt CASE_GLOB
-else
-  zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-  unsetopt CASE_GLOB
-fi
+# Case sensitive
+# zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# setopt CASE_GLOB
+
+# Case insensitive
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+unsetopt CASE_GLOB
 
 # Group matches and describe.
 zstyle ':completion:*:*:*:*:*' menu select
