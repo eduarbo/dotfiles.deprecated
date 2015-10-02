@@ -5,13 +5,20 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 # Editors
-export EDITOR='vim'
-export VISUAL=$EDITOR
-export PAGER='less'
+export EDITOR="vim"
+export VISUAL="$EDITOR"
+export PAGER="less"
+export GOPATH="$HOME/dev/go"
 
 # Language
 if [[ -z "$LANG" ]]; then
-  export LANG='en_US.UTF-8'
+  export LANG="en_US.UTF-8"
+fi
+
+if [[ -z "$TMUX" ]]; then
+  export TERM="xterm-256color"
+else
+  export TERM="screen-256color"
 fi
 
 # Paths
@@ -24,9 +31,12 @@ typeset -gU cdpath fpath mailpath path
 
 # Set the list of directories that Zsh searches for programs.
 path=(
-  /usr/local/{bin,sbin}
-  ~/bin
-  $path
+  "/usr/local/{bin,sbin}"
+  "$GOPATH/bin"
+  "$HOME/bin"
+  "/usr/local/opt/go/libexec/bin"
+  "$HOME/.cabal/bin" # Haskell libraries
+  "$path[@]"
 )
 
 # Less

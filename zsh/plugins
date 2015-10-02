@@ -1,6 +1,6 @@
 #!/bin/zsh
 #
-eval "$(fasd --init auto)"
+type_exists "fasd" && eval "$(fasd --init auto)"
 
 # Node version manager
 lazy_source nvm "$HOME/.nvm/nvm.sh"
@@ -36,7 +36,7 @@ if [ $HAS_BREW ]; then
   $BREW_LOCATION/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   )
   for file ($_files) [[ -f $file ]] && source $file
-  unset _files BREW_LOCATION
+  unset _files
 else
   echo "Can't find Homebrew :("
 fi
