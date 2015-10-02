@@ -1,76 +1,84 @@
 " .vimrc
 " Author: Eduardo Ruiz <eduarbo@gmail.com>
 " Source: https://github.com/eduarbo/dotfiles/tree/master/vim
-"
+
 " Preamble ---------------------------------------------------------------- {{{
 filetype off
 " }}}
 " Plugins ----------------------------------------------------------------- {{{
-call plug#begin()
-" A light and configurable statusline/tabline for Vim. The lightweight version of Powerline
-Plug 'itchyny/lightline.vim'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-endwise'
-Plug 'scrooloose/syntastic', {'do': 'npm install -g jshint'} " TODO: make it load faster
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
+call plug#begin('~/.vim/plugged')
+
+Plug 'Shougo/vimproc.vim', {'do': 'make'}
+Plug 'vim-scripts/listmaps.vim'
+
+" File Finders {{{
+" #CtrlP
 Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
+" #CtrlSF
+Plug 'dyng/ctrlsf.vim'
+" #FZF
+Plug 'junegunn/fzf.vim', {'on': 'FZF'}
+" #NERDTree
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-eunuch'
+" }}}
+" For Code {{{
+Plug 'terryma/vim-expand-region'
+Plug 'tpope/vim-endwise'
+Plug 'Raimondi/delimitMate'
+Plug 'tpope/vim-surround'
+" #CamelCaseMotion
+Plug 'bkad/CamelCaseMotion'
+" #Commentary
+Plug 'tpope/vim-commentary'
+" #EasyMotion
+Plug 'Lokaltog/vim-easymotion'
+" #EasyAlign
+Plug 'junegunn/vim-easy-align'
+" #LineDiff
+Plug 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
+" #Syntastic
+Plug 'scrooloose/syntastic'
+" #Tagbar
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+" #UltiSnips
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'rking/ag.vim'
-Plug 'bkad/CamelCaseMotion'
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'tejr/vim-tmux', {'for': 'tmux'}
-Plug 'Lokaltog/vim-easymotion'
 Plug 'tpope/vim-unimpaired'
+" #YouCompleteMe
+Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 Plug 'vim-scripts/SyntaxComplete'
-Plug 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
-Plug 'terryma/vim-expand-region' " select increasingly larger regions of text using the same key combination
-Plug 'dyng/ctrlsf.vim'
-Plug 'shime/vim-livedown', {'do': 'npm install -g livedown', 'for': 'markdown'}
-Plug 'docker/docker', {'rtp': '/contrib/syntax/vim/', 'for': 'dockerfile'}
-Plug 'junegunn/vim-easy-align', {'on': 'EasyAlign'}
-Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
-Plug 'junegunn/goyo.vim', {'for': 'markdown'}
-Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
+" }}}
+" Productivity {{{
+Plug 'tpope/vim-repeat'
+Plug 'ConradIrwin/vim-bracketed-paste'
+Plug 'fmoralesc/vim-pad', {'on': 'Pad'}
+" #Gundo: Browse the vim undo tree
+Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
+" #ListToggle: Toggle the display of the quickfix list and the location-list.
+Plug 'Valloric/ListToggle'
+" #LiveDown
+Plug 'shime/vim-livedown', {'for': 'markdown'}
+" #Pad
+Plug 'kshenoy/vim-signature'
+" #Vimux
+Plug 'benmills/vimux', {'on': ['VimuxRunCommand', 'VimuxRunLastCommand']}
+Plug 'christoomey/vim-tmux-navigator'
+" }}}
+" Language-specific {{{
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
 Plug 'guns/vim-clojure-static', {'for': 'clojure'}
 Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}
-Plug 'fatih/vim-go', {'for': 'go'}
-Plug 'elzr/vim-json', {'for': 'json'}
+Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'hdima/python-syntax', {'for': 'python'}
-Plug 'kien/rainbow_parentheses.vim'
-Plug 'benmills/vimux', {'on': ['VimuxRunCommand', 'VimuxRunLastCommand']}
-Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
-Plug 'ryanoasis/vim-devicons'
-" Plug 'ktonga/vim-follow-my-lead'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install', 'on': 'FZF' }
-Plug 'junegunn/fzf.vim', {'on': 'FZF'}
-
-" Vim sugar for the UNIX shell commands that need it the most. Features include:
-" :Remove, :Unlink, :Move, :Chmod, :Mkdir, :Find, :Locate, :Wall, :SudoWrite, :SudoEdit
-Plug 'tpope/vim-eunuch'
-
-" Provides insert mode auto-completion for quotes, parens, brackets, etc.
-Plug 'Raimondi/delimitMate'
-
-" Plug 'vim-scripts/SyntaxRange'
-Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
-
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimfiler.vim'
-
-" Place, toggle and display marks
-Plug 'kshenoy/vim-signature'
-
-" Toggle the display of the quickfix list and the location-list.
-Plug 'Valloric/ListToggle'
-
-" Interactive command execution in Vim
-Plug 'Shougo/vimproc.vim', {'do': 'make'}
-
-" Browse the vim undo tree
-Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
+Plug 'docker/docker', {'rtp': '/contrib/syntax/vim/', 'for': 'dockerfile'}
+Plug 'tejr/vim-tmux', {'for': 'tmux'}
+Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
+" #Go
+Plug 'fatih/vim-go', {'for': 'go'}
+" #JSON
+Plug 'elzr/vim-json', {'for': 'json'}
 
 " CSS, SASS, LESS {{{
 Plug 'JulesWang/css.vim', {'for': '*css'}
@@ -79,22 +87,27 @@ Plug 'hail2u/vim-css3-syntax', {'for': '*css'}
 Plug 'groenewege/vim-less', {'for': 'less*'}
 " }}}
 " Git {{{
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-git'
+" #Fugitive
+Plug 'tpope/vim-fugitive'
+" #GitGutter
+Plug 'airblade/vim-gitgutter'
 " }}}
-" HTML {{{
+" HTML/XML {{{
 Plug 'mustache/vim-mustache-handlebars', {'for': ['html.mustache', 'html.handlebars']}
 Plug 'tpope/vim-haml', {'for': 'haml'}
-Plug 'othree/html5.vim', {'for': 'html*'}
+Plug 'othree/html5.vim', {'for': 'html*'} " #HTML5
+" #Emmet
 Plug 'mattn/emmet-vim', {'for': ['html*', 'xhttml', '*css', 'xml', 'xls', 'markdown']}
 " }}}
 " Javascript {{{
+Plug 'heavenshell/vim-jsdoc', {'on': 'JsDoc'}
 Plug 'othree/yajs.vim', {'for': 'javascript'}
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
+" #JSIndent
 Plug 'jason0x43/vim-js-indent', {'for': 'javascript'}
+" #JSBeautify
 Plug 'maksimr/vim-jsbeautify', {'for': 'javascript', 'do': 'npm install -g js-beautify'}
-Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
 " Plug 'marijnh/tern_for_vim', {'for': 'javascript', 'do': '~/.vim/plugged/tern_for_vim && npm install'}
 " }}}
 " Ruby {{{
@@ -103,13 +116,16 @@ Plug 'tpope/vim-rails', {'for': ['ruby', 'rails']}
 Plug 'tpope/vim-cucumber', {'for': ['ruby', 'rails']}
 Plug 'skwp/vim-rspec', {'for': ['ruby', 'rails']}
 " }}}
-
-" Colorschemes {{{
-" Plug 'tomasr/molokai'
-" Plug 'sjl/badwolf'
-Plug 'morhetz/gruvbox'
-Plug 'chriskempson/base16-vim'
 " }}}
+" Style {{{
+Plug 'morhetz/gruvbox'
+Plug 'ryanoasis/vim-devicons'
+" #Lightline
+Plug 'itchyny/lightline.vim'
+" #RainbowParentheses
+Plug 'kien/rainbow_parentheses.vim'
+" }}}
+
 call plug#end()
 " }}}
 " Basic options ----------------------------------------------------------- {{{
@@ -181,7 +197,10 @@ set complete=.,w,b,u,t
 set completeopt=longest,menuone,preview
 
 " Resize splits when the window is resized
-au VimResized * :wincmd =
+augroup resize_splits
+    au!
+    au VimResized * :wincmd =
+augroup END
 
 " Cursorline {{{
 " Only show cursorline in the current window and in normal mode.
@@ -900,10 +919,11 @@ augroup ft_vim
 augroup END
 " }}}
 " Vimrc {{{
-" augroup myvimrc
-"     au!
-"     au BufWritePost .vimrc,vimrc so %
-" augroup END
+" Reload vimrc
+augroup myvimrc
+    au!
+    au BufWritePost .vimrc,vimrc so %
+augroup END
 " }}}
 " YAML {{{
 augroup ft_yaml
@@ -925,12 +945,59 @@ augroup ft_xml
 augroup END
 " }}}
 " }}}
-" Plugin settings --------------------------------------------------------- {{{
-" Ag {{{
-" nnoremap <leader>a :AgFromSearch<CR>
-let g:ackprg = 'ag --smart-case --nogroup --nocolor --column'
+" Mini-plugins and functions ---------------------------------------------- {{{
+" Stuff that should probably be broken out into plugins, but hasn't proved to be
+" worth the time to do so just yet.
+
+" Synstack {{{
+" Show the stack of syntax hilighting classes affecting whatever is under the
+" cursor.
+function! SynStack()
+    echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
+endfunc
+
+nnoremap <F7> :call SynStack()<CR>
 " }}}
-" CamelCaseMotion {{{
+" Block Colors {{{
+let g:blockcolor_state = 0
+function! BlockColor() " {{{
+    if g:blockcolor_state
+        let g:blockcolor_state = 0
+        call matchdelete(77881)
+        call matchdelete(77882)
+        call matchdelete(77883)
+        call matchdelete(77884)
+        call matchdelete(77885)
+    else
+        let g:blockcolor_state = 1
+        call matchadd("BlockColor1", '^ \{4}.*', 1, 77881)
+        call matchadd("BlockColor2", '^ \{8}.*', 2, 77882)
+        call matchadd("BlockColor3", '^ \{12}.*', 3, 77883)
+        call matchadd("BlockColor4", '^ \{16}.*', 4, 77884)
+        call matchadd("BlockColor5", '^ \{20}.*', 5, 77885)
+    endif
+endfunction " }}}
+" Default highlights {{{
+hi def BlockColor1 guibg=#222222
+hi def BlockColor2 guibg=#2a2a2a
+hi def BlockColor3 guibg=#353535
+hi def BlockColor4 guibg=#3d3d3d
+hi def BlockColor5 guibg=#444444
+" }}}
+nnoremap <leader>B :call BlockColor()<cr>
+" }}}
+" Encode and Decode {{{
+vnoremap <leader>64d y:let @"=system('base64 --decode', @")<cr>gvP
+vnoremap <leader>64e y:let @"=system('base64', @")<cr>gvP
+" }}}
+" Check if Vim was loaded in Tmux{{{
+function! InTmuxSession()
+  return $TMUX != ''
+endfunction
+" }}}
+" }}}
+" Plugin settings --------------------------------------------------------- {{{
+" #CamelCaseMotion {{{
 map <S-W> <Plug>CamelCaseMotion_w
 map <S-B> <Plug>CamelCaseMotion_b
 map <S-E> <Plug>CamelCaseMotion_e
@@ -951,7 +1018,7 @@ map <S-E> <Plug>CamelCaseMotion_e
 " omap <silent> ie <Plug>CamelCaseMotion_ie
 " xmap <silent> ie <Plug>CamelCaseMotion_ie
 " }}}
-" Commentary {{{
+" #Commentary {{{
 nmap <leader>c <Plug>CommentaryLine
 xmap <leader>c <Plug>Commentary
 
@@ -963,16 +1030,20 @@ augroup plugin_commentary
     au FileType puppet,fish,tmux setlocal commentstring=#\ %s
 augroup END
 " }}}
-" CtrlSF {{{
+" #CtrlSF {{{
 vmap     <leader>a <Plug>CtrlSFVwordPath
 nmap     <leader>a <Plug>CtrlSFCwordPath
 nnoremap <leader>A :CtrlSFOpen<CR>
 vnoremap <leader>A :CtrlSFOpen<CR>
-au FileType ctrlsf nnoremap <buffer> <leader>A :CtrlSFClose<CR>
-au FileType ctrlsf vnoremap <buffer> <leader>A :CtrlSFClose<CR>
+
+augroup plugin_ctrlsf
+    au!
+    au FileType ctrlsf nnoremap <buffer> <leader>A :CtrlSFClose<CR>
+    au FileType ctrlsf vnoremap <buffer> <leader>A :CtrlSFClose<CR>
+augroup END
 " For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
 " }}}
-" Ctrl-P {{{
+" #CtrlP {{{
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_working_path_mode = 0
@@ -980,7 +1051,7 @@ let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_split_window = 0
 let g:ctrlp_max_height = 20
 let g:ctrlp_extensions = ['tag']
-let g:ctrlp_map = '<leader>,'
+let g:ctrlp_map = ''
 let g:ctrlp_custom_ignore = 'static'
 
 let g:ctrlp_prompt_mappings = {
@@ -1009,12 +1080,12 @@ let my_ctrlp_git_command = "" .
             \ "cd %s && git ls-files --exclude-standard -co | " .
             \ ctrlp_filter_greps
 
-let my_ctrlp_ag_command = "ag %s -l --nocolor -g "" | " . ctrlp_filter_greps
+let my_ctrlp_ag_command = 'ag %s -l --nocolor -g "" | ' . ctrlp_filter_greps
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
     " Use Ag over Grep
-    set grepprg="ag\ --nogroup\ --nocolor"
+    set grepprg="ag --nogroup --nocolor"
 
     " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
     let my_ctrlp_user_command = my_ctrlp_ag_command
@@ -1037,7 +1108,7 @@ nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>m :CtrlPMRUFiles<cr>
 " }}}
-" EasyMotion {{{
+" #EasyMotion {{{
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 
 " Bi-directional find motion
@@ -1070,11 +1141,11 @@ let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
 " map  n <Plug>(easymotion-next)
 " map  N <Plug>(easymotion-prev)
 " }}}
-" Emmet {{{
+" #Emmet {{{
 let g:user_emmet_leader_key = '<C-g>'
 let g:use_emmet_complete_tag = 1
 " }}}
-" Fugitive {{{
+" #Fugitive {{{
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gw :Gwrite<cr>
@@ -1092,24 +1163,33 @@ vnoremap <leader>gh :Gbrowse<cr>
 
 augroup ft_fugitive
     au!
-
     au BufNewFile,BufRead .git/index setlocal nolist
 augroup END
 " }}}
-" FZF {{{
+" #FZF {{{
+set rtp+=/usr/local/opt/fzf
+if InTmuxSession()
+  " Checking that we are in a tmux session because FZF opens in a tmux pane
+  " Let's overwrite CtrlP mapping if we are in Tmux, otherwise it will open
+  " terminal window
+  nnoremap <leader>, :FZF<cr>
+endif
 " }}}
-" GitGutter {{{
+" #GitGutter {{{
 nmap [h <Plug>GitGutterPrevHunk
 nmap ]h <Plug>GitGutterNextHunk
 " }}}
-" Go {{{
+" #Go {{{
 let g:go_doc_keywordprg_enabled = 0
 
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
+
+" prevent "vim-go" from showing a quickfix window when |g:go_fmt_command| fails
+let g:go_fmt_fail_silently = 1
 " }}}
-" Gundo {{{
+" #Gundo {{{
 nnoremap <F5> :GundoToggle<CR>
 
 let g:gundo_debug = 1
@@ -1117,31 +1197,34 @@ let g:gundo_preview_bottom = 1
 let g:gundo_tree_statusline = "Gundo"
 let g:gundo_preview_statusline = "Gundo Preview"
 " }}}
-" HTML5 {{{
+" #HTML5 {{{
 let g:event_handler_attributes_complete = 0
 let g:rdfa_attributes_complete = 0
 let g:microdata_attributes_complete = 0
 let g:atia_attributes_complete = 0
 " }}}
-" JSBeautify {{{
-autocmd FileType javascript nnoremap <buffer>  <leader>f :call JsBeautify()<cr>
-autocmd FileType javascript vnoremap <buffer>  <leader>f :call RangeJsBeautify()<cr>
-autocmd FileType javascript vnoremap <buffer>  = :call RangeJsBeautify()<cr>
-" for html
-autocmd FileType html nnoremap <buffer> <leader>f :call HtmlBeautify()<cr>
-autocmd FileType html vnoremap <buffer> <leader>f :call RangeHtmlBeautify()<cr>
-" for css or scss
-autocmd FileType css nnoremap <buffer> <leader>f :call CSSBeautify()<cr>
-autocmd FileType css vnoremap <buffer> <leader>f :call RangeCSSBeautify()<cr>
+" #JSBeautify {{{
+augroup ft_jsbeautify
+    au!
+    autocmd FileType javascript nnoremap <buffer>  <leader>f :call JsBeautify()<cr>
+    autocmd FileType javascript vnoremap <buffer>  <leader>f :call RangeJsBeautify()<cr>
+    autocmd FileType javascript vnoremap <buffer>  = :call RangeJsBeautify()<cr>
+    " for html
+    autocmd FileType html nnoremap <buffer> <leader>f :call HtmlBeautify()<cr>
+    autocmd FileType html vnoremap <buffer> <leader>f :call RangeHtmlBeautify()<cr>
+    " for css or scss
+    autocmd FileType css nnoremap <buffer> <leader>f :call CSSBeautify()<cr>
+    autocmd FileType css vnoremap <buffer> <leader>f :call RangeCSSBeautify()<cr>
+augroup END
 
 " }}}
-" JSON {{{
+" #JSON {{{
 let g:vim_json_syntax_conceal = 0
 " }}}
-" JS-Indent {{{
+" #JSIndent {{{
 let g:js_indent_flat_switch = 1
 " }}}
-" Lightline {{{
+" #Lightline {{{
 let g:lightline = {
             \ 'colorscheme': 'wombat',
             \ 'active': {
@@ -1179,11 +1262,11 @@ let g:lightline = {
 
 
 function! LightLineModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? "\uf040" : &modifiable ? '' : '-'
 endfunction
 
 function! LightLineReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? "\uf023" : ''
 endfunction
 
 function! LightLineFilename()
@@ -1202,18 +1285,16 @@ endfunction
 function! LightLineFugitive()
   if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
     let _ = fugitive#head()
-    return strlen(_) ? '⭠ '._ : ''
+    return strlen(_) ? "\ue0a0 "._ : ''
   endif
   return ''
 endfunction
 
 function! LightLineFileformat()
-    " return winwidth(0) > 70 ? &fileformat : ''
     return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
 endfunction
 
 function! LightLineFiletype()
-    " return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
     return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
 endfunction
 
@@ -1286,33 +1367,82 @@ let g:vimfiler_force_overwrite_statusline = 0
 let g:vimshell_force_overwrite_statusline = 0
 let g:vimfiler_quick_look_command = 'qlmanage -p'
 " }}}
-" Linediff {{{
+" #Linediff {{{
 vnoremap <leader>d :Linediff<cr>
 nnoremap <leader>D :LinediffReset<cr>
 " }}}
-" ListToggle {{{
+" #ListToggle {{{
 let g:lt_location_list_toggle_map = '<leader>l'
 let g:lt_quickfix_list_toggle_map = '<leader>q'
 let g:lt_height = 10
 " }}}
-" Livedown {{{
+" #Livedown {{{
 nmap <leader>P :LivedownPreview<CR>
 " }}}
-" vimFiler {{{
-noremap  <leader>n :VimFilerExplorer -parent<cr>
-nnoremap <Leader>N :VimFilerExplorer -parent -find<CR>
-let g:vimfiler_as_default_explorer = 1
-call vimfiler#custom#profile('default', 'context', {
-      \ 'safe' : 0,
-      \ 'status': 1
-      \ })
-let g:vimfiler_tree_leaf_icon = ' '
-let g:vimfiler_tree_opened_icon = '▾'
-let g:vimfiler_tree_closed_icon = '▸'
-let g:vimfiler_file_icon = '-'
-let g:vimfiler_marked_file_icon = '*'
+" #NERDTree {{{
+noremap  <leader>n :NERDTreeToggle<cr>
+
+" Open the project tree and expose current file in the nerdtree with ,N
+nnoremap <Leader>N :NERDTreeFind<CR>
+
+augroup ps_nerdtree
+    au!
+
+    au Filetype nerdtree setlocal nolist
+    au Filetype nerdtree nnoremap <buffer> H :vertical resize -10<cr>
+    au Filetype nerdtree nnoremap <buffer> L :vertical resize +10<cr>
+augroup END
+
+let NERDTreeHighlightCursorline = 1
+let NERDTreeIgnore = ['\~$', '.*\.pyc$']
+
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let NERDChristmasTree = 1
+let NERDTreeChDirMode = 2
+let NERDTreeMapJumpFirstChild = 'gK'
+
+" let g:NERDTreeDirArrowExpandable = "\uf114"
+" let g:NERDTreeDirArrowCollapsible = "\uf115"
+let g:NERDTreeDirArrowExpandable = "\uf07b"
+let g:NERDTreeDirArrowCollapsible = "\uf07c"
+
+" NERDTress File highlighting
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+    exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+    exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
 " }}}
-" Rainbow parentheses {{{
+" #Pad {{{
+let g:pad#dir = "~/notes/"
+
+" Disable default global mappings
+let g:pad#set_mappings = 0
+
+if executable('ag')
+    let g:pad#search_backend = 'ag'
+endif
+" }}}
+" #RainbowParentheses {{{
 " let g:rbpt_colorpairs = [
 "     \ ['brown',       'RoyalBlue3'],
 "     \ ['Darkblue',    'SeaGreen3'],
@@ -1333,7 +1463,7 @@ let g:vimfiler_marked_file_icon = '*'
 "     \ ]
 nmap <leader>r :RainbowParenthesesToggle<CR>
 " }}}
-" Syntastic {{{
+" #Syntastic {{{
 let g:syntastic_mode_map = {
             \ "mode": "active",
             \ "active_filetypes": [],
@@ -1343,14 +1473,28 @@ let g:syntastic_mode_map = {
 let g:syntastic_disabled_filetypes = ['html', 'rst']
 let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
 let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_java_checker = 'javac'
+let g:syntastic_json_checkers = ['jsonlint']
+let g:syntastic_java_checkers = ['javac']
+let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
+let g:syntastic_ruby_checkers = ['rubocop', 'mri']
+let g:syntastic_cpp_checkers = ['gcc', 'cppcheck', 'cpplint', 'ycm', 'clang_tidy', 'clang_check']
+let g:syntastic_c_checkers = ['gcc', 'make', 'cppcheck', 'clang_tidy', 'clang_check']
+let g:syntastic_vim_checkers = ['vimlint']
 let g:syntastic_html_tidy_exec = 'tidy'
-let g:syntastic_python_checkers = ['flake8'] " Other checkers: pep8, pylint, python, pyflakes
+let g:syntastic_python_checkers = ['flake8', 'python'] " Other checkers: pep8, pylint, python, pyflakes
 
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol  = '⚡'
-let g:syntastic_style_warning_symbol  = '⚡'
+" Glyphs
+" \uf188 bug icon
+" \uf05e ban icon
+" \uf071 warning sign triangle
+" \uf06a warning sign circle
+" \uf12a bang
+" \uf057 X circle sign
+
+let g:syntastic_error_symbol = "\uf1e2" " bomb icon
+let g:syntastic_warning_symbol = "\uf0e7" " bolt icon
+let g:syntastic_style_error_symbol = "\uf12a"
+let g:syntastic_style_warning_symbol = "\uf12a"
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 2
@@ -1359,43 +1503,40 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_signs = 1
 let g:syntastic_loc_list_height = 3
 " }}}
-" Tagbar {{{
+" #Tagbar {{{
 nmap <F3> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 " }}}
-" Tern {{{
+" #Tern {{{
 let g:tern_map_keys=1
 let g:tern_show_arguments_hits='on_hold'
 " }}}
-" UltiSnips {{{
+" #UltiSnips {{{
 let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
 " }}}
-" Vimux {{{
+" #Vimux {{{
 nnoremap <localleader>x :call VimuxRunLastCommand()<CR>
 " }}}
-" Vim-Easy-Align {{{
+" #EasyAlign {{{
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-" }}}
-" Vim-Go {{{
-" prevent "vim-go" from showing a quickfix window when |g:go_fmt_command| fails
-let g:go_fmt_fail_silently = 1
-" }}}
-" Vim-Notes {{{
-let g:notes_directories = ['~/Documents/Notes', '~/Dropbox/Notes']
 
-" Make the C-] combination search for @tags:
-autocmd FileType notes imap <C-]> <C-o>:SearchNotes<CR>
-autocmd FileType notes nmap <C-]> :SearchNotes<CR>"
+let g:easy_align_delimiters = {
+\ '>': { 'pattern': '>>\|=>\|>' },
+\ '/': { 'pattern': '//\+\|/\*\|\*/', 'delimiter_align': 'l', 'ignore_groups': ['!Comment'] },
+\ ']': { 'pattern': '[[\]]', 'left_margin': 0, 'right_margin': 0, 'stick_to_left': 0 },
+\ ')': { 'pattern': '[()]', 'left_margin': 0, 'right_margin': 0, 'stick_to_left': 0 },
+\ '"': { 'pattern': '"\S', 'ignore_unmatched': 0, 'left_margin': 0, 'right_margin': 0 }
+\ }
 " }}}
-" YankRing {{{
+" #YankRing {{{
 nnoremap <silent> <F4> :YRShow<CR>
 
 function! YRRunAfterMaps()
@@ -1410,57 +1551,13 @@ function! YRRunAfterMaps()
     vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr>
 endfunction
 " }}}
-" YouCompleteMe {{{
+" #YouCompleteMe {{{
 let g:ycm_key_list_select_completion = ['<Down>', '<C-p>']
 let g:ycm_key_list_previous_completion = ['<Up>', '<C-n>']
 
 " enable completion from tags
 let g:ycm_collect_identifiers_from_tags_files = 1
 " }}}
-" }}}
-" Mini-plugins ------------------------------------------------------------ {{{
-" Stuff that should probably be broken out into plugins, but hasn't proved to be
-" worth the time to do so just yet.
-
-" Synstack {{{
-" Show the stack of syntax hilighting classes affecting whatever is under the
-" cursor.
-function! SynStack()
-    echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
-endfunc
-
-nnoremap <F7> :call SynStack()<CR>
-" }}}
-" Block Colors {{{
-let g:blockcolor_state = 0
-function! BlockColor() " {{{
-    if g:blockcolor_state
-        let g:blockcolor_state = 0
-        call matchdelete(77881)
-        call matchdelete(77882)
-        call matchdelete(77883)
-        call matchdelete(77884)
-        call matchdelete(77885)
-    else
-        let g:blockcolor_state = 1
-        call matchadd("BlockColor1", '^ \{4}.*', 1, 77881)
-        call matchadd("BlockColor2", '^ \{8}.*', 2, 77882)
-        call matchadd("BlockColor3", '^ \{12}.*', 3, 77883)
-        call matchadd("BlockColor4", '^ \{16}.*', 4, 77884)
-        call matchadd("BlockColor5", '^ \{20}.*', 5, 77885)
-    endif
-endfunction " }}}
-" Default highlights {{{
-hi def BlockColor1 guibg=#222222
-hi def BlockColor2 guibg=#2a2a2a
-hi def BlockColor3 guibg=#353535
-hi def BlockColor4 guibg=#3d3d3d
-hi def BlockColor5 guibg=#444444
-" }}}
-nnoremap <leader>B :call BlockColor()<cr>
-" }}}
-vnoremap <leader>64d y:let @"=system('base64 --decode', @")<cr>gvP
-vnoremap <leader>64e y:let @"=system('base64', @")<cr>gvP
 " }}}
 " Environments (GUI/Console) ---------------------------------------------- {{{
 if has('gui_running')
@@ -1525,15 +1622,12 @@ else
 
     " Mouse support
     set mouse=a
-    nnoremap <leader>, :FZF<cr>
 endif
 
-set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline:h12
-" set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline\ Plus\ Nerd\ Files\ Plus\ Octicons\ Plus\ Pomicons:h12
+set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Plus\ Font\ Awesome\ Plus\ Octicons\ Plus\ Pomicons:h12
 " }}}
 " TODO {{{
 " * Add more customized snippets
 " * Move filetype specific options to ftplugins dir
-" * Configure VimFiler
 " * Check if it's worth using Unite
 " }}}
