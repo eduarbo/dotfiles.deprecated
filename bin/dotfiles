@@ -88,6 +88,8 @@ _mirrorfiles() {
   #Copy fonts to Fonts directory
   rsync -avz --quiet ${DOTFILES_DIRECTORY}/fonts/*  ${HOME}/Library/Fonts
 
+  # Copy from source
+  # cd ~/Library/Fonts && curl -fLo DroidSansMonoForPowerlinePlusNerdFileTypes.otf https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Meslo/S/Meslo%20LG%20S%20Regular%20for%20Powerline%20Plus%20Nerd%20File%20Types%20Plus%20Font%20Awesome%20Plus%20Octicons%20Plus%20Pomicons.otf
   e_success "Dotfiles update complete!"
 }
 
