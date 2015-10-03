@@ -1040,7 +1040,11 @@ augroup plugin_ctrlsf
     au FileType ctrlsf nnoremap <buffer> <leader>A :CtrlSFClose<CR>
     au FileType ctrlsf vnoremap <buffer> <leader>A :CtrlSFClose<CR>
 augroup END
+
 " For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
+noremap q q
+
+let g:ctrlsf_ackprg = 'ag'
 " }}}
 " #CtrlP {{{
 let g:ctrlp_dont_split = 'NERD_tree_2'
