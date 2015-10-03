@@ -21,8 +21,7 @@ EOT
 fi
 
 # Test for known flags
-for opt in $@
-do
+for opt in $@; do
   case $opt in
     --minimal) _minimal=true ;;
     --only-git) _only_git=true ;;
@@ -71,12 +70,17 @@ if [[ -x `which brew` ]]; then
   fi
 
   brew tap homebrew/dupes
+  brew tap homebrew/versions
 
   e_header "Checking status of desired Homebrew formulae..."
 
   base_formulae=(
   'coreutils' # GNU core utilities (those that come with OS X are outdated)
+  'moreutils'
+  'findutils'
+  'gnu-sed --with-default-names'
   'git'
+  'git-lfs'
   'bash'
   'bash-completion'
   'zsh'
@@ -84,6 +88,9 @@ if [[ -x `which brew` ]]; then
   'zsh-syntax-highlighting'
   'zsh-history-substring-search'
   'rsync --default-names'
+  'homebrew/dupes/grep'
+  'homebrew/dupes/openssh'
+  'wget --with-iri'
   )
 
   extra_formulae=(
@@ -103,6 +110,7 @@ if [[ -x `which brew` ]]; then
   'cowsay'
   'cppcheck'
   'ctags'
+  'dark-mode'
   'fasd'
   'fortune'
   'gtypist'
