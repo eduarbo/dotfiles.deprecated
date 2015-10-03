@@ -1,5 +1,3 @@
-#!/bin/zsh
-#
 type_exists "fasd" && eval "$(fasd --init auto)"
 
 # Node version manager
@@ -12,8 +10,10 @@ source_file "$HOME/.avn/bin/avn.sh"
 # https://github.com/morhetz/gruvbox-generalized/tree/master/iterm2
 source_file "$HOME/.dotfiles/vim/plugged/gruvbox/gruvbox_256palette_osx.sh"
 
-if [ $HAS_BREW ]; then
+if [[ "$HAS_BREW" ]]; then
   source_file "$BREW_LOCATION/share/chruby/chruby.sh" "chruby ruby"
+  source_file "$BREW_LOCATION/opt/zsh-history-substring-search/zsh-history-substring-search.zsh"
+  source_file "$BREW_LOCATION/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
   # FZF {{{
   export FZF_DEFAULT_OPTS="--extended --cycle"
@@ -30,13 +30,7 @@ if [ $HAS_BREW ]; then
   source_file "$BREW_LOCATION/opt/fzf/shell/completion.zsh"
   source_file "$BREW_LOCATION/opt/fzf/shell/key-bindings.zsh"
   # }}}
-
-  _files=(
-  $BREW_LOCATION/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
-  $BREW_LOCATION/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  )
-  for file ($_files) [[ -f $file ]] && source $file
-  unset _files
 else
   echo "Can't find Homebrew :("
 fi
+# vim: set ft=zsh :

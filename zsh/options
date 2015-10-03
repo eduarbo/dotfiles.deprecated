@@ -1,4 +1,3 @@
-#!/bin/zsh
 # Smart URLs
 autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
@@ -37,3 +36,4 @@ unsetopt nomatch
 
 autoload colors; colors;
 export LSCOLORS="Gxfxcxdxbxegedabagacad"
+# vim: set ft=zsh :

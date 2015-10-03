@@ -1,22 +1,48 @@
-DOT="$HOME/.dotfiles"
+export DOT="$HOME/.dotfiles"
+export OS_NAME="$(uname)"
 
-source "$DOT/lib/checks"
+# source and evaluate a command if it is passed as second argument
+source_file () {
+  [[ -s "$1" ]] && source "$1"
+  [[ "$2" && "$(type -p "$2")" ]] && eval "$2"
+}
 
+type_exists() {
+  [[ "$(type -p $1)" ]] && return 0
+  return 1
+}
+
+if [[ "$OS_NAME" == 'Linux' ]]; then
+  export IS_LINUX=1
+fi
+
+if [[ "$OS_NAME" == 'Darwin' ]]; then
+  export IS_MAC=1
+fi
+
+if [[ -x "$(which brew)" ]]; then
+  export HAS_BREW=1
+  # BREW_LOCATION=`brew --prefix`
+  export BREW_LOCATION="/usr/local"
+elif [[ -x "$(which apt-get)" ]]; then
+  export HAS_APT=1
+elif [[ -x "$(which yum)" ]]; then
+  export HAS_YUM=1
+fi
 export PATH="\
-/usr/local/bin:\
-$PATH:\
-$HOME/bin:\
-/usr/share:\
-$HOME/lib/sbt/bin:\
-"&>/dev/null
+  /usr/local/bin:\
+  $HOME/lib/sbt/bin:\
+  $PATH:\
+  $HOME/bin:\
+  /usr/share:\
+  "&>/dev/null
 
-_brew_prefix='/usr/local'
 # Exports ------------------------------------------------------------------ {{{
 # Make vim the default editor
 export EDITOR="vim"
 export VISUAL=$EDITOR
 
-export HISTFILE=~/.history
+export HISTFILE="$HOME/.history"
 
 # Ignore duplicate commands in the history
 export HISTCONTROL=ignoredups:erasedups
@@ -38,8 +64,8 @@ export MANPAGER="less -X"
 if [[ $HAS_BREW ]]; then
   # Export PhantomJS bin location (be explicit in case Homebrew is not installed
   # in the default location)
-  if [ -f $_brew_prefix/bin/phantomjs ]; then
-    export PHANTOMJS_BIN="$_brew_prefix/bin/phantomjs"
+  if [ -f "$BREW_LOCATION/bin/phantomjs" ]; then
+    export PHANTOMJS_BIN="$BREW_LOCATION/bin/phantomjs"
   fi
 fi
 
@@ -54,27 +80,45 @@ export CLICOLOR=true
 export LSCOLORS=ExGxFxdxCxDxDxBxBxExEx
 
 export LESS="-R"
-[[ -z $DISPLAY ]] && export DISPLAY=":0.0"
+[[ -z "$DISPLAY" ]] && export DISPLAY=":0.0"
 
 # set 256 color profile where possible
-if [[ $COLORTERM == gnome-* && $TERM == xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
-    export TERM=gnome-256color
+if [[ "$COLORTERM" == gnome-* && "$TERM" == xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+  export TERM=gnome-256color
 elif infocmp xterm-256color >/dev/null 2>&1; then
-    export TERM=xterm-256color
+  export TERM=xterm-256color
 fi
 # }}}
 # Source ------------------------------------------------------------------- {{{
-if [[ $HAS_BREW ]]; then
-  _files=(
-  $_brew_prefix/etc/bash_completion
-  )
-  for file in "${_files[@]}"; do
-    [[ -f "$file" ]] && source "$file"
-  done
-  unset _files
+type_exists "fasd" && eval "$(fasd --init auto)"
+
+source_file "$HOME/.nvm/nvm.sh"
+source_file "$HOME/.avn/bin/avn.sh"
+
+if [[ "$HAS_BREW" ]]; then
+  source_file "$BREW_LOCATION/share/chruby/chruby.sh" "chruby ruby"
+
+  # FZF {{{
+  export FZF_DEFAULT_OPTS="--extended --cycle"
+
+  # Setting ag as the default source for fzf
+  export FZF_DEFAULT_COMMAND='
+  (git ls-tree -r --name-only HEAD ||
+    ag -l -g "" ||
+    find * -name ".*" -prune -o -type f -print -o -type l -print) 2> /dev/null'
+
+  # To apply the command to CTRL-T as well
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+  source_file "$BREW_LOCATION/etc/bash_completion"
+  source_file "$BREW_LOCATION/opt/fzf/shell/completion.bash"
+  source_file "$BREW_LOCATION/opt/fzf/shell/key-bindings.bash"
+  # }}}
+else
+  echo "Can't find Homebrew"
 fi
 
-source "$DOT/bash/aliases"
+source "$DOT/zsh/aliases"
 source "$DOT/bash/prompt"
 # }}}
 # Options ------------------------------------------------------------------ {{{
@@ -104,25 +148,14 @@ set completion-query-items 350
 # * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
 # * Recursive globbing, e.g. `echo **/*.txt`
 for option in autocd globstar; do
-    shopt -s "$option" 2> /dev/null
+  shopt -s "$option" 2> /dev/null
 done
 
 # Autocomplete for 'g' as well
 complete -o default -o nospace -F _git g
-
-unset _brew_prefix;
-
-chrubyPath="/usr/local/share/chruby/chruby.sh"
-[[ -e $chrubyPath ]] && source $chrubyPath
-
-[[ -s "$HOME/.nvm" ]] && source "$HOME/.nvm/nvm.sh"  # This loads nvm
-
-[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
-
-[[ -e "$HOME/.secrets" ]] && source "$HOME/.secrets"
-
-# Bash-specific
-[[ -e "$HOME/.bash_profile.local" ]] && source "$HOME/.bash_profile.local"
 # }}}
+
+source_file "$HOME/.secrets"
+source_file "$HOME/.bash_profile.local"
 
 # vim: set ft=sh :

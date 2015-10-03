@@ -1,11 +1,4 @@
-#!bin/bash
-# Prompt
-
-function git_branch {
-  git branch 2>/dev/null | grep -e '\*' | sed 's/^..\(.*\)/\\[ ⭠ \\]\1/'
-}
-
-function prompt {
+prompt () {
   local BGBLACK="\[\033[40m\]"
   local BGRED="\[\033[41m\]"
   local BGGREEN="\[\033[42m\]"
@@ -35,3 +28,4 @@ function prompt {
 }
 
 prompt
+# vim: set ft=sh :

@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 export DOT="$HOME/.dotfiles"
 export OS_NAME="$(uname)"
 
@@ -88,3 +86,5 @@ elif [[ -x "$(which apt-get)" ]]; then
 elif [[ -x "$(which yum)" ]]; then
   export HAS_YUM=1
 fi
+#
+#!/usr/bin/env zsh

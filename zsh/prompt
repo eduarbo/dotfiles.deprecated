@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 # Shows git branch and whether it's dirty using the fastest method available.
 # Command execution time will be displayed if it exceeds the set threshold.
 # Shows the current path in the title and the current directory and command when a process is running.
@@ -126,3 +124,4 @@ prompt_setup() {
 }
 
 prompt_setup "$@"
+# vim: set ft=zsh :
