@@ -5,6 +5,7 @@ This is a collection of my configuration files under OSX.
 
 Installation
 ------------
+
 The installation step requires the XCode Command Line Tools and may overwrite
 existing dotfiles in your HOME, .vim and .emacs.d directories.
 
@@ -33,15 +34,56 @@ command instead:
 $ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/bin/dotfiles)" -- --with-apps
 ```
 
-Aliases
+Content
 -------
+
+- Zsh
+- Vim
+- Tmux
+- Fonts
+- Seil
+- Karabiner
+- Scripts
+- linters config
+- OS X defaults
+
+
+ZSH
+---
+
+### Aliases
 
 There are nice aliases for git, ruby, shortcuts, files & directories and some
 OS-specific aliases (Linux and OSX).
 
+### Dependencies
 
-Vim Plugins
------------
+Homebrew
+Node
+Ruby
+Python
+Go
+
+VIM
+---
+
+### Vim Dependencies
+
+Vim needs to be compiled with lua, cscope and python2 support. If you already
+run `install` or `brewbootstrap` script you can skip this section.
+
+Otherwise install vim with this command:
+
+    brew install macvim --with-cscope --with-lua --env-std --override-system-vim
+
+And install the following dependencies:
+- [FZF](https://github.com/junegunn/fzf): `brew install fzf`
+- [Livedown](https://github.com/shime/livedown): `npm install -g livedown`
+- [Ag (aka The Silver Searcher)](https://github.com/ggreer/the_silver_searcher):
+    `brew install ag`
+
+
+### Vim Plugins
 
 - [**Bracketed Paste**](http://github.com/ConradIrwin/vim-bracketed-paste): Enables transparent pasting into vim. (i.e. no more :set paste!)
 - [**CammelCaseMotion**](http://github.com/bkad/CamelCaseMotion): Provide CamelCase motion through words
@@ -112,29 +154,17 @@ mappings for:
  [Vim](http://github.com/tejr/vim-tmux)
 
 
-Vim Dependencies:
-- [FZF](https://github.com/junegunn/fzf)
-- [Livedown](https://github.com/shime/livedown)
-Recomended:
-- [Ag]()
-
-Notes
------
-Install Node via `npm` or `n`. It is less problematic than installed via
-homebrew
-
-
-Credits
--------
+### Credits
 Inspiration and some code was taken from many sources, including:
 
+* [Prezto](https://github.com/sorin-ionescu/prezto/)
 * [@joedicastro](https://github.com/joedicastro/dotfiles)
 * [@necolas](https://github.com/necolas/dotfiles)
 * [@mathiasbynens](https://github.com/mathiasbynens/dotfiles)
 * [@sjl](https://bitbucket.org/sjl/dotfiles)
 
 
-TODO
-----
+### TODO
+
 * Make .gitconfig more general. Get rid of my harcoded email and name
 * simplify bootstrap scripts in one file
