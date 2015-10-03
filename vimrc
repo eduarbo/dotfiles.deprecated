@@ -52,15 +52,14 @@ Plug 'vim-scripts/SyntaxComplete'
 " Productivity {{{
 Plug 'tpope/vim-repeat'
 Plug 'ConradIrwin/vim-bracketed-paste'
-Plug 'fmoralesc/vim-pad', {'on': 'Pad'}
+Plug 'kshenoy/vim-signature'
+Plug 'shime/vim-livedown', {'for': 'markdown'}
 " #Gundo: Browse the vim undo tree
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 " #ListToggle: Toggle the display of the quickfix list and the location-list.
 Plug 'Valloric/ListToggle'
-" #LiveDown
-Plug 'shime/vim-livedown', {'for': 'markdown'}
 " #Pad
-Plug 'kshenoy/vim-signature'
+Plug 'fmoralesc/vim-pad', {'on': 'Pad'}
 " #Vimux
 Plug 'benmills/vimux', {'on': ['VimuxRunCommand', 'VimuxRunLastCommand']}
 Plug 'christoomey/vim-tmux-navigator'
@@ -1376,9 +1375,6 @@ let g:lt_location_list_toggle_map = '<leader>l'
 let g:lt_quickfix_list_toggle_map = '<leader>q'
 let g:lt_height = 10
 " }}}
-" #Livedown {{{
-nmap <leader>P :LivedownPreview<CR>
-" }}}
 " #NERDTree {{{
 noremap  <leader>n :NERDTreeToggle<cr>
 
@@ -1630,4 +1626,5 @@ set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Plus
 " * Add more customized snippets
 " * Move filetype specific options to ftplugins dir
 " * Check if it's worth using Unite
+" * Fix CtrlSF
 " }}}
