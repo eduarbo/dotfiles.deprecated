@@ -4,6 +4,7 @@
 
 " Preamble ---------------------------------------------------------------- {{{
 filetype off
+let s:ag = executable('ag')
 " }}}
 " Plugins ----------------------------------------------------------------- {{{
 call plug#begin('~/.vim/plugged')
@@ -11,6 +12,10 @@ call plug#begin('~/.vim/plugged')
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
 Plug 'vim-scripts/listmaps.vim'
 
+" Plugins that makes vim painfully slow in iTerm {{{
+" #Lightline
+Plug 'itchyny/lightline.vim', { 'on': []} " Hack to load it on demand
+" }}}
 " File Finders {{{
 " #CtrlP
 Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
@@ -119,10 +124,9 @@ Plug 'skwp/vim-rspec', {'for': ['ruby', 'rails']}
 " Style {{{
 Plug 'morhetz/gruvbox'
 Plug 'ryanoasis/vim-devicons'
-" #Lightline
-Plug 'itchyny/lightline.vim'
 " #RainbowParentheses
 Plug 'kien/rainbow_parentheses.vim'
+Plug 'inside/vim-search-pulse'
 " }}}
 
 call plug#end()
@@ -166,7 +170,6 @@ set title                       " set the terminal title to the current file
 set linebreak
 set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
-" TODO: map it to a more accessible key, I use it a lot!
 set pastetoggle=<F2>            " Use it for pasting large amounts of text into Vim, disabling all kinds of smartness and just pasting a whole buffer of text
 set lazyredraw
 set ssop-=options    " do not store global and local values in a session
@@ -321,7 +324,7 @@ inoremap <F1> <ESC>
 inoremap # X<BS>#
 
 " Kill window
-nnoremap K :q<cr>
+nnoremap K :q!<cr>
 
 " Sort lines
 nnoremap <leader>S vip:!sort<cr>
@@ -587,22 +590,23 @@ nnoremap zO zCzO
 " This mapping wipes out the z mark, which I never use.
 "
 " I use :sus for the rare times I want to actually background Vim.
-nnoremap <c-z> mzzMzvzz15<c-e>`z:Pulse<cr>
+nnoremap <c-z> mzzMzvzz15<c-e>`z:call search_pulse#Pulse()<CR>
 
 function! MyFoldText() " {{{
     let line = getline(v:foldstart)
 
     let nucolwidth = &fdc + &number * &numberwidth
-    let windowwidth = winwidth(0) - nucolwidth - 3
+    let windowwidth = winwidth(0) - nucolwidth - 5
     let foldedlinecount = v:foldend - v:foldstart
 
     " expand tabs into spaces
     let onetab = strpart('          ', 0, &tabstop)
     let line = substitute(line, '\t', onetab, 'g')
 
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+    let maxlen = windowwidth - len(foldedlinecount) - 9
+    let line = strpart(line, 0, maxlen)
+    let fillcharcount = maxlen - len(line)
+    return line . " \uf470 " . repeat(" ",fillcharcount) . ' ' . foldedlinecount . ' lines'
 endfunction " }}}
 set foldtext=MyFoldText()
 " }}}
@@ -989,10 +993,28 @@ nnoremap <leader>B :call BlockColor()<cr>
 vnoremap <leader>64d y:let @"=system('base64 --decode', @")<cr>gvP
 vnoremap <leader>64e y:let @"=system('base64', @")<cr>gvP
 " }}}
-" Check if Vim was loaded in Tmux{{{
+" Check if Vim was loaded in Tmux {{{
 function! InTmuxSession()
-  return $TMUX != ''
+  return !has('gui_running') && $TMUX != ''
 endfunction
+" }}}
+" Generate Unicode table {{{
+function! GenerateUnicode(first, last) " {{{
+  let i = a:first
+  while i <= a:last
+    if (i%256 == 0)
+      $put ='----------------------------------------------------'
+      $put ='     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F '
+      $put ='----------------------------------------------------'
+    endif
+    let c = printf('%04X ', i)
+    for j in range(16)
+      let c = c . nr2char(i) . ' '
+      let i += 1
+    endfor
+    $put =c
+  endwhile
+endfunction " }}}
 " }}}
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
@@ -1086,7 +1108,7 @@ let my_ctrlp_git_command = "" .
 let my_ctrlp_ag_command = 'ag %s -l --nocolor -g "" | ' . ctrlp_filter_greps
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-if executable('ag')
+if s:ag
     " Use Ag over Grep
     set grepprg="ag --nogroup --nocolor"
 
@@ -1170,12 +1192,46 @@ augroup ft_fugitive
 augroup END
 " }}}
 " #FZF {{{
+" Open files in horizontal split
 set rtp+=/usr/local/opt/fzf
+let g:fzf_launcher = "~/.vim/in_a_new_term_function %s"
+
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+command! FZFMru call fzf#run({
+\ 'source':  reverse(s:all_files()),
+\ 'sink':    'edit',
+\ 'options': '-m --no-sort -x',
+\ 'down':    '40%' })
+
+function! s:all_files()
+  return extend(
+  \ filter(copy(v:oldfiles),
+  \        "v:val !~ 'fugitive\\|NERD_tree\\|^/tmp/\\|.git/'"),
+  \ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
+endfunction
+
 if InTmuxSession()
   " Checking that we are in a tmux session because FZF opens in a tmux pane
   " Let's overwrite CtrlP mapping if we are in Tmux, otherwise it will open
   " terminal window
   nnoremap <leader>, :FZF<cr>
+  nnoremap <leader>m :FZFMru<cr>
+  nnoremap <silent> <Leader>b :call fzf#run({
+  \   'source':  reverse(<sid>buflist()),
+  \   'sink':    function('<sid>bufopen'),
+  \   'options': '+m',
+  \   'down':    len(<sid>buflist()) + 2
+  \ })<CR>
 endif
 " }}}
 " #GitGutter {{{
@@ -1193,7 +1249,7 @@ let g:go_highlight_structs = 1
 let g:go_fmt_fail_silently = 1
 " }}}
 " #Gundo {{{
-nnoremap <F5> :GundoToggle<CR>
+nnoremap <F4> :GundoToggle<CR>
 
 let g:gundo_debug = 1
 let g:gundo_preview_bottom = 1
@@ -1228,147 +1284,157 @@ let g:vim_json_syntax_conceal = 0
 let g:js_indent_flat_switch = 1
 " }}}
 " #Lightline {{{
-let g:lightline = {
-            \ 'colorscheme': 'wombat',
-            \ 'active': {
-            \   'left': [
-            \       ['mode', 'paste'],
-            \       ['fugitive', 'filename'],
-            \       ['ctrlpmark']
-            \   ],
-            \   'right': [
-            \       ['syntastic', 'lineinfo' ],
-            \       ['percent'],
-            \       ['filetype']
-            \   ]
-            \ },
-            \ 'component_function': {
-            \   'modified': 'LightLineModified',
-            \   'readonly': 'LightLineReadonly',
-            \   'fugitive': 'LightLineFugitive',
-            \   'filename': 'LightLineMode',
-            \   'fileformat': 'LightLineFileformat',
-            \   'filetype': 'LightLineFiletype',
-            \   'fileencoding': 'LightLineFileencoding',
-            \   'mode': 'LightLineFilename',
-            \   'ctrlpmark': 'CtrlPMark',
-            \ },
-            \ 'component_expand': {
-            \   'syntastic': 'SyntasticStatuslineFlag',
-            \ },
-            \ 'component_type': {
-            \   'syntastic': 'error',
-            \ },
-            \ 'separator': { 'left': '⮀', 'right': '⮂' },
-            \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
-            \ }
+if has('gui_running')
+    " Lightline is loaded only when vim is in GUI mode
+    augroup load_lightline
+        autocmd!
+        autocmd VimEnter * call plug#load('lightline.vim')
+                            \| call SetupLightline()
+    augroup END
+endif
+
+function! SetupLightline()
+    let g:lightline = {
+                \ 'colorscheme': 'wombat',
+                \ 'active': {
+                \   'left': [
+                \       ['mode', 'paste'],
+                \       ['fugitive', 'filename'],
+                \       ['ctrlpmark']
+                \   ],
+                \   'right': [
+                \       ['syntastic', 'lineinfo' ],
+                \       ['percent'],
+                \       ['filetype']
+                \   ]
+                \ },
+                \ 'component_function': {
+                \   'modified': 'LightLineModified',
+                \   'readonly': 'LightLineReadonly',
+                \   'fugitive': 'LightLineFugitive',
+                \   'filename': 'LightLineMode',
+                \   'fileformat': 'LightLineFileformat',
+                \   'filetype': 'LightLineFiletype',
+                \   'fileencoding': 'LightLineFileencoding',
+                \   'mode': 'LightLineFilename',
+                \   'ctrlpmark': 'CtrlPMark',
+                \ },
+                \ 'component_expand': {
+                \   'syntastic': 'SyntasticStatuslineFlag',
+                \ },
+                \ 'component_type': {
+                \   'syntastic': 'error',
+                \ },
+                \ 'separator': { 'left': '⮀', 'right': '⮂' },
+                \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+                \ }
 
 
-function! LightLineModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? "\uf040" : &modifiable ? '' : '-'
+    function! LightLineModified()
+      return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? "\uf040" : &modifiable ? '' : '-'
+    endfunction
+
+    function! LightLineReadonly()
+      return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? "\uf023" : ''
+    endfunction
+
+    function! LightLineFilename()
+      let fname = expand('%:t')
+      return fname == 'ControlP' ? g:lightline.ctrlp_item :
+            \ fname == '__Tagbar__' ? g:lightline.fname :
+            \ fname =~ '__Gundo\|NERD_tree' ? '' :
+            \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+            \ &ft == 'unite' ? unite#get_status_string() :
+            \ &ft == 'vimshell' ? vimshell#get_status_string() :
+            \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+            \ ('' != fname ? fname : '[No Name]') .
+            \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+    endfunction
+
+    function! LightLineFugitive()
+      if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
+        let _ = fugitive#head()
+        return strlen(_) ? "\uF418 "._ : ''
+      endif
+      return ''
+    endfunction
+
+    function! LightLineFileformat()
+        return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+    endfunction
+
+    function! LightLineFiletype()
+        return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+    endfunction
+
+    function! LightLineFileencoding()
+      return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+    endfunction
+
+    function! LightLineMode()
+      let fname = expand('%:t')
+      return fname == '__Tagbar__' ? 'Tagbar' :
+            \ fname == 'ControlP' ? 'CtrlP' :
+            \ fname == '__Gundo__' ? 'Gundo' :
+            \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+            \ fname =~ 'NERD_tree' ? 'NERDTree' :
+            \ &ft == 'unite' ? 'Unite' :
+            \ &ft == 'vimfiler' ? 'VimFiler' :
+            \ &ft == 'vimshell' ? 'VimShell' :
+            \ winwidth(0) > 60 ? lightline#mode() : ''
+    endfunction
+
+    function! CtrlPMark()
+        if expand('%:t') =~ 'ControlP'
+            call lightline#link('iR'[g:lightline.ctrlp_regex])
+            return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
+                        \ , g:lightline.ctrlp_next], 0)
+        else
+            return ''
+        endif
+    endfunction
+
+    function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
+        let g:lightline.ctrlp_regex = a:regex
+        let g:lightline.ctrlp_prev = a:prev
+        let g:lightline.ctrlp_item = a:item
+        let g:lightline.ctrlp_next = a:next
+        return lightline#statusline(0)
+    endfunction
+
+    function! CtrlPStatusFunc_2(str)
+        return lightline#statusline(0)
+    endfunction
+
+    function! TagbarStatusFunc(current, sort, fname, ...) abort
+        let g:lightline.fname = a:fname
+        return lightline#statusline(0)
+    endfunction
+
+    " Workaround to display error message in Lightline in red
+    augroup AutoSyntastic
+        autocmd!
+        autocmd BufWritePost *.c,*.cpp,*.js,*.py,*.go,*.hbs,*.json call s:syntastic()
+        autocmd BufWritePost *.rb,*.scss,*.sass,*.sh,.vimrc,vimrc call s:syntastic()
+        autocmd BufWritePost *.zsh,*.sql,*.sql.pre,*.sql.post call s:syntastic()
+    augroup END
+
+    function! s:syntastic()
+        SyntasticCheck
+        call lightline#update()
+    endfunction
+
+    let g:tagbar_status_func = 'TagbarStatusFunc'
+    let g:ctrlp_status_func = {
+                \ 'main': 'CtrlPStatusFunc_1',
+                \ 'prog': 'CtrlPStatusFunc_2',
+                \ }
+
+    let g:unite_force_overwrite_statusline = 0
+    let g:vimfiler_force_overwrite_statusline = 0
+    let g:vimshell_force_overwrite_statusline = 0
+    let g:vimfiler_quick_look_command = 'qlmanage -p'
 endfunction
-
-function! LightLineReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? "\uf023" : ''
-endfunction
-
-function! LightLineFilename()
-  let fname = expand('%:t')
-  return fname == 'ControlP' ? g:lightline.ctrlp_item :
-        \ fname == '__Tagbar__' ? g:lightline.fname :
-        \ fname =~ '__Gundo\|NERD_tree' ? '' :
-        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \ &ft == 'unite' ? unite#get_status_string() :
-        \ &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-        \ ('' != fname ? fname : '[No Name]') .
-        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
-endfunction
-
-function! LightLineFugitive()
-  if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
-    let _ = fugitive#head()
-    return strlen(_) ? "\ue0a0 "._ : ''
-  endif
-  return ''
-endfunction
-
-function! LightLineFileformat()
-    return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
-endfunction
-
-function! LightLineFiletype()
-    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
-endfunction
-
-function! LightLineFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! LightLineMode()
-  let fname = expand('%:t')
-  return fname == '__Tagbar__' ? 'Tagbar' :
-        \ fname == 'ControlP' ? 'CtrlP' :
-        \ fname == '__Gundo__' ? 'Gundo' :
-        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-        \ fname =~ 'NERD_tree' ? 'NERDTree' :
-        \ &ft == 'unite' ? 'Unite' :
-        \ &ft == 'vimfiler' ? 'VimFiler' :
-        \ &ft == 'vimshell' ? 'VimShell' :
-        \ winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-
-function! CtrlPMark()
-    if expand('%:t') =~ 'ControlP'
-        call lightline#link('iR'[g:lightline.ctrlp_regex])
-        return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-                    \ , g:lightline.ctrlp_next], 0)
-    else
-        return ''
-    endif
-endfunction
-
-let g:ctrlp_status_func = {
-            \ 'main': 'CtrlPStatusFunc_1',
-            \ 'prog': 'CtrlPStatusFunc_2',
-            \ }
-
-function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-    let g:lightline.ctrlp_regex = a:regex
-    let g:lightline.ctrlp_prev = a:prev
-    let g:lightline.ctrlp_item = a:item
-    let g:lightline.ctrlp_next = a:next
-    return lightline#statusline(0)
-endfunction
-
-function! CtrlPStatusFunc_2(str)
-    return lightline#statusline(0)
-endfunction
-
-let g:tagbar_status_func = 'TagbarStatusFunc'
-
-function! TagbarStatusFunc(current, sort, fname, ...) abort
-    let g:lightline.fname = a:fname
-    return lightline#statusline(0)
-endfunction
-
-" Workaround to display error message in Lightline in red
-augroup AutoSyntastic
-    autocmd!
-    autocmd BufWritePost *.c,*.cpp,*.js,*.py,*.go,*.hbs,*.json call s:syntastic()
-    autocmd BufWritePost *.rb,*.scss,*.sass,*.sh,.vimrc,vimrc call s:syntastic()
-    autocmd BufWritePost *.zsh,*.sql,*.sql.pre,*.sql.post call s:syntastic()
-augroup END
-
-function! s:syntastic()
-    SyntasticCheck
-    call lightline#update()
-endfunction
-
-let g:unite_force_overwrite_statusline = 0
-let g:vimfiler_force_overwrite_statusline = 0
-let g:vimshell_force_overwrite_statusline = 0
-let g:vimfiler_quick_look_command = 'qlmanage -p'
 " }}}
 " #Linediff {{{
 vnoremap <leader>d :Linediff<cr>
@@ -1402,10 +1468,8 @@ let NERDChristmasTree = 1
 let NERDTreeChDirMode = 2
 let NERDTreeMapJumpFirstChild = 'gK'
 
-" let g:NERDTreeDirArrowExpandable = "\uf114"
-" let g:NERDTreeDirArrowCollapsible = "\uf115"
-let g:NERDTreeDirArrowExpandable = "\uf07b"
-let g:NERDTreeDirArrowCollapsible = "\uf07c"
+let g:NERDTreeDirArrowExpandable = "\uf114"
+let g:NERDTreeDirArrowCollapsible = "\uf115"
 
 " NERDTress File highlighting
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
@@ -1438,7 +1502,7 @@ let g:pad#dir = "~/notes/"
 " Disable default global mappings
 let g:pad#set_mappings = 0
 
-if executable('ag')
+if s:ag
     let g:pad#search_backend = 'ag'
 endif
 " }}}
@@ -1483,15 +1547,7 @@ let g:syntastic_vim_checkers = ['vimlint']
 let g:syntastic_html_tidy_exec = 'tidy'
 let g:syntastic_python_checkers = ['flake8', 'python'] " Other checkers: pep8, pylint, python, pyflakes
 
-" Glyphs
-" \uf188 bug icon
-" \uf05e ban icon
-" \uf071 warning sign triangle
-" \uf06a warning sign circle
-" \uf12a bang
-" \uf057 X circle sign
-
-let g:syntastic_error_symbol = "\uf1e2" " bomb icon
+let g:syntastic_error_symbol = "\uf4A8" " fire icon
 let g:syntastic_warning_symbol = "\uf0e7" " bolt icon
 let g:syntastic_style_error_symbol = "\uf12a"
 let g:syntastic_style_warning_symbol = "\uf12a"
@@ -1536,21 +1592,6 @@ let g:easy_align_delimiters = {
 \ '"': { 'pattern': '"\S', 'ignore_unmatched': 0, 'left_margin': 0, 'right_margin': 0 }
 \ }
 " }}}
-" #YankRing {{{
-nnoremap <silent> <F4> :YRShow<CR>
-
-function! YRRunAfterMaps()
-    " Make Y yank to end of line.
-    nnoremap Y :<C-U>YRYankCount 'y$'<CR>
-
-    " Fix L and H in operator-pending mode, so yH and such works.
-    omap <expr> L YRMapsExpression("", "$")
-    omap <expr> H YRMapsExpression("", "^")
-
-    " Don't clobber the yank register when pasting over text in visual mode.
-    vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr>
-endfunction
-" }}}
 " #YouCompleteMe {{{
 let g:ycm_key_list_select_completion = ['<Down>', '<C-p>']
 let g:ycm_key_list_previous_completion = ['<Up>', '<C-n>']
@@ -1570,6 +1611,7 @@ if has('gui_running')
     set go-=L
     set go-=r
     set go-=R
+    set go+=c
 
     highlight SpellBad term=underline gui=undercurl guisp=Orange
 
@@ -1614,6 +1656,7 @@ if has('gui_running')
     else
         " Non-MacVim GUI
     end
+    let g:VimuxUseExistingPaneWithIndex = 1
 else
     " Console Vim
     " For me, this means iTerm2, possibly through tmux
@@ -1630,5 +1673,5 @@ set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Plus
 " * Add more customized snippets
 " * Move filetype specific options to ftplugins dir
 " * Check if it's worth using Unite
-" * Fix CtrlSF
+" * Map F5 and F6 to function to run current Script/file. See: http://stackoverflow.com/questions/953398/how-to-execute-file-im-editing-in-vim and https://github.com/junegunn/dotfiles/blob/da378217ad008d422bc5b577802cad237a2930e1/vimrc#L1196-L1198
 " }}}
