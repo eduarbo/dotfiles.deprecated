@@ -99,6 +99,7 @@ Usage: $(basename "$0") [options]
 Options:
 -h, --help      Print this help text
 --no-update     Skip brew update
+--minimal       Install minimal amount of required packages to run zsh and vim without errors
 
 Copyright (c) Eduardo Ruiz
 Licensed under the MIT license.
@@ -111,6 +112,7 @@ fi
 for opt in $@; do
   case $opt in
     --no-update) _no_update=true ;;
+    --minimal) _minimal=true ;;
     -*|--*) e_warning "Warning: invalid option $opt" ;;
   esac
 done
@@ -146,11 +148,13 @@ if [[ -x `which brew` ]]; then
     eval "brew install ${base_formulae[$index]}"
   done
 
-  e_header "Installing Extra Homebrew formulae..."
-  for index in ${!extra_formulae[*]}; do
-    # Using eval to evaluate parameters in the list
-    eval "brew install ${extra_formulae[$index]}"
-  done
+  if [[ ! ${_minimal} ]]; then
+    e_header "Installing Extra Homebrew formulae..."
+    for index in ${!extra_formulae[*]}; do
+      # Using eval to evaluate parameters in the list
+      eval "brew install ${extra_formulae[$index]}"
+    done
+  fi
 
   # After installing NVM install latest node and npm {{{
   source ~/.nvm/nvm.sh
@@ -163,38 +167,40 @@ if [[ -x `which brew` ]]; then
   brew cleanup
 fi
 # }}}
-# Install Ruby gems {{{
-if ! type_exists 'gem'; then
-  echo
-  e_error "Error: RubyGems not found."
-else
-  e_header "Installing Gems..."
-  for index in ${!gems[*]}; do
-    gem install "${gems[$index]}"
-  done
+if [[ ! ${_minimal} ]]; then
+  # Install Ruby gems {{{
+  if ! type_exists 'gem'; then
+    echo
+    e_error "Error: RubyGems not found."
+  else
+    e_header "Installing Gems..."
+    for index in ${!gems[*]}; do
+      gem install "${gems[$index]}"
+    done
+  fi
+  # }}}
+  # Install Node packages {{{
+  if ! type_exists 'npm'; then
+    echo
+    e_error "Error: npm not found."
+  else
+    e_header "Installing Node Packages..."
+    for index in ${!node_packages[*]}; do
+      # Install packages globally and quietly
+      npm install "${node_packages[$index]}" -g >/dev/null
+    done
+  fi
+  # }}}
+  # Install Python packages {{{
+  if ! type_exists 'pip'; then
+    echo
+    e_error "Error: Pip not found."
+  else
+    e_header "Installing Python packages..."
+    for index in ${!pip_packages[*]}; do
+      sudo pip install "${pip_packages[$index]}"
+    done
+  fi
+  # }}}
 fi
-# }}}
-# Install Node packages {{{
-if ! type_exists 'npm'; then
-  echo
-  e_error "Error: npm not found."
-else
-  e_header "Installing Node Packages..."
-  for index in ${!node_packages[*]}; do
-    # Install packages globally and quietly
-    npm install "${node_packages[$index]}" -g >/dev/null
-  done
-fi
-# }}}
-# Install Python packages {{{
-if ! type_exists 'pip'; then
-  echo
-  e_error "Error: Pip not found."
-else
-  e_header "Installing Python packages..."
-  for index in ${!pip_packages[*]}; do
-    sudo pip install "${pip_packages[$index]}"
-  done
-fi
-# }}}
 e_success "Done"

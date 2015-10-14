@@ -16,23 +16,33 @@ git, coreutils and rsync) simply run:
 $ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/bin/dotfiles)" -- --minimal
 ```
 
-**Note:** Later you can install the full list of packages with the commands
-`brewbootstrap` and `npmbootstrap`
+**Note:** Later you can install the full list of packages with command
+`bootstrap`
 
-However, if you have enough time to do a full installation (Install all Homebrew
-and Node packages listed below) run the same command without the `--minimal`
-parameter:
+However, if you have enough time to install all the packages (Install all
+Homebrew, Node, Ruby and Python packages listed on `bootstrap`) run the same
+command without any parameter:
 
 ```bash
 $ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/bin/dotfiles)"
 ```
 
-To install some common OSX Apps (listed below) in this step, just run this
-command instead:
+To do a full installation with all the packages and some common OSX Apps in one
+step, just run this command instead:
 
 ```bash
 $ bash -c "$(curl -fsSL raw.github.com/eduarbo/dotfiles/master/bin/dotfiles)" -- --with-apps
 ```
+
+Any user specific global git command should go into `~/.zshrc.local` instead of
+`~/.gitconfig` to prevent them being commited to the repository. To setup your
+email and name just copy the following lines into your `~/.zshrc.local`:
+
+    export GIT_AUTHOR_NAME="Your name goes here"
+    export GIT_AUTHOR_EMAIL=foo@example.org
+    export GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
+    export GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
+
 
 Content
 -------
@@ -166,6 +176,5 @@ Inspiration and some code was taken from many sources, including:
 
 ### TODO
 
-* Make .gitconfig more general. Get rid of my harcoded email and name
 * Avoid reinstalling packages when bootstrap script is executed
 * Setup Ruby properly with chruby in bootstrap
