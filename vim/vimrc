@@ -374,7 +374,8 @@ nnoremap vaa ggvGg_
 nnoremap Vaa ggVG
 
 " Change case
-inoremap <C-u> <esc>mzgUiw`za
+" Not sure if there is a conflict with YCM
+" inoremap <C-u> <esc>mzgUiw`za
 
 " Panic Button
 nnoremap <leader>` mzggg?G`z
@@ -439,16 +440,15 @@ nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 " Quick editing ----------------------------------------------------------- {{{
 nnoremap <leader>ec :vsplit ~/.dotfiles/editorconfig<cr>
 nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
-nnoremap <leader>ef :vsplit ~/.config/fish/config.fish<cr>
-nnoremap <leader>eg :vsplit ~/.dotfiles/gitconfig<cr>
+nnoremap <leader>eg :vsplit ~/.dotfiles/git/gitconfig<cr>
 nnoremap <leader>ej :vsplit ~/.dotfiles/jshintrc<cr>
-nnoremap <leader>et :vsplit ~/.dotfiles/tmux.conf<cr>
-nnoremap <leader>ev :vsplit ~/.dotfiles/vimrc<cr>
+nnoremap <leader>et :vsplit ~/.dotfiles/tmux/tmux.conf<cr>
+nnoremap <leader>ev :vsplit ~/.dotfiles/vim/vimrc<cr>
 nnoremap <leader>ez :vsplit ~/.dotfiles/zsh/zshrc<cr>
 
 nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
-nnoremap <leader>eb :vsplit ~/.dotfiles/bash_profile<cr>
-nnoremap <leader>eg :vsplit ~/.dotfiles/gitconfig<cr>
+nnoremap <leader>eb :vsplit ~/.dotfiles/bash/bash_profile<cr>
+nnoremap <leader>eg :vsplit ~/.dotfiles/git/gitconfig<cr>
 " }}}
 " Searching and movement -------------------------------------------------- {{{
 " Use sane regexes.
@@ -925,7 +925,7 @@ augroup END
 " Reload vimrc
 augroup myvimrc
     au!
-    au BufWritePost .vimrc,vimrc so %
+    au BufWritePost vimrc so %
 augroup END
 " }}}
 " YAML {{{

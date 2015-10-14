@@ -167,4 +167,5 @@ Inspiration and some code was taken from many sources, including:
 ### TODO
 
 * Make .gitconfig more general. Get rid of my harcoded email and name
-* simplify bootstrap scripts in one file
+* Avoid reinstalling packages when bootstrap script is executed
+* Setup Ruby properly with chruby in bootstrap

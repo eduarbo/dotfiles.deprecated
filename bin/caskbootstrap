@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-DOTFILES_DIRECTORY="${HOME}/.dotfiles"
-source ${DOTFILES_DIRECTORY}/lib/utils
+source "$HOME/.dotfiles/lib/utils"
 
 # List of Apps
-_apps=(
+_apps=( #{{{
 # dependencies:
 'java' # required by jdownloader
 
@@ -44,7 +43,7 @@ _apps=(
 'virtualbox'
 'vlc'
 'wireshark'
-)
+) #}}}
 
 # Check for cask
 if ! formula_exists 'brew-cask' >/dev/null; then

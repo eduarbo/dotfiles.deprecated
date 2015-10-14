@@ -86,5 +86,5 @@ elif [[ -x "$(which apt-get)" ]]; then
 elif [[ -x "$(which yum)" ]]; then
   export HAS_YUM=1
 fi
-#
-#!/usr/bin/env zsh
+
+# vim: set ft=zsh :

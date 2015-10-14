@@ -1,0 +1,200 @@
+#!/usr/bin/env bash
+
+source "$HOME/.dotfiles/lib/utils"
+
+# List of packages {{{
+base_formulae=( #{{{
+'coreutils' # GNU core utilities
+'bash'
+'bash-completion'
+'git'
+'zsh'
+'zsh-completions'
+'zsh-syntax-highlighting'
+'zsh-history-substring-search'
+
+# dependencies:
+'gnutls --default-names' #required by Taskwarrior
+'python --framework'
+'ruby-install'
+'chruby'
+'go'
+'lua'
+'ag'
+'ctags'
+'tmux'
+'reattach-to-user-namespace' # tmux Copy & Paste
+'--HEAD fzf'
+'macvim --with-cscope --with-lua --env-std --override-system-vim'
+'brew-cask'
+) #}}}
+extra_formulae=( #{{{
+# don't need to be in a specific order
+'moreutils'
+'findutils'
+'ack'
+'aircrack-ng'
+'gnu-sed --with-default-names'
+'cowsay'
+'cppcheck'
+'dark-mode'
+'fasd'
+'fortune'
+'git-lfs'
+'gtypist'
+'homebrew/dupes/grep'
+'homebrew/dupes/openssh'
+'libsass sassc'
+'mercurial'
+'--HEAD neovim'
+'nvm'
+'openssl'
+'pgcli'
+'pt'
+'rsync --default-names'
+'selecta'
+'shellcheck checkbashisms'
+'task'
+'tig'
+'vit'
+'wget --with-iri'
+# 'emacs --HEAD --use-git-head --cocoa --srgb'
+) #}}}
+gems=( #{{{
+sqlint
+pg_query
+tmuxinator
+rubocop
+) #}}}
+node_packages=( #{{{
+avn
+avn-nvm
+bower
+gulp
+gulp-util
+gulp-sass
+ember-cli
+prettyjson
+less
+express
+jade
+jade-lint
+wintersmith
+jitsu
+complete
+jsonlint
+vimlint
+livedown
+) #}}}
+pip_packages=( #{{{
+flake8
+) #}}}
+# }}}
+# Help {{{
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+
+cat <<EOT
+Usage: $(basename "$0") [options]
+
+Options:
+-h, --help      Print this help text
+--no-update     Skip brew update
+
+Copyright (c) Eduardo Ruiz
+Licensed under the MIT license.
+EOT
+
+  exit
+fi
+
+# Test for known flags
+for opt in $@; do
+  case $opt in
+    --no-update) _no_update=true ;;
+    -*|--*) e_warning "Warning: invalid option $opt" ;;
+  esac
+done
+# }}}
+# Install Homebrew Formulae {{{
+# Check for Homebrew
+if [[ ! -x `which brew` ]]; then
+  e_error "Error: Homebrew not found."
+  echo "Installing Homebrew..."
+  ruby -e "$(curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install)"
+  _no_update=true
+fi
+
+if [[ -x `which brew` ]]; then
+  if [[ ! ${_no_update} ]]; then
+    e_header "Updating Homebrew..."
+    # Use the latest version of Homebrew
+    brew update
+    [[ $? ]] && e_success "Done"
+
+    e_header "Updating any existing Homebrew formulae..."
+    # Upgrade any already-installed formulae
+    brew upgrade
+    [[ $? ]] && e_success "Done"
+  fi
+
+  brew tap homebrew/dupes
+  brew tap homebrew/versions
+
+  e_header "Installing Base Homebrew formulae..."
+  for index in ${!base_formulae[*]}; do
+    # Using eval to evaluate parameters in the list
+    eval "brew install ${base_formulae[$index]}"
+  done
+
+  e_header "Installing Extra Homebrew formulae..."
+  for index in ${!extra_formulae[*]}; do
+    # Using eval to evaluate parameters in the list
+    eval "brew install ${extra_formulae[$index]}"
+  done
+
+  # After installing NVM install latest node and npm {{{
+  source ~/.nvm/nvm.sh
+  nvm install stable
+  nvm use stable
+  nvm alias default stable
+  # }}}
+
+  # Remove outdated versions from the Cellar
+  brew cleanup
+fi
+# }}}
+# Install Ruby gems {{{
+if ! type_exists 'gem'; then
+  echo
+  e_error "Error: RubyGems not found."
+else
+  e_header "Installing Gems..."
+  for index in ${!gems[*]}; do
+    gem install "${gems[$index]}"
+  done
+fi
+# }}}
+# Install Node packages {{{
+if ! type_exists 'npm'; then
+  echo
+  e_error "Error: npm not found."
+else
+  e_header "Installing Node Packages..."
+  for index in ${!node_packages[*]}; do
+    # Install packages globally and quietly
+    npm install "${node_packages[$index]}" -g >/dev/null
+  done
+fi
+# }}}
+# Install Python packages {{{
+if ! type_exists 'pip'; then
+  echo
+  e_error "Error: Pip not found."
+else
+  e_header "Installing Python packages..."
+  for index in ${!pip_packages[*]}; do
+    sudo pip install "${pip_packages[$index]}"
+  done
+fi
+# }}}
+e_success "Done"

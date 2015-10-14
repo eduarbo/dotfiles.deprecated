@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-DOTFILES_DIRECTORY="${HOME}/.dotfiles"
-DOTFILES_TARBALL_PATH="https://github.com/eduarbo/dotfiles/tarball/master"
-DOTFILES_GIT_REMOTE="git@github.com:eduarbo/dotfiles.git"
+DOT="$HOME/.dotfiles"
+DOT_TARBALL_PATH="https://github.com/eduarbo/dotfiles/tarball/master"
+DOT_GIT_REMOTE="git@github.com:eduarbo/dotfiles.git"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 
@@ -11,7 +11,7 @@ Usage: $(basename "$0") [options]
 
 Options:
 -h, --help           Print this help text
---minimal            Minimal Installation: Install only essential brew packages
+--no-packages        Do not install packages
 --with-apps          Run caskbootstrap to install listed apps
 
 Copyright (c) Eduardo Ruiz
@@ -22,10 +22,10 @@ EOT
 fi
 
 # Test for known flags
-for opt in $@
+for opt in "$@"
 do
   case $opt in
-    --minimal) _minimal=true ;;
+    --no-packages) _no_packages=true ;;
     --with-apps) _with_apps=true ;;
     -*|--*) e_warning "Warning: invalid option $opt" ;;
   esac
@@ -34,7 +34,7 @@ done
 _link() {
   # Force create/replace the symlink.
   _backup "${HOME}/${2}"
-  ln -fs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
+  ln -fs "${DOT}/${1}" "${HOME}/${2}"
 }
 
 _backup() {
@@ -47,29 +47,31 @@ _backup() {
 }
 
 _mirrorfiles() {
-  # List of files to link in the $HOME dir
-  list=(
-  'bash_profile'
-  'bashrc'
-  'ctags'
-  'emacs.d'
-  'gitconfig'
-  'gitattributes'
-  'gitignore'
-  'inputrc'
-  'jshintrc'
-  'tmux'
-  'tmux.conf'
-  'tmuxinator'
-  'vim'
-  'vimrc'
-  'zshenv'
-  'zshrc'
-  )
+  _link 'ctags' '.ctags'
+  _link 'jshintrc' '.jshintrc'
 
-  for file in ${list[@]}; do
-    _link $file ".$file"
-  done
+  # Bash
+  _link 'bash/bash_profile' '.bash_profile'
+  _link 'bash/bashrc' '.bashrc'
+
+  # Zsh
+  _link 'zsh/zshrc' '.zshrc'
+  _link 'zsh/zshenv' '.zshenv'
+
+  # Vim
+  _link 'vim' '.vim'
+
+  # Emacs
+  _link 'emacs.d' '.emacs.d'
+
+  # Git
+  _link 'git/gitattributes' '.gitattributes'
+  _link 'git/gitignore' '.gitignore'
+
+  # Tmux
+  _link 'tmux' '.tmux'
+  _link 'tmux/tmux.conf' '.tmux.conf'
+  _link 'tmuxinator' '.tmuxinator'
 
   # Karabiner
   _link "karabiner/private.xml" "Library/Application Support/Karabiner/private.xml"
@@ -80,13 +82,13 @@ _mirrorfiles() {
   # Copy `.gitconfig`.
   # Any global git commands in `~/.bash_profile.local` will be written to
   # `.gitconfig`. This prevents them being committed to the repository.
-  # rsync -avz --quiet ${DOTFILES_DIRECTORY}/gitconfig  ${HOME}/.gitconfig
+  rsync -avz --quiet ${DOT}/git/gitconfig  ${HOME}/.gitconfig
 
   # Link all binary files into ~/bin/ dir
-  ln -fs ${DOTFILES_DIRECTORY}/bin/* ${HOME}/bin/
+  ln -fs "${DOT}/bin/*" "${HOME}/bin/"
 
   #Copy fonts to Fonts directory
-  rsync -avz --quiet ${DOTFILES_DIRECTORY}/fonts/*  ${HOME}/Library/Fonts
+  rsync -avz --quiet "${DOT}/fonts/*" "${HOME}/Library/Fonts"
 
   # Copy from source
   # cd ~/Library/Fonts && curl -fLo DroidSansMonoForPowerlinePlusNerdFileTypes.otf https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Meslo/S/Meslo%20LG%20S%20Regular%20for%20Powerline%20Plus%20Nerd%20File%20Types%20Plus%20Font%20Awesome%20Plus%20Octicons%20Plus%20Pomicons.otf
@@ -94,19 +96,19 @@ _mirrorfiles() {
 }
 
 # If missing, download and extract the dotfiles repository
-if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
+if [[ ! -d ${DOT} ]]; then
   printf "$(tput setaf 7)Downloading dotfiles...\033[m\n"
-  mkdir ${DOTFILES_DIRECTORY}
+  mkdir "${DOT}"
   # Get the tarball
-  curl -fsSLo ${HOME}/dotfiles.tar.gz ${DOTFILES_TARBALL_PATH}
+  curl -fsSLo "${HOME}/dotfiles.tar.gz" "${DOT_TARBALL_PATH}"
   # Extract to the dotfiles directory
-  tar -zxf ${HOME}/dotfiles.tar.gz --strip-components 1 -C ${DOTFILES_DIRECTORY}
+  tar -zxf "${HOME}/dotfiles.tar.gz" --strip-components 1 -C "${DOT}"
   # Remove the tarball
-  rm -rf ${HOME}/dotfiles.tar.gz
+  rm -rf "${HOME}/dotfiles.tar.gz"
 fi
 
-cd ${DOTFILES_DIRECTORY}
-source ./lib/utils
+cd "${DOT}"
+source "./lib/utils"
 
 # Before relying on Homebrew, check that packages can be compiled
 if ! type_exists 'gcc'; then
@@ -116,14 +118,25 @@ if ! type_exists 'gcc'; then
   exit 1
 fi
 
-# Check for Homebrew, Update and install Git if it's missing
-./bin/brewbootstrap --only-git
+# Check for Homebrew
+if ! type_exists 'brew'; then
+    e_header "Installing Homebrew..."
+    ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
+fi
+
+# Check for git
+if ! type_exists 'git'; then
+    e_header "Updating Homebrew..."
+    brew update
+    e_header "Installing Git..."
+    brew install git
+fi
 
 # Initialize the git repository if it's missing
 if ! is_git_repo; then
   e_header "Initializing git repository..."
   git init
-  git remote add origin ${DOTFILES_GIT_REMOTE}
+  git remote add origin ${DOT_GIT_REMOTE}
   git fetch origin master
   # Reset the index and working tree to the fetched HEAD
   # (submodules are cloned in the subsequent sync step)
@@ -148,17 +161,12 @@ else
 fi
 
 # Install and update packages
-if [[ ${_minimal} ]]; then
-  printf "Installing essential Homebrew packages...\n"
-  # Install Homebrew formulae
-  ./bin/brewbootstrap --no-update --minimal
-  printf "Skipped node and extra Hombrew packages installation.\n"
+if [[ ${_no_packages} ]]; then
+  printf "Skipped package installations.\n"
 else
-  printf "Installing complete Homebrew and node packages, this will take some time...\n"
-  # Install Homebrew formulae
-  ./bin/brewbootstrap --no-update
-  # Install Node packages
-  ./bin/npmbootstrap
+  printf "Installing packages from many sources (Homebrew, pip, gem, npm), this will take some time...\n"
+  # Install Homebrew formulae, node, python and ruby packages
+  ./bin/bootstrap
 fi
 
 # Install OSX Apps
@@ -173,11 +181,11 @@ fi
 # Ask before potentially overwriting OS X defaults
 seek_confirmation "Warning: This step may modify your OS X system defaults."
 
-./bin/osxdefaults
-e_success "OS X settings updated! You may need to restart."
-
-if [[ ${_minimal} ]]; then
-  e_warning "You installed the minimal packages. To install the complete list of Homebrew packages run \`brewbootstrap\` and for the node packages run \`nodebootstrap\`"
+if is_confirmed; then
+    bash ./bin/osxdefaults
+    e_success "OS X settings updated! You may need to restart."
+else
+    printf "Skipped OS X settings update.\n"
 fi
 
 if [[ ! ${_with_apps} ]]; then
@@ -185,4 +193,11 @@ if [[ ! ${_with_apps} ]]; then
 fi
 
 e_success "AWESOME! We have finished. It's time to change your default shell to ZSH. Don't forget to run \`brew doctor\`. Enjoy! ಠ‿ಠ"
-chsh -s `which zsh`
+_zsh=$(grep /zsh$ /etc/shells | tail -1)
+if [[ -z "${_zsh}" ]]; then
+  printf "Installing ZSH...\n"
+  brew install zsh zsh-completions zsh-syntax-highlighting zsh-history-substring-search
+  _zsh=$(grep /zsh$ /etc/shells | tail -1)
+fi
+
+chsh -s "${_zsh}"
