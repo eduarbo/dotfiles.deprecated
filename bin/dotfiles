@@ -4,6 +4,7 @@ DOT="$HOME/.dotfiles"
 DOT_TARBALL_PATH="https://github.com/eduarbo/dotfiles/tarball/master"
 DOT_GIT_REMOTE="git@github.com:eduarbo/dotfiles.git"
 
+# Help {{{
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 
 cat <<EOT
@@ -11,8 +12,9 @@ Usage: $(basename "$0") [options]
 
 Options:
 -h, --help           Print this help text
---no-packages        Do not install packages
---with-apps          Run caskbootstrap to install listed apps
+--minimal            Install minimal amount of required packages to run zsh and vim without errors
+--no-packages        Do not install Homebrew, Python, Ruby, and Node packages
+--with-apps          Run caskbootstrap to install listed OS X apps
 
 Copyright (c) Eduardo Ruiz
 Licensed under the MIT license.
@@ -30,7 +32,8 @@ do
     -*|--*) e_warning "Warning: invalid option $opt" ;;
   esac
 done
-
+# }}}
+# Functions {{{
 _link() {
   # Force create/replace the symlink.
   _backup "${HOME}/${2}"
@@ -45,8 +48,69 @@ _backup() {
     printf "Moved \`${1}\` to \`${1}.old\`\n"
   fi
 }
+# }}}
+# Setup dotfiles repository {{{
+# If missing, download and extract the dotfiles repository
+if [[ ! -d ${DOT} ]]; then
+  printf "$(tput setaf 7)Downloading dotfiles...\033[m\n"
+  mkdir "${DOT}"
+  # Get the tarball
+  curl -fsSLo "${HOME}/dotfiles.tar.gz" "${DOT_TARBALL_PATH}"
+  # Extract to the dotfiles directory
+  tar -zxf "${HOME}/dotfiles.tar.gz" --strip-components 1 -C "${DOT}"
+  # Remove the tarball
+  rm -rf "${HOME}/dotfiles.tar.gz"
+fi
 
-_mirrorfiles() {
+cd "${DOT}"
+source "./lib/utils"
+# }}}
+# Check for dependencies {{{
+# Before relying on Homebrew, check that packages can be compiled
+if ! type_exists 'gcc'; then
+  e_error "The XCode Command Line Tools must be installed first."
+  printf "  Download them from: https://developer.apple.com/downloads\n"
+  printf "  Then run this script again: \`~/.dotfiles/bin/dotfiles\`\n"
+  exit 1
+fi
+
+# Check for Homebrew
+if ! type_exists 'brew'; then
+    e_header "Installing Homebrew..."
+    ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
+fi
+
+# Check for git
+if ! type_exists 'git'; then
+    e_header "Updating Homebrew..."
+    brew update
+    e_header "Installing Git..."
+    brew install git
+fi
+# }}}
+# Initialize the git repository if it's missing {{{
+if ! is_git_repo; then
+  e_header "Initializing git repository..."
+  git init
+  git remote add origin ${DOT_GIT_REMOTE}
+  git fetch origin master
+  # Reset the index and working tree to the fetched HEAD
+  # (submodules are cloned in the subsequent sync step)
+  git reset --hard FETCH_HEAD
+  # Remove any untracked files
+  git clean -fd
+fi
+
+# sync with the remote repository
+e_header "Syncing dotfiles..."
+# Pull down the latest changes
+git pull --rebase origin master
+# }}}
+# Link dotfiles {{{
+# Ask before potentially overwriting files
+seek_confirmation "Warning: This step may overwrite some of your existing dotfiles."
+
+if is_confirmed; then
   _link 'ctags' '.ctags'
   _link 'jshintrc' '.jshintrc'
 
@@ -65,6 +129,7 @@ _mirrorfiles() {
   _link 'emacs.d' '.emacs.d'
 
   # Git
+  _link 'git/gitconfig' '.gitconfig'
   _link 'git/gitattributes' '.gitattributes'
   _link 'git/gitignore' '.gitignore'
 
@@ -82,102 +147,39 @@ _mirrorfiles() {
   # Copy `.gitconfig`.
   # Any global git commands in `~/.bash_profile.local` will be written to
   # `.gitconfig`. This prevents them being committed to the repository.
-  rsync -avz --quiet ${DOT}/git/gitconfig  ${HOME}/.gitconfig
+  # rsync -avz --quiet ${DOT}/git/gitconfig  ${HOME}/.gitconfig
 
   # Link all binary files into ~/bin/ dir
-  ln -fs "${DOT}/bin/*" "${HOME}/bin/"
+  ln -fs ${DOT}/bin/* ${HOME}/bin/
 
   #Copy fonts to Fonts directory
-  rsync -avz --quiet "${DOT}/fonts/*" "${HOME}/Library/Fonts"
+  rsync -avz --quiet ${DOT}/fonts/* ${HOME}/Library/Fonts
 
   # Copy from source
   # cd ~/Library/Fonts && curl -fLo DroidSansMonoForPowerlinePlusNerdFileTypes.otf https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Meslo/S/Meslo%20LG%20S%20Regular%20for%20Powerline%20Plus%20Nerd%20File%20Types%20Plus%20Font%20Awesome%20Plus%20Octicons%20Plus%20Pomicons.otf
   e_success "Dotfiles update complete!"
-}
-
-# If missing, download and extract the dotfiles repository
-if [[ ! -d ${DOT} ]]; then
-  printf "$(tput setaf 7)Downloading dotfiles...\033[m\n"
-  mkdir "${DOT}"
-  # Get the tarball
-  curl -fsSLo "${HOME}/dotfiles.tar.gz" "${DOT_TARBALL_PATH}"
-  # Extract to the dotfiles directory
-  tar -zxf "${HOME}/dotfiles.tar.gz" --strip-components 1 -C "${DOT}"
-  # Remove the tarball
-  rm -rf "${HOME}/dotfiles.tar.gz"
-fi
-
-cd "${DOT}"
-source "./lib/utils"
-
-# Before relying on Homebrew, check that packages can be compiled
-if ! type_exists 'gcc'; then
-  e_error "The XCode Command Line Tools must be installed first."
-  printf "  Download them from: https://developer.apple.com/downloads\n"
-  printf "  Then run this script again: `~/.dotfiles/bin/dotfiles`\n"
-  exit 1
-fi
-
-# Check for Homebrew
-if ! type_exists 'brew'; then
-    e_header "Installing Homebrew..."
-    ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
-fi
-
-# Check for git
-if ! type_exists 'git'; then
-    e_header "Updating Homebrew..."
-    brew update
-    e_header "Installing Git..."
-    brew install git
-fi
-
-# Initialize the git repository if it's missing
-if ! is_git_repo; then
-  e_header "Initializing git repository..."
-  git init
-  git remote add origin ${DOT_GIT_REMOTE}
-  git fetch origin master
-  # Reset the index and working tree to the fetched HEAD
-  # (submodules are cloned in the subsequent sync step)
-  git reset --hard FETCH_HEAD
-  # Remove any untracked files
-  git clean -fd
-fi
-
-# sync with the remote repository
-e_header "Syncing dotfiles..."
-# Pull down the latest changes
-git pull --rebase origin master
-
-# Ask before potentially overwriting files
-seek_confirmation "Warning: This step may overwrite some of your existing dotfiles."
-
-if is_confirmed; then
-  _mirrorfiles
 else
   printf "Aborting...\n"
   exit
 fi
-
-# Install and update packages
+# }}}
+# Install and update packages {{{
 if [[ ${_no_packages} ]]; then
+  echo
   printf "Skipped package installations.\n"
+  e_warning "You can install all packages with command \`bootstrap\`. Run \`bootstrap -h\` for more help"
 else
-  printf "Installing packages from many sources (Homebrew, pip, gem, npm), this will take some time...\n"
-  # Install Homebrew formulae, node, python and ruby packages
-  ./bin/bootstrap
+  if [[ ${_minimal} ]]; then
+    echo
+    printf "Installing minimal packages from Homebrew. This will take some time...\n"
+    ./bin/bootstrap --minimal
+  else
+    printf "Installing packages from many sources (Homebrew, pip, gem, npm). This will take some time...\n"
+    ./bin/bootstrap
+  fi
 fi
-
-# Install OSX Apps
-if [[ ${_with_apps} ]]; then
-  printf "Installing Apps with Cask...\n"
-  ./bin/caskbootstrap
-  e_success "OSX Apps installation complete!"
-else
-  printf "Skipped Apps installations.\n"
-fi
-
+# }}}
+# Install OS X defaults {{{
 # Ask before potentially overwriting OS X defaults
 seek_confirmation "Warning: This step may modify your OS X system defaults."
 
@@ -187,17 +189,35 @@ if is_confirmed; then
 else
     printf "Skipped OS X settings update.\n"
 fi
+# }}}
+# Setup zsh {{{
+if [ -z "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
+  e_success "It's time to change your default shell to ZSH"
 
-if [[ ! ${_with_apps} ]]; then
-  e_warning "If you want to install some common OSX Apps just run \`caskbootstrap\`"
-fi
-
-e_success "AWESOME! We have finished. It's time to change your default shell to ZSH. Don't forget to run \`brew doctor\`. Enjoy! ಠ‿ಠ"
-_zsh=$(grep /zsh$ /etc/shells | tail -1)
-if [[ -z "${_zsh}" ]]; then
-  printf "Installing ZSH...\n"
-  brew install zsh zsh-completions zsh-syntax-highlighting zsh-history-substring-search
   _zsh=$(grep /zsh$ /etc/shells | tail -1)
+  if [[ -z "${_zsh}" ]]; then
+    e_error "I can't find zsh. Please install it or execute this script without \`--no-packages\` parameter"
+    exit 1
+  fi
+
+  chsh -s "${_zsh}"
 fi
 
-chsh -s "${_zsh}"
+# }}}
+# Install OS X Apps {{{
+if [[ ${_with_apps} ]]; then
+  echo
+  printf "Installing Apps with Cask...\n"
+  ./bin/caskbootstrap
+  e_success "OS X Apps installation complete!"
+else
+  echo
+  printf "Skipped Apps installations.\n"
+  e_warning "If you want to install some common OS X Apps later just run \`caskbootstrap\`"
+fi
+# }}}
+# Reload shell {{{
+echo
+e_success "AWESOME! We have finished. Don't forget to run \`brew doctor\`. Enjoy! ಠ‿ಠ"
+exec $SHELL -l
+# }}}
