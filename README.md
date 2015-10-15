@@ -1,5 +1,5 @@
-My beatufil config files for vim, zsh, tmux and more in OSX
-===========================================================
+My beautiful config files for vim, zsh, tmux and more in OSX
+============================================================
 
 This is a collection of my configuration files under OSX.
 
