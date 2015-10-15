@@ -80,7 +80,7 @@ VIM
 ### Vim Dependencies
 
 Vim needs to be compiled with lua, cscope and python2 support. If you already
-run `install` or `brewbootstrap` script you can skip this section.
+run `dotfiles` or `bootstrap` script you can skip this section.
 
 Otherwise install vim with this command:
 
