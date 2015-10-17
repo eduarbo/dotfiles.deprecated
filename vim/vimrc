@@ -163,6 +163,7 @@ set matchtime=3                 " how many tenths of a second to blink
 set showbreak=↪
 set splitbelow
 set splitright
+set iskeyword+=-
 set fillchars=diff:⣿,vert:┃     " Customize text for closed folds
 set autowrite
 set autoread                    " Reload files changed outside vim
@@ -756,6 +757,10 @@ augroup ft_fish
 augroup END
 " }}}
 " Go {{{
+augroup ft_go
+  au!
+  au FileType go nnoremap <buffer> <localleader>e :VimuxRunCommand 'go run '.bufname('%')<CR>
+augroup END
 " }}}
 " Haml {{{
 augroup ft_haml
@@ -886,6 +891,7 @@ augroup ft_python
     au FileType python inoremap <buffer> <c-g> _(u'')<left><left>
 
     au FileType python inoremap <buffer> <c-b> """"""<left><left><left>
+    au FileType python nnoremap <buffer> <localleader>e :VimuxRunCommand 'python '.bufname('%')<CR>
 augroup END
 " }}}
 " QuickFix {{{
@@ -900,6 +906,7 @@ augroup ft_ruby
     au BufRead,BufNewFile Vagrantfile,Capfile setlocal filetype=ruby
     au Filetype ruby setlocal foldmethod=syntax
     au FileType ruby setlocal omnifunc=rubycomplete#Complete
+    au FileType ruby nnoremap <buffer> <localleader>e :VimuxRunCommand 'ruby '.bufname('%')<CR>
 augroup END
 " }}}
 " Scala {{{
@@ -914,6 +921,12 @@ augroup ft_scala
     au Filetype scala nmap <buffer> <localleader>( ysiwbi
     au Filetype scala nmap <buffer> <localleader>[ ysiwri
     ")]
+augroup END
+" }}}
+" Shell {{{
+augroup ft_sh
+  au!
+  au FileType sh nnoremap <buffer> <localleader>e :VimuxRunCommand 'sh '.bufname('%')<CR>
 augroup END
 " }}}
 " Vim {{{
@@ -957,6 +970,43 @@ augroup END
 " Stuff that should probably be broken out into plugins, but hasn't proved to be
 " worth the time to do so just yet.
 
+" Google it {{{
+function! s:goog(q)
+  let url = 'https://www.google.com/search?q='
+  " Excerpt from vim-unimpared
+  let q = substitute(
+        \ '"'.a:q.'"',
+        \ '[^A-Za-z0-9_.~-]',
+        \ '\="%".printf("%02X", char2nr(submatch(0)))',
+        \ 'g')
+  silent! execute "! open '".url.q."'"
+endfunction
+
+vnoremap <leader>? "gy:call <SID>goog(@g)<cr>
+" }}}
+" Case conversion {{{
+function! s:coerce()
+  " snake_case -> kebab-case -> camelCase -> MixedCase
+  let word = @"
+  if word =~# '^[a-z0-9_]\+[!?]\?$'
+    let @" = substitute(word, '_', '-', 'g')
+  elseif word =~# '^[a-z0-9?!-]\+[!?]\?$'
+    let @" = substitute(word, '\C-\([^-]\)', '\u\1', 'g')
+  elseif word =~# '^[a-z0-9]\+\([A-Z][a-z0-9]*\)\+[!?]\?$'
+    let @" = toupper(word[0]) . strpart(word, 1)
+  elseif word =~# '^\([A-Z][a-z0-9]*\)\{2,}[!?]\?$'
+    let @" = strpart(substitute(word, '\C\([A-Z]\)', '_\l\1', 'g'), 1)
+  else
+    normal gv
+  endif
+
+  let e = col("'>") + len(@") - len(word)
+  execute "normal gv\"_c\<C-R>\"\<esc>".col("'<"). "|v" . e . '|'
+endfunction
+vnoremap <silent> <C-Enter> y:call <sid>coerce()<cr>
+inoremap <silent> <C-Enter> <ESC>mzviwy:call <sid>coerce()<cr>`zA
+nnoremap <silent> <C-Enter> mzviwy:call <sid>coerce()<cr><ESC>`z
+" }}}
 " Statusline {{{
 if has('gui_running')
     " Lightline is loaded only when vim is in GUI mode
@@ -1222,8 +1272,14 @@ let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
 " map  N <Plug>(easymotion-prev)
 " }}}
 " #Emmet {{{
-let g:user_emmet_leader_key = '<C-g>'
 let g:use_emmet_complete_tag = 1
+let g:user_emmet_install_global = 0
+augroup emmet
+    au!
+
+    au FileType html*,css EmmetInstall
+    au FileType html*,css nnoremap <buffer> <Tab> <C-Y>,
+augroup END
 " }}}
 " #Fugitive {{{
 nnoremap <leader>gd :Gdiff<cr>
@@ -1290,6 +1346,7 @@ if InTmuxSession()
 endif
 " }}}
 " #GitGutter {{{
+let g:gitgutter_map_keys = 0
 nmap [h <Plug>GitGutterPrevHunk
 nmap ]h <Plug>GitGutterNextHunk
 " }}}
@@ -1645,8 +1702,8 @@ let g:easy_align_delimiters = {
 \ }
 " }}}
 " #YouCompleteMe {{{
-let g:ycm_key_list_select_completion = ['<Enter>', '<C-n>']
-let g:ycm_key_list_previous_completion = ['<S-Enter>', '<C-p>']
+let g:ycm_key_list_select_completion = ['<C-n>']
+let g:ycm_key_list_previous_completion = ['<C-p>']
 
 " enable completion from tags
 let g:ycm_collect_identifiers_from_tags_files = 1
@@ -1725,5 +1782,4 @@ set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Plus
 " * Add more customized snippets
 " * Move filetype specific options to ftplugins dir
 " * Check if it's worth using Unite
-" * Map F5 and F6 to function to run current Script/file. See: http://stackoverflow.com/questions/953398/how-to-execute-file-im-editing-in-vim and https://github.com/junegunn/dotfiles/blob/da378217ad008d422bc5b577802cad237a2930e1/vimrc#L1196-L1198
 " }}}
