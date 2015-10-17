@@ -471,7 +471,11 @@ set virtualedit+=block
 
 noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 
-" runtime macros/matchit.vim
+runtime macros/matchit.vim
+
+" Option to insert a Tab after selecting an item from YCM with Tab key
+inoremap <C-Tab> <tab>
+
 nnoremap <tab> %
 silent! unmap [%
 silent! unmap ]%
@@ -962,8 +966,7 @@ if has('gui_running')
                             \| call SetupLightline()
     augroup END
 elseif has('statusline') " {{{
-  "define 3 custom highlight groups
-  hi User1              ctermbg=239   ctermfg=37
+  hi User1              ctermbg=239   ctermfg=37    guibg=#01BBBC   guifg=#000000
   hi User2              ctermbg=239   ctermfg=246
   hi User3              ctermbg=234   ctermfg=239
   hi Error              ctermbg=235   ctermfg=203
@@ -1616,6 +1619,7 @@ let g:tern_map_keys=1
 let g:tern_show_arguments_hits='on_hold'
 " }}}
 " #UltiSnips {{{
+let g:UltiSnipsListSnippets="<C-Space>"
 let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
@@ -1641,8 +1645,8 @@ let g:easy_align_delimiters = {
 \ }
 " }}}
 " #YouCompleteMe {{{
-let g:ycm_key_list_select_completion = ['<Down>', '<C-p>']
-let g:ycm_key_list_previous_completion = ['<Up>', '<C-n>']
+let g:ycm_key_list_select_completion = ['<Enter>', '<C-n>']
+let g:ycm_key_list_previous_completion = ['<S-Enter>', '<C-p>']
 
 " enable completion from tags
 let g:ycm_collect_identifiers_from_tags_files = 1
