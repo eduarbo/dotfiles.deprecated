@@ -471,7 +471,7 @@ set virtualedit+=block
 
 noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 
-runtime macros/matchit.vim
+" runtime macros/matchit.vim
 nnoremap <tab> %
 silent! unmap [%
 silent! unmap ]%
@@ -971,10 +971,17 @@ elseif has('statusline') " {{{
   hi StatusLine         ctermbg=16    ctermfg=37
 
 function! StatuslineFileType() abort
-  return strlen(&filetype) ? &filetype : 'no ft'
+  if !exists("b:statusline_ft")
+    let b:statusline_ft=strlen(&filetype) ? &filetype : 'no ft'
+  endif
+  return b:statusline_ft
 endfunction
+
 function! StatuslineFileTypeIcon() abort
-  return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol().'⮁ ' : ''
+  if !exists("b:statusline_ft_icon")
+    let b:statusline_ft_icon=strlen(&filetype) ? WebDevIconsGetFileTypeSymbol().'⮁ ' : ''
+  endif
+  return b:statusline_ft_icon
 endfunction
 
   set statusline=               " clear the statusline for when vimrc is reloaded
@@ -1589,12 +1596,16 @@ let g:syntastic_warning_symbol = "\uf0e7" " bolt icon
 let g:syntastic_style_error_symbol = "\uf12a"
 let g:syntastic_style_warning_symbol = "\uf12a"
 
-let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_signs = 1
 let g:syntastic_loc_list_height = 3
+let g:syntastic_echo_current_error = 1
+let g:syntastic_cursor_column = 0
+let g:syntastic_enable_balloons = 0
+let g:syntastic_enable_highlighting = 1
 " }}}
 " #Tagbar {{{
 nmap <F3> :TagbarToggle<CR>
