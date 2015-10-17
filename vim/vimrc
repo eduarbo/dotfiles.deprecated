@@ -23,6 +23,7 @@ Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', '
 Plug 'dyng/ctrlsf.vim'
 " #FZF
 Plug 'junegunn/fzf.vim', {'on': 'FZF'}
+Plug 'Shougo/neomru.vim'
 " #NERDTree
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-eunuch'
@@ -162,7 +163,7 @@ set matchtime=3                 " how many tenths of a second to blink
 set showbreak=↪
 set splitbelow
 set splitright
-set fillchars=diff:⣿,vert:┊     " Customize text for closed folds
+set fillchars=diff:⣿,vert:┃     " Customize text for closed folds
 set autowrite
 set autoread                    " Reload files changed outside vim
 set shiftround                  " When at 3 spaces, and I hit > ... go to 4, not 5
@@ -952,6 +953,50 @@ augroup END
 " Stuff that should probably be broken out into plugins, but hasn't proved to be
 " worth the time to do so just yet.
 
+" Statusline {{{
+if has('gui_running')
+    " Lightline is loaded only when vim is in GUI mode
+    augroup load_lightline
+        autocmd!
+        autocmd VimEnter * call plug#load('lightline.vim')
+                            \| call SetupLightline()
+    augroup END
+elseif has('statusline') " {{{
+  "define 3 custom highlight groups
+  hi User1              ctermbg=239   ctermfg=37
+  hi User2              ctermbg=239   ctermfg=246
+  hi User3              ctermbg=234   ctermfg=239
+  hi Error              ctermbg=235   ctermfg=203
+  hi ErrorSeparator     ctermbg=239   ctermfg=203
+  hi StatusLine         ctermbg=16    ctermfg=37
+
+function! StatuslineFileType() abort
+  return strlen(&filetype) ? &filetype : 'no ft'
+endfunction
+function! StatuslineFileTypeIcon() abort
+  return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol().'⮁ ' : ''
+endfunction
+
+  set statusline=               " clear the statusline for when vimrc is reloaded
+  set statusline+=%*            " statusline highlight
+  set statusline+=\ %{StatuslineFileTypeIcon()}
+  set statusline+=%t            " Tail of the Filename
+  set statusline+=%w%h%m%r      " Flags (help, modified, readonly)
+  set statusline+=\ %1*⮀        " User1 Highlight
+  set statusline+=%2*           " User2 Highlight
+  set statusline+=\ %{StatuslineFileType()}
+  set statusline+=\ %3*⮀        " User3 Highlight
+
+  set statusline+=%=            " Right align
+  set statusline+=⮂
+  set statusline+=%2*           " User2 Highlight
+  set statusline+=\ \ %l:%c    " cursor line and column
+  set statusline+=\\ \ %p%%      " percent through file
+  set statusline+=\ %#error#    " Error Highlight
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*            " statusline hightlight
+endif " }}}
+" }}}
 " Synstack {{{
 " Show the stack of syntax hilighting classes affecting whatever is under the
 " cursor.
@@ -1208,10 +1253,10 @@ function! s:bufopen(e)
 endfunction
 
 command! FZFMru call fzf#run({
-\ 'source':  reverse(s:all_files()),
-\ 'sink':    'edit',
-\ 'options': '-m --no-sort -x',
-\ 'down':    '40%' })
+\   'source':  'sed "1d" $HOME/.cache/neomru/file',
+\   'sink':    'e ',
+\   'down':    '30%'
+\ })
 
 function! s:all_files()
   return extend(
@@ -1224,8 +1269,8 @@ if InTmuxSession()
   " Checking that we are in a tmux session because FZF opens in a tmux pane
   " Let's overwrite CtrlP mapping if we are in Tmux, otherwise it will open
   " terminal window
-  nnoremap <leader>, :FZF<cr>
-  nnoremap <leader>m :FZFMru<cr>
+  nnoremap <leader>, :FZF<CR>
+  nnoremap <leader>m :FZFMru<CR>
   nnoremap <silent> <Leader>b :call fzf#run({
   \   'source':  reverse(<sid>buflist()),
   \   'sink':    function('<sid>bufopen'),
@@ -1284,15 +1329,6 @@ let g:vim_json_syntax_conceal = 0
 let g:js_indent_flat_switch = 1
 " }}}
 " #Lightline {{{
-if has('gui_running')
-    " Lightline is loaded only when vim is in GUI mode
-    augroup load_lightline
-        autocmd!
-        autocmd VimEnter * call plug#load('lightline.vim')
-                            \| call SetupLightline()
-    augroup END
-endif
-
 function! SetupLightline()
     let g:lightline = {
                 \ 'colorscheme': 'wombat',
@@ -1459,6 +1495,7 @@ augroup ps_nerdtree
     au Filetype nerdtree nnoremap <buffer> L :vertical resize +10<cr>
 augroup END
 
+let NERDTreeStatusline="%{getcwd()}"
 let NERDTreeHighlightCursorline = 1
 let NERDTreeIgnore = ['\~$', '.*\.pyc$']
 
@@ -1535,7 +1572,7 @@ let g:syntastic_mode_map = {
             \ }
 
 let g:syntastic_disabled_filetypes = ['html', 'rst']
-let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
+let g:syntastic_stl_format = ' %E{ %e}%B{ }%W{%w} '
 let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_java_checkers = ['javac']
