@@ -32,8 +32,9 @@ typeset -gU cdpath fpath mailpath path
 # Set the list of directories that Zsh searches for programs.
 path=(
   "/usr/local/{bin,sbin}"
-  "$GOPATH/bin"
+  "$HOME/.dotfiles/bin"
   "$HOME/bin"
+  "$GOPATH/bin"
   "/usr/local/opt/go/libexec/bin"
   "$HOME/.cabal/bin" # Haskell libraries
   "$path[@]"
