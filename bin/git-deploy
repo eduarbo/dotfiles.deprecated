@@ -1,4 +1,6 @@
 #!/bin/sh
+# Author: Eduardo Ruiz <eduarbo@gmail.com>
+# Source: https://gist.github.com/eduarbo/d44f5033899520b69140
 
 # This script allows you to push an ignored subfolder to `gh-pages` branch.
 
@@ -8,8 +10,12 @@ then
   exit 1
 fi
 
+if [ -n "$(git status --porcelain)" ]; then
+    is_dirty=true
+fi
+
 # stash changes so we can revert temporary deploy commit and recover current state
-git stash
+[ "$is_dirty" = true ] && git stash
 
 # add ignored default output path. It should be in the `.gitignore` file
 git add "$1" -f
@@ -24,4 +30,4 @@ git push origin `git subtree split --prefix $1 master`:gh-pages --force
 git reset HEAD^1
 
 # recover staged changes
-git stash pop
+[ "$is_dirty" = true ] && git stash pop
