@@ -149,9 +149,6 @@ if is_confirmed; then
   # `.gitconfig`. This prevents them being committed to the repository.
   # rsync -avz --quiet ${DOT}/git/gitconfig  ${HOME}/.gitconfig
 
-  # Link all binary files into ~/bin/ dir
-  ln -fs ${DOT}/bin/* ${HOME}/bin/
-
   #Copy fonts to Fonts directory
   rsync -avz --quiet ${DOT}/fonts/* ${HOME}/Library/Fonts
 
