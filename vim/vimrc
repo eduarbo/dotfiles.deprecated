@@ -78,12 +78,12 @@ Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'hdima/python-syntax', {'for': 'python'}
 Plug 'docker/docker', {'rtp': '/contrib/syntax/vim/', 'for': 'dockerfile'}
-Plug 'tejr/vim-tmux', {'for': 'tmux'}
+Plug 'tejr/vim-tmux'
 Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
 " #Go
 Plug 'fatih/vim-go', {'for': 'go'}
 " #JSON
-Plug 'elzr/vim-json', {'for': 'json'}
+Plug 'elzr/vim-json'
 
 " CSS, SASS, LESS {{{
 Plug 'JulesWang/css.vim', {'for': '*css'}
@@ -831,11 +831,11 @@ augroup END
 " JSON {{{
 augroup ft_json
     autocmd!
+    autocmd BufRead,BufNewFile *jshintrc setfiletype json
     autocmd FileType json setlocal autoindent
     autocmd FileType json setlocal formatoptions=tcq2l
-    autocmd FileType json setlocal tabstop=8
+    autocmd FileType json setlocal shiftwidth=4 softtabstop=4 tabstop=4
     autocmd FileType json setlocal foldmethod=syntax
-    autocmd BufNewFile,BufRead *.json normal zR
 augroup END
 " }}}
 " Markdown {{{
