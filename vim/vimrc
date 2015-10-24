@@ -106,7 +106,7 @@ Plug 'othree/html5.vim', {'for': 'html*'} " #HTML5
 Plug 'mattn/emmet-vim', {'for': ['html*', 'xhttml', '*css', 'xml', 'xls', 'markdown']}
 " }}}
 " Javascript {{{
-Plug 'heavenshell/vim-jsdoc', {'on': 'JsDoc'}
+Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}
 Plug 'othree/yajs.vim', {'for': 'javascript'}
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
 " #JSIndent
@@ -822,6 +822,7 @@ augroup ft_javascript
     au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     au FileType javascript setlocal shiftwidth=4 softtabstop=4 tabstop=4
     au Filetype javascript setlocal foldlevel=99
+    au FileType javascript nnoremap <buffer> <localleader>e :VimuxRunCommand 'node '.bufname('%')<CR>
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
