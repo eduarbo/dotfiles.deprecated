@@ -39,8 +39,6 @@ Plug 'bkad/CamelCaseMotion'
 Plug 'tpope/vim-commentary'
 " #EasyMotion
 Plug 'Lokaltog/vim-easymotion'
-" #EasyAlign
-Plug 'junegunn/vim-easy-align'
 " #LineDiff
 Plug 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
 " #Syntastic
@@ -567,21 +565,6 @@ set foldmethod=marker
 nnoremap <Space> za
 vnoremap <Space> za
 
-" Zoom / Restore window.
-function! s:ZoomToggle() abort
-    if exists('t:zoomed') && t:zoomed
-        execute t:zoom_winrestcmd
-        let t:zoomed = 0
-    else
-        let t:zoom_winrestcmd = winrestcmd()
-        resize
-        vertical resize
-        let t:zoomed = 1
-    endif
-endfunction
-command! ZoomToggle call s:ZoomToggle()
-nnoremap <silent> <leader>z :ZoomToggle<CR>
-
 " Make zO recursively open whatever top level fold we're in, no matter where the
 " cursor happens to be.
 nnoremap zO zCzO
@@ -971,6 +954,21 @@ augroup END
 " Stuff that should probably be broken out into plugins, but hasn't proved to be
 " worth the time to do so just yet.
 
+" Zoom / Restore window {{{
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+nnoremap <silent> <leader>z :ZoomToggle<CR>
+" }}}
 " Google it {{{
 function! s:goog(q)
   let url = 'https://www.google.com/search?q='
@@ -1008,56 +1006,58 @@ vnoremap <silent> <C-Enter> y:call <sid>coerce()<cr>
 inoremap <silent> <C-Enter> <ESC>mzviwy:call <sid>coerce()<cr>`zA
 nnoremap <silent> <C-Enter> mzviwy:call <sid>coerce()<cr><ESC>`z
 " }}}
-" Statusline {{{
-if has('gui_running')
-    " Lightline is loaded only when vim is in GUI mode
-    augroup load_lightline
-        autocmd!
-        autocmd VimEnter * call plug#load('lightline.vim')
-                            \| call SetupLightline()
-    augroup END
-elseif has('statusline') " {{{
-  hi User1              ctermbg=239   ctermfg=37    guibg=#01BBBC   guifg=#000000
-  hi User2              ctermbg=239   ctermfg=246
-  hi User3              ctermbg=234   ctermfg=239
-  hi Error              ctermbg=235   ctermfg=203
-  hi ErrorSeparator     ctermbg=239   ctermfg=203
-  hi StatusLine         ctermbg=16    ctermfg=37
+" " Statusline -- this is slow :/ -- {{{
+" if has('gui_running')
+"     " Lightline is loaded only when vim is in GUI mode
+"     augroup load_lightline
+"         autocmd!
+"         autocmd VimEnter * call plug#load('lightline.vim')
+"                             \| call SetupLightline()
+"     augroup END
+" elseif has('statusline') " {{{
+"   hi User1              ctermbg=239   ctermfg=37    guibg=#01BBBC   guifg=#000000
+"   hi User2              ctermbg=239   ctermfg=246
+"   hi User3              ctermbg=234   ctermfg=239
+"   hi Error              ctermbg=235   ctermfg=203
+"   hi ErrorSeparator     ctermbg=239   ctermfg=203
+"   hi StatusLine         ctermbg=16    ctermfg=37
 
-function! StatuslineFileType() abort
-  if !exists("b:statusline_ft")
-    let b:statusline_ft=strlen(&filetype) ? &filetype : 'no ft'
-  endif
-  return b:statusline_ft
-endfunction
+" function! StatuslineFileType() abort
+"   if !exists("b:statusline_ft")
+"     return strlen(&filetype) ? &filetype : 'no ft'
+"   endif
+"   return ''
+" endfunction
 
-function! StatuslineFileTypeIcon() abort
-  if !exists("b:statusline_ft_icon")
-    let b:statusline_ft_icon=strlen(&filetype) ? WebDevIconsGetFileTypeSymbol().'⮁ ' : ''
-  endif
-  return b:statusline_ft_icon
-endfunction
+" function! StatuslineFileTypeIcon() abort
+"   if !exists("b:statusline_ft_icon") && exists("*WebDevIconsGetFileTypeSymbol")
+"     return strlen(&filetype) ? WebDevIconsGetFileTypeSymbol().'⮁ ' : ''
+"   endif
+"   return ''
+" endfunction
 
-  set statusline=               " clear the statusline for when vimrc is reloaded
-  set statusline+=%*            " statusline highlight
-  set statusline+=\ %{StatuslineFileTypeIcon()}
-  set statusline+=%t            " Tail of the Filename
-  set statusline+=%w%h%m%r      " Flags (help, modified, readonly)
-  set statusline+=\ %1*⮀        " User1 Highlight
-  set statusline+=%2*           " User2 Highlight
-  set statusline+=\ %{StatuslineFileType()}
-  set statusline+=\ %3*⮀        " User3 Highlight
+"   set statusline=               " clear the statusline for when vimrc is reloaded
+"   set statusline+=%*            " statusline highlight
+"   set statusline+=\ %{StatuslineFileTypeIcon()}
+"   set statusline+=%t            " Tail of the Filename
+"   set statusline+=%w%h%m%r      " Flags (help, modified, readonly)
+"   set statusline+=\ %1*⮀        " User1 Highlight
+"   set statusline+=%2*           " User2 Highlight
+"   set statusline+=\ %{StatuslineFileType()}
+"   set statusline+=\ %3*⮀        " User3 Highlight
 
-  set statusline+=%=            " Right align
-  set statusline+=⮂
-  set statusline+=%2*           " User2 Highlight
-  set statusline+=\ \ %l:%c    " cursor line and column
-  set statusline+=\\ \ %p%%      " percent through file
-  set statusline+=\ %#error#    " Error Highlight
-  set statusline+=%{SyntasticStatuslineFlag()}
-  set statusline+=%*            " statusline hightlight
-endif " }}}
-" }}}
+"   set statusline+=%=            " Right align
+"   set statusline+=⮂
+"   set statusline+=%2*           " User2 Highlight
+"   set statusline+=\ \ %l:%c    " cursor line and column
+"   set statusline+=\\ \ %p%%      " percent through file
+"   set statusline+=\ %#error#    " Error Highlight
+"   if exists("*SyntasticStatuslineFlag")
+"     set statusline+=%{SyntasticStatuslineFlag()}
+"   endif
+"   set statusline+=%*            " statusline hightlight
+" endif " }}}
+" " }}}
 " Synstack {{{
 " Show the stack of syntax hilighting classes affecting whatever is under the
 " cursor.
