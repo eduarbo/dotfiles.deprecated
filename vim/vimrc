@@ -10,11 +10,11 @@ let s:ag = executable('ag')
 call plug#begin('~/.vim/plugged')
 
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
-Plug 'vim-scripts/listmaps.vim'
+Plug 'vim-scripts/listmaps.vim', {'on': 'Listmaps'}
 
 " Plugins that makes vim painfully slow in iTerm {{{
 " #Lightline
-Plug 'itchyny/lightline.vim', { 'on': []} " Hack to load it on demand
+Plug 'itchyny/lightline.vim', { 'on': 'GuiRunning'} " Hack to load it on demand
 " }}}
 " File Finders {{{
 " #CtrlP
@@ -22,11 +22,10 @@ Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', '
 " #CtrlSF
 Plug 'dyng/ctrlsf.vim'
 " #FZF
-Plug 'junegunn/fzf.vim', {'on': 'FZF'}
+Plug 'junegunn/fzf.vim', {'on': ['FZF', 'FZFMru']}
 Plug 'Shougo/neomru.vim'
 " #NERDTree
 Plug 'scrooloose/nerdtree'
-Plug 'tpope/vim-eunuch'
 " }}}
 " For Code {{{
 Plug 'terryma/vim-expand-region'
@@ -40,20 +39,22 @@ Plug 'tpope/vim-commentary'
 " #EasyMotion
 Plug 'Lokaltog/vim-easymotion'
 " #LineDiff
-Plug 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
+Plug 'AndrewRadev/linediff.vim', {'on': ['Linediff', 'LinediffReset']}
 " #Syntastic
 Plug 'scrooloose/syntastic'
 " #Tagbar
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 " #UltiSnips
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 Plug 'tpope/vim-unimpaired'
 " #YouCompleteMe
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
+" Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 Plug 'vim-scripts/SyntaxComplete'
 " }}}
 " Productivity {{{
+" We can coerce to snake_case, MixedCase, etc... with map `cr<desired_coercion>`
+Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-repeat'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'kshenoy/vim-signature'
@@ -67,6 +68,10 @@ Plug 'fmoralesc/vim-pad', {'on': 'Pad'}
 " #Vimux
 Plug 'benmills/vimux', {'on': ['VimuxRunCommand', 'VimuxRunLastCommand']}
 Plug 'christoomey/vim-tmux-navigator'
+" #Fugitive
+Plug 'tpope/vim-fugitive'
+" #GitGutter
+Plug 'airblade/vim-gitgutter'
 " }}}
 " Language-specific {{{
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
@@ -74,43 +79,32 @@ Plug 'guns/vim-clojure-static', {'for': 'clojure'}
 Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}
 Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
-Plug 'hdima/python-syntax', {'for': 'python'}
-Plug 'docker/docker', {'rtp': '/contrib/syntax/vim/', 'for': 'dockerfile'}
 Plug 'tejr/vim-tmux'
-Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
+Plug 'tpope/vim-git'
 " #Go
 Plug 'fatih/vim-go', {'for': 'go'}
-" #JSON
-Plug 'elzr/vim-json'
 
 " CSS, SASS, LESS {{{
-Plug 'JulesWang/css.vim', {'for': '*css'}
-Plug 'cakebaker/scss-syntax.vim', {'for': '*scss*'}
-Plug 'hail2u/vim-css3-syntax', {'for': '*css'}
-Plug 'groenewege/vim-less', {'for': 'less*'}
-" }}}
-" Git {{{
-Plug 'tpope/vim-git'
-" #Fugitive
-Plug 'tpope/vim-fugitive'
-" #GitGutter
-Plug 'airblade/vim-gitgutter'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'groenewege/vim-less'
 " }}}
 " HTML/XML {{{
-Plug 'mustache/vim-mustache-handlebars', {'for': ['html.mustache', 'html.handlebars']}
-Plug 'tpope/vim-haml', {'for': 'haml'}
-Plug 'othree/html5.vim', {'for': 'html*'} " #HTML5
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'tpope/vim-haml'
+Plug 'othree/html5.vim'
 " #Emmet
-Plug 'mattn/emmet-vim', {'for': ['html*', 'xhttml', '*css', 'xml', 'xls', 'markdown']}
+Plug 'mattn/emmet-vim'
 " }}}
 " Javascript {{{
-Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}
-Plug 'othree/yajs.vim', {'for': 'javascript'}
-Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
+Plug 'elzr/vim-json'
+Plug 'leafgarland/typescript-vim'
+Plug 'heavenshell/vim-jsdoc'
+Plug 'othree/yajs.vim'
+Plug 'othree/javascript-libraries-syntax.vim'
 " #JSIndent
-Plug 'jason0x43/vim-js-indent', {'for': 'javascript'}
+Plug 'jason0x43/vim-js-indent'
 " #JSBeautify
-Plug 'maksimr/vim-jsbeautify', {'for': 'javascript', 'do': 'npm install -g js-beautify'}
+Plug 'maksimr/vim-jsbeautify', {'do': 'npm install -g js-beautify'}
 " Plug 'marijnh/tern_for_vim', {'for': 'javascript', 'do': '~/.vim/plugged/tern_for_vim && npm install'}
 " }}}
 " Ruby {{{
@@ -125,7 +119,7 @@ Plug 'morhetz/gruvbox'
 Plug 'ryanoasis/vim-devicons'
 " #RainbowParentheses
 Plug 'kien/rainbow_parentheses.vim'
-Plug 'inside/vim-search-pulse'
+" Plug 'inside/vim-search-pulse'
 " }}}
 
 call plug#end()
@@ -399,15 +393,15 @@ nnoremap <lt>> V`]<
 nnoremap ><lt> V`]>
 nnoremap =- V`]=
 
+" indent all
+nnoremap <localleader>= mzgg=G`z
+
 " Keep the cursor in place while joining lines
 nnoremap J mzJ`z
 
 " Split line (sister to [J]oin lines)
 " The normal use of S is covered by cc, so don't worry about shadowing it.
 nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
-
-" HTML tag closing
-inoremap <C-_> <space><bs><esc>:call InsertCloseTag()<cr>a
 
 " Select (charwise) the contents of the current line, excluding indentation.
 " Great for pasting Python lines into REPLs.
@@ -688,20 +682,16 @@ augroup END
 augroup ft_css
     au!
 
-    au BufNewFile,BufRead *.less setlocal filetype=less.scss.css
-    au BufRead,BufNewFile *.scss setlocal filetype=scss.css
+    au Filetype *.css,*.scss,*.less setlocal foldmethod=marker
+    au Filetype *.css,*.scss,*.less setlocal foldmarker={,}
+    au Filetype *.css,*.scss,*.less setlocal omnifunc=csscomplete#CompleteCSS
+    au Filetype *.css,*.scss,*.less setlocal iskeyword+=-
 
-    au Filetype *css setlocal foldmethod=marker
-    au Filetype *css setlocal foldmarker={,}
-    au Filetype *css setlocal omnifunc=csscomplete#CompleteCSS
-    au Filetype *css setlocal iskeyword+=-
-
-    au Filetype *css nnoremap <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
+    au Filetype *css,*.scss,*.less nnoremap <localleader>' ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au FileType *css inoremap <buffer> {<cr> {}<left><cr><space><space>.<cr><esc>kA<bs>
-    " }
+    au FileType *css,*.scss,*.less inoremap <buffer> {<cr> {}<left><cr><space><space>.<cr><esc>kA<bs>
 augroup END
 " }}}
 " Django {{{
@@ -772,7 +762,11 @@ augroup ft_html
     au FileType html* inoremap <buffer> <c-r> <%<space><space>%><left><left><left>
 
     " handlebars tags
-    au FileType *.handlebars inoremap <buffer> <c-b> {{<space><space>}}<left><left><left>
+    au FileType html* inoremap <buffer> <c-b> {{<space><space>}}<left><left><left>
+
+    " HTML tag closing
+    au FileType html* inoremap <buffer> <C-_> <space><bs><esc>:call InsertCloseTag()<cr>a
+
 augroup END
 " }}}
 " Java {{{
@@ -818,7 +812,7 @@ augroup ft_json
     autocmd BufRead,BufNewFile *jshintrc setfiletype json
     autocmd FileType json setlocal autoindent
     autocmd FileType json setlocal formatoptions=tcq2l
-    autocmd FileType json setlocal shiftwidth=4 softtabstop=4 tabstop=4
+    autocmd FileType json setlocal shiftwidth=2 softtabstop=4 tabstop=2
     autocmd FileType json setlocal foldmethod=syntax
 augroup END
 " }}}
@@ -954,6 +948,9 @@ augroup END
 " Stuff that should probably be broken out into plugins, but hasn't proved to be
 " worth the time to do so just yet.
 
+" Useful commands {{{
+command! Rm call delete(expand('%')) | bdelete!
+" }}}
 " Zoom / Restore window {{{
 function! s:ZoomToggle() abort
     if exists('t:zoomed') && t:zoomed
@@ -970,41 +967,11 @@ command! ZoomToggle call s:ZoomToggle()
 nnoremap <silent> <leader>z :ZoomToggle<CR>
 " }}}
 " Google it {{{
-function! s:goog(q)
-  let url = 'https://www.google.com/search?q='
-  " Excerpt from vim-unimpared
-  let q = substitute(
-        \ '"'.a:q.'"',
-        \ '[^A-Za-z0-9_.~-]',
-        \ '\="%".printf("%02X", char2nr(submatch(0)))',
-        \ 'g')
-  silent! execute "! open '".url.q."'"
+function! s:googleIt(q)
+  silent! exec 'silent! !open "https://www.google.com/search?q=' . a:q . '"'
 endfunction
 
-vnoremap <leader>? "gy:call <SID>goog(@g)<cr>
-" }}}
-" Case conversion {{{
-function! s:coerce()
-  " snake_case -> kebab-case -> camelCase -> MixedCase
-  let word = @"
-  if word =~# '^[a-z0-9_]\+[!?]\?$'
-    let @" = substitute(word, '_', '-', 'g')
-  elseif word =~# '^[a-z0-9?!-]\+[!?]\?$'
-    let @" = substitute(word, '\C-\([^-]\)', '\u\1', 'g')
-  elseif word =~# '^[a-z0-9]\+\([A-Z][a-z0-9]*\)\+[!?]\?$'
-    let @" = toupper(word[0]) . strpart(word, 1)
-  elseif word =~# '^\([A-Z][a-z0-9]*\)\{2,}[!?]\?$'
-    let @" = strpart(substitute(word, '\C\([A-Z]\)', '_\l\1', 'g'), 1)
-  else
-    normal gv
-  endif
-
-  let e = col("'>") + len(@") - len(word)
-  execute "normal gv\"_c\<C-R>\"\<esc>".col("'<"). "|v" . e . '|'
-endfunction
-vnoremap <silent> <C-Enter> y:call <sid>coerce()<cr>
-inoremap <silent> <C-Enter> <ESC>mzviwy:call <sid>coerce()<cr>`zA
-nnoremap <silent> <C-Enter> mzviwy:call <sid>coerce()<cr><ESC>`z
+vnoremap <silent> <leader>? "gy<Esc>:call <SID>googleIt(@g)<CR>:redraw!<CR>
 " }}}
 " " Statusline -- this is slow :/ -- {{{
 " if has('gui_running')
@@ -1067,34 +1034,6 @@ endfunc
 
 nnoremap <F7> :call SynStack()<CR>
 " }}}
-" Block Colors {{{
-let g:blockcolor_state = 0
-function! BlockColor() " {{{
-    if g:blockcolor_state
-        let g:blockcolor_state = 0
-        call matchdelete(77881)
-        call matchdelete(77882)
-        call matchdelete(77883)
-        call matchdelete(77884)
-        call matchdelete(77885)
-    else
-        let g:blockcolor_state = 1
-        call matchadd("BlockColor1", '^ \{4}.*', 1, 77881)
-        call matchadd("BlockColor2", '^ \{8}.*', 2, 77882)
-        call matchadd("BlockColor3", '^ \{12}.*', 3, 77883)
-        call matchadd("BlockColor4", '^ \{16}.*', 4, 77884)
-        call matchadd("BlockColor5", '^ \{20}.*', 5, 77885)
-    endif
-endfunction " }}}
-" Default highlights {{{
-hi def BlockColor1 guibg=#222222
-hi def BlockColor2 guibg=#2a2a2a
-hi def BlockColor3 guibg=#353535
-hi def BlockColor4 guibg=#3d3d3d
-hi def BlockColor5 guibg=#444444
-" }}}
-nnoremap <leader>B :call BlockColor()<cr>
-" }}}
 " Encode and Decode {{{
 vnoremap <leader>64d y:let @"=system('base64 --decode', @")<cr>gvP
 vnoremap <leader>64e y:let @"=system('base64', @")<cr>gvP
@@ -1105,7 +1044,7 @@ function! InTmuxSession()
 endfunction
 " }}}
 " Generate Unicode table {{{
-function! GenerateUnicode(first, last) " {{{
+function! GenerateUnicode(first, last)
   let i = a:first
   while i <= a:last
     if (i%256 == 0)
@@ -1120,7 +1059,7 @@ function! GenerateUnicode(first, last) " {{{
     endfor
     $put =c
   endwhile
-endfunction " }}}
+endfunction
 " }}}
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
@@ -1160,14 +1099,9 @@ augroup END
 " #CtrlSF {{{
 vmap     <leader>a <Plug>CtrlSFVwordPath
 nmap     <leader>a <Plug>CtrlSFCwordPath
-nnoremap <leader>A :CtrlSFOpen<CR>
-vnoremap <leader>A :CtrlSFOpen<CR>
-
-augroup plugin_ctrlsf
-    au!
-    au FileType ctrlsf nnoremap <buffer> <leader>A :CtrlSFClose<CR>
-    au FileType ctrlsf vnoremap <buffer> <leader>A :CtrlSFClose<CR>
-augroup END
+nnoremap <leader>A :CtrlSFToggle<CR>
+vnoremap <leader>A :CtrlSFToggle<CR>
+noremap <localleader>a :CtrlSF 
 
 " For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
 noremap q q
@@ -1376,19 +1310,17 @@ let g:microdata_attributes_complete = 0
 let g:atia_attributes_complete = 0
 " }}}
 " #JSBeautify {{{
-augroup ft_jsbeautify
+  augroup ft_jsbeautify
     au!
-    autocmd FileType javascript nnoremap <buffer>  <leader>f :call JsBeautify()<cr>
-    autocmd FileType javascript vnoremap <buffer>  <leader>f :call RangeJsBeautify()<cr>
-    autocmd FileType javascript vnoremap <buffer>  = :call RangeJsBeautify()<cr>
+    autocmd FileType javascript nnoremap <buffer>  <leader>= :silent call JsBeautify()<cr>
+    autocmd FileType javascript vnoremap <buffer>  <leader>= :silent call RangeJsBeautify()<cr>
     " for html
-    autocmd FileType html nnoremap <buffer> <leader>f :call HtmlBeautify()<cr>
-    autocmd FileType html vnoremap <buffer> <leader>f :call RangeHtmlBeautify()<cr>
+    autocmd FileType html nnoremap <buffer> <leader>= :silent call HtmlBeautify()<cr>
+    autocmd FileType html vnoremap <buffer> <leader>= :silent call RangeHtmlBeautify()<cr>
     " for css or scss
-    autocmd FileType css nnoremap <buffer> <leader>f :call CSSBeautify()<cr>
-    autocmd FileType css vnoremap <buffer> <leader>f :call RangeCSSBeautify()<cr>
-augroup END
-
+    autocmd FileType css nnoremap <buffer> <leader>= :silent call CSSBeautify()<cr>
+    autocmd FileType css vnoremap <buffer> <leader>= :silent call RangeCSSBeautify()<cr>
+  augroup END
 " }}}
 " #JSON {{{
 let g:vim_json_syntax_conceal = 0
@@ -1397,6 +1329,7 @@ let g:vim_json_syntax_conceal = 0
 let g:js_indent_flat_switch = 1
 " }}}
 " #Lightline {{{
+
 function! SetupLightline()
     let g:lightline = {
                 \ 'colorscheme': 'wombat',
@@ -1634,22 +1567,18 @@ nmap <leader>r :RainbowParenthesesToggle<CR>
 " }}}
 " #Syntastic {{{
 let g:syntastic_mode_map = {
-            \ "mode": "active",
-            \ "active_filetypes": [],
+            \ "mode": "passive",
+            \ "active_filetypes": ['python', 'javascript', 'ruby', 'cpp', 'c', 'json', 'sh'],
             \ "passive_filetypes": ['java', 'html', 'rst', 'scala']
             \ }
 
-let g:syntastic_disabled_filetypes = ['html', 'rst']
 let g:syntastic_stl_format = ' %E{ %e}%B{ }%W{%w} '
 let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_json_checkers = ['jsonlint']
-let g:syntastic_java_checkers = ['javac']
 let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
 let g:syntastic_ruby_checkers = ['rubocop', 'mri']
 let g:syntastic_cpp_checkers = ['gcc', 'cppcheck', 'cpplint', 'ycm', 'clang_tidy', 'clang_check']
 let g:syntastic_c_checkers = ['gcc', 'make', 'cppcheck', 'clang_tidy', 'clang_check']
-let g:syntastic_vim_checkers = ['vimlint']
-let g:syntastic_html_tidy_exec = 'tidy'
 let g:syntastic_python_checkers = ['flake8', 'python'] " Other checkers: pep8, pylint, python, pyflakes
 
 let g:syntastic_error_symbol = "\uf4A8" " fire icon
@@ -1767,6 +1696,11 @@ if has('gui_running')
         " Non-MacVim GUI
     end
     let g:VimuxUseExistingPaneWithIndex = 1
+
+    augroup on_gui_running
+        autocmd!
+        autocmd VimEnter * silent! GuiRunning
+    augroup END
 else
     " Console Vim
     " For me, this means iTerm2, possibly through tmux
