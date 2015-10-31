@@ -79,6 +79,7 @@ less
 express
 jade
 jade-lint
+jsctags
 wintersmith
 jitsu
 complete
@@ -88,6 +89,7 @@ livedown
 ) #}}}
 pip_packages=( #{{{
 flake8
+jedi
 ) #}}}
 # }}}
 # Help {{{
