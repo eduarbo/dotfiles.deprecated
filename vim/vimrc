@@ -1716,8 +1716,8 @@ endif  " }}}
 set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Plus\ Font\ Awesome\ Plus\ Octicons\ Plus\ Pomicons:h12
 " }}}
 " TODO {{{
-" * Check lag with html files
 " * Add more customized snippets
 " * Check if it's worth using Unite
 " * Setup tern and jsctags
+" * Fix weird error with YCM
 " }}}
