@@ -50,6 +50,7 @@ Plug 'vim-scripts/SyntaxComplete'
 " Productivity {{{
 " We can coerce to snake_case, MixedCase, etc... with map `cr<desired_coercion>`
 Plug 'vim-scripts/listmaps.vim', {'on': 'Listmaps'}
+" #Wintabs
 Plug 'zefei/vim-wintabs'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-repeat'
@@ -110,7 +111,6 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'bling/vim-airline'
 " Plug 'inside/vim-search-pulse'
 " }}}
-
 
 call plug#end()
 " }}}
@@ -355,10 +355,6 @@ cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 " Select entire buffer
 nnoremap vaa ggvGg_
 nnoremap Vaa ggVG
-
-" Change case
-" Not sure if there is a conflict with YCM
-" inoremap <C-u> <esc>mzgUiw`za
 
 " Panic Button
 nnoremap <leader>` mzggg?G`z
@@ -1603,7 +1599,7 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
 " #Vimux {{{
 nnoremap <localleader>x :call VimuxRunLastCommand()<CR>
 " }}}
-" Wintabs {{{
+" #Wintabs {{{
 nmap <leader>l <Plug>(wintabs_next)
 nmap <leader>h <Plug>(wintabs_previous)
 map <leader>j <Plug>(wintabs_close)
@@ -1617,9 +1613,16 @@ let g:wintabs_ui_active_right = ' '
 " #YouCompleteMe {{{
 let g:ycm_key_list_select_completion = ['<C-n>']
 let g:ycm_key_list_previous_completion = ['<C-p>']
+let g:ycm_always_populate_location_list = 0
+let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_echo_current_diagnostic = 0
+let g:ycm_open_loclist_on_ycm_diags = 0
+let g:ycm_seed_identifiers_with_syntax = 0
+let g:ycm_key_invoke_completion = '<C-n>'
 
-" enable completion from tags
-let g:ycm_collect_identifiers_from_tags_files = 1
+" disable completion from tags
+let g:ycm_collect_identifiers_from_tags_files = 0
 
 " Option to insert a Tab after selecting an item from YCM with Tab key
 " inoremap <C-Tab> <tab>
@@ -1720,4 +1723,5 @@ set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Plus
 " * Check if it's worth using Unite
 " * Setup tern and jsctags
 " * Fix weird error with YCM
+" * Check if YCM can replace Syntastic with its diagnostics support
 " }}}
