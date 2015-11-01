@@ -102,11 +102,8 @@ And install the following dependencies:
 - [**CtrlSF**](http://github.com/dyng/ctrlsf.vim): An ack/ag powered code search and view tool, like ack.vim or :vimgrep but together with more context, and let you edit in-place with powerful edit mode
 - [**DelimitMate**](http://github.com/Raimondi/delimitMate): Automatic closing of quotes, parentheses, brackets, etc
 - [**Devicons**](http://github.com/ryanoasis/vim-devicons): Adds font icons (glyphs ★♨☢) to programming languages, libraries, and web developer filetypes for: NERDTree, powerline, vim-airline, ctrlp, unite, lightline.vim, vimfiler, and flagship
-- [**Easy Align**](http://github.com/junegunn/vim-easy-align): A simple, easy-to-use alignment plugin
-- [**Easy Motion**](http://github.com/Lokaltog/vim-easymotion): EasyMotion provides a much simpler way to use some motions in vim. It takes the <number> out of <number>w or <number>f{char} by highlighting all possible choices and allowing you to press one key to jump directly to the target
 - [**Emmet**](http://github.com/mattn/emmet-vim): Editor plugin for high-speed HTML, XML, XSL (or any other structured code format) coding and editing
 - [**Endwise**](http://github.com/tpope/vim-endwise): Helps to end certain structures automatically. Useful for Lua, Ruby, sh, VimScript, C and others
-- [**Eunuch**](http://github.com/tpope/vim-eunuch): Vim sugar for the UNIX shell commands that need it the most
 - [**Expand Region**](http://github.com/): Allows you to visually select increasingly larger regions of text using the same key combination
 - [**FZF**](http://github.com/junegunn/fzf.vim): A command-line fuzzy finder written in Go. It is blazingly fast!
 - [**Fugitive**](http://github.com/tpope/vim-fugitive): A Git wrapper so awesome, it should be illegal
@@ -114,13 +111,12 @@ And install the following dependencies:
 - [**Gruvbox**](http://github.com/morhetz/gruvbox): My favorite color scheme for Vim, heavily inspired by [badwolf](https://github.com/sjl/badwolf), [jellybeans](https://github.com/nanotech/jellybeans.vim) and [solarized](http://ethanschoonover.com/solarized)
 - [**Gundo**](http://github.com/sjl/gundo.vim): Graph your undo tree with `<F5>` so you can actually USE it
 - [**JsDoc**](http://github.com/heavenshell/vim-jsdoc): Generate JsDoc to your JavaScript code
-- [**LightLine**](http://github.com/itchyny/lightline.vim): Fast and lightweight alternative to powerline with nice themes
+- [**Airline**](https://github.com/bling/vim-airline): lean & mean status/tabline for vim that's light as air
 - [**Linediff**](http://github.com/AndrewRadev/linediff.vim): The linediff plugin provides a simple command, `:Linediff`, which is used to diff two separate blocks of text
 - [**ListToggle**](http://github.com/Valloric/ListToggle): Toggling the display of the quickfix list and the location-list
 - [**Livedown**](http://github.com/shime/vim-livedown): Live Markdown previews for your favourite editor
 - [**NERD Tree**](http://github.com/scrooloose/nerdtree): Allows you to explore your filesystem and to open files and directories
 - [**Pad**](http://github.com/fmoralesc/vim-pad): A quick notetaking plugin for vim
-- [**Rainbow Parentheses**](http://github.com/kien/rainbow_parentheses.vim): Better Rainbow Parentheses
 - [**Repeat**](http://github.com/tpope/vim-repeat): Enable repeating supported plugin maps with "."
 - [**Signature**](http://github.com/kshenoy/vim-signature): Place, toggle and display marks
 - [**Snippets**](http://github.com/honza/vim-snippets): Snippets files for various programming languages
@@ -136,17 +132,12 @@ And install the following dependencies:
 
 Other plugins that provides a better syntax highlighting, indentation and
 mappings for:
- [C++](http://github.com/octol/vim-cpp-enhanced-highlight),
  [CSS3](http://github.com/hail2u/vim-css3-syntax),
  [CSS](http://github.com/JulesWang/css.vim),
- [Clojure](http://github.com/guns/vim-clojure-static),
- [Cucumber](http://github.com/tpope/vim-cucumber),
- [Docker](http://github.com/docker/docker/contrib/syntax/vim/),
- [Elixir](http://github.com/elixir-lang/vim-elixir),
- [Git](http://github.com/tpope/vim-git), [Go](http://github.com/fatih/vim-go),
+ [Git](http://github.com/tpope/vim-git),
+ [Go](http://github.com/fatih/vim-go),
  [Haml](http://github.com/tpope/vim-haml),
  [Handlebars/Mustache](http://github.com/mustache/vim-mustache-handlebars),
- [Haskell](http://github.com/neovimhaskell/haskell-vim),
  [Html5](http://github.com/othree/html5.vim),
  [JS Beautify](http://github.com/maksimr/vim-jsbeautify),
  [JS Indent](http://github.com/jason0x43/vim-js-indent),
@@ -155,12 +146,9 @@ mappings for:
  [Javascript](http://github.com/othree/yajs.vim),
  [LESS](http://github.com/groenewege/vim-less),
  [Markdown](http://github.com/plasticboy/vim-markdown),
- [Python](http://github.com/hdima/python-syntax),
  [Rails](http://github.com/tpope/vim-rails),
- [Rspec](http://github.com/skwp/vim-rspec),
  [Ruby](http://github.com/vim-ruby/vim-ruby),
  [SCSS](http://github.com/cakebaker/scss-syntax.vim),
- [TypeScript](http://github.com/leafgarland/typescript-vim),
  [Vim](http://github.com/tejr/vim-tmux)
 
 
