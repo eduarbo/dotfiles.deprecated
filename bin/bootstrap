@@ -32,13 +32,10 @@ extra_formulae=( #{{{
 # don't need to be in a specific order
 'moreutils'
 'findutils'
-'ack'
 'aircrack-ng'
 'gnu-sed --with-default-names'
-'cowsay'
 'cppcheck'
 'dark-mode'
-'fasd'
 'fortune'
 'git-lfs'
 'gtypist'
