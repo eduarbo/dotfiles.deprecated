@@ -47,14 +47,26 @@
 --regex-clojure=/\([ \t]*intern[ \t]+([-[:alnum:]*+!_:\/.?]+)/\1/v,intern/
 --regex-clojure=/\([ \t]*ns[ \t]+([-[:alnum:]*+!_:\/.?]+)/\1/n,namespace/
 
---languages=-JavaScript
+--languages=-javascript
 --langdef=js
 --langmap=js:.js
---regex-js=/^var[ \t]+([a-zA-Z0-9._$]+) = \[/\1/a,array/
---regex-js=/^var[ \t]+([a-zA-Z0-9._$]+) = \{/\1/o,object/
---regex-js=/^var[ \t]+([a-zA-Z0-9._$]+) = (^{^\[)+/\1/r,var/
+--langmap=js:+.jsx
 
---regex-js=/^var[ \t]+([A-Za-z0-9._$]+)[ \t]*=[ \t]*[A-Za-z0-9_$]+.extend/\1/f,function/
---regex-js=/^[ \t]*([A-Za-z0-9_$]*\.)*([A-Za-z0-9_$]+)[ \t]*[:=][ \t]*function/\2/f,function/
---regex-js=/^[ \t]*function[ \t]*([A-Za-z0-9_$]+)[ \t]*\(/\1/f,function/
---regex-js=/^[ \t]*var[ \t]+([A-Za-z0-9_$]*\.)*([A-Za-z0-9_$]+)[ \t]*=[ \t]function/\2/f,function/
+--regex-js=/[ \t.]([A-Z][A-Z0-9._$]+)[ \t]*[=:][ \t]*([0-9"'\[\{]|null)/\1/n,constant/
+
+--regex-js=/\.([A-Za-z0-9._$]+)[ \t]*=[ \t]*\{/\1/o,object/
+--regex-js=/['"]*([A-Za-z0-9_$]+)['"]*[ \t]*:[ \t]*\{/\1/o,object/
+--regex-js=/([A-Za-z0-9._$]+)\[["']([A-Za-z0-9_$]+)["']\][ \t]*=[ \t]*\{/\1\.\2/o,object/
+
+--regex-js=/([A-Za-z0-9._$]+)[ \t]*=[ \t]*\(function\(\)/\1/c,class/
+--regex-js=/['"]*([A-Za-z0-9_$]+)['"]*:[ \t]*\(function\(\)/\1/c,class/
+--regex-js=/class[ \t]+([A-Za-z0-9._$]+)[ \t]*/\1/c,class/
+--regex-js=/([A-Za-z$][A-Za-z0-9_$()]+)[ \t]*=[ \t]*[Rr]eact.createClass[ \t]*\(/\1/c,class/
+--regex-js=/([A-Z][A-Za-z0-9_$]+)[ \t]*=[ \t]*[A-Za-z0-9_$]*[ \t]*[{(]/\1/c,class/
+--regex-js=/([A-Z][A-Za-z0-9_$]+)[ \t]*:[ \t]*[A-Za-z0-9_$]*[ \t]*[{(]/\1/c,class/
+
+--regex-js=/([A-Za-z$][A-Za-z0-9_$]+)[ \t]*=[ \t]*function[ \t]*\(/\1/f,function/
+
+--regex-js=/(function)*[ \t]*([A-Za-z$_][A-Za-z0-9_$]+)[ \t]*\([^)]*\)[ \t]*\{/\2/f,function/
+--regex-js=/['"]*([A-Za-z$][A-Za-z0-9_$]+)['"]*:[ \t]*function[ \t]*\(/\1/m,method/
+--regex-js=/([A-Za-z0-9_$]+)\[["']([A-Za-z0-9_$]+)["']\][ \t]*=[ \t]*function[ \t]*\(/\2/m,method/
