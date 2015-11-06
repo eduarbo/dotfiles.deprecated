@@ -87,6 +87,7 @@ livedown
 pip_packages=( #{{{
 flake8
 jedi
+ipython
 ) #}}}
 # }}}
 # Help {{{

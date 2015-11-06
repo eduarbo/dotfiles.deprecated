@@ -16,7 +16,7 @@ Plug 'xolox/vim-misc', {'for': ['python']}
 " #CtrlP
 Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
 " #CtrlSF
-Plug 'dyng/ctrlsf.vim', {'on': ['CtrlSFVwordPath', 'CtrlSFCwordPath', 'CtrlSFToggle', 'CtrlSFToggle', 'CtrlSF']}
+Plug 'dyng/ctrlsf.vim'
 " #FZF
 Plug 'junegunn/fzf.vim', {'on': ['FZF', 'FZFMru']}
 Plug 'Shougo/neomru.vim'
@@ -24,6 +24,7 @@ Plug 'Shougo/neomru.vim'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 " }}}
 " For Code {{{
+Plug 'kien/rainbow_parentheses.vim', {'for': 'clojure'}
 Plug 'xolox/vim-easytags', {'for': ['python']}
 Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-endwise'
@@ -40,14 +41,15 @@ Plug 'scrooloose/syntastic'
 " #Tagbar
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 " #UltiSnips
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 Plug 'tpope/vim-unimpaired'
 " #YouCompleteMe
 Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 Plug 'vim-scripts/SyntaxComplete'
 " }}}
 " Productivity {{{
+Plug 'Valloric/ListToggle'
 " We can coerce to snake_case, MixedCase, etc... with map `cr<desired_coercion>`
 Plug 'vim-scripts/listmaps.vim', {'on': 'Listmaps'}
 " #Wintabs
@@ -62,7 +64,7 @@ Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 " #Pad
 Plug 'fmoralesc/vim-pad', {'on': 'Pad'}
 " #Vimux
-Plug 'benmills/vimux', {'on': ['VimuxRunCommand', 'VimuxRunLastCommand']}
+Plug 'benmills/vimux'
 Plug 'christoomey/vim-tmux-navigator'
 " #Fugitive
 Plug 'tpope/vim-fugitive'
@@ -73,6 +75,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'tejr/vim-tmux'
 Plug 'tpope/vim-git'
+" #Python-mode
+Plug 'klen/python-mode'
 " #Go
 Plug 'fatih/vim-go', {'for': 'go'}
 
@@ -118,7 +122,7 @@ call plug#end()
 filetype plugin indent on
 
 let mapleader = ","
-let maplocalleader = "\\"
+let maplocalleader = " "
 
 scriptencoding utf-8
 
@@ -324,6 +328,8 @@ nnoremap <C-t> :tabnew<cr>
 vnoremap < <gv
 vnoremap > >gv
 
+noremap <localleader>p <C-w>z
+
 nnoremap ; :
 
 " Use c-\ to do c-] but open it in a new split.
@@ -503,14 +509,8 @@ noremap gk k
 " this allows all window commands in insert mode and i'm not accidentally deleting words anymore :-)
 inoremap <C-w> <C-o><C-w>
 
-" Easy buffer navigation
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-nnoremap - <C-w>-
-nnoremap + <C-w>+
+noremap - <C-w>-
+noremap + <C-w>+
 
 nnoremap <leader>v <C-w>v
 nnoremap <leader>s <C-w>s
@@ -532,8 +532,8 @@ set foldlevelstart=0
 set foldmethod=marker
 
 " Space to toggle folds.
-nnoremap <Space> za
-vnoremap <Space> za
+nnoremap <localleader><localleader> za
+vnoremap <localleader><localleader> za
 
 " Make zO recursively open whatever top level fold we're in, no matter where the
 " cursor happens to be.
@@ -706,7 +706,8 @@ augroup END
 " Go {{{
 augroup ft_go
   au!
-  au FileType go nnoremap <buffer> <localleader>e :VimuxRunCommand 'go run '.bufname('%')<CR>
+  au FileType go nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; go run '.bufname('%')<CR>
+  au FileType go nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; gore'<CR>
 augroup END
 " }}}
 " Haml {{{
@@ -723,7 +724,7 @@ augroup ft_html
     au FileType html* setlocal foldmethod=manual
     au FileType html* setlocal omnifunc=htmlcomplete#CompleteTags
 
-    au FileType html* setlocal tabstop=2 shiftwidth=2 softtabstop=4
+    au FileType html* setlocal shiftwidth=4 softtabstop=4 tabstop=4
 
     " Use <localleader>f to fold the current tag.
     au FileType html* nnoremap <buffer> <localleader>f Vatzf
@@ -773,7 +774,9 @@ augroup ft_javascript
     au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     au FileType javascript setlocal shiftwidth=4 softtabstop=4 tabstop=4
     au Filetype javascript setlocal foldlevel=99
-    au FileType javascript nnoremap <buffer> <localleader>e :VimuxRunCommand 'node '.bufname('%')<CR>
+    au FileType javascript nnoremap <buffer> <localleader>b :call <SID>toggleStatement(line('.'), "debugger;  // XXX BREAKPOINT")<CR>
+    au FileType javascript nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; node '.bufname('%')<CR>
+    au FileType javascript nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; node'<CR>
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
@@ -843,7 +846,8 @@ augroup ft_python
     au FileType python inoremap <buffer> <c-g> _(u'')<left><left>
 
     au FileType python inoremap <buffer> <c-b> """"""<left><left><left>
-    au FileType python nnoremap <buffer> <localleader>e :VimuxRunCommand 'python '.bufname('%')<CR>
+    au FileType python nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; ipython '.bufname('%')<CR>
+    au FileType python nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; ipython'<CR>
 augroup END
 " }}}
 " QuickFix {{{
@@ -858,7 +862,9 @@ augroup ft_ruby
     au BufRead,BufNewFile Vagrantfile,Capfile setlocal filetype=ruby
     au Filetype ruby setlocal foldmethod=syntax
     au FileType ruby setlocal omnifunc=rubycomplete#Complete
-    au FileType ruby nnoremap <buffer> <localleader>e :VimuxRunCommand 'ruby '.bufname('%')<CR>
+    au FileType ruby nnoremap <buffer> <localleader>b :call <SID>toggleStatement(line('.'), "require 'pry'; binding.pry  # XXX BREAKPOINT")<CR>
+    au FileType ruby nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; ruby '.bufname('%')<CR>
+    au FileType ruby nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; irb'<CR>
 augroup END
 " }}}
 " Scala {{{
@@ -922,6 +928,16 @@ augroup END
 " Stuff that should probably be broken out into plugins, but hasn't proved to be
 " worth the time to do so just yet.
 
+function! s:toggleStatement(lnum, statement) "{{{
+    let line = getline(a:lnum)
+    if strridx(line, a:statement) != -1
+        normal dd
+    else
+        let plnum = prevnonblank(a:lnum)
+        call append(line('.')-1, repeat(' ', indent(plnum)).a:statement)
+        normal k
+    endif
+endfunction "}}}
 " Useful commands {{{
 command! Rm call delete(expand('%')) | bdelete!
 " }}}
@@ -1032,17 +1048,6 @@ endfunction
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
 " #Airline {{{
-nnoremap <Leader>1 :1b<CR>
-nnoremap <Leader>2 :2b<CR>
-nnoremap <Leader>3 :3b<CR>
-nnoremap <Leader>4 :4b<CR>
-nnoremap <Leader>5 :5b<CR>
-nnoremap <Leader>6 :6b<CR>
-nnoremap <Leader>7 :7b<CR>
-nnoremap <Leader>8 :8b<CR>
-nnoremap <Leader>9 :9b<CR>
-nnoremap <Leader>0 :10b<CR>
-
 let g:airline#extensions#tagbar#enabled = 0
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'tomorrow'
@@ -1106,10 +1111,10 @@ augroup plugin_commentary
 augroup END
 " }}}
 " #CtrlSF {{{
-vmap     <leader>a <Plug>CtrlSFVwordPath
-nmap     <leader>a <Plug>CtrlSFCwordPath
-nnoremap <leader>A :CtrlSFToggle<CR>
-vnoremap <leader>A :CtrlSFToggle<CR>
+vmap <leader>a <Plug>CtrlSFVwordPath
+nmap <leader>a <Plug>CtrlSFCwordPath
+nmap <leader>A :CtrlSFToggle<CR>
+vmap <leader>A :CtrlSFToggle<CR>
 noremap <localleader>a :CtrlSF 
 
 " For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
@@ -1304,153 +1309,13 @@ let g:vim_json_syntax_conceal = 0
 " #JSIndent {{{
 let g:js_indent_flat_switch = 1
 " }}}
-" #Lightline {{{
-function! SetupLightline()
-    let g:lightline = {
-                \ 'colorscheme': 'wombat',
-                \ 'active': {
-                \   'left': [
-                \       ['mode', 'paste'],
-                \       ['fugitive', 'filename'],
-                \       ['ctrlpmark']
-                \   ],
-                \   'right': [
-                \       ['syntastic', 'lineinfo' ],
-                \       ['percent'],
-                \       ['filetype']
-                \   ]
-                \ },
-                \ 'component_function': {
-                \   'modified': 'LightLineModified',
-                \   'readonly': 'LightLineReadonly',
-                \   'fugitive': 'LightLineFugitive',
-                \   'filename': 'LightLineMode',
-                \   'fileformat': 'LightLineFileformat',
-                \   'filetype': 'LightLineFiletype',
-                \   'fileencoding': 'LightLineFileencoding',
-                \   'mode': 'LightLineFilename',
-                \   'ctrlpmark': 'CtrlPMark',
-                \ },
-                \ 'component_expand': {
-                \   'syntastic': 'SyntasticStatuslineFlag',
-                \ },
-                \ 'component_type': {
-                \   'syntastic': 'error',
-                \ },
-                \ 'separator': { 'left': '⮀', 'right': '⮂' },
-                \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
-                \ }
-
-
-    function! LightLineModified()
-      return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? "\uf040" : &modifiable ? '' : '-'
-    endfunction
-
-    function! LightLineReadonly()
-      return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? "\uf023" : ''
-    endfunction
-
-    function! LightLineFilename()
-      let fname = expand('%:t')
-      return fname == 'ControlP' ? g:lightline.ctrlp_item :
-            \ fname == '__Tagbar__' ? g:lightline.fname :
-            \ fname =~ '__Gundo\|NERD_tree' ? '' :
-            \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-            \ &ft == 'unite' ? unite#get_status_string() :
-            \ &ft == 'vimshell' ? vimshell#get_status_string() :
-            \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-            \ ('' != fname ? fname : '[No Name]') .
-            \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
-    endfunction
-
-    function! LightLineFugitive()
-      if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
-        let _ = fugitive#head()
-        return strlen(_) ? "\uF418 "._ : ''
-      endif
-      return ''
-    endfunction
-
-    function! LightLineFileformat()
-        return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
-    endfunction
-
-    function! LightLineFiletype()
-        return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
-    endfunction
-
-    function! LightLineFileencoding()
-      return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-    endfunction
-
-    function! LightLineMode()
-      let fname = expand('%:t')
-      return fname == '__Tagbar__' ? 'Tagbar' :
-            \ fname == 'ControlP' ? 'CtrlP' :
-            \ fname == '__Gundo__' ? 'Gundo' :
-            \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-            \ fname =~ 'NERD_tree' ? 'NERDTree' :
-            \ &ft == 'unite' ? 'Unite' :
-            \ &ft == 'vimfiler' ? 'VimFiler' :
-            \ &ft == 'vimshell' ? 'VimShell' :
-            \ winwidth(0) > 60 ? lightline#mode() : ''
-    endfunction
-
-    function! CtrlPMark()
-        if expand('%:t') =~ 'ControlP'
-            call lightline#link('iR'[g:lightline.ctrlp_regex])
-            return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-                        \ , g:lightline.ctrlp_next], 0)
-        else
-            return ''
-        endif
-    endfunction
-
-    function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-        let g:lightline.ctrlp_regex = a:regex
-        let g:lightline.ctrlp_prev = a:prev
-        let g:lightline.ctrlp_item = a:item
-        let g:lightline.ctrlp_next = a:next
-        return lightline#statusline(0)
-    endfunction
-
-    function! CtrlPStatusFunc_2(str)
-        return lightline#statusline(0)
-    endfunction
-
-    function! TagbarStatusFunc(current, sort, fname, ...) abort
-        let g:lightline.fname = a:fname
-        return lightline#statusline(0)
-    endfunction
-
-    " Workaround to display error message in Lightline in red
-    augroup AutoSyntastic
-        autocmd!
-        autocmd BufWritePost *.c,*.cpp,*.js,*.py,*.go,*.hbs,*.json call s:syntastic()
-        autocmd BufWritePost *.rb,*.scss,*.sass,*.sh,.vimrc,vimrc call s:syntastic()
-        autocmd BufWritePost *.zsh,*.sql,*.sql.pre,*.sql.post call s:syntastic()
-    augroup END
-
-    function! s:syntastic()
-        SyntasticCheck
-        call lightline#update()
-    endfunction
-
-    let g:tagbar_status_func = 'TagbarStatusFunc'
-    let g:ctrlp_status_func = {
-                \ 'main': 'CtrlPStatusFunc_1',
-                \ 'prog': 'CtrlPStatusFunc_2',
-                \ }
-
-    let g:unite_force_overwrite_statusline = 0
-    let g:vimfiler_force_overwrite_statusline = 0
-    let g:vimshell_force_overwrite_statusline = 0
-    let g:vimfiler_quick_look_command = 'qlmanage -p'
-endfunction
-" }}}
 " #Linediff {{{
 vnoremap <leader>d :Linediff<cr>
 nnoremap <leader>D :LinediffReset<cr>
+" }}}
+" #ListToggle {{{
+let g:lt_location_list_toggle_map = '<localleader>l'
+let g:lt_quickfix_list_toggle_map = '<localleader>q'
 " }}}
 " #NERDTree {{{
 " Open the project tree and expose current file in the nerdtree with ,N
@@ -1513,6 +1378,46 @@ if s:ag
     let g:pad#search_backend = 'ag'
 endif
 " }}}
+" #Python-mode {{{
+let g:pymode_trim_whitespaces = 1
+let g:pymode_options = 0
+
+let g:pymode_folding = 0
+let g:pymode_motion = 1
+let g:pymode_doc = 1
+let g:pymode_doc_bind = 'M'
+let g:pymode_virtualenv = 0
+let g:pymode_run = 0
+let g:pymode_breakpoint = 1
+let g:pymode_breakpoint_bind = '<localleader>b'
+let g:pymode_trim_whitespaces = 0
+let g:pymode_lint = 0  " Let's delegate that job to Syntastic
+let g:pymode_rope = 1
+
+let g:pymode_rope_completion = 0
+let g:pymode_rope_complete_on_dot = 0
+let g:pymode_rope_autoimport_modules = ["os", "shutil", "datetime"]
+let g:pymode_rope_autoimport = 1
+
+let g:pymode_rope_show_doc_bind = '<C-c>d'
+let g:pymode_rope_goto_definition_bind = '<C-]>'
+let g:pymode_rope_rename_bind = ''
+let g:pymode_rope_rename_module_bind = ''
+let g:pymode_rope_organize_imports_bind = ''
+let g:pymode_rope_autoimport_bind = ''
+let g:pymode_rope_module_to_package_bind = ''
+let g:pymode_rope_extract_method_bind = ''
+let g:pymode_rope_extract_variable_bind = ''
+let g:pymode_rope_use_function_bind = ''
+let g:pymode_rope_move_bind = ''
+let g:pymode_rope_change_signature_bind = ''
+
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 0
+let g:pymode_syntax_print_as_function = 0
+let g:pymode_syntax_space_errors = 0
+let g:pymode_syntax_builtin_objs = 1
+" }}}
 " #Syntastic {{{
 let g:syntastic_mode_map = {
             \ "mode": "passive",
@@ -1527,7 +1432,8 @@ let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
 let g:syntastic_ruby_checkers = ['mri']
 let g:syntastic_cpp_checkers = ['gcc', 'cppcheck', 'cpplint', 'ycm', 'clang_tidy', 'clang_check']
 let g:syntastic_c_checkers = ['gcc', 'make', 'cppcheck', 'clang_tidy', 'clang_check']
-let g:syntastic_python_checkers = ['flake8', 'python'] " Other checkers: pep8, pylint, python, pyflakes
+let g:syntastic_python_checkers = ['flake8'] " Other checkers: pep8, pylint, python, pyflakes
+let g:syntastic_python_flake8_args='--ignore=E501'  " line too long
 
 let g:syntastic_error_symbol = "\uf4A8" " fire icon
 let g:syntastic_warning_symbol = "\uf0e7" " bolt icon
@@ -1589,7 +1495,7 @@ let g:tern_map_keys=1
 let g:tern_show_arguments_hits='on_hold'
 " }}}
 " #UltiSnips {{{
-let g:UltiSnipsListSnippets="<C-Space>"
+let g:UltiSnipsListSnippets="<C-tab>"
 let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
@@ -1597,7 +1503,38 @@ let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
 " }}}
 " #Vimux {{{
-nnoremap <localleader>x :call VimuxRunLastCommand()<CR>
+" Prompt for a command to run
+map <LocalLeader>vp :VimuxPromptCommand<CR>
+" Run last command executed by VimuxRunCommand
+map <LocalLeader>vl :VimuxRunLastCommand<CR>
+" Inspect runner pane
+map <LocalLeader>vi :VimuxInspectRunner<CR>
+" Close vim tmux runner opened by VimuxRunCommand
+map <LocalLeader>vq :VimuxCloseRunner<CR>
+" Interrupt any command running in the runner pane
+map <LocalLeader>vx :VimuxInterruptRunner<CR>
+" Zoom the runner pane (use <bind-key> z to restore runner pane)
+map <LocalLeader>vz :call VimuxZoomRunner()<CR>"
+
+augroup vimux
+    au!
+    au VimLeave * :VimuxCloseRunner  " Close Vimux pane on Leav
+augroup END
+
+function! VimuxSlime()  " Send selected text to Tmux
+  call VimuxSendText(@v)
+  call VimuxSendKeys("Enter")
+endfunction
+
+" If text is selected, save it in the v buffer and send that buffer it to tmux
+vnoremap <silent> <Plug>SendSelectedLineToTmux "vy :<C-u>call VimuxSlime()<CR>j
+            \:call repeat#set("\<Plug>SendSelectedLineToTmux")<CR>
+vmap <LocalLeader>vs <Plug>SendSelectedLineToTmux
+
+" Select current line and send it to tmux
+nnoremap <silent> <Plug>SendCurrentLineToTmux mz^vg_"vy :<C-u>call VimuxSlime()<CR>`zj
+            \:call repeat#set("\<Plug>SendCurrentLineToTmux")<CR>
+nmap <LocalLeader>vs <Plug>SendCurrentLineToTmux
 " }}}
 " #Wintabs {{{
 nmap <leader>l <Plug>(wintabs_next)
@@ -1611,6 +1548,7 @@ let g:wintabs_ui_active_left = ' '
 let g:wintabs_ui_active_right = ' '
 " }}}
 " #YouCompleteMe {{{
+let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_key_list_select_completion = ['<C-n>']
 let g:ycm_key_list_previous_completion = ['<C-p>']
 let g:ycm_always_populate_location_list = 0
@@ -1724,4 +1662,6 @@ set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Plus
 " * Setup tern and jsctags
 " * Fix weird error with YCM
 " * Check if YCM can replace Syntastic with its diagnostics support
+" * Improve ListToogle plugin to support Preview window
+" * Make `M` binding compatible with rope documentation when pydoc is not available
 " }}}
