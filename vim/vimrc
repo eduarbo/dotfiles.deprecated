@@ -667,11 +667,11 @@ augroup ft_jsbeautify
   autocmd FileType css vnoremap <buffer> <leader>= :silent call RangeCSSBeautify()<cr>
 augroup END
 " }}}
-Plug 'marijnh/tern_for_vim',                           " {{{3
-      \{'do': '~/.vim/plugged/tern_for_vim && npm install'}
-let g:tern_map_keys=1
-let g:tern_show_arguments_hits='on_hold'
-" }}}
+" Plug 'marijnh/tern_for_vim',                           " {{{3
+"       \{'do': '~/.vim/plugged/tern_for_vim && npm install'}
+" let g:tern_map_keys=1
+" let g:tern_show_arguments_hits='on_hold'
+" " }}}
 
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 Plug 'tpope/vim-rails', {'for': 'ruby'}
