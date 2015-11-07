@@ -98,8 +98,8 @@ alias rn='rails new'
 alias rs='rails s'
 alias rc='rails c'
 
-alias v='mvim'
-alias V='mvim .'
+alias v='vim'
+alias V='vim .'
 
 alias tm="tmux -u2"
 alias tmkillall="tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs -n1 tmux kill-session -t"
@@ -126,6 +126,7 @@ alias reload="exec $SHELL -l"
 alias historystat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
 
 alias py="python"
+alias ipy="ipython"
 # }}}
 # Files & Directories ------------------------------------------------------ {{{
 alias -- -='cd -'
