@@ -1,4 +1,3 @@
-" TODO: this should be applied to all html* FileTypes
 setlocal foldlevel=99
 setlocal foldmethod=manual
 setlocal shiftwidth=4

@@ -2,7 +2,7 @@
 " Author: Eduardo Ruiz <eduarbo@gmail.com>
 " Source: https://github.com/eduarbo/dotfiles/tree/master/vim
 
-" Preamble                    {{{1
+" Preamble                        {{{1
 filetype off
 
 let mapleader = ","
@@ -10,17 +10,16 @@ let maplocalleader = " "
 
 let s:ag = executable('ag')
 " }}}
-" Plugins                     {{{1
+" Plugins                         {{{1
 call plug#begin('~/.vim/plugged')
 
-" Dependencies                                  {{{2
+" Dependencies                         {{{2
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
 Plug 'xolox/vim-misc', {'for': ['python']}
 " }}}
-" File Finders                                  {{{2
-Plug 'ctrlpvim/ctrlp.vim',                           " {{{3
-      \{'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
-
+" File Finders                         {{{2
+let ctrlP_opts = {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
+Plug 'ctrlpvim/ctrlp.vim', ctrlP_opts                 " {{{3
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_working_path_mode = 0
@@ -85,57 +84,9 @@ nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>m :CtrlPMRUFiles<cr>
 " }}}
-Plug 'dyng/ctrlsf.vim'                               " {{{3
-vmap <leader>a <Plug>CtrlSFVwordPath
-nmap <leader>a <Plug>CtrlSFCwordPath
-nmap <leader>A :CtrlSFToggle<CR>
-vmap <leader>A :CtrlSFToggle<CR>
-noremap <localleader>a :CtrlSF 
 
-" For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
-noremap q q
-
-let g:ctrlsf_ackprg = 'ag'
-" }}}
-Plug 'junegunn/fzf.vim', {'on': ['FZF', 'FZFMru']}   " {{{3
-" Open files in horizontal split
-set rtp+=/usr/local/opt/fzf
-let g:fzf_launcher = "~/.vim/in_a_new_term_function %s"
-
-function! s:buflist()
-  redir => ls
-  silent ls
-  redir END
-  return split(ls, '\n')
-endfunction
-
-function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
-
-command! FZFMru call fzf#run({
-      \   'source':  'sed "1d" $HOME/.cache/neomru/file',
-      \   'sink':    'e ',
-      \   'down':    '30%'
-      \ })
-
-if fn#InTmuxSession()
-  " Checking that we are in a tmux session because FZF opens in a tmux pane
-  " Let's overwrite CtrlP mapping if we are in Tmux, otherwise it will open
-  " terminal window
-  nnoremap <leader>, :FZF<CR>
-  nnoremap <leader>m :FZFMru<CR>
-  nnoremap <silent> <Leader>b :call fzf#run({
-        \   'source':  reverse(<sid>buflist()),
-        \   'sink':    function('<sid>bufopen'),
-        \   'options': '+m',
-        \   'down':    len(<sid>buflist()) + 2
-        \ })<CR>
-endif
-" }}}
-Plug 'scrooloose/nerdtree',                          " {{{3
-      \{'on': ['NERDTreeToggle', 'NERDTreeFind']}
-
+let nerdTree_opts = {'on': ['NERDTreeToggle', 'NERDTreeFind']}
+Plug 'scrooloose/nerdtree', nerdTree_opts             " {{{3
 " Open the project tree and expose current file in the nerdtree with ,N
 nnoremap <Leader>N :NERDTreeFind<CR>
 noremap  <leader>n :NERDTreeToggle<cr>
@@ -186,11 +137,106 @@ call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
 call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
 call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
 " }}}
+
+let ctrlsf_opts = {'on': ['<Plug>CtrlSFVwordPath', '<Plug>CtrlSFCwordPath',
+      \'CtrlSFToggle', 'CtrlSF']}
+Plug 'dyng/ctrlsf.vim', ctrlsf_opts                   " {{{3
+vmap <leader>a <Plug>CtrlSFVwordPath
+nmap <leader>a <Plug>CtrlSFCwordPath
+nmap <leader>A :CtrlSFToggle<CR>
+vmap <leader>A :CtrlSFToggle<CR>
+noremap <localleader>a :CtrlSF 
+
+" For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
+noremap q q
+
+let g:ctrlsf_ackprg = 'ag'
+" }}}
+"
+Plug 'junegunn/fzf.vim', {'on': ['FZF', 'FZFMru']}    " {{{3
+" Open files in horizontal split
+set rtp+=/usr/local/opt/fzf
+let g:fzf_launcher = "~/.vim/in_a_new_term_function %s"
+
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+command! FZFMru call fzf#run({
+      \   'source':  'sed "1d" $HOME/.cache/neomru/file',
+      \   'sink':    'e ',
+      \   'down':    '30%'
+      \ })
+
+if fn#InTmuxSession()
+  " Checking that we are in a tmux session because FZF opens in a tmux pane
+  " Let's overwrite CtrlP mapping if we are in Tmux, otherwise it will open
+  " terminal window
+  nnoremap <leader>, :FZF<CR>
+  nnoremap <leader>m :FZFMru<CR>
+  nnoremap <silent> <Leader>b :call fzf#run({
+        \   'source':  reverse(<sid>buflist()),
+        \   'sink':    function('<sid>bufopen'),
+        \   'options': '+m',
+        \   'down':    len(<sid>buflist()) + 2
+        \ })<CR>
+endif
+" }}}
 Plug 'Shougo/neomru.vim'
 " }}}
-" General Code                                  {{{2
-Plug 'kien/rainbow_parentheses.vim',                 " {{{3
-      \{'for': 'clojure'}
+" General Code                         {{{2
+Plug 'honza/vim-snippets', {'on': []}                 " {{{3
+let g:UltiSnipsExpandTrigger="<Tab>"
+let g:UltiSnipsJumpForwardTrigger="<Tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
+" }}}
+Plug 'SirVer/ultisnips', {'on': []} " Don't move. YCM dependency
+
+let ycm_opts = {'do': './install.py --clang-completer', 'on': []}
+Plug 'Valloric/YouCompleteMe', ycm_opts               " {{{3
+" Lazy Load
+augroup load_us_ycm
+  autocmd!
+  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe', 'vim-snippets')
+                     \| call youcompleteme#Enable() | autocmd! load_us_ycm
+augroup END
+
+let g:ycm_auto_trigger = 1
+let g:ycm_min_num_of_chars_for_completion = 2
+let g:ycm_use_ultisnips_completer = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_always_populate_location_list = 0
+let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_echo_current_diagnostic = 0
+let g:ycm_open_loclist_on_ycm_diags = 0
+let g:ycm_seed_identifiers_with_syntax = 0
+let g:ycm_key_list_select_completion = ['<C-n>']
+let g:ycm_key_list_previous_completion = ['<C-p>']
+let g:ycm_key_invoke_completion = '<C-n>'
+let g:ycm_collect_identifiers_from_tags_files = 0
+
+augroup ycm
+  au!
+  au FileType python setlocal omnifunc=pythoncomplete#Complete
+  au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  au FileType html*,handlebars,mustache,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  au Filetype css*,scss,less setlocal omnifunc=csscomplete#CompleteCSS
+  au FileType ruby setlocal omnifunc=rubycomplete#Complete
+  au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
+" }}}
+"
+let rainbow_opts = {'for': 'clojure'}
+Plug 'kien/rainbow_parentheses.vim', rainbow_opts     " {{{3
 augroup rainbow_parentheses
   au!
   au FileType clojure RainbowParenthesesActivate
@@ -199,25 +245,9 @@ augroup rainbow_parentheses
   au syntax clojure RainbowParenthesesLoadBraces
 augroup END
 " }}}
-Plug 'xolox/vim-easytags', {'for': ['python']}
-Plug 'terryma/vim-expand-region'
-Plug 'tpope/vim-endwise'
-Plug 'Raimondi/delimitMate'
-Plug 'tpope/vim-surround'
-Plug 'bkad/CamelCaseMotion'                          " {{{3
-map <S-W> <Plug>CamelCaseMotion_w
-map <S-B> <Plug>CamelCaseMotion_b
-map <S-E> <Plug>CamelCaseMotion_e
 
-" Replace default 'iw' text-object and define 'ib' and 'ie' motions:
-omap <silent> iW <Plug>CamelCaseMotion_iw
-xmap <silent> iW <Plug>CamelCaseMotion_iw
-omap <silent> iB <Plug>CamelCaseMotion_ib
-xmap <silent> iB <Plug>CamelCaseMotion_ib
-omap <silent> iE <Plug>CamelCaseMotion_ie
-xmap <silent> iE <Plug>CamelCaseMotion_ie
-" }}}
-Plug 'tpope/vim-commentary'                          " {{{3
+let commentary_opts = {'on': ['<Plug>CommentaryLine', '<Plug>Commentary', 'Commentary']}
+Plug 'tpope/vim-commentary', commentary_opts          " {{{3
 nmap <leader>c <Plug>CommentaryLine
 xmap <leader>c <Plug>Commentary
 
@@ -229,12 +259,8 @@ augroup plugin_commentary
   au FileType puppet,fish,tmux setlocal commentstring=#\ %s
 augroup END
 " }}}
-Plug 'AndrewRadev/linediff.vim',                     " {{{3
-      \{'on': ['Linediff', 'LinediffReset']}
-vnoremap <leader>d :Linediff<cr>
-nnoremap <leader>D :LinediffReset<cr>
-" }}}
-Plug 'scrooloose/syntastic'                          " {{{3
+
+Plug 'scrooloose/syntastic'                           " {{{3
 let g:syntastic_mode_map = {
       \ "mode": "passive",
       \ "active_filetypes": ['python', 'javascript', 'ruby', 'cpp', 'c', 'json', 'sh', 'go', 'css', 'scss'],
@@ -269,69 +295,49 @@ let g:syntastic_cursor_column = 0
 let g:syntastic_enable_balloons = 0
 let g:syntastic_enable_highlighting = 1
 " }}}
-Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}     " {{{3
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}      " {{{3
 nmap <F3> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
 " }}}
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'  " {{{3
-let g:UltiSnipsExpandTrigger="<Tab>"
-let g:UltiSnipsJumpForwardTrigger="<Tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
-" }}}
-Plug 'tpope/vim-unimpaired'
-Plug 'Valloric/YouCompleteMe',                       " {{{3
-      \{'do': './install.py --clang-completer'}
-let g:ycm_auto_trigger = 1
-let g:ycm_min_num_of_chars_for_completion = 2
-let g:ycm_use_ultisnips_completer = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_always_populate_location_list = 0
-let g:ycm_enable_diagnostic_signs = 0
-let g:ycm_enable_diagnostic_highlighting = 0
-let g:ycm_echo_current_diagnostic = 0
-let g:ycm_open_loclist_on_ycm_diags = 0
-let g:ycm_seed_identifiers_with_syntax = 0
-let g:ycm_key_list_select_completion = ['<C-n>']
-let g:ycm_key_list_previous_completion = ['<C-p>']
-let g:ycm_key_invoke_completion = '<C-n>'
-let g:ycm_collect_identifiers_from_tags_files = 0
-
-augroup ycm
-  au!
-  au FileType python setlocal omnifunc=pythoncomplete#Complete
-  au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  au FileType html*,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  au Filetype *.css,*.scss,*.less setlocal omnifunc=csscomplete#CompleteCSS
-  au FileType ruby setlocal omnifunc=rubycomplete#Complete
-  au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-augroup END
-" }}}
-Plug 'vim-scripts/SyntaxComplete'
-" }}}
-" Productivity                                  {{{2
-Plug 'mtth/scratch.vim'                              " {{{3
-let g:scratch_horizontal = 0
-let g:scratch_top = 0
-let g:scratch_height = 80
-let g:scratch_no_mappings = 1
-let g:scratch_insert_autohide = 0
-
-nmap <localleader>s <Plug>(scratch-insert-reuse)
-nmap <localleader>S <Plug>(scratch-insert-clear)
-xmap <localleader>s <Plug>(scratch-selection-reuse)
-xmap <localleader>S <Plug>(scratch-selection-clear)
-" }}}
-Plug 'kshenoy/vim-origami'                           " {{{3
-
+Plug 'kshenoy/vim-origami'                            " {{{3
+let g:OrgamiPadding = 4
 let g:OrigamiSeparateLevels = 1
 let g:OrigamiIncAllLines = 0
 let g:OrigamiStaggeredSpacing = 0
  "}}}
-" We can coerce to snake_case, MixedCase, etc... with map `cr<desired_coercion>`
-Plug 'vim-scripts/listmaps.vim', {'on': 'Listmaps'}
-Plug 'zefei/vim-wintabs'                             " {{{3
+Plug 'bkad/CamelCaseMotion'                           " {{{3
+map <S-W> <Plug>CamelCaseMotion_w
+map <S-B> <Plug>CamelCaseMotion_b
+map <S-E> <Plug>CamelCaseMotion_e
+
+" Replace default 'iw' text-object and define 'ib' and 'ie' motions:
+omap <silent> iW <Plug>CamelCaseMotion_iw
+xmap <silent> iW <Plug>CamelCaseMotion_iw
+omap <silent> iB <Plug>CamelCaseMotion_ib
+xmap <silent> iB <Plug>CamelCaseMotion_ib
+omap <silent> iE <Plug>CamelCaseMotion_ie
+xmap <silent> iE <Plug>CamelCaseMotion_ie
+" }}}
+Plug 'xolox/vim-easytags', {'for': ['python', 'c', 'cpp']}
+Plug 'terryma/vim-expand-region'
+Plug 'Raimondi/delimitMate'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+
+let endwise_opts = {'for': 
+      \ ['lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet',
+      \ 'aspvbs', 'vim', 'c', 'cpp', 'xdefaults', 'objc', 'htmldjango',
+      \ 'matlab', 'snippets']}
+Plug 'tpope/vim-endwise', endwise_opts
+" }}}
+" Productivity                         {{{2
+let linediff_opts = {'on': ['Linediff', 'LinediffReset']}
+Plug 'AndrewRadev/linediff.vim', linediff_opts        " {{{3
+vnoremap <leader>d :Linediff<cr>
+nnoremap <leader>D :LinediffReset<cr>
+" }}}
+Plug 'zefei/vim-wintabs'                              " {{{3
 nmap <localleader>k <Plug>(wintabs_next)
 nmap <localleader>j <Plug>(wintabs_previous)
 nmap <localleader>q <Plug>(wintabs_close)
@@ -342,12 +348,7 @@ let g:wintabs_ui_readonly = " \uf023"
 let g:wintabs_ui_active_left = ' '
 let g:wintabs_ui_active_right = ' '
 " }}}
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-repeat'
-Plug 'ConradIrwin/vim-bracketed-paste'
-Plug 'kshenoy/vim-signature'
-Plug 'shime/vim-livedown', {'for': ['markdown']}
-Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}          " {{{3
+Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}           " {{{3
 nnoremap <F4> :GundoToggle<CR>
 
 let g:gundo_debug = 1
@@ -355,7 +356,7 @@ let g:gundo_preview_bottom = 1
 let g:gundo_tree_statusline = "Gundo"
 let g:gundo_preview_statusline = "Gundo Preview"
 " }}}
-Plug 'fmoralesc/vim-pad', {'on': 'Pad'}              " {{{3
+Plug 'fmoralesc/vim-pad', {'on': 'Pad'}               " {{{3
 let g:pad#dir = "~/notes/"
 
 " Disable default global mappings
@@ -365,7 +366,7 @@ if s:ag
   let g:pad#search_backend = 'ag'
 endif
 " }}}
-Plug 'benmills/vimux'                                " {{{3
+Plug 'benmills/vimux'                                 " {{{3
 " Prompt for a command to run
 map <LocalLeader>vp :VimuxPromptCommand<CR>
 " Run last command executed by VimuxRunCommand
@@ -398,7 +399,7 @@ augroup vimux
   au FileType javascript nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; node'<CR>
 augroup END
 
-function! VimuxSlime()                     " {{{
+function! VimuxSlime()    " {{{
   " Send selected text to Tmux
   call VimuxSendText(@v)
   call VimuxSendKeys("Enter")
@@ -414,8 +415,7 @@ nnoremap <silent> <Plug>SendCurrentLineToTmux mz^vg_"vy :<C-u>call VimuxSlime()<
       \:call repeat#set("\<Plug>SendCurrentLineToTmux")<CR>
 nmap <LocalLeader>vs <Plug>SendCurrentLineToTmux
 " }}}
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'tpope/vim-fugitive'                            " {{{3
+Plug 'tpope/vim-fugitive'                             " {{{3
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gw :Gwrite<cr>
@@ -436,18 +436,61 @@ augroup ft_fugitive
   au BufNewFile,BufRead .git/index setlocal nolist
 augroup END
 " }}}
-Plug 'airblade/vim-gitgutter'                        " {{{3
+Plug 'airblade/vim-gitgutter'                         " {{{3
 let g:gitgutter_map_keys = 0
 nmap [h <Plug>GitGutterPrevHunk
 nmap ]h <Plug>GitGutterNextHunk
 " }}}
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'vim-scripts/listmaps.vim', {'on': 'Listmaps'}
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-repeat'
+Plug 'ConradIrwin/vim-bracketed-paste'
+Plug 'kshenoy/vim-signature'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-repeat'
+Plug 'ConradIrwin/vim-bracketed-paste'
+Plug 'kshenoy/vim-signature'
+
+let scratch_opts = {'on': [
+      \'Scratch', 'ScratchInsert', 'ScratchPreview', 'ScratchSelection',
+      \'<Plug>(scratch-insert-reuse)', '<Plug>(scratch-insert-clear)', 
+      \'<Plug>(scratch-selection-reuse)', '<Plug>(scratch-selection-clear)'
+      \ ]}
+Plug 'mtth/scratch.vim', scratch_opts                 " {{{3
+let g:scratch_horizontal = 0
+let g:scratch_top = 0
+let g:scratch_height = 80
+let g:scratch_no_mappings = 1
+let g:scratch_insert_autohide = 0
+
+nmap <localleader>s <Plug>(scratch-insert-reuse)
+nmap <localleader>S <Plug>(scratch-insert-clear)
+xmap <localleader>s <Plug>(scratch-selection-reuse)
+xmap <localleader>S <Plug>(scratch-selection-clear)
 " }}}
-" Language-specific                             {{{2
-Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
+" }}}
+" Language-specific                    {{{2
+Plug 'fatih/vim-go', {'for': 'go'}                    " {{{3
+let g:go_doc_keywordprg_enabled = 0
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+
+" prevent "vim-go" from showing a quickfix window when |g:go_fmt_command| fails
+let g:go_fmt_fail_silently = 1
+" }}}
 Plug 'tejr/vim-tmux'
 Plug 'tpope/vim-git'
 
-Plug 'davidhalter/jedi-vim', {'for': 'python'}       " {{{3
+" Markdown
+Plug 'shime/vim-livedown', {'for': ['markdown']}
+Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
+
+" Python
+Plug 'hynek/vim-python-pep8-indent'
+Plug 'davidhalter/jedi-vim'                           " {{{3
 let g:jedi#auto_initialization = 1
 " this prevents jedi to mess with completeopt
 let g:jedi#auto_vim_configuration = 0
@@ -462,40 +505,14 @@ let g:jedi#goto_definitions_command = ""
 let g:jedi#usages_command = ""
 let g:jedi#rename_command = ""
 " }}}
-Plug 'tmhedberg/SimpylFold', {'for': 'python'}       " {{{3
-let g:SimpylFold_docstring_preview = 1
-let g:SimpylFold_fold_docstring = 1
 
-augroup plug_symply_fold
-  au!
-  au BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
-  au BufWinLeave *.py setlocal foldexpr< foldmethod<
-augroup END
- "}}}
+" Css, Scss, Less
+Plug 'hail2u/vim-css3-syntax'
+Plug 'groenewege/vim-less'
 
-Plug 'fatih/vim-go', {'for': 'go'}                   " {{{3
-let g:go_doc_keywordprg_enabled = 0
-
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-
-" prevent "vim-go" from showing a quickfix window when |g:go_fmt_command| fails
-let g:go_fmt_fail_silently = 1
-" }}}
-
-Plug 'hail2u/vim-css3-syntax', {'for': ['css', 'scss']}
-Plug 'groenewege/vim-less', {'for': 'less'}
-
-Plug 'mustache/vim-mustache-handlebars', {'for': 'html*'}
-Plug 'tpope/vim-haml'
-Plug 'othree/html5.vim', {'for': 'html*'}            " {{{3
-let g:event_handler_attributes_complete = 0
-let g:rdfa_attributes_complete = 0
-let g:microdata_attributes_complete = 0
-let g:atia_attributes_complete = 0
-" }}}
-Plug 'mattn/emmet-vim', {'for': ['css', 'html*']}    " {{{3
+" Html and templating languages
+let emmet_opts = {'for': ['css*', 'scss', 'less', 'html*', 'handlebars', 'mustache']}
+Plug 'mattn/emmet-vim', emmet_opts                    " {{{3
 let g:use_emmet_complete_tag = 1
 let g:user_emmet_install_global = 0
 let g:user_emmet_expandabbr_key='<Tab>'
@@ -505,47 +522,52 @@ let g:user_emmet_prev_key = '<C-h>'
 augroup emmet
   au!
 
-  au FileType html*,css EmmetInstall
-  au FileType html*,css imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+  au FileType html*,handlebars,mustache,css*,scss,less EmmetInstall
+  au FileType html*,handlebars,mustache,css*,scss,less imap <expr> <buffer> <tab> emmet#expandAbbrIntelligent("\<tab>")
 augroup END
 " }}}
+Plug 'othree/html5.vim'                               " {{{3
+let g:event_handler_attributes_complete = 0
+let g:rdfa_attributes_complete = 0
+let g:microdata_attributes_complete = 0
+let g:atia_attributes_complete = 0
+" }}}
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'tpope/vim-haml'
 
-Plug 'elzr/vim-json', {'for': 'json'}                " {{{3
-let g:vim_json_syntax_conceal = 0
-" }}}
-Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}
-Plug 'othree/yajs.vim', {'for': 'javascript'}
-Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
-Plug 'jason0x43/vim-js-indent', {'for': 'javascript'}" {{{3
-let g:js_indent_flat_switch = 1
-" }}}
-Plug 'maksimr/vim-jsbeautify',                       " {{{3
-      \{'for': 'javascript', 'do': 'npm install -g js-beautify'}
+" Javascript
+let jsbeautify_opts = {'do': 'npm install -g js-beautify'}
+Plug 'maksimr/vim-jsbeautify', jsbeautify_opts        " {{{3
 augroup ft_jsbeautify
   au!
   autocmd FileType javascript nnoremap <buffer>  <leader>= :silent call JsBeautify()<cr>
   autocmd FileType javascript vnoremap <buffer>  <leader>= :silent call RangeJsBeautify()<cr>
   " for html
-  autocmd FileType html nnoremap <buffer> <leader>= :silent call HtmlBeautify()<cr>
-  autocmd FileType html vnoremap <buffer> <leader>= :silent call RangeHtmlBeautify()<cr>
+  autocmd FileType html* nnoremap <buffer> <leader>= :silent call HtmlBeautify()<cr>
+  autocmd FileType html* vnoremap <buffer> <leader>= :silent call RangeHtmlBeautify()<cr>
   " for css or scss
-  autocmd FileType css nnoremap <buffer> <leader>= :silent call CSSBeautify()<cr>
-  autocmd FileType css vnoremap <buffer> <leader>= :silent call RangeCSSBeautify()<cr>
+  autocmd FileType css* nnoremap <buffer> <leader>= :silent call CSSBeautify()<cr>
+  autocmd FileType css* vnoremap <buffer> <leader>= :silent call RangeCSSBeautify()<cr>
 augroup END
 " }}}
-" Plug 'marijnh/tern_for_vim',                       " {{{3
-"       \{'do': '~/.vim/plugged/tern_for_vim && npm install'}
-" let g:tern_map_keys=1
-" let g:tern_show_arguments_hits='on_hold'
-" " }}}
-
-Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
-Plug 'tpope/vim-rails', {'for': 'ruby'}
+Plug 'elzr/vim-json'                                  " {{{3
+let g:vim_json_syntax_conceal = 0
 " }}}
-" Style                                         {{{2
+Plug 'jason0x43/vim-js-indent'                        " {{{3
+let g:js_indent_flat_switch = 1
+" }}}
+Plug 'heavenshell/vim-jsdoc'
+Plug 'othree/yajs.vim'
+Plug 'othree/javascript-libraries-syntax.vim'
+
+" Ruby
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
+" }}}
+" Style                                {{{2
 Plug 'morhetz/gruvbox'
 Plug 'ryanoasis/vim-devicons'
-Plug 'bling/vim-airline'                             " {{{3
+Plug 'bling/vim-airline'                              " {{{3
 let g:airline#extensions#tagbar#enabled = 0
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'tomorrow'
@@ -580,7 +602,7 @@ let g:airline#extensions#tabline#enabled = 0
 
 call plug#end()
 " }}}
-" Basic options               {{{1
+" Basic options                   {{{1
 filetype plugin indent on
 
 " Use Ag as default grep if available
@@ -662,7 +684,7 @@ augroup resize_splits
   au VimResized * :wincmd =
 augroup END
 
-" Wildmenu completion                           {{{2
+" Wildmenu completion                  {{{2
 set wildmenu
 set wildmode=list:longest
 
@@ -679,7 +701,7 @@ set wildignore+=*.pyc                            " Python bite code
 set wildignore+=*.luac                           " Lua byte code
 set wildignore+=*.orig                           " Merge resolution files
 " }}}
-" Line Return                                   {{{2
+" Line Return                          {{{2
 " Make sure Vim returns to the same line when you reopen a file.
 " Thanks, Amit
 augroup line_return
@@ -690,7 +712,7 @@ augroup line_return
         \ endif
 augroup END
 " }}}
-" Tabs, spaces, wrapping                        {{{2
+" Tabs, spaces, wrapping               {{{2
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
@@ -703,7 +725,7 @@ if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j " Delete comment character when joining commented lines
 endif
 " }}}
-" Backups                                       {{{2
+" Backups                              {{{2
 set backup                        " enable backups
 set noswapfile                    " It's 2012, Vim.
 
@@ -722,7 +744,7 @@ if !isdirectory(expand(&directory))
   call mkdir(expand(&directory), "p")
 endif
 " }}}
-" Colorscheme                                   {{{2
+" Colorscheme                          {{{2
 syntax on
 
 set background=dark
@@ -734,7 +756,7 @@ let g:gruvbox_invert_selection = 0
 colorscheme gruvbox
 " }}}
 " }}}
-" Abbreviations               {{{1
+" Abbreviations                   {{{1
 function! EatChar(pat)
   let c = nr2char(getchar(0))
   return (c =~ a:pat) ? '' : c
@@ -757,7 +779,7 @@ iabbrev lsad ಥ_ಥ
 iabbrev lhap ಥ‿ಥ
 iabbrev lmis ಠ‿ಠ
 " }}}
-" Convenience mappings        {{{1
+" Convenience mappings            {{{1
 " Better than jj
 inoremap jk <Esc>
 
@@ -887,7 +909,7 @@ nnoremap <leader>i :set list!<cr>
 " Unfuck my screen
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 
-" my Function Mappings      {{{2
+" my Function Mappings                 {{{2
 command! -nargs=0 SynStack call fn#SynStack()
 " Removes current file and wipe out the buffer
 command! Rm call delete(expand('%')) | bdelete!
@@ -925,7 +947,7 @@ augroup syntastic_mappings
 augroup END
 " }}}
 " }}}
-" Quick editing               {{{1
+" Quick editing                   {{{1
 nnoremap <leader>ec :vsplit ~/.dotfiles/editorconfig<cr>
 nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
 nnoremap <leader>eg :vsplit ~/.dotfiles/git/gitconfig<cr>
@@ -938,7 +960,7 @@ nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
 nnoremap <leader>eb :vsplit ~/.dotfiles/bash/bash_profile<cr>
 nnoremap <leader>eg :vsplit ~/.dotfiles/git/gitconfig<cr>
 " }}}
-" Searching and movement      {{{1
+" Searching and movement          {{{1
 " Use sane regexes.
 nnoremap / /\v
 vnoremap / /\v
@@ -1002,7 +1024,7 @@ nnoremap VaB vaBV
 " Toggle "keep current line in the center of the screen" mode
 nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
 
-" Directional Keys                              {{{2
+" Directional Keys                     {{{2
 " It's 2012.
 noremap j gj
 noremap k gk
@@ -1018,7 +1040,7 @@ noremap + <C-w>+
 nnoremap <leader>v <C-w>v
 nnoremap <leader>s <C-w>s
 " }}}
-" Visual Mode */# from Scrooloose               {{{2
+" Visual Mode */# from Scrooloose      {{{2
 function! s:VSetSearch()
   let temp = @@
   norm! gvy
@@ -1030,7 +1052,7 @@ vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 " }}}
 " }}}
-" Folding                     {{{1
+" Folding                         {{{1
 set foldlevelstart=0
 set foldmethod=marker
 
@@ -1054,9 +1076,10 @@ nnoremap zO zCzO
 " I use :sus for the rare times I want to actually background Vim.
 nnoremap <c-z> mzzMzvzz15<c-e>`z:call search_pulse#Pulse()<CR>
 
-set foldtext=fn#FoldText()
+set foldtext=fn#MyFoldText()
+" set foldtext=fn#FoldText()
 " }}}
-" Environments (GUI/Console)  {{{1
+" Environments (GUI/Console)      {{{1
 if has('gui_running')  " GUI Vim
 
   " Remove all the UI cruft
@@ -1121,7 +1144,7 @@ endif
 set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Plus\ Font\ Awesome\ Plus\ Octicons\ Plus\ Pomicons:h12
 
 " }}}
-" TODO                        {{{1
+" TODO                            {{{1
 " * Add more customized snippets
 " * Check if it's worth using Unite
 " * Setup tern and jsctags

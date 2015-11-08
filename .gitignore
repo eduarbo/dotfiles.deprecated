@@ -9,6 +9,7 @@ vim/bundle/**
 vim/plugged/**
 vim/session
 vim/sessions
+vim/autoload/plug.old.vim
 tmux/plugins/*
 !tmux/plugins/tpm
 

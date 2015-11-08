@@ -1,4 +1,3 @@
-" TODO: applicable to *.css, *.scss and *.less FileTypes
 setlocal foldmethod=marker
 setlocal foldmarker={,}
 setlocal iskeyword+=-
