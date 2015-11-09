@@ -96,17 +96,3 @@ function! fn#MyFoldText()                         " {{{
   let fillcharcount = maxlen - len(line)
   return line . " \uf470 " . repeat(" ",fillcharcount) . ' ' . foldedlinecount . ' lines'
 endfunction " }}}
-
-function! fn#FoldText()                           " {{{
-  " Description: Dhruv Sagar's foldtext
-  let line             = getline(v:foldstart)
-  let lines_count      = v:foldend - v:foldstart + 1
-  "let folddash        = v:folddashes
-  let folddash         = "─"
-  let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
-  let foldtextend      = lines_count_text . repeat( folddash, 2 )
-  let nucolwidth       = &foldcolumn + ( &nu || &rnu ) * &numberwidth
-  let foldtextstart    = strpart( line . " ", 0, ( winwidth(0) - nucolwidth - foldtextend ))
-  let foldtextlength   = strlen( substitute( foldtextstart . foldtextend, '.', 'x', 'g' )) + nucolwidth
-  return foldtextstart . repeat( folddash, winwidth(0) - foldtextlength ) . foldtextend
-endfunction "}}}

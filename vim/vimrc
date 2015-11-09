@@ -910,7 +910,7 @@ nnoremap <leader>i :set list!<cr>
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 
 " my Function Mappings                 {{{2
-command! -nargs=0 SynStack call fn#SynStack()
+command! SynStack call fn#SynStack()
 " Removes current file and wipe out the buffer
 command! Rm call delete(expand('%')) | bdelete!
 " Zoom / Restore window
@@ -923,18 +923,21 @@ vnoremap <silent> <leader>? "gy<Esc>:call fn#GoogleIt(@g)<CR>:redraw!<CR>
 " cursor.
 nnoremap <F7> :call SynStack()<CR>
 " Encode and Decode
-vnoremap <localleader>d c<c-r>=system('base64 --decode', @")<cr><esc>
-vnoremap <localleader>e c<c-r>=system('base64', @")<cr><esc>
+
+" TODO: Make a command to encode and decode and remove mappings
+" command! Base64encode -nargs=1 silent! system('base64', <args>)
+" vnoremap <localleader>d c<c-r>=system('base64 --decode', @")<cr><esc>
+" vnoremap <localleader>e c<c-r>=system('base64', @")<cr><esc>
 
 " QuickFix and Location-list cycle mappings compatible with repeat plugin. This
 " fixes Syntastic error jumping too
-nnoremap <silent> <Plug>QuickfixNext        :call fn#CycleCommand('cnext', 'cfirst')<CR>
+nnoremap <silent> <Plug>QuickfixNext     :call fn#CycleCommand('cnext', 'cfirst')<CR>
       \:silent! call repeat#set("\<Plug>QuickfixNext")<CR>
-nnoremap <silent> <Plug>QuickfixPrevious    :call fn#CycleCommand('cprev', 'clast')<CR>
+nnoremap <silent> <Plug>QuickfixPrevious :call fn#CycleCommand('cprev', 'clast')<CR>
       \:silent! call repeat#set("\<Plug>QuickfixPrevious")<CR>
-nnoremap <silent> <Plug>LocationNext        :call fn#CycleCommand('lnext', 'lfirst')<CR>
+nnoremap <silent> <Plug>LocationNext     :call fn#CycleCommand('lnext', 'lfirst')<CR>
       \:silent! call repeat#set("\<Plug>LocationNext")<CR>
-nnoremap <silent> <Plug>LocationPrevious    :call fn#CycleCommand('lprev', 'llast')<CR>
+nnoremap <silent> <Plug>LocationPrevious :call fn#CycleCommand('lprev', 'llast')<CR>
       \:silent! call repeat#set("\<Plug>LocationPrevious")<CR>
 
 " Override unimpaired mappings
@@ -1077,7 +1080,6 @@ nnoremap zO zCzO
 nnoremap <c-z> mzzMzvzz15<c-e>`z:call search_pulse#Pulse()<CR>
 
 set foldtext=fn#MyFoldText()
-" set foldtext=fn#FoldText()
 " }}}
 " Environments (GUI/Console)      {{{1
 if has('gui_running')  " GUI Vim
