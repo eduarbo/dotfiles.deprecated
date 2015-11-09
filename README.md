@@ -166,3 +166,4 @@ Inspiration and some code was taken from many sources, including:
 
 * Avoid reinstalling packages when bootstrap script is executed
 * Setup Ruby properly with chruby in bootstrap
+* Simplify installation script... maybe use stow?
