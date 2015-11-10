@@ -587,7 +587,7 @@ let g:airline_symbols.branch = "\uF418"
 let g:airline#extensions#hunks#enabled = 0
 let g:airline#extensions#tabline#enabled = 0
 " }}}
-" Plug 'inside/vim-search-pulse'
+Plug 'inside/vim-search-pulse'
 " }}}
 
 call plug#end()
@@ -597,6 +597,7 @@ call plug#end()
 augroup ft_common                    " {{{2
   au!
   au BufNewFile,BufRead *.hamlc set filetype=haml
+  au BufNewFile,BufRead *jshintrc set filetype=json
 augroup END "}}}
 
 augroup ft_c                         " {{{2
@@ -881,8 +882,8 @@ if v:version > 702
   syntax sync minlines=256
 endif
 
-" Don't try to highlight lines longer than 800 characters.
-set synmaxcol=200
+" Don't try to highlight lines longer than 255 characters.
+set synmaxcol=255
 
 " Time out on key codes but not mappings.
 " Basically this makes terminal Vim work sanely.
@@ -921,6 +922,7 @@ set wildignore+=*.pyc                            " Python bite code
 set wildignore+=*.luac                           " Lua byte code
 set wildignore+=*.orig                           " Merge resolution files
 " }}}
+
 " Line Return                          {{{2
 " Make sure Vim returns to the same line when you reopen a file.
 " Thanks, Amit
@@ -932,6 +934,7 @@ augroup line_return
         \ endif
 augroup END
 " }}}
+
 " Tabs, spaces, wrapping               {{{2
 set tabstop=2
 set shiftwidth=2
@@ -945,6 +948,7 @@ if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j " Delete comment character when joining commented lines
 endif
 " }}}
+
 " Backups                              {{{2
 set backup                        " enable backups
 set noswapfile                    " It's 2012, Vim.
@@ -964,6 +968,7 @@ if !isdirectory(expand(&directory))
   call mkdir(expand(&directory), "p")
 endif
 " }}}
+
 " Colorscheme                          {{{2
 syntax on
 
@@ -980,7 +985,9 @@ call fn#HL('Folded', ['#7c6f64', 243])
 call fn#HL('Comment', ['#665c54', 241])
 call fn#HL('LineNr', ['#3c3836', 237], ['#1d2021', 234])
 call fn#HL('TabLineSel', ['#fabd2f', 214], ['#1d2021', 234], 'bold,')
+call fn#HL('jsonCommentError', ['#fabd2f', 167])
 " }}}
+
 " }}}
 
 " Abbreviations                   {{{1
