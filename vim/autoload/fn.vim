@@ -96,3 +96,36 @@ function! fn#MyFoldText()                         " {{{
   let fillcharcount = maxlen - len(line)
   return line . " \uf470 " . repeat(" ",fillcharcount) . ' ' . foldedlinecount . ' lines'
 endfunction " }}}
+
+function! fn#HL(group, fg, ...) "{{{
+  " Arguments: group, guifg, guibg, gui
+  " ----------------------------------------------
+  " Function extracted from gruvbox's color scheme
+  " Source: https://github.com/morhetz/gruvbox
+
+  " foreground
+  let fg = a:fg
+  let none = ['NONE', 'NONE']
+
+  " background
+  if a:0 >= 1
+    let bg = a:1
+  else
+    let bg = none
+  endif
+
+  " emphasis
+  if a:0 >= 2 && strlen(a:2)
+    let emstr = a:2
+  else
+    let emstr = 'NONE,'
+  endif
+
+  let histring = [ 'hi', a:group,
+        \ 'guifg=' . fg[0], 'ctermfg=' . fg[1],
+        \ 'guibg=' . bg[0], 'ctermbg=' . bg[1],
+        \ 'gui=' . emstr[:-2], 'cterm=' . emstr[:-2]
+        \ ]
+
+  execute join(histring, ' ')
+endfunction "}}}

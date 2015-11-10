@@ -10,6 +10,7 @@ let maplocalleader = " "
 
 let s:ag = executable('ag')
 " }}}
+
 " Plugins                         {{{1
 call plug#begin('~/.vim/plugged')
 
@@ -192,22 +193,16 @@ endif
 Plug 'Shougo/neomru.vim'
 " }}}
 " General Code                         {{{2
-Plug 'honza/vim-snippets', {'on': []}                 " {{{3
 let g:UltiSnipsExpandTrigger="<Tab>"
+Plug 'honza/vim-snippets'                             " {{{3
 let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
 " }}}
-Plug 'SirVer/ultisnips', {'on': []} " Don't move. YCM dependency
+Plug 'SirVer/ultisnips' " Don't move. YCM dependency
 
-let ycm_opts = {'do': './install.py --clang-completer', 'on': []}
+let ycm_opts = {'do': './install.py --clang-completer'}
 Plug 'Valloric/YouCompleteMe', ycm_opts               " {{{3
-" Lazy Load
-augroup load_us_ycm
-  autocmd!
-  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe', 'vim-snippets')
-                     \| call youcompleteme#Enable() | autocmd! load_us_ycm
-augroup END
 
 let g:ycm_auto_trigger = 1
 let g:ycm_min_num_of_chars_for_completion = 2
@@ -228,7 +223,7 @@ augroup ycm
   au!
   au FileType python* setlocal omnifunc=pythoncomplete#Complete
   au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  au FileType html*,handlebars,mustache,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  au FileType html*,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   au Filetype css*,scss,less setlocal omnifunc=csscomplete#CompleteCSS
   au FileType ruby setlocal omnifunc=rubycomplete#Complete
   au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
@@ -255,7 +250,7 @@ augroup plugin_commentary
   au FileType handlebars setlocal commentstring={{!\ %s\ }}
   au FileType htmldjango setlocal commentstring={#\ %s\ #}
   au FileType clojurescript setlocal commentstring=;\ %s
-  au FileType puppet,fish,tmux setlocal commentstring=#\ %s
+  au FileType puppet,tmux setlocal commentstring=#\ %s
 augroup END
 " }}}
 
@@ -323,12 +318,7 @@ Plug 'terryma/vim-expand-region'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-
-let endwise_opts = {'for': 
-      \ ['lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet',
-      \ 'aspvbs', 'vim', 'c', 'cpp', 'xdefaults', 'objc', 'htmldjango',
-      \ 'matlab', 'snippets']}
-Plug 'tpope/vim-endwise', endwise_opts
+Plug 'tpope/vim-endwise'
 " }}}
 " Productivity                         {{{2
 let linediff_opts = {'on': ['Linediff', 'LinediffReset']}
@@ -345,7 +335,10 @@ nmap <localleader>o <Plug>(wintabs_only)
 let g:wintabs_ui_modified = " \uf040"
 let g:wintabs_ui_readonly = " \uf023"
 let g:wintabs_ui_active_left = ' '
-let g:wintabs_ui_active_right = ' '
+let g:wintabs_ui_active_right = ''
+let g:wintabs_ui_sep_leftmost = ''
+let g:wintabs_ui_sep_inbetween = ''
+let g:wintabs_ui_sep_rightmost = ''
 " }}}
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}           " {{{3
 nnoremap <F4> :GundoToggle<CR>
@@ -599,10 +592,10 @@ let g:airline#extensions#tabline#enabled = 0
 
 call plug#end()
 " }}}
+
 " FileTypes                       {{{1
 augroup ft_common                    " {{{2
   au!
-  au BufNewFile,BufRead *.fish set filetype=fish
   au BufNewFile,BufRead *.hamlc set filetype=haml
 augroup END "}}}
 
@@ -828,6 +821,7 @@ augroup ft_xml                       " {{{2
   au FileType xml nnoremap <buffer> <localleader>= Vat=
 augroup END "}}}
 " }}}
+
 " Basic options                   {{{1
 filetype plugin indent on
 
@@ -976,12 +970,19 @@ syntax on
 set background=dark
 
 " Guvbox specific
-" let g:gruvbox_contrast_dark = "hard"
+let g:gruvbox_contrast_dark = "hard"
 let g:gruvbox_invert_selection = 0
 
 colorscheme gruvbox
+
+" Override template's colors
+call fn#HL('Folded', ['#7c6f64', 243])
+call fn#HL('Comment', ['#665c54', 241])
+call fn#HL('LineNr', ['#3c3836', 237], ['#1d2021', 234])
+call fn#HL('TabLineSel', ['#fabd2f', 214], ['#1d2021', 234], 'bold,')
 " }}}
 " }}}
+
 " Abbreviations                   {{{1
 function! EatChar(pat)
   let c = nr2char(getchar(0))
@@ -1005,6 +1006,7 @@ iabbrev lsad ಥ_ಥ
 iabbrev lhap ಥ‿ಥ
 iabbrev lmis ಠ‿ಠ
 " }}}
+
 " Convenience mappings            {{{1
 " Better than jj
 inoremap jk <Esc>
@@ -1147,7 +1149,7 @@ nnoremap <silent> <leader>z :ZoomToggle<CR>
 vnoremap <silent> <leader>? "gy<Esc>:call fn#GoogleIt(@g)<CR>:redraw!<CR>
 " Show the stack of syntax hilighting classes affecting whatever is under the
 " cursor.
-nnoremap <F7> :call SynStack()<CR>
+nnoremap <F7> :call fn#SynStack()<CR>
 " Encode and Decode
 
 " TODO: Make a command to encode and decode and remove mappings
@@ -1176,6 +1178,7 @@ augroup syntastic_mappings
 augroup END
 " }}}
 " }}}
+
 " Quick editing                   {{{1
 nnoremap <leader>ec :vsplit ~/.dotfiles/editorconfig<cr>
 nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
@@ -1189,6 +1192,7 @@ nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
 nnoremap <leader>eb :vsplit ~/.dotfiles/bash/bash_profile<cr>
 nnoremap <leader>eg :vsplit ~/.dotfiles/git/gitconfig<cr>
 " }}}
+
 " Searching and movement          {{{1
 " Use sane regexes.
 nnoremap / /\v
@@ -1281,6 +1285,7 @@ vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 " }}}
 " }}}
+
 " Folding                         {{{1
 set foldlevelstart=0
 set foldmethod=marker
@@ -1306,7 +1311,9 @@ nnoremap zO zCzO
 nnoremap <c-z> mzzMzvzz15<c-e>`z:call search_pulse#Pulse()<CR>
 
 set foldtext=fn#MyFoldText()
+
 " }}}
+
 " Environments (GUI/Console)      {{{1
 if has('gui_running')  " GUI Vim
 
@@ -1370,8 +1377,8 @@ else  " Console Vim. For me, this means iTerm2
 endif
 
 set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Plus\ Font\ Awesome\ Plus\ Octicons\ Plus\ Pomicons:h12
-
 " }}}
+
 " TODO                            {{{1
 " * Add more customized snippets
 " * Check if it's worth using Unite
