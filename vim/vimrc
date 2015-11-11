@@ -658,24 +658,25 @@ augroup ft_html_and_templates        " {{{2
   au!
 
   au BufNewFile,BufRead *.html set syntax=mustache
+  au BufNewFile,BufRead *.hbs,*.handlebars set ft=mustache syntax=mustache
 
-  au FileType html* setlocal foldlevel=99
-  au FileType html* setlocal foldmethod=manual
-  au FileType html* setlocal shiftwidth=4
-  au FileType html* setlocal softtabstop=4
-  au FileType html* setlocal tabstop=4
+  au FileType html*,mustache setlocal foldlevel=99
+  au FileType html*,mustache setlocal foldmethod=manual
+  au FileType html*,mustache setlocal shiftwidth=4
+  au FileType html*,mustache setlocal softtabstop=4
+  au FileType html*,mustache setlocal tabstop=4
 
   " Use <localleader>f to fold the current tag.
-  au FileType html* nnoremap <buffer> <localleader>f Vatzf
+  au FileType html*,mustache nnoremap <buffer> <localleader>f Vatzf
 
   " Indent tag
-  au FileType html* nnoremap <buffer> <localleader>- Vat=
+  au FileType html*,mustache nnoremap <buffer> <localleader>- Vat=
 
   " handlebars tags
-  au FileType html* inoremap <buffer> <c-b> {{<space><space>}}<left><left><left>
+  au FileType html*,mustache inoremap <buffer> <c-b> {{<space><space>}}<left><left><left>
 
   " HTML tag closing
-  au FileType html* inoremap <buffer> <C-_> <space><bs><esc>:call InsertCloseTag()<cr>a
+  au FileType html*,mustache inoremap <buffer> <C-_> <space><bs><esc>:call InsertCloseTag()<cr>a
 augroup END "}}}
 
 augroup ft_java                      " {{{2
@@ -1147,18 +1148,25 @@ nnoremap <leader>i :set list!<cr>
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 
 " my Function Mappings                 {{{2
-command! SynStack call fn#SynStack()
+
 " Removes current file and wipe out the buffer
 command! Rm call delete(expand('%')) | bdelete!
+
 " Zoom / Restore window
 command! ZoomToggle call fn#ZoomToggle()
-
 nnoremap <silent> <leader>z :ZoomToggle<CR>
+
 " Google it
 vnoremap <silent> <leader>? "gy<Esc>:call fn#GoogleIt(@g)<CR>:redraw!<CR>
-" Show the stack of syntax hilighting classes affecting whatever is under the
+
+" Show the stack of syntax hilighting groups affecting whatever is under the
 " cursor.
+command! SynStack call fn#SynStack()
 nnoremap <F7> :call fn#SynStack()<CR>
+
+command! ToggleProfile call fn#ToggleProfile()
+nnoremap <localleader>\ :call fn#ToggleProfile()<CR>
+
 " Encode and Decode
 
 " TODO: Make a command to encode and decode and remove mappings
