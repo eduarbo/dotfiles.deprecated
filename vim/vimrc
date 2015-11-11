@@ -261,7 +261,7 @@ let g:syntastic_mode_map = {
       \ "passive_filetypes": ['java', 'html', 'rst', 'scala']
       \ }
 
-let g:syntastic_stl_format = ' %E{ %e}%B{ }%W{%w} '
+let g:syntastic_stl_format = ' %E{ %e}%B{  }%W{%w} '
 let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
@@ -889,11 +889,13 @@ set nocursorline
 set statusline=
 " set statusline+=━
 
-set statusline+=\━\ %1*%f%*
+set statusline+=\ %#GruvboxYellow#%f%*
 set statusline+=%(\ [%Y%R%W%M]%)
 set statusline+=\ %=
-set statusline+=[%(%l,%c%V%)]
-set statusline+=\ %1*%P%*\ \━
+" set statusline+=▏%(\ %l,%c%V%)▕\━\━
+set statusline+=\ \ %P▕
+set statusline+=%#GruvboxOrange#
+set statusline+=%{SyntasticStatuslineFlag()}
 " set tags=./tags
 
 if v:version > 702
@@ -1353,6 +1355,7 @@ call fn#HL('StatusLineNC', ['#3c3836', 237])
 call fn#HL('VertSplit', ['#3c3836', 237])
 call fn#HL('ColorColumn', ['NONE', 'NONE'], ['#282828', 235])
 " Setting background past textwidth characters
+
 let &colorcolumn=join(range(81,999),",")
 " }}}
 
