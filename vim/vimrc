@@ -11,588 +11,6 @@ let maplocalleader = " "
 let s:ag = executable('ag')
 " }}}
 
-" Plugins                         {{{1
-call plug#begin('~/.vim/plugged')
-
-" Dependencies                         {{{2
-Plug 'Shougo/vimproc.vim', {'do': 'make'}
-Plug 'xolox/vim-misc', {'for': ['python']}
-" }}}
-" File Finders                         {{{2
-let ctrlP_opts = {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
-Plug 'ctrlpvim/ctrlp.vim', ctrlP_opts                 " {{{3
-let g:ctrlp_dont_split = 'NERD_tree_2'
-let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_split_window = 0
-let g:ctrlp_max_height = 20
-let g:ctrlp_extensions = ['tag']
-let g:ctrlp_map = ''
-let g:ctrlp_custom_ignore = 'static'
-
-let g:ctrlp_prompt_mappings = {
-      \ 'PrtSelectMove("j")':   ['<c-j>', '<down>', '<s-tab>'],
-      \ 'PrtSelectMove("k")':   ['<c-k>', '<up>', '<tab>'],
-      \ 'PrtHistory(-1)':       ['<c-n>'],
-      \ 'PrtHistory(1)':        ['<c-p>'],
-      \ 'ToggleFocus()':        ['<c-space>'],
-      \ }
-
-let ctrlp_filter_greps = "".
-      \ "egrep -iv '\\.(" .
-      \ "jar|class|swp|swo|log|so|o|pyc|jpe?g|png|gif|mo|po" .
-      \ ")$' | " .
-      \ "egrep -v '^(\\./)?(" .
-      \ ".git/|.hg/|.svn/" .
-      \ ")'"
-
-let my_ctrlp_user_command = "" .
-      \ "find %s '(' -type f -or -type l ')' -maxdepth 15 -not -path '*/\\.*/*' | " .
-      \ ctrlp_filter_greps
-
-let my_ctrlp_hg_command = "hg --cwd %s locate -I ."
-
-let my_ctrlp_git_command = "" .
-      \ "cd %s && git ls-files --exclude-standard -co | " .
-      \ ctrlp_filter_greps
-
-let my_ctrlp_ag_command = 'ag %s -l --nocolor -g "" | ' . ctrlp_filter_greps
-
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-if s:ag
-  " Use Ag over Grep
-  set grepprg="ag --nogroup --nocolor"
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let my_ctrlp_user_command = my_ctrlp_ag_command
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
-" Multiple VCS's:
-let g:ctrlp_user_command = {
-      \ 'types': {
-      \ 1: ['.git', my_ctrlp_git_command],
-      \ 2: ['.hg', my_ctrlp_hg_command],
-      \ },
-      \ 'fallback': my_ctrlp_user_command
-      \ }
-
-nnoremap <leader>, :CtrlP<cr>
-nnoremap <leader>. :CtrlPTag<cr>
-nnoremap <leader>b :CtrlPBuffer<cr>
-nnoremap <leader>m :CtrlPMRUFiles<cr>
-" }}}
-
-let nerdTree_opts = {'on': ['NERDTreeToggle', 'NERDTreeFind']}
-Plug 'scrooloose/nerdtree', nerdTree_opts             " {{{3
-" Open the project tree and expose current file in the nerdtree with ,N
-nnoremap <Leader>N :NERDTreeFind<CR>
-noremap  <leader>n :NERDTreeToggle<cr>
-
-let NERDTreeStatusline="%{getcwd()}"
-let NERDTreeHighlightCursorline = 1
-let NERDTreeIgnore = ['\~$', '.*\.pyc$']
-
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDChristmasTree = 1
-let NERDTreeChDirMode = 2
-let NERDTreeMapJumpFirstChild = 'gK'
-
-let g:NERDTreeDirArrowExpandable = "\uf114"
-let g:NERDTreeDirArrowCollapsible = "\uf115"
-
-augroup ps_nerdtree
-  au!
-
-  au Filetype nerdtree setlocal nolist
-  au Filetype nerdtree nnoremap <buffer> H :vertical resize -10<cr>
-  au Filetype nerdtree nnoremap <buffer> L :vertical resize +10<cr>
-augroup END
-
-" NERDTress File highlighting
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-  exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-  exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
-
-call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
-call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
-" }}}
-
-let ctrlsf_opts = {'on': ['<Plug>CtrlSFVwordPath', '<Plug>CtrlSFCwordPath',
-      \'CtrlSFToggle', 'CtrlSF']}
-Plug 'dyng/ctrlsf.vim', ctrlsf_opts                   " {{{3
-vmap <leader>a <Plug>CtrlSFVwordPath
-nmap <leader>a <Plug>CtrlSFCwordPath
-nmap <leader>A :CtrlSFToggle<CR>
-vmap <leader>A :CtrlSFToggle<CR>
-noremap <localleader>a :CtrlSF 
-
-" For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
-noremap q q
-
-let g:ctrlsf_ackprg = 'ag'
-" }}}
-"
-Plug 'junegunn/fzf.vim', {'on': ['FZF', 'FZFMru']}    " {{{3
-" Open files in horizontal split
-set rtp+=/usr/local/opt/fzf
-let g:fzf_launcher = "~/.vim/in_a_new_term_function %s"
-
-function! s:buflist()
-  redir => ls
-  silent ls
-  redir END
-  return split(ls, '\n')
-endfunction
-
-function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
-
-command! FZFMru call fzf#run({
-      \   'source':  'sed "1d" $HOME/.cache/neomru/file',
-      \   'sink':    'e ',
-      \   'down':    '30%'
-      \ })
-
-if fn#InTmuxSession()
-  " Checking that we are in a tmux session because FZF opens in a tmux pane
-  " Let's overwrite CtrlP mapping if we are in Tmux, otherwise it will open
-  " terminal window
-  nnoremap <leader>, :FZF<CR>
-  nnoremap <leader>m :FZFMru<CR>
-  nnoremap <silent> <Leader>b :call fzf#run({
-        \   'source':  reverse(<sid>buflist()),
-        \   'sink':    function('<sid>bufopen'),
-        \   'options': '+m',
-        \   'down':    len(<sid>buflist()) + 2
-        \ })<CR>
-endif
-" }}}
-Plug 'Shougo/neomru.vim'
-" }}}
-" General Code                         {{{2
-let g:UltiSnipsExpandTrigger="<Tab>"
-Plug 'honza/vim-snippets'                             " {{{3
-let g:UltiSnipsJumpForwardTrigger="<Tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
-" }}}
-Plug 'SirVer/ultisnips' " Don't move. YCM dependency
-
-let ycm_opts = {'do': './install.py --clang-completer'}
-Plug 'Valloric/YouCompleteMe', ycm_opts               " {{{3
-
-let g:ycm_auto_trigger = 1
-let g:ycm_min_num_of_chars_for_completion = 2
-let g:ycm_use_ultisnips_completer = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_always_populate_location_list = 0
-let g:ycm_enable_diagnostic_signs = 0
-let g:ycm_enable_diagnostic_highlighting = 0
-let g:ycm_echo_current_diagnostic = 0
-let g:ycm_open_loclist_on_ycm_diags = 0
-let g:ycm_seed_identifiers_with_syntax = 0
-let g:ycm_key_list_select_completion = ['<C-n>']
-let g:ycm_key_list_previous_completion = ['<C-p>']
-let g:ycm_key_invoke_completion = '<C-n>'
-let g:ycm_collect_identifiers_from_tags_files = 0
-
-augroup ycm
-  au!
-  au FileType python* setlocal omnifunc=pythoncomplete#Complete
-  au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  au FileType html*,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  au Filetype css*,scss,less setlocal omnifunc=csscomplete#CompleteCSS
-  au FileType ruby setlocal omnifunc=rubycomplete#Complete
-  au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-augroup END
-" }}}
-"
-let rainbow_opts = {'for': 'clojure'}
-Plug 'kien/rainbow_parentheses.vim', rainbow_opts     " {{{3
-augroup rainbow_parentheses
-  au!
-  au FileType clojure RainbowParenthesesActivate
-  au syntax clojure RainbowParenthesesLoadRound
-  au syntax clojure RainbowParenthesesLoadSquare
-  au syntax clojure RainbowParenthesesLoadBraces
-augroup END
-" }}}
-
-Plug 'tpope/vim-commentary'                           " {{{3
-nmap <leader>c <Plug>CommentaryLine
-xmap <leader>c <Plug>Commentary
-
-augroup plugin_commentary
-  au!
-  au FileType handlebars setlocal commentstring={{!\ %s\ }}
-  au FileType htmldjango setlocal commentstring={#\ %s\ #}
-  au FileType clojurescript setlocal commentstring=;\ %s
-  au FileType puppet,tmux setlocal commentstring=#\ %s
-augroup END
-" }}}
-
-Plug 'scrooloose/syntastic'                           " {{{3
-let g:syntastic_mode_map = {
-      \ "mode": "passive",
-      \ "active_filetypes": ['python', 'javascript', 'ruby', 'cpp', 'c', 'json', 'sh', 'go', 'css', 'scss'],
-      \ "passive_filetypes": ['java', 'html', 'rst', 'scala']
-      \ }
-
-let g:syntastic_stl_format = ' %E{ %e}%B{ }%W{%w} '
-let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_json_checkers = ['jsonlint']
-let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
-let g:syntastic_ruby_checkers = ['mri']
-let g:syntastic_cpp_checkers = ['gcc', 'cppcheck', 'cpplint', 'ycm', 'clang_tidy', 'clang_check']
-let g:syntastic_c_checkers = ['gcc', 'make', 'cppcheck', 'clang_tidy', 'clang_check']
-let g:syntastic_python_checkers = ['flake8'] " Other checkers: pep8, pylint, python, pyflakes
-let g:syntastic_python_flake8_args='--ignore=E501'  " line too long
-
-let g:syntastic_error_symbol = "\uf4A8" " fire icon
-let g:syntastic_warning_symbol = "\uf0e7" " bolt icon
-let g:syntastic_style_error_symbol = "\uf12a"
-let g:syntastic_style_warning_symbol = "\uf12a"
-
-" this enables navigation with :lnext and :lprev
-let g:syntastic_always_populate_loc_list = 1
-
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_signs = 1
-let g:syntastic_loc_list_height = 3
-let g:syntastic_echo_current_error = 1
-let g:syntastic_cursor_column = 0
-let g:syntastic_enable_balloons = 0
-let g:syntastic_enable_highlighting = 1
-" }}}
-Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}      " {{{3
-nmap <F3> :TagbarToggle<CR>
-let g:tagbar_autofocus = 1
-let g:tagbar_autoclose = 1
-" }}}
-Plug 'kshenoy/vim-origami'                            " {{{3
-let g:OrgamiPadding = 4
-let g:OrigamiSeparateLevels = 1
-let g:OrigamiIncAllLines = 0
-let g:OrigamiStaggeredSpacing = 0
- "}}}
-Plug 'bkad/CamelCaseMotion'                           " {{{3
-map <S-W> <Plug>CamelCaseMotion_w
-map <S-B> <Plug>CamelCaseMotion_b
-map <S-E> <Plug>CamelCaseMotion_e
-
-" Replace default 'iw' text-object and define 'ib' and 'ie' motions:
-omap <silent> iW <Plug>CamelCaseMotion_iw
-xmap <silent> iW <Plug>CamelCaseMotion_iw
-omap <silent> iB <Plug>CamelCaseMotion_ib
-xmap <silent> iB <Plug>CamelCaseMotion_ib
-omap <silent> iE <Plug>CamelCaseMotion_ie
-xmap <silent> iE <Plug>CamelCaseMotion_ie
-" }}}
-Plug 'xolox/vim-easytags', {'for': ['python', 'c', 'cpp']}
-Plug 'terryma/vim-expand-region'
-Plug 'Raimondi/delimitMate'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-endwise'
-" }}}
-" Productivity                         {{{2
-let linediff_opts = {'on': ['Linediff', 'LinediffReset']}
-Plug 'AndrewRadev/linediff.vim', linediff_opts        " {{{3
-vnoremap <leader>d :Linediff<cr>
-nnoremap <leader>D :LinediffReset<cr>
-" }}}
-Plug 'zefei/vim-wintabs'                              " {{{3
-nmap <localleader>k <Plug>(wintabs_next)
-nmap <localleader>j <Plug>(wintabs_previous)
-nmap <localleader>q <Plug>(wintabs_close)
-nmap <localleader>o <Plug>(wintabs_only)
-
-let g:wintabs_ui_modified = " \uf040"
-let g:wintabs_ui_readonly = " \uf023"
-let g:wintabs_ui_active_left = ' '
-let g:wintabs_ui_active_right = ''
-let g:wintabs_ui_sep_leftmost = ''
-let g:wintabs_ui_sep_inbetween = ''
-let g:wintabs_ui_sep_rightmost = ''
-" }}}
-Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}           " {{{3
-nnoremap <F4> :GundoToggle<CR>
-
-let g:gundo_debug = 1
-let g:gundo_preview_bottom = 1
-let g:gundo_tree_statusline = "Gundo"
-let g:gundo_preview_statusline = "Gundo Preview"
-" }}}
-Plug 'fmoralesc/vim-pad', {'on': 'Pad'}               " {{{3
-let g:pad#dir = "~/notes/"
-
-" Disable default global mappings
-let g:pad#set_mappings = 0
-
-if s:ag
-  let g:pad#search_backend = 'ag'
-endif
-" }}}
-Plug 'benmills/vimux'                                 " {{{3
-" Prompt for a command to run
-map <LocalLeader>vp :VimuxPromptCommand<CR>
-" Run last command executed by VimuxRunCommand
-map <LocalLeader>vl :VimuxRunLastCommand<CR>
-" Inspect runner pane
-map <LocalLeader>vi :VimuxInspectRunner<CR>
-" Close vim tmux runner opened by VimuxRunCommand
-map <LocalLeader>vq :VimuxCloseRunner<CR>
-" Interrupt any command running in the runner pane
-map <LocalLeader>vx :VimuxInterruptRunner<CR>
-" Zoom the runner pane (use <bind-key> z to restore runner pane)
-map <LocalLeader>vz :call VimuxZoomRunner()<CR>"
-
-augroup vimux
-  au!
-  au VimLeave * :VimuxCloseRunner  " Close Vimux pane on Leav
-
-  au FileType sh nnoremap <buffer> <localleader>e :VimuxRunCommand 'sh '.bufname('%')<CR>
-
-  au FileType python* nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; ipython '.bufname('%')<CR>
-  au FileType python* nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; ipython'<CR>
-
-  au FileType ruby nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; ruby '.bufname('%')<CR>
-  au FileType ruby nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; irb'<CR>
-
-  au FileType go nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; go run '.bufname('%')<CR>
-  au FileType go nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; gore'<CR>
-
-  au FileType javascript nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; node '.bufname('%')<CR>
-  au FileType javascript nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; node'<CR>
-augroup END
-
-function! VimuxSlime()    " {{{
-  " Send selected text to Tmux
-  call VimuxSendText(@v)
-  call VimuxSendKeys("Enter")
-endfunction "}}}
-
-" If text is selected, save it in the v buffer and send that buffer it to tmux
-vnoremap <silent> <Plug>SendSelectedLineToTmux "vy :<C-u>call VimuxSlime()<CR>j
-      \:call repeat#set("\<Plug>SendSelectedLineToTmux")<CR>
-vmap <LocalLeader>vs <Plug>SendSelectedLineToTmux
-
-" Select current line and send it to tmux
-nnoremap <silent> <Plug>SendCurrentLineToTmux mz^vg_"vy :<C-u>call VimuxSlime()<CR>`zj
-      \:call repeat#set("\<Plug>SendCurrentLineToTmux")<CR>
-nmap <LocalLeader>vs <Plug>SendCurrentLineToTmux
-" }}}
-Plug 'tpope/vim-fugitive'                             " {{{3
-nnoremap <leader>gd :Gdiff<cr>
-nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gw :Gwrite<cr>
-nnoremap <leader>ga :Gadd<cr>
-nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>go :Gcheckout<cr>
-nnoremap <leader>gc :Gcommit<cr>
-nnoremap <leader>gm :Gmove<cr>
-nnoremap <leader>gr :Gremove<cr>
-nnoremap <leader>gl :Shell git gl -18<cr>:wincmd \|<cr>
-
-" Hub
-nnoremap <leader>gh :Gbrowse<cr>
-vnoremap <leader>gh :Gbrowse<cr>
-
-augroup ft_fugitive
-  au!
-  au BufNewFile,BufRead .git/index setlocal nolist
-augroup END
-" }}}
-Plug 'airblade/vim-gitgutter'                         " {{{3
-let g:gitgutter_map_keys = 0
-nmap [h <Plug>GitGutterPrevHunk
-nmap ]h <Plug>GitGutterNextHunk
-" }}}
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'vim-scripts/listmaps.vim', {'on': 'Listmaps'}
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-repeat'
-Plug 'ConradIrwin/vim-bracketed-paste'
-Plug 'kshenoy/vim-signature'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-repeat'
-Plug 'ConradIrwin/vim-bracketed-paste'
-Plug 'kshenoy/vim-signature'
-
-let scratch_opts = {'on': [
-      \'Scratch', 'ScratchInsert', 'ScratchPreview', 'ScratchSelection',
-      \'<Plug>(scratch-insert-reuse)', '<Plug>(scratch-insert-clear)', 
-      \'<Plug>(scratch-selection-reuse)', '<Plug>(scratch-selection-clear)'
-      \ ]}
-Plug 'mtth/scratch.vim', scratch_opts                 " {{{3
-let g:scratch_horizontal = 0
-let g:scratch_top = 0
-let g:scratch_height = 80
-let g:scratch_no_mappings = 1
-let g:scratch_insert_autohide = 0
-
-nmap <localleader>s <Plug>(scratch-insert-reuse)
-nmap <localleader>S <Plug>(scratch-insert-clear)
-xmap <localleader>s <Plug>(scratch-selection-reuse)
-xmap <localleader>S <Plug>(scratch-selection-clear)
-" }}}
-" }}}
-" Language-specific                    {{{2
-Plug 'fatih/vim-go', {'for': 'go'}                    " {{{3
-let g:go_doc_keywordprg_enabled = 0
-
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-
-" prevent "vim-go" from showing a quickfix window when |g:go_fmt_command| fails
-let g:go_fmt_fail_silently = 1
-" }}}
-Plug 'tejr/vim-tmux'
-Plug 'tpope/vim-git'
-
-" Markdown
-Plug 'shime/vim-livedown', {'for': ['markdown']}
-Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
-
-" Python
-Plug 'hynek/vim-python-pep8-indent'
-Plug 'davidhalter/jedi-vim'                           " {{{3
-let g:jedi#auto_initialization = 1
-" this prevents jedi to mess with completeopt
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#completions_enabled = 0
-let g:jedi#smart_auto_mappings = 1
-let g:jedi#show_call_signatures = 1
-
-let g:jedi#goto_command = "<C-]>"
-let g:jedi#documentation_command = '<localleader>m'
-let g:jedi#goto_assignments_command = ""
-let g:jedi#goto_definitions_command = ""
-let g:jedi#usages_command = ""
-let g:jedi#rename_command = ""
-" }}}
-
-" Css, Scss, Less
-Plug 'hail2u/vim-css3-syntax'
-Plug 'groenewege/vim-less'
-
-" Html and templating languages
-Plug 'mattn/emmet-vim'                                " {{{3
-let g:use_emmet_complete_tag = 1
-let g:user_emmet_install_global = 0
-let g:user_emmet_expandabbr_key='<Tab>'
-let g:user_emmet_next_key = '<C-l>'
-let g:user_emmet_prev_key = '<C-h>'
-
-augroup emmet
-  au!
-
-  au FileType html*,css*,scss,less imap <expr> <buffer> <tab> emmet#expandAbbrIntelligent("\<tab>")
-augroup END
-" }}}
-Plug 'othree/html5.vim'                               " {{{3
-let g:event_handler_attributes_complete = 0
-let g:rdfa_attributes_complete = 0
-let g:microdata_attributes_complete = 0
-let g:atia_attributes_complete = 0
-" }}}
-Plug 'mustache/vim-mustache-handlebars'
-Plug 'tpope/vim-haml'
-
-" Javascript
-let jsbeautify_opts = {'do': 'npm install -g js-beautify'}
-Plug 'maksimr/vim-jsbeautify', jsbeautify_opts        " {{{3
-augroup ft_jsbeautify
-  au!
-  autocmd FileType javascript nnoremap <buffer>  <leader>= :silent call JsBeautify()<cr>
-  autocmd FileType javascript vnoremap <buffer>  <leader>= :silent call RangeJsBeautify()<cr>
-  " for html
-  autocmd FileType html* nnoremap <buffer> <leader>= :silent call HtmlBeautify()<cr>
-  autocmd FileType html* vnoremap <buffer> <leader>= :silent call RangeHtmlBeautify()<cr>
-  " for css or scss
-  autocmd FileType css* nnoremap <buffer> <leader>= :silent call CSSBeautify()<cr>
-  autocmd FileType css* vnoremap <buffer> <leader>= :silent call RangeCSSBeautify()<cr>
-augroup END
-" }}}
-Plug 'elzr/vim-json'                                  " {{{3
-let g:vim_json_syntax_conceal = 0
-" }}}
-Plug 'jason0x43/vim-js-indent'                        " {{{3
-let g:js_indent_flat_switch = 1
-" }}}
-Plug 'heavenshell/vim-jsdoc'
-Plug 'othree/yajs.vim'
-Plug 'othree/javascript-libraries-syntax.vim'
-
-" Ruby
-Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-rails'
-" }}}
-" Style                                {{{2
-Plug 'morhetz/gruvbox'
-Plug 'ryanoasis/vim-devicons'
-Plug 'bling/vim-airline'                              " {{{3
-let g:airline#extensions#tagbar#enabled = 0
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'tomorrow'
-let g:airline_mode_map = {
-      \ '__' : '-',
-      \ 'n'  : 'N',
-      \ 'i'  : 'I',
-      \ 'R'  : 'R',
-      \ 'c'  : 'C',
-      \ 'v'  : 'V',
-      \ 'V'  : 'V',
-      \ '' : 'V',
-      \ 's'  : 'S',
-      \ 'S'  : 'S',
-      \ '' : 'S',
-      \ }
-
-let g:airline_exclude_filetypes = ['nerdtree']
-
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-let g:airline_symbols.linenr = "  "
-let g:airline_symbols.readonly = "\uf023"
-let g:airline_symbols.branch = "\uF418"
-let g:airline#extensions#hunks#enabled = 0
-let g:airline#extensions#tabline#enabled = 0
-" }}}
-Plug 'inside/vim-search-pulse'
-" }}}
-
-call plug#end()
-" }}}
-
 " FileTypes                       {{{1
 augroup ft_common                    " {{{2
   au!
@@ -971,26 +389,6 @@ if !isdirectory(expand(&directory))
 endif
 " }}}
 
-" Colorscheme                          {{{2
-syntax on
-
-set background=dark
-
-" Guvbox specific
-let g:gruvbox_contrast_dark = "hard"
-let g:gruvbox_invert_selection = 0
-
-colorscheme gruvbox
-
-" Override template's colors
-call fn#HL('Folded', ['#7c6f64', 243])
-call fn#HL('Comment', ['#665c54', 241])
-call fn#HL('LineNr', ['#3c3836', 237], ['#1d2021', 234])
-call fn#HL('TabLineSel', ['#fabd2f', 214], ['#1d2021', 234], 'bold,')
-call fn#HL('jsonCommentError', ['#fabd2f', 167])
-call fn#HL('helpExample', ['#a89984', 246])
-" }}}
-
 " }}}
 
 " Abbreviations                   {{{1
@@ -1228,10 +626,6 @@ set sidescrolloff=10
 
 set virtualedit+=block
 
-noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
-
-runtime macros/matchit.vim
-
 nnoremap <tab> %
 silent! unmap [%
 silent! unmap ]%
@@ -1245,6 +639,7 @@ nnoremap * *<c-o>
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
 nnoremap N Nzzzv
+noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 
 " Same when jumping around
 nnoremap g; g;zz
@@ -1331,7 +726,621 @@ set foldtext=fn#MyFoldText()
 
 " }}}
 
+" Plugins                         {{{1
+call plug#begin('~/.vim/plugged')
+
+" Dependencies                         {{{2
+Plug 'Shougo/vimproc.vim', {'do': 'make'}
+Plug 'xolox/vim-misc', {'for': ['python']}
+" }}}
+" File Finders                         {{{2
+let ctrlP_opts = {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
+Plug 'ctrlpvim/ctrlp.vim', ctrlP_opts                 " {{{3
+let g:ctrlp_dont_split = 'NERD_tree_2'
+let g:ctrlp_jump_to_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window_reversed = 1
+let g:ctrlp_split_window = 0
+let g:ctrlp_max_height = 20
+let g:ctrlp_extensions = ['tag']
+let g:ctrlp_map = ''
+let g:ctrlp_custom_ignore = 'static'
+
+let g:ctrlp_prompt_mappings = {
+      \ 'PrtSelectMove("j")':   ['<c-j>', '<down>', '<s-tab>'],
+      \ 'PrtSelectMove("k")':   ['<c-k>', '<up>', '<tab>'],
+      \ 'PrtHistory(-1)':       ['<c-n>'],
+      \ 'PrtHistory(1)':        ['<c-p>'],
+      \ 'ToggleFocus()':        ['<c-space>'],
+      \ }
+
+let ctrlp_filter_greps = "".
+      \ "egrep -iv '\\.(" .
+      \ "jar|class|swp|swo|log|so|o|pyc|jpe?g|png|gif|mo|po" .
+      \ ")$' | " .
+      \ "egrep -v '^(\\./)?(" .
+      \ ".git/|.hg/|.svn/" .
+      \ ")'"
+
+let my_ctrlp_user_command = "" .
+      \ "find %s '(' -type f -or -type l ')' -maxdepth 15 -not -path '*/\\.*/*' | " .
+      \ ctrlp_filter_greps
+
+let my_ctrlp_hg_command = "hg --cwd %s locate -I ."
+
+let my_ctrlp_git_command = "" .
+      \ "cd %s && git ls-files --exclude-standard -co | " .
+      \ ctrlp_filter_greps
+
+let my_ctrlp_ag_command = 'ag %s -l --nocolor -g "" | ' . ctrlp_filter_greps
+
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+if s:ag
+  " Use Ag over Grep
+  set grepprg="ag --nogroup --nocolor"
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let my_ctrlp_user_command = my_ctrlp_ag_command
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+" Multiple VCS's:
+let g:ctrlp_user_command = {
+      \ 'types': {
+      \ 1: ['.git', my_ctrlp_git_command],
+      \ 2: ['.hg', my_ctrlp_hg_command],
+      \ },
+      \ 'fallback': my_ctrlp_user_command
+      \ }
+
+nnoremap <leader>, :CtrlP<cr>
+nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <leader>b :CtrlPBuffer<cr>
+nnoremap <leader>m :CtrlPMRUFiles<cr>
+" }}}
+
+let nerdTree_opts = {'on': ['NERDTreeToggle', 'NERDTreeFind']}
+Plug 'scrooloose/nerdtree', nerdTree_opts             " {{{3
+" Open the project tree and expose current file in the nerdtree with ,N
+nnoremap <Leader>N :NERDTreeFind<CR>
+noremap  <leader>n :NERDTreeToggle<cr>
+
+let NERDTreeStatusline="%{getcwd()}"
+let NERDTreeHighlightCursorline = 1
+let NERDTreeIgnore = ['\~$', '.*\.pyc$']
+
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let NERDChristmasTree = 1
+let NERDTreeChDirMode = 2
+let NERDTreeMapJumpFirstChild = 'gK'
+
+let g:NERDTreeDirArrowExpandable = "\uf114"
+let g:NERDTreeDirArrowCollapsible = "\uf115"
+
+augroup ps_nerdtree
+  au!
+
+  au Filetype nerdtree setlocal nolist
+  au Filetype nerdtree nnoremap <buffer> H :vertical resize -10<cr>
+  au Filetype nerdtree nnoremap <buffer> L :vertical resize +10<cr>
+augroup END
+
+" NERDTress File highlighting
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+  exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+  exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
+" }}}
+
+let ctrlsf_opts = {'on': ['<Plug>CtrlSFVwordPath', '<Plug>CtrlSFCwordPath',
+      \'CtrlSFToggle', 'CtrlSF']}
+Plug 'dyng/ctrlsf.vim', ctrlsf_opts                   " {{{3
+vmap <leader>a <Plug>CtrlSFVwordPath
+nmap <leader>a <Plug>CtrlSFCwordPath
+nmap <leader>A :CtrlSFToggle<CR>
+vmap <leader>A :CtrlSFToggle<CR>
+noremap <localleader>a :CtrlSF 
+
+" For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
+noremap q q
+
+let g:ctrlsf_ackprg = 'ag'
+" }}}
+"
+Plug 'junegunn/fzf.vim', {'on': ['FZF', 'FZFMru']}    " {{{3
+" Open files in horizontal split
+set rtp+=/usr/local/opt/fzf
+let g:fzf_launcher = "~/.vim/in_a_new_term_function %s"
+
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+command! FZFMru call fzf#run({
+      \   'source':  'sed "1d" $HOME/.cache/neomru/file',
+      \   'sink':    'e ',
+      \   'down':    '30%'
+      \ })
+
+if fn#InTmuxSession()
+  " Checking that we are in a tmux session because FZF opens in a tmux pane
+  " Let's overwrite CtrlP mapping if we are in Tmux, otherwise it will open
+  " terminal window
+  nnoremap <leader>, :FZF<CR>
+  nnoremap <leader>m :FZFMru<CR>
+  nnoremap <silent> <Leader>b :call fzf#run({
+        \   'source':  reverse(<sid>buflist()),
+        \   'sink':    function('<sid>bufopen'),
+        \   'options': '+m',
+        \   'down':    len(<sid>buflist()) + 2
+        \ })<CR>
+endif
+" }}}
+Plug 'Shougo/neomru.vim'
+" }}}
+" General Code                         {{{2
+let g:UltiSnipsExpandTrigger="<Tab>"
+Plug 'honza/vim-snippets'                             " {{{3
+let g:UltiSnipsJumpForwardTrigger="<Tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
+" }}}
+Plug 'SirVer/ultisnips' " Don't move. YCM dependency
+
+let ycm_opts = {'do': './install.py --clang-completer'}
+Plug 'Valloric/YouCompleteMe', ycm_opts               " {{{3
+
+let g:ycm_auto_trigger = 1
+let g:ycm_min_num_of_chars_for_completion = 2
+let g:ycm_use_ultisnips_completer = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_always_populate_location_list = 0
+let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_echo_current_diagnostic = 0
+let g:ycm_open_loclist_on_ycm_diags = 0
+let g:ycm_seed_identifiers_with_syntax = 0
+let g:ycm_key_list_select_completion = ['<C-n>']
+let g:ycm_key_list_previous_completion = ['<C-p>']
+let g:ycm_key_invoke_completion = '<C-n>'
+let g:ycm_collect_identifiers_from_tags_files = 0
+
+augroup ycm
+  au!
+  au FileType python* setlocal omnifunc=pythoncomplete#Complete
+  au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  au FileType html*,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  au Filetype css*,scss,less setlocal omnifunc=csscomplete#CompleteCSS
+  au FileType ruby setlocal omnifunc=rubycomplete#Complete
+  au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
+" }}}
+"
+let rainbow_opts = {'for': 'clojure'}
+Plug 'kien/rainbow_parentheses.vim', rainbow_opts     " {{{3
+augroup rainbow_parentheses
+  au!
+  au FileType clojure RainbowParenthesesActivate
+  au syntax clojure RainbowParenthesesLoadRound
+  au syntax clojure RainbowParenthesesLoadSquare
+  au syntax clojure RainbowParenthesesLoadBraces
+augroup END
+" }}}
+
+Plug 'tpope/vim-commentary'                           " {{{3
+nmap <leader>c <Plug>CommentaryLine
+xmap <leader>c <Plug>Commentary
+
+augroup plugin_commentary
+  au!
+  au FileType handlebars setlocal commentstring={{!\ %s\ }}
+  au FileType htmldjango setlocal commentstring={#\ %s\ #}
+  au FileType clojurescript setlocal commentstring=;\ %s
+  au FileType puppet,tmux setlocal commentstring=#\ %s
+augroup END
+" }}}
+
+Plug 'scrooloose/syntastic'                           " {{{3
+let g:syntastic_mode_map = {
+      \ "mode": "passive",
+      \ "active_filetypes": ['python', 'javascript', 'ruby', 'cpp', 'c', 'json', 'sh', 'go', 'css', 'scss'],
+      \ "passive_filetypes": ['java', 'html', 'rst', 'scala']
+      \ }
+
+let g:syntastic_stl_format = ' %E{ %e}%B{ }%W{%w} '
+let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_json_checkers = ['jsonlint']
+let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
+let g:syntastic_ruby_checkers = ['mri']
+let g:syntastic_cpp_checkers = ['gcc', 'cppcheck', 'cpplint', 'ycm', 'clang_tidy', 'clang_check']
+let g:syntastic_c_checkers = ['gcc', 'make', 'cppcheck', 'clang_tidy', 'clang_check']
+let g:syntastic_python_checkers = ['flake8'] " Other checkers: pep8, pylint, python, pyflakes
+let g:syntastic_python_flake8_args='--ignore=E501'  " line too long
+
+let g:syntastic_error_symbol = "\uf4A8" " fire icon
+let g:syntastic_warning_symbol = "\uf0e7" " bolt icon
+let g:syntastic_style_error_symbol = "\uf12a"
+let g:syntastic_style_warning_symbol = "\uf12a"
+
+" this enables navigation with :lnext and :lprev
+let g:syntastic_always_populate_loc_list = 1
+
+let g:syntastic_auto_loc_list = 2
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_signs = 1
+let g:syntastic_loc_list_height = 3
+let g:syntastic_echo_current_error = 1
+let g:syntastic_cursor_column = 0
+let g:syntastic_enable_balloons = 0
+let g:syntastic_enable_highlighting = 1
+" }}}
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}      " {{{3
+nmap <F3> :TagbarToggle<CR>
+let g:tagbar_autofocus = 1
+let g:tagbar_autoclose = 1
+" }}}
+Plug 'kshenoy/vim-origami'                            " {{{3
+let g:OrgamiPadding = 4
+let g:OrigamiSeparateLevels = 1
+let g:OrigamiIncAllLines = 0
+let g:OrigamiStaggeredSpacing = 0
+ "}}}
+Plug 'bkad/CamelCaseMotion'                           " {{{3
+map <S-W> <Plug>CamelCaseMotion_w
+map <S-B> <Plug>CamelCaseMotion_b
+map <S-E> <Plug>CamelCaseMotion_e
+
+" Replace default 'iw' text-object and define 'ib' and 'ie' motions:
+omap <silent> iW <Plug>CamelCaseMotion_iw
+xmap <silent> iW <Plug>CamelCaseMotion_iw
+omap <silent> iB <Plug>CamelCaseMotion_ib
+xmap <silent> iB <Plug>CamelCaseMotion_ib
+omap <silent> iE <Plug>CamelCaseMotion_ie
+xmap <silent> iE <Plug>CamelCaseMotion_ie
+" }}}
+Plug 'xolox/vim-easytags', {'for': ['python', 'c', 'cpp']}
+Plug 'terryma/vim-expand-region'
+Plug 'Raimondi/delimitMate'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-endwise'
+" }}}
+" Productivity                         {{{2
+
+let linediff_opts = {'on': ['Linediff', 'LinediffReset']}
+Plug 'AndrewRadev/linediff.vim', linediff_opts        " {{{3
+vnoremap <leader>d :Linediff<cr>
+nnoremap <leader>D :LinediffReset<cr>
+" }}}
+
+Plug 'zefei/vim-wintabs'                              " {{{3
+nmap <localleader>k <Plug>(wintabs_next)
+nmap <localleader>j <Plug>(wintabs_previous)
+nmap <localleader>q <Plug>(wintabs_close)
+nmap <localleader>o <Plug>(wintabs_only)
+
+let g:wintabs_ui_modified = " \uf040"
+let g:wintabs_ui_readonly = " \uf023"
+let g:wintabs_ui_active_left = ' '
+let g:wintabs_ui_active_right = ''
+let g:wintabs_ui_sep_leftmost = ''
+let g:wintabs_ui_sep_inbetween = ''
+let g:wintabs_ui_sep_rightmost = ''
+" }}}
+
+Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}           " {{{3
+nnoremap <F4> :GundoToggle<CR>
+
+let g:gundo_debug = 1
+let g:gundo_preview_bottom = 1
+let g:gundo_tree_statusline = "Gundo"
+let g:gundo_preview_statusline = "Gundo Preview"
+" }}}
+
+Plug 'fmoralesc/vim-pad', {'on': 'Pad'}               " {{{3
+let g:pad#dir = "~/notes/"
+
+" Disable default global mappings
+let g:pad#set_mappings = 0
+
+if s:ag
+  let g:pad#search_backend = 'ag'
+endif
+" }}}
+
+" This makes the autoread option work properly for terminal
+Plug 'tmux-plugins/vim-tmux-focus-events'
+
+Plug 'benmills/vimux'                                 " {{{3
+" Prompt for a command to run
+map <LocalLeader>vp :VimuxPromptCommand<CR>
+" Run last command executed by VimuxRunCommand
+map <LocalLeader>vl :VimuxRunLastCommand<CR>
+" Inspect runner pane
+map <LocalLeader>vi :VimuxInspectRunner<CR>
+" Close vim tmux runner opened by VimuxRunCommand
+map <LocalLeader>vq :VimuxCloseRunner<CR>
+" Interrupt any command running in the runner pane
+map <LocalLeader>vx :VimuxInterruptRunner<CR>
+" Zoom the runner pane (use <bind-key> z to restore runner pane)
+map <LocalLeader>vz :call VimuxZoomRunner()<CR>"
+
+augroup vimux
+  au!
+  au VimLeave * :VimuxCloseRunner  " Close Vimux pane on Leav
+
+  au FileType sh nnoremap <buffer> <localleader>e :VimuxRunCommand 'sh '.bufname('%')<CR>
+
+  au FileType python* nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; ipython '.bufname('%')<CR>
+  au FileType python* nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; ipython'<CR>
+
+  au FileType ruby nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; ruby '.bufname('%')<CR>
+  au FileType ruby nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; irb'<CR>
+
+  au FileType go nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; go run '.bufname('%')<CR>
+  au FileType go nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; gore'<CR>
+
+  au FileType javascript nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; node '.bufname('%')<CR>
+  au FileType javascript nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; node'<CR>
+augroup END
+
+function! VimuxSlime()    " {{{
+  " Send selected text to Tmux
+  call VimuxSendText(@v)
+  call VimuxSendKeys("Enter")
+endfunction "}}}
+
+" If text is selected, save it in the v buffer and send that buffer it to tmux
+vnoremap <silent> <Plug>SendSelectedLineToTmux "vy :<C-u>call VimuxSlime()<CR>j
+      \:call repeat#set("\<Plug>SendSelectedLineToTmux")<CR>
+vmap <LocalLeader>vs <Plug>SendSelectedLineToTmux
+
+" Select current line and send it to tmux
+nnoremap <silent> <Plug>SendCurrentLineToTmux mz^vg_"vy :<C-u>call VimuxSlime()<CR>`zj
+      \:call repeat#set("\<Plug>SendCurrentLineToTmux")<CR>
+nmap <LocalLeader>vs <Plug>SendCurrentLineToTmux
+" }}}
+
+Plug 'tpope/vim-fugitive'                             " {{{3
+nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gw :Gwrite<cr>
+nnoremap <leader>ga :Gadd<cr>
+nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>go :Gcheckout<cr>
+nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gm :Gmove<cr>
+nnoremap <leader>gr :Gremove<cr>
+nnoremap <leader>gl :Shell git gl -18<cr>:wincmd \|<cr>
+
+" Hub
+nnoremap <leader>gh :Gbrowse<cr>
+vnoremap <leader>gh :Gbrowse<cr>
+
+augroup ft_fugitive
+  au!
+  au BufNewFile,BufRead .git/index setlocal nolist
+augroup END
+" }}}
+
+Plug 'airblade/vim-gitgutter'                         " {{{3
+let g:gitgutter_map_keys = 0
+nmap [h <Plug>GitGutterPrevHunk
+nmap ]h <Plug>GitGutterNextHunk
+" }}}
+
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'vim-scripts/listmaps.vim', {'on': 'Listmaps'}
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-repeat'
+Plug 'ConradIrwin/vim-bracketed-paste'
+Plug 'kshenoy/vim-signature'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-repeat'
+Plug 'ConradIrwin/vim-bracketed-paste'
+Plug 'kshenoy/vim-signature'
+
+let scratch_opts = {'on': [
+      \'Scratch', 'ScratchInsert', 'ScratchPreview', 'ScratchSelection',
+      \'<Plug>(scratch-insert-reuse)', '<Plug>(scratch-insert-clear)', 
+      \'<Plug>(scratch-selection-reuse)', '<Plug>(scratch-selection-clear)'
+      \ ]}
+Plug 'mtth/scratch.vim', scratch_opts                 " {{{3
+let g:scratch_horizontal = 0
+let g:scratch_top = 0
+let g:scratch_height = 80
+let g:scratch_no_mappings = 1
+let g:scratch_insert_autohide = 0
+
+nmap <localleader>s <Plug>(scratch-insert-reuse)
+nmap <localleader>S <Plug>(scratch-insert-clear)
+xmap <localleader>s <Plug>(scratch-selection-reuse)
+xmap <localleader>S <Plug>(scratch-selection-clear)
+" }}}
+" }}}
+" Language-specific                    {{{2
+Plug 'fatih/vim-go', {'for': 'go'}                    " {{{3
+let g:go_doc_keywordprg_enabled = 0
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+
+" prevent "vim-go" from showing a quickfix window when |g:go_fmt_command| fails
+let g:go_fmt_fail_silently = 1
+" }}}
+Plug 'tejr/vim-tmux'
+Plug 'tpope/vim-git'
+
+" Markdown
+Plug 'shime/vim-livedown', {'for': ['markdown']}
+Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
+
+" Python
+Plug 'hynek/vim-python-pep8-indent'
+Plug 'davidhalter/jedi-vim'                           " {{{3
+let g:jedi#auto_initialization = 1
+" this prevents jedi to mess with completeopt
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#completions_enabled = 0
+let g:jedi#smart_auto_mappings = 1
+let g:jedi#show_call_signatures = 1
+
+let g:jedi#goto_command = "<C-]>"
+let g:jedi#documentation_command = '<localleader>m'
+let g:jedi#goto_assignments_command = ""
+let g:jedi#goto_definitions_command = ""
+let g:jedi#usages_command = ""
+let g:jedi#rename_command = ""
+" }}}
+
+" Css, Scss, Less
+Plug 'hail2u/vim-css3-syntax'
+Plug 'groenewege/vim-less'
+
+" Html and templating languages
+Plug 'mattn/emmet-vim'                                " {{{3
+let g:use_emmet_complete_tag = 1
+let g:user_emmet_install_global = 0
+let g:user_emmet_expandabbr_key='<Tab>'
+let g:user_emmet_next_key = '<C-l>'
+let g:user_emmet_prev_key = '<C-h>'
+
+augroup emmet
+  au!
+
+  au FileType html*,css*,scss,less imap <expr> <buffer> <tab> emmet#expandAbbrIntelligent("\<tab>")
+augroup END
+" }}}
+Plug 'othree/html5.vim'                               " {{{3
+let g:event_handler_attributes_complete = 0
+let g:rdfa_attributes_complete = 0
+let g:microdata_attributes_complete = 0
+let g:atia_attributes_complete = 0
+" }}}
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'tpope/vim-haml'
+
+" Javascript
+let jsbeautify_opts = {'do': 'npm install -g js-beautify'}
+Plug 'maksimr/vim-jsbeautify', jsbeautify_opts        " {{{3
+augroup ft_jsbeautify
+  au!
+  autocmd FileType javascript nnoremap <buffer>  <leader>= :silent call JsBeautify()<cr>
+  autocmd FileType javascript vnoremap <buffer>  <leader>= :silent call RangeJsBeautify()<cr>
+  " for html
+  autocmd FileType html* nnoremap <buffer> <leader>= :silent call HtmlBeautify()<cr>
+  autocmd FileType html* vnoremap <buffer> <leader>= :silent call RangeHtmlBeautify()<cr>
+  " for css or scss
+  autocmd FileType css* nnoremap <buffer> <leader>= :silent call CSSBeautify()<cr>
+  autocmd FileType css* vnoremap <buffer> <leader>= :silent call RangeCSSBeautify()<cr>
+augroup END
+" }}}
+Plug 'elzr/vim-json'                                  " {{{3
+let g:vim_json_syntax_conceal = 0
+" }}}
+Plug 'jason0x43/vim-js-indent'                        " {{{3
+let g:js_indent_flat_switch = 1
+" }}}
+Plug 'heavenshell/vim-jsdoc'
+Plug 'othree/yajs.vim'
+Plug 'othree/javascript-libraries-syntax.vim'
+
+" Ruby
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
+" }}}
+" Style                                {{{2
+Plug 'morhetz/gruvbox'
+Plug 'ryanoasis/vim-devicons'
+" Plug 'bling/vim-airline'                            " {{{3
+" let g:airline#extensions#tagbar#enabled = 0
+" let g:airline_powerline_fonts = 1
+" let g:airline_theme = 'tomorrow'
+" let g:airline_mode_map = {
+"       \ '__' : '-',
+"       \ 'n'  : 'N',
+"       \ 'i'  : 'I',
+"       \ 'R'  : 'R',
+"       \ 'c'  : 'C',
+"       \ 'v'  : 'V',
+"       \ 'V'  : 'V',
+"       \ '' : 'V',
+"       \ 's'  : 'S',
+"       \ 'S'  : 'S',
+"       \ '' : 'S',
+"       \ }
+
+" let g:airline_exclude_filetypes = ['nerdtree']
+
+" if !exists('g:airline_symbols')
+"   let g:airline_symbols = {}
+" endif
+
+" let g:airline_symbols.linenr = "  "
+" let g:airline_symbols.readonly = "\uf023"
+" let g:airline_symbols.branch = "\uF418"
+" let g:airline#extensions#hunks#enabled = 0
+" let g:airline#extensions#tabline#enabled = 0
+" " }}}
+Plug 'inside/vim-search-pulse'
+" }}}
+
+call plug#end()
+" }}}
+
 " Environments (GUI/Console)      {{{1
+
+" Colorscheme                          {{{2
+syntax on
+
+set background=dark
+
+" Guvbox specific
+let g:gruvbox_contrast_dark = "hard"
+let g:gruvbox_invert_selection = 0
+
+colorscheme gruvbox
+
+" Override template's colors
+call fn#HL('Folded', ['#7c6f64', 243])
+call fn#HL('Comment', ['#665c54', 241])
+call fn#HL('LineNr', ['#3c3836', 237], ['#1d2021', 234])
+call fn#HL('TabLineSel', ['#fabd2f', 214], ['#1d2021', 234], 'bold,')
+call fn#HL('jsonCommentError', ['#fabd2f', 167])
+call fn#HL('helpExample', ['#a89984', 246])
+" }}}
+
 if has('gui_running')  " GUI Vim
 
   " Remove all the UI cruft
