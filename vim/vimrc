@@ -851,18 +851,18 @@ scriptencoding utf-8
 set encoding=utf-8
 set modeline
 set autoindent                  " Automatically set the indent of a new line (local to buffer)
-set showmode                    " Show current mode down the bottom
-set showcmd                     " Show incomplete cmds down the bottom
+set noshowmode                  " Hide current mode down the bottom
+set noshowcmd                   " Hide incomplete cmds down the bottom
 set scrolljump=10
 set hidden
 set visualbell                  " No sounds
 set t_vb=                       " Visual bell disabled on Linux
 set ttyfast                     " Improves redrawing
 set ttyscroll=10
-set ruler                       " Always show current positions along the bottom
+set noruler                     " Never show current positions along the bottom
 set backspace=indent,eol,start  " Allow backspace in insert mode
 set number                      " Line numbers are good
-set laststatus=0                " Never show the status line
+set laststatus=2                " Never show the status line
 set history=1000                " Store lots of :cmdline history
 set list                        " Hide invisible chars
 set listchars=tab:▸\ ,eol:↵,extends:↷,precedes:↶,trail:·
@@ -873,7 +873,8 @@ set showbreak=↪
 set splitbelow
 set splitright
 set iskeyword+=-
-set fillchars=diff:⣿,vert:┃     " Customize text for closed folds
+set fillchars=diff:⣿,vert:┃,stl:━,stlnc:━     " Customize text for closed folds
+" set fillchars=diff:⣿,vert:│,stl:-,stlnc:     " Customize text for closed folds
 set autowrite
 set autoread                    " Reload files changed outside vim
 set shiftround                  " When at 3 spaces, and I hit > ... go to 4, not 5
@@ -885,6 +886,14 @@ set pastetoggle=<F2>            " Use it for pasting large amounts of text into 
 set ssop-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds
 set nocursorline
+set statusline=
+" set statusline+=━
+
+set statusline+=\━\ %1*%f%*
+set statusline+=%(\ [%Y%R%W%M]%)
+set statusline+=\ %=
+set statusline+=[%(%l,%c%V%)]
+set statusline+=\ %1*%P%*\ \━
 " set tags=./tags
 
 if v:version > 702
@@ -917,8 +926,6 @@ augroup resize_splits
   au!
   au VimResized * :wincmd =
 augroup END
-
-set statusline=
 
 " Wildmenu completion                  {{{2
 set wildmenu
@@ -1341,6 +1348,12 @@ call fn#HL('LineNr', ['#3c3836', 237], ['#1d2021', 234])
 call fn#HL('TabLineSel', ['#fabd2f', 214], ['#1d2021', 234], 'bold,')
 call fn#HL('jsonCommentError', ['#fabd2f', 167])
 call fn#HL('helpExample', ['#a89984', 246])
+call fn#HL('StatusLine', ['#fabd2f', 214])
+call fn#HL('StatusLineNC', ['#3c3836', 237])
+call fn#HL('VertSplit', ['#3c3836', 237])
+call fn#HL('ColorColumn', ['NONE', 'NONE'], ['#282828', 235])
+" Setting background past textwidth characters
+let &colorcolumn=join(range(81,999),",")
 " }}}
 
 if has('gui_running')  " GUI Vim
