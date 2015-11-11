@@ -125,6 +125,7 @@
         "expect": false,
         "_": false,
         "Handlebars": false,
-        "Select2": true
+        "Select2": true,
+        "require": false
     }
 }
