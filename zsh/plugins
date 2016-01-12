@@ -1,7 +1,9 @@
 type_exists "fasd" && eval "$(fasd --init auto)"
 
 # Node version manager
-lazy_source nvm "$HOME/.nvm/nvm.sh"
+export NVM_DIR=~/.nvm
+# lazy_source nvm "$HOME/.nvm/nvm.sh"
+source_file "$HOME/.nvm/nvm.sh"
 
 # Automatic Version Manager for Node
 source_file "$HOME/.avn/bin/avn.sh"
