@@ -16,7 +16,7 @@ call plug#begin('~/.vim/plugged')
 
 " Dependencies                         {{{2
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
-Plug 'xolox/vim-misc', {'for': ['python']}
+Plug 'xolox/vim-misc', {'for': ['python', 'c', 'cpp', 'javascript']}
 " }}}
 " File Finders                         {{{2
 let ctrlP_opts = {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
@@ -148,6 +148,10 @@ nmap <leader>A :CtrlSFToggle<CR>
 vmap <leader>A :CtrlSFToggle<CR>
 noremap <localleader>a :CtrlSF 
 
+let g:ctrlsf_mapping = {
+    \ "quit": "",
+    \ }
+
 " For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
 noremap q q
 
@@ -247,8 +251,6 @@ xmap <leader>c <Plug>Commentary
 
 augroup plugin_commentary
   au!
-  au FileType handlebars setlocal commentstring={{!\ %s\ }}
-  au FileType htmldjango setlocal commentstring={#\ %s\ #}
   au FileType clojurescript setlocal commentstring=;\ %s
   au FileType puppet,tmux setlocal commentstring=#\ %s
 augroup END
@@ -262,7 +264,8 @@ let g:syntastic_mode_map = {
       \ }
 
 let g:syntastic_stl_format = ' %E{ %e}%B{  }%W{%w} '
-let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exec = 'eslint_d'
 let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
 let g:syntastic_ruby_checkers = ['mri']
@@ -313,7 +316,7 @@ xmap <silent> iB <Plug>CamelCaseMotion_ib
 omap <silent> iE <Plug>CamelCaseMotion_ie
 xmap <silent> iE <Plug>CamelCaseMotion_ie
 " }}}
-Plug 'xolox/vim-easytags', {'for': ['python', 'c', 'cpp']}
+Plug 'xolox/vim-easytags', {'for': ['python', 'c', 'cpp', 'javascript']}
 Plug 'terryma/vim-expand-region'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
@@ -408,6 +411,8 @@ endfunction "}}}
 " If text is selected, save it in the v buffer and send that buffer it to tmux
 vnoremap <silent> <Plug>SendSelectedLineToTmux "vy :<C-u>call VimuxSlime()<CR>j
       \:call repeat#set("\<Plug>SendSelectedLineToTmux")<CR>
+" TODO: Is not sending the indentation properly. FIXIT!
+"
 vmap <LocalLeader>vs <Plug>SendSelectedLineToTmux
 
 " Select current line and send it to tmux
@@ -541,14 +546,14 @@ let jsbeautify_opts = {'do': 'npm install -g js-beautify'}
 Plug 'maksimr/vim-jsbeautify', jsbeautify_opts        " {{{3
 augroup ft_jsbeautify
   au!
-  autocmd FileType javascript nnoremap <buffer>  <leader>= :silent call JsBeautify()<cr>
-  autocmd FileType javascript vnoremap <buffer>  <leader>= :silent call RangeJsBeautify()<cr>
+  autocmd FileType javascript nnoremap <buffer>  <localleader>= :call JsBeautify()<cr>
+  autocmd FileType javascript vnoremap <buffer>  <localleader>= :call RangeJsBeautify()<cr>
   " for html
-  autocmd FileType html* nnoremap <buffer> <leader>= :silent call HtmlBeautify()<cr>
-  autocmd FileType html* vnoremap <buffer> <leader>= :silent call RangeHtmlBeautify()<cr>
+  autocmd FileType html* nnoremap <buffer> <localleader>= :call HtmlBeautify()<cr>
+  autocmd FileType html* vnoremap <buffer> <localleader>= :call RangeHtmlBeautify()<cr>
   " for css or scss
-  autocmd FileType css* nnoremap <buffer> <leader>= :silent call CSSBeautify()<cr>
-  autocmd FileType css* vnoremap <buffer> <leader>= :silent call RangeCSSBeautify()<cr>
+  autocmd FileType css* nnoremap <buffer> <localleader>= :call CSSBeautify()<cr>
+  autocmd FileType css* vnoremap <buffer> <localleader>= :call RangeCSSBeautify()<cr>
 augroup END
 " }}}
 Plug 'elzr/vim-json'                                  " {{{3
@@ -677,6 +682,10 @@ augroup ft_html_and_templates        " {{{2
   au FileType html*,mustache setlocal softtabstop=4
   au FileType html*,mustache setlocal tabstop=4
 
+  au FileType mustache setlocal commentstring={{!\ %s\ }}
+  au FileType handlebars setlocal commentstring={{!\ %s\ }}
+  au FileType htmldjango setlocal commentstring={#\ %s\ #}
+
   " Use <localleader>f to fold the current tag.
   au FileType html*,mustache nnoremap <buffer> <localleader>f Vatzf
 
@@ -707,13 +716,13 @@ augroup ft_javascript                " {{{2
   au FileType javascript setlocal foldmethod=marker
   au FileType javascript setlocal foldmarker={,}
   au FileType javascript setlocal foldtext=getline(v:foldstart)
-  au FileType javascript setlocal shiftwidth=4 softtabstop=4 tabstop=4
+  au FileType javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2
   au FileType javascript setlocal foldlevel=99
   au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
 
   " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
   " positioned inside of them AND the following code doesn't get unfolded.
-  au FileType javascript inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
+  au FileType javascript inoremap <buffer> {<cr> {}<left><cr><space><space>.<cr><esc>kA<bs>
   au FileType javascript nnoremap <buffer> <localleader>b :call <SID>toggleStatement("debugger;  // XXX BREAKPOINT")<CR>
 augroup END "}}}
 
@@ -730,12 +739,12 @@ augroup ft_markdown                  " {{{2
 
   au FileType markdown normal! zR
   au FileType markdown setlocal foldlevel=1
-  " au FileType markdown setlocal nofoldenable    " disable folding
+  au FileType markdown setlocal nofoldenable    " disable folding
 
   " Use <localleader>1/2/3 to add headings.
   au FileType markdown nnoremap <buffer> <localleader>1 yypVr=:redraw<cr>
   au FileType markdown nnoremap <buffer> <localleader>2 yypVr-:redraw<cr>
-  au FileType markdown nnoremap <buffer> <localleader>3 mzI###<space>`zllll <ESC>
+  au FileType markdown nnoremap <buffer> <localleader>3 mzI###<space><ESC>`zllll
 augroup END "}}}
 
 augroup ft_nginx                     " {{{2
@@ -801,6 +810,16 @@ augroup ft_scala                     " {{{2
   au FileType scala vnoremap <buffer> M "ry:call scaladoc#Search(@r)<cr>
   au FileType scala nmap <buffer> <localleader>( ysiwbi
   au FileType scala nmap <buffer> <localleader>[ ysiwri
+augroup END "}}}
+
+augroup ft_switchfly                " {{{2
+  au!
+
+  au BufRead,BufNewFile /Users/eruiz/switchfly/repos/* setlocal ts=4 sw=4 sts=4
+
+  " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+  " positioned inside of them AND the following code doesn't get unfolded.
+  au BufRead,BufNewFile /Users/eruiz/switchfly/repos/* inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
 augroup END "}}}
 
 augroup ft_sql                       " {{{2
@@ -1324,7 +1343,11 @@ nnoremap zO zCzO
 " This mapping wipes out the z mark, which I never use.
 "
 " I use :sus for the rare times I want to actually background Vim.
-nnoremap <c-z> mzzMzvzz15<c-e>`z:call search_pulse#Pulse()<CR>
+if exists('g:vim_search_pulse_mode')
+  nnoremap <c-z> mzzMzvzz15<c-e>`z:call search_pulse#Pulse()<CR>
+else
+  nnoremap <c-z> mzzMzvzz15<c-e>`z
+endif
 
 set foldtext=fn#MyFoldText()
 
@@ -1425,8 +1448,7 @@ set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Plus
 
 " TODO                            {{{1
 " * Add more customized snippets
-" * Check if it's worth using Unite
-" * Setup tern and jsctags
 " * Fix annoying bug with YCM that's clears whole word when type
 " * Check if YCM can replace Syntastic with its diagnostics support
+" * Check if it's worth using Unite
 " }}}
