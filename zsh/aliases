@@ -126,6 +126,8 @@ alias reload="exec $SHELL -l"
 alias historystat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
 
 alias py="python"
+alias py2="python2"
+alias py3="python3"
 alias ipy="ipython"
 # }}}
 # Files & Directories ------------------------------------------------------ {{{
