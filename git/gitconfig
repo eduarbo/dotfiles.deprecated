@@ -15,6 +15,9 @@
   frag = magenta bold
   old = red bold
   new = green bold
+[user]
+	name = eduarbo
+	email = eduarbo@gmail.com
 [alias]
   # add
   chunkyadd = add --patch           # stage commits chunk by chunk
