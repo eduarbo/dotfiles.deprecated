@@ -83,6 +83,7 @@ complete
 jsonlint
 vimlint
 livedown
+eslint_d
 ) #}}}
 pip_packages=( #{{{
 flake8

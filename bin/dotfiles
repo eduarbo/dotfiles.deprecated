@@ -113,6 +113,7 @@ seek_confirmation "Warning: This step may overwrite some of your existing dotfil
 if is_confirmed; then
   _link 'ctags' '.ctags'
   _link 'jshintrc' '.jshintrc'
+  _link 'eslintrc' '.eslintrc'
 
   # Bash
   _link 'bash/bash_profile' '.bash_profile'
