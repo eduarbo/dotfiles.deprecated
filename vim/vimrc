@@ -521,6 +521,7 @@ let g:jedi#rename_command = ""
 " Css, Scss, Less
 Plug 'hail2u/vim-css3-syntax'
 Plug 'groenewege/vim-less'
+Plug 'rstacruz/vim-hyperstyle'
 
 " Html and templating languages
 " Plug 'mattn/emmet-vim'                                                  " {{{3
