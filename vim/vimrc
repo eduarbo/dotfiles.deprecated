@@ -208,9 +208,10 @@ let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
 " }}}
 "
+Plug 'ervandew/supertab'
 
 let ycm_opts = {'do': './install.py --clang-completer'}
-Plug 'Valloric/YouCompleteMe', ycm_opts                                   " {{{3
+" Plug 'Valloric/YouCompleteMe', ycm_opts                                 " {{{3
 
 let g:ycm_auto_trigger = 1
 let g:ycm_min_num_of_chars_for_completion = 2
@@ -260,11 +261,7 @@ augroup plugin_commentary
 augroup END
 " }}}
 
-Plug 'benekastah/neomake' " {{{3
-" let g:neomake_javascript_jshint_maker = {
-"     \ 'args': ['--verbose'],
-"     \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
-"     \ }
+Plug 'benekastah/neomake'                                                 " {{{3
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_json_enabled_makers = ['jsonlint']
 let g:neomake_sh_enabled_makers = ['sh', 'shellcheck']
@@ -547,6 +544,8 @@ Plug 'jason0x43/vim-js-indent'                                            " {{{3
 let g:js_indent_flat_switch = 1
 " }}}
 Plug 'heavenshell/vim-jsdoc'
+" supports latest language features
+Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' } 
 Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
 
