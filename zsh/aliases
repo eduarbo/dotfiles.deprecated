@@ -80,26 +80,27 @@ alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dev='cd ~/dev'
 
-alias ec='vim ~/.editorconfig'
-alias ed='vim ~/.vim/custom-dictionary.utf-8.add'
-alias ef='vim ~/.config/fish/config.fish'
-alias eg='vim ~/.gitconfig'
-alias ej='vim ~/.jshintrc'
-alias et='vim ~/.tmux.conf'
-alias ev='vim ~/.vim/vimrc'
-alias todo="vim ~/todo.md"
-alias etp="vim ~/tp.md"
-alias e='emacsclient -t'
-alias ec='emacsclient -c'
-
 alias r='rails'
 alias rg='rails g'
 alias rn='rails new'
 alias rs='rails s'
 alias rc='rails c'
 
-alias v='vim'
-alias V='vim .'
+alias v='nvim'
+alias V='nvim .'
+
+alias ec='v ~/.editorconfig'
+alias ed='v ~/.vim/custom-dictionary.utf-8.add'
+alias ef='v ~/.config/fish/config.fish'
+alias eg='v ~/.gitconfig'
+alias ej='v ~/.jshintrc'
+alias et='v ~/.tmux.conf'
+alias ev='v ~/.vim/vimrc'
+alias todo="v ~/todo.md"
+alias etp="v ~/tp.md"
+
+alias e='emacsclient -t'
+alias ec='emacsclient -c'
 
 alias tm="tmux -u2"
 alias tmkillall="tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs -n1 tmux kill-session -t"

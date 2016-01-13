@@ -125,6 +125,7 @@ if is_confirmed; then
 
   # Vim
   _link 'vim' '.vim'
+  _link 'vim' '.config/nvim'
 
   # Emacs
   _link 'emacs.d' '.emacs.d'
@@ -152,6 +153,11 @@ if is_confirmed; then
 
   #Copy fonts to Fonts directory
   rsync -avz --quiet ${DOT}/fonts/* ${HOME}/Library/Fonts
+
+  # Fix an issue with C-h registering as BS in NeoVim
+  infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
+  tic $TERM.ti
+  rm -f $TERM.ti
 
   # Copy from source
   # cd ~/Library/Fonts && curl -fLo DroidSansMonoForPowerlinePlusNerdFileTypes.otf https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Meslo/S/Meslo%20LG%20S%20Regular%20for%20Powerline%20Plus%20Nerd%20File%20Types%20Plus%20Font%20Awesome%20Plus%20Octicons%20Plus%20Pomicons.otf
