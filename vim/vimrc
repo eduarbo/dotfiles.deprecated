@@ -524,19 +524,6 @@ Plug 'groenewege/vim-less'
 Plug 'rstacruz/vim-hyperstyle'
 
 " Html and templating languages
-" Plug 'mattn/emmet-vim'                                                  " {{{3
-" let g:use_emmet_complete_tag = 1
-" let g:user_emmet_install_global = 0
-" let g:user_emmet_expandabbr_key='<Tab>'
-" let g:user_emmet_next_key = '<C-l>'
-" let g:user_emmet_prev_key = '<C-h>'
-
-" augroup emmet
-"   au!
-
-"   au FileType html*,css*,scss,less imap <expr> <buffer> <tab> emmet#expandAbbrIntelligent("\<tab>")
-" augroup END
-" }}}
 Plug 'othree/html5.vim'                                                   " {{{3
 let g:event_handler_attributes_complete = 0
 let g:rdfa_attributes_complete = 0
