@@ -324,7 +324,7 @@ xmap <silent> iE <Plug>CamelCaseMotion_ie
 
 Plug 'xolox/vim-easytags', {'for': ['python', 'c', 'cpp', 'javascript']}
 Plug 'terryma/vim-expand-region'
-Plug 'Raimondi/delimitMate'
+Plug 'rstacruz/vim-closer'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-endwise'
@@ -694,11 +694,6 @@ augroup ft_javascript                                                     " {{{2
   au FileType javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2
   au FileType javascript setlocal foldlevel=99
   au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
-
-  " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-  " positioned inside of them AND the following code doesn't get unfolded.
-  au FileType javascript inoremap <buffer> {<cr> {}<left><cr><space><space>.<cr><esc>kA<bs>
-  au FileType javascript nnoremap <buffer> <localleader>b :call <SID>toggleStatement("debugger;  // XXX BREAKPOINT")<CR>
 augroup END "}}}
 
 augroup ft_man                                                            " {{{2
