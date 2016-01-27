@@ -1,8 +1,10 @@
-(load-theme 'molokai t)
-
 (line-number-mode 1)
 (column-number-mode 1)
 (global-linum-mode 1)
+
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 (when window-system
   (setq frame-title-format '(buffer-file-name "%f" ("%b")))
@@ -10,12 +12,13 @@
   (mouse-wheel-mode t)
   (blink-cursor-mode -1))
 
-(setq visible-bell t
+(setq visible-bell nil
       font-lock-maximum-decoration t
       truncate-partial-width-windows nil
       scroll-preserve-screen-position t
       inhibit-startup-message t
       inhibit-splash-screen t
+      inhibit-startup-echo-area-message t
       color-theme-is-global t
       sentence-end-double-space nil
       mouse-yank-at-point t
@@ -58,10 +61,14 @@
 
 (defmacro rename-modeline (package-name mode new-name)
   `(eval-after-load ,package-name
-     '(defadvice ,mode (after rename-modeline activate)
-        (setq mode-name ,new-name))))
+                    '(defadvice ,mode (after rename-modeline activate)
+                                (setq mode-name ,new-name))))
 
 (rename-modeline "js2-mode" js2-mode "JS2")
 (rename-modeline "clojure-mode" clojure-mode "Clj")
 
-(provide 'appearance)
+;; start maximized
+(custom-set-variables
+  '(initial-frame-alist (quote ((fullscreen . maximized)))))
+
+(provide 'init-appearance)
