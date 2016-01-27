@@ -75,14 +75,12 @@
 
 ;;; Markdown mode:
 (add-hook 'markdown-mode-hook (lambda ()
-                                (set-fill-column 80)
                                 (turn-on-auto-fill)
                                 (flyspell-mode)))
 
 ;;; HTML mode:
 (add-hook 'html-mode-hook (lambda ()
-                            (setq sgml-basic-offset 2)
-                            (setq indent-tabs-mode nil)))
+                            (setq sgml-basic-offset 2)))
 
 
 (add-hook 'before-save-hook

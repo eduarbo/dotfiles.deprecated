@@ -88,6 +88,7 @@
   (define-key evil-normal-state-map (kbd "C-]")   'gtags-find-tag-from-here)
   (define-key evil-normal-state-map (kbd "g/")    'occur-last-search)
   (define-key evil-normal-state-map (kbd "[i")    'show-first-occurrence)
+  (define-key evil-insert-state-map (kbd "C-a")   'smarter-move-beginning-of-line)
   (define-key evil-insert-state-map (kbd "C-e")   'end-of-line) ;; I know...
   (define-key evil-normal-state-map (kbd "j")     'evil-next-visual-line)
   (define-key evil-normal-state-map (kbd "k")     'evil-previous-visual-line)
@@ -126,9 +127,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (global-set-key [escape] 'evil-exit-emacs-state)
 
   ;; Don't move back the cursor one position when exiting insert mode
-  (setq evil-move-cursor-back nil)
-
-  )
+  (setq evil-move-cursor-back nil))
 
 (use-package evil
   :ensure t

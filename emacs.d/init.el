@@ -31,7 +31,6 @@
 (require 'init-essentials)
 (require 'init-utils)
 (require 'init-platform)
-(require 'init-globals)
 (require 'init-elpa)
 (require 'init-appearance)
 
