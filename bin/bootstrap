@@ -47,6 +47,7 @@ extra_formulae=( #{{{
 'nvm'
 'openssl'
 'pgcli'
+'pandoc'
 'pt'
 'rsync --default-names'
 'selecta'
