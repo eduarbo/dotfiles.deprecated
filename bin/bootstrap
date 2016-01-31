@@ -56,7 +56,7 @@ extra_formulae=( #{{{
 'tig'
 'vit'
 'wget --with-iri'
-# 'emacs --HEAD --use-git-head --cocoa --srgb'
+'emacs --HEAD --use-git-head --cocoa --with-srgb --with-imagemagick --with-gnutls'
 ) #}}}
 gems=( #{{{
 sqlint
