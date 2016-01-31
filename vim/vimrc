@@ -264,7 +264,6 @@ augroup END
 Plug 'benekastah/neomake'                                                 " {{{3
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_json_enabled_makers = ['jsonlint']
-let g:neomake_sh_enabled_makers = ['sh', 'shellcheck']
 let g:neomake_ruby_enabled_makers = ['mri']
 let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_c_enabled_makers = ['gcc', 'clang-tidy']
@@ -484,6 +483,7 @@ let g:go_fmt_fail_silently = 1
 " }}}
 Plug 'tejr/vim-tmux'
 Plug 'tpope/vim-git'
+Plug 'lambdatoast/elm.vim'
 
 " Markdown
 Plug 'shime/vim-livedown', {'for': ['markdown']}
@@ -557,7 +557,7 @@ Plug 'tpope/vim-rails'
 " Style                                                                     {{{2
 Plug 'morhetz/gruvbox'
 Plug 'ryanoasis/vim-devicons'
-Plug 'inside/vim-search-pulse'
+" Plug 'inside/vim-search-pulse'
 " }}}
 
 call plug#end()
@@ -660,6 +660,10 @@ augroup ft_java                                                           " {{{2
   au FileType java setlocal foldmarker={,}
   au FileType java setlocal makeprg=javac\ %
   au FileType java setlocal errorformat=%A%f:%l:\ %m,%-Z%p^,%-C%.%#
+augroup END "}}}
+
+augroup ft_json                                                           " {{{2
+au FileType json noremap <buffer> <localleader>= :<c-u>%!python -m json.tool<cr>
 augroup END "}}}
 
 augroup ft_javascript                                                     " {{{2
