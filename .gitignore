@@ -24,6 +24,7 @@ emacs.d/.mc-lists*
 emacs.d/history
 emacs.d/eshell/
 emacs.d/history/
+emacs.d/undo/
 emacs.d/saveplace/
 emacs.d/elpa/
 emacs.d/auto-save-list/
@@ -31,3 +32,5 @@ emacs.d/packages/
 emacs.d/el-get/
 emacs.d/backups/
 emacs.d/network-security.data
+emacs.d/projectile.cache
+emacs.d/projectile-bookmarks.eld
