@@ -62,8 +62,7 @@
     "no-iterator": 0,
     "linebreak-style": 0,
     "comma-style": [
-      2,
-      "first"
+      2
     ],
     "no-loop-func": 0,
     "no-multi-str": 0,
