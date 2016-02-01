@@ -1,60 +1,37 @@
+;;; Begin initialization
+;; Turn off mouse interface early in startup to avoid momentary display
+(when window-system
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tooltip-mode -1))
+
+(setq inhibit-startup-message t)
+(setq initial-scratch-message "")
+
+;;; Set up package
+(require 'package)
+
+;;; Standard package repositories
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("elpy" . "https://jorgenschaefer.github.io/packages/"))
 (package-initialize)
 
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
-(add-to-list 'exec-path "/usr/local/bin")
+;;; Bootstrap use-package
+;; Install use-package if it's not already installed.
+;; use-package is used to configure the rest of the packages.
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-;; Keep emacs Custom-settings in separate file
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file)
-
-;; Write backup files to own directory
-(setq backup-directory-alist
-      `(("." . ,(expand-file-name
-                  (concat user-emacs-directory "backups")))))
-;; Store all backup and autosave files in the tmp dir
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-;; Make backups of files, even when they're in version control
-(setq vc-make-backup-files t)
-
-;; Save point position between sessions
-(require 'saveplace)
-(setq-default save-place t)
-(setq save-place-file (expand-file-name ".places" user-emacs-directory))
-
-;;; File type overrides.
-(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
-
-(require 'init-essentials)
-(require 'init-utils)
-(require 'init-platform)
-(require 'init-elpa)
-(require 'init-appearance)
-
-(maybe-require-package 'use-package)
 (eval-when-compile
   (require 'use-package))
-
+(require 'diminish)                ;; if you use :diminish
 (require 'bind-key)
-(require 'init-org)
-(require 'init-fonts)
-(require 'init-gtags)
-(require 'init-evil)
-(require 'init-maps)
-(require 'init-w3m)
-(require 'init-powerline)
-(require 'init-flycheck)
-(require 'init-tmux)
-(require 'init-packages)
-(require 'init-hooks)
-(require 'init-linum)
+(setq use-package-verbose t)
 
-;; emacs server
-(require 'server)
-(unless (server-running-p) (server-start))
-
-(provide 'init)
-;;; init.el ends here
+;;; Load the config
+(org-babel-load-file (concat user-emacs-directory "config.org"))

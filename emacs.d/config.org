@@ -1,0 +1,1732 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Eduardo Ruiz
+
+This configuration uses the [[https://github.com/jwiegley/use-package][use-package]] package from John Wiegley, which is
+a fantastic way to manage package configurations. Heavily inspired in [[https://github.com/danielmai/.emacs.d][Daniel Mai]] and [[https://github.com/aaronbieber/dotfiles/tree/master/configs/emacs.d][Aaron Bieber]] emacs configurations.
+
+Many thanks to my friend [[https://github.com/gmjorge][Jorge Garcia]] for encourage me to move to emacs with evil mode. This was my third try and finally I'm staying here.
+
+* Installing Emacs
+
+On OS X, [[http://brew.sh/][homebrew]] is an easy way to install emacs.
+
+Here's what the parameter means.
+- ~--with-cocoa~ :: installs emacs with the OS X GUI version
+- ~--with-imagemagick~ :: installs emacs with imagemagick support for image processing
+- ~--with-gnutls~ :: installs emacs with GnuTLS to utilize encrypted SSL and TLS connections
+
+#+begin_src sh
+brew install emacs --with-cocoa --with-imagemagick --with-gnutls
+#+end_src
+
+* Personal Information
+
+#+begin_src emacs-lisp
+(setq user-full-name "Eduardo Ruiz"
+      user-mail-address "eduarbo@gmail.com")
+#+end_src
+
+* Customize settings
+
+Set up the customize file to its own separate file, instead of saving
+customize settings in [[file:init.el][init.el]].
+
+#+begin_src emacs-lisp
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
+#+end_src
+
+* Custom Functions
+
+Some handy functions that I collected from many sources.
+
+** Occur
+
+The following function for ~occur-dwim~ is taken from [[https://github.com/abo-abo][Oleh Krehel]] from
+[[http://oremacs.com/2015/01/26/occur-dwim/][his blog post at (or emacs]]. It takes the current region or the symbol
+at point as the default value for occur.
+
+#+begin_src emacs-lisp
+(defun occur-dwim ()
+  "Call `occur' with a sane default."
+  (interactive)
+  (push (if (region-active-p)
+            (buffer-substring-no-properties
+             (region-beginning)
+             (region-end))
+          (thing-at-point 'symbol))
+        regexp-history)
+  (call-interactively 'occur))
+#+end_src
+
+** More
+#+begin_src emacs-lisp
+;;----------------------------------------------------------------------------
+;; Handier way to add modes to auto-mode-alist
+;;----------------------------------------------------------------------------
+(defun add-auto-mode (mode &rest patterns)
+"Add entries to `auto-mode-alist' to use `MODE' for all given file `PATTERNS'."
+(dolist (pattern patterns)
+    (add-to-list 'auto-mode-alist (cons pattern mode))))
+
+
+;;----------------------------------------------------------------------------
+;; String utilities missing from core emacs
+;;----------------------------------------------------------------------------
+(defun sanityinc/string-all-matches (regex str &optional group)
+"Find all matches for `REGEX' within `STR', returning the full match string or group `GROUP'."
+(let ((result nil)
+        (pos 0)
+        (group (or group 0)))
+    (while (string-match regex str pos)
+        (push (match-string group str) result)
+        (setq pos (match-end group)))
+    result))
+
+(defun sanityinc/string-rtrim (str)
+"Remove trailing whitespace from `STR'."
+(replace-regexp-in-string "[ \t\n]+$" "" str))
+
+
+;;----------------------------------------------------------------------------
+;; Find the directory containing a given library
+;;----------------------------------------------------------------------------
+(autoload 'find-library-name "find-func")
+(defun sanityinc/directory-of-library (library-name)
+"Return the directory in which the `LIBRARY-NAME' load file is found."
+(file-name-as-directory (file-name-directory (find-library-name library-name))))
+
+
+;;----------------------------------------------------------------------------
+;; Delete the current file
+;;----------------------------------------------------------------------------
+(defun delete-this-file ()
+"Delete the current file, and kill the buffer."
+(interactive)
+(or (buffer-file-name) (error "No file is currently being edited"))
+(when (yes-or-no-p (format "Really delete '%s'?"
+                            (file-name-nondirectory buffer-file-name)))
+    (delete-file (buffer-file-name))
+    (kill-this-buffer)))
+
+
+;;----------------------------------------------------------------------------
+;; Rename the current file
+;;----------------------------------------------------------------------------
+(defun rename-this-file-and-buffer (new-name)
+"Renames both current buffer and file it's visiting to NEW-NAME."
+(interactive "sNew name: ")
+(let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (unless filename
+    (error "Buffer '%s' is not visiting a file!" name))
+    (if (get-buffer new-name)
+    (message "A buffer named '%s' already exists!" new-name)
+    (progn
+        (when (file-exists-p filename)
+        (rename-file filename new-name 1))
+        (rename-buffer new-name)
+        (set-visited-file-name new-name)))))
+
+
+;;----------------------------------------------------------------------------
+;; Browse current HTML file
+;;----------------------------------------------------------------------------
+(defun browse-current-file ()
+"Open the current file as a URL using `browse-url'."
+(interactive)
+(let ((file-name (buffer-file-name)))
+    (if (tramp-tramp-file-p file-name)
+    (error "Cannot open tramp file")
+    (browse-url (concat "file://" file-name)))))
+
+
+(defun smart-open-line ()
+"Insert an empty line after the current line.
+Position the cursor at its beginning, according to the current mode."
+(interactive)
+(move-end-of-line nil)
+(newline-and-indent))
+
+
+(defun smart-open-line-above ()
+"Insert an empty line above the current line.
+Position the cursor at it's beginning, according to the current mode."
+(interactive)
+(move-beginning-of-line nil)
+(newline-and-indent)
+(forward-line -1)
+(indent-according-to-mode))
+
+
+(defun smarter-move-beginning-of-line (arg)
+"Move point back to indentation of beginning of line.
+
+Move point to the first non-whitespace character on this line.
+If point is already there, move to the beginning of the line.
+Effectively toggle between the first non-whitespace character and
+the beginning of the line.
+
+If ARG is not nil or 1, move forward ARG - 1 lines first.  If
+point reaches the beginning or end of the buffer, stop there."
+(interactive "^p")
+(setq arg (or arg 1))
+
+;; Move lines first
+(when (/= arg 1)
+    (let ((line-move-visual nil))
+    (forward-line (1- arg))))
+
+(let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+    (move-beginning-of-line 1))))
+
+(defun find-user-init-file ()
+"Edit the `user-init-file', in another window."
+(interactive)
+(find-file-other-window user-init-file))
+
+(defun smart-kill-whole-line (&optional arg)
+"A simple wrapper around `kill-whole-line' that respects indentation."
+(interactive "P")
+(kill-whole-line arg)
+(back-to-indentation))
+
+(defun indent-buffer ()
+"Indent the currently visited buffer."
+(interactive)
+(indent-region (point-min) (point-max)))
+
+(defun indent-region-or-buffer ()
+"Indent a region if selected, otherwise the whole buffer."
+(interactive)
+(save-excursion
+    (if (region-active-p)
+        (progn
+        (indent-region (region-beginning) (region-end))
+        (message "Indented selected region."))
+    (progn
+        (indent-buffer)
+        (message "Indented buffer.")))))
+
+(defun comment-eclipse ()
+    (interactive)
+    (let ((start (line-beginning-position))
+            (end (line-end-position)))
+        (when (region-active-p)
+        (setq start (save-excursion
+                        (goto-char (region-beginning))
+                        (beginning-of-line)
+                        (point))
+                end (save-excursion
+                    (goto-char (region-end))
+                    (end-of-line)
+                    (point))))
+        (comment-or-uncomment-region start end)))
+
+(defun kill-region-or-backward-word ()
+(interactive)
+(if (region-active-p)
+    (kill-region (region-beginning) (region-end))
+    (backward-kill-word 1)))
+
+(defun copy-to-end-of-line ()
+(interactive)
+(kill-ring-save (point)
+                (line-end-position))
+(message "Copied to end of line"))
+
+(defun copy-line (arg)
+"Copy to end of line, or as many lines as prefix argument"
+(interactive "P")
+(if (null arg)
+    (copy-to-end-of-line)
+    (copy-whole-lines (prefix-numeric-value arg))))
+
+(defun save-region-or-current-line (arg)
+(interactive "P")
+(if (region-active-p)
+    (kill-ring-save (region-beginning) (region-end))
+    (copy-line arg)))
+
+(require 'htmlfontify)
+(defun fontify-and-browse ()
+"Fontify the current buffer into HTML, write it to a temp file, and open it in a browser."
+(interactive)
+(let* ((fontified-buffer (hfy-fontify-buffer))
+        (temp-file-name (make-temp-file "ff" nil ".html")))
+    (with-current-buffer fontified-buffer
+                        (write-region (point-min) (point-max) temp-file-name))
+    (browse-url (concat "file://" temp-file-name))))
+
+(defadvice
+load-theme (after restore-line-numbering)
+"Re-set linum-format after loading themes, which frequently overwrite it."
+(defvar linum-format 'my-linum-relative-line-numbers))
+(ad-activate 'load-theme)
+
+(defun chrome-reload (&optional focus)
+"Use osascript to tell Google Chrome to reload.
+If optional argument FOCUS is non-nil, give Chrome the focus as well."
+(interactive "P")
+(let ((cmd (concat "osascript -e 'tell application \"Google Chrome\" "
+                    "to (reload (active tab of (window 1)))"
+                    (if focus " & activate" "")
+                    "'")))
+    (shell-command cmd "*Reload Chrome")))
+
+(defun load-only-theme (theme)
+"Disable all themes and then load THEME interactively."
+(interactive
+    (list
+    (completing-read "Load custom theme: "
+                    (mapcar 'symbol-name
+                            (custom-available-themes)))))
+(mapcar #'disable-theme custom-enabled-themes)
+(load-theme (intern theme) nil nil)
+(when (fboundp 'powerline-reset)
+    (powerline-reset)))
+
+(defun func-region (func start end)
+"Run FUNC over the region between START and END in current buffer."
+(save-excursion
+    (let ((text (delete-and-extract-region start end)))
+    (insert (funcall func text)))))
+
+(defun hex-region (start end)
+"Hexify (URL encod) the region between START and END in current buffer."
+(interactive "r")
+(func-region #'url-hexify-string start end))
+
+(defun unhex-region (start end)
+"Unhex (URL decode) the region between START and END in current buffer."
+(interactive "r")
+(func-region #'url-unhex-string start end))
+
+(defun cycle-powerline-separators (&optional reverse)
+"Set Powerline separators in turn.  If REVERSE is not nil, go backwards."
+(interactive)
+(let* ((fn (if reverse 'reverse 'identity))
+        (separators (funcall fn '("arrow" "arrow-fade" "slant"
+                                "chamfer" "wave" "brace" "roundstub" "zigzag"
+                                "butt" "rounded" "contour" "curve")))
+        (found nil))
+    (while (not found)
+        (progn (setq separators (append (cdr separators) (list (car separators))))
+                (when (string= (car separators) powerline-default-separator)
+                    (progn (setq powerline-default-separator (cadr separators))
+                        (setq found t)
+                        (redraw-display)))))))
+
+(defun occur-last-search ()
+"Run `occur` with the last evil search term."
+(interactive)
+;; Use the appropriate search term based on regexp setting.
+(let ((term (if evil-regexp-search
+                (car-safe regexp-search-ring)
+                (car-safe search-ring))))
+    ;; If a search term exists, execute `occur` on it.
+    (if (> (length term) 0)
+    (occur term)
+    (message "No term to search for."))))
+
+(defun show-first-occurrence ()
+"Display the location of the word at point's first occurrence in the buffer."
+(interactive)
+(save-excursion
+    (let ((search-word (thing-at-point 'symbol t)))
+    (goto-char 1)
+    (re-search-forward search-word)
+    (message (concat
+                "L" (number-to-string (line-number-at-pos)) ": "
+                (replace-regexp-in-string
+                "[ \t\n]*\\'"
+                ""
+                (thing-at-point 'line t)
+                ))))))
+
+(defun switch-to-previous-buffer ()
+"Switch to previously open buffer.
+Repeated invocations toggle between the two most recently open buffers."
+(interactive)
+(switch-to-buffer (other-buffer (current-buffer) 1)))
+
+(defun selective-display-increase ()
+(interactive)
+(set-selective-display
+    (if selective-display (+ selective-display 1) 1)))
+
+(defun selective-display-decrease ()
+(interactive)
+(when selective-display
+    (set-selective-display
+    (if (< (- selective-display 1) 1)
+        nil
+        (- selective-display 1)))))
+
+(defun my-align-single-equals ()
+"Align on the first single equal sign."
+(interactive)
+(align-regexp
+    (region-beginning) (region-end)
+    "\\(\\s-*\\)=" 1 1 nil))
+
+;;; Helpers for narrowing.
+(defun narrow-and-set-normal ()
+"Narrow to the region and, if in a visual mode, set normal mode."
+(interactive)
+(narrow-to-region (region-beginning) (region-end))
+(if (string= evil-state "visual")
+    (progn (evil-normal-state nil)
+        (evil-goto-first-line))))
+
+;;; From http://beatofthegeek.com/2014/02/my-setup-for-using-emacs-as-web-browser.html
+(defun wikipedia-search (search-term)
+"Search for SEARCH-TERM on wikipedia"
+(interactive
+    (let ((term (if mark-active
+                (buffer-substring (region-beginning) (region-end))
+                (word-at-point))))
+    (list (read-string (format "Wikipedia (%s): " term) nil nil term))))
+(w3m-browse-url (concat
+                    "http://en.m.wikipedia.org/w/index.php?search="
+                    search-term)))
+
+(defun air--pop-to-file (file &optional split)
+"Visit a FILE, either in the current window or a SPLIT."
+(if split
+    (find-file-other-window file)
+    (find-file file)))
+
+(defun air-pop-to-org-todo (split)
+"Visit my main TODO list, in the current window or a SPLIT."
+(interactive "P")
+(air--pop-to-file "~/Dropbox/org/todo.org" split))
+
+(defun air-pop-to-org-notes (split)
+"Visit my main notes file, in the current window or a SPLIT."
+(interactive "P")
+(air--pop-to-file "~/Dropbox/org/notes.org" split))
+
+(defun air-pop-to-org-vault (split)
+"Visit my encrypted vault file, in the current window or a SPLIT."
+(interactive "P")
+(air--pop-to-file "~/Dropbox/org/vault.gpg" split))
+
+(defun air-pop-to-org-agenda (split)
+"Visit the org agenda, in the current window or a SPLIT."
+(interactive "P")
+(org-agenda-list)
+(when (not split)
+    (delete-other-windows)))
+#+end_src
+
+* Theme
+** Gruvbox theme
+
+[[https://github.com/greduan/emacs-theme-gruvbox][Gruvbox]] is a retro groove color scheme heavily inspired by badwolf, jellybeans and solarized.
+
+#+begin_src emacs-lisp
+(use-package gruvbox-theme
+  :ensure t
+  :init
+    (load-theme 'gruvbox t))
+#+end_src
+
+** Convenient theme functions
+
+#+begin_src emacs-lisp
+(defun switch-theme (theme)
+  "Disables any currently active themes and loads THEME."
+  ;; This interactive call is taken from `load-theme'
+  (interactive
+   (list
+    (intern (completing-read "Load custom theme: "
+                             (mapc 'symbol-name
+                                   (custom-available-themes))))))
+  (let ((enabled-themes custom-enabled-themes))
+    (mapc #'disable-theme custom-enabled-themes)
+    (load-theme theme t)))
+
+(defun disable-active-themes ()
+  "Disables any currently active themes listed in `custom-enabled-themes'."
+  (interactive)
+  (mapc #'disable-theme custom-enabled-themes))
+
+(bind-key "s-<f12>" 'switch-theme)
+(bind-key "s-<f11>" 'disable-active-themes)
+#+end_src
+
+* Font
+
+[[http://sourcefoundry.org/hack/][Hack]] is an awesome open source monospaced font.
+
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist
+             '(font . "Hack-12"))
+#+end_src
+
+* Sane defaults
+
+Let's start with some sane defaults, shall we?
+
+Sources for this section include [[https://github.com/magnars/.emacs.d/blob/master/settings/sane-defaults.el][Magnars Sveen]] and [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chua]].
+
+#+begin_src emacs-lisp
+;; These functions are useful. Activate them.
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'dired-find-alternate-file 'disabled nil)
+
+;; Acents
+(require 'iso-transl)
+
+;; Increase number of undo
+(setq undo-limit 100000)
+
+;; Allow all disabled commands
+(setq disabled-command-hook nil)
+
+;; Seed the random-number generator
+(random t)
+
+;; Answering just 'y' or 'n' will do
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;; Keep all backup and auto-save files in one directory
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+
+;; UTF-8 please
+(setq locale-coding-system 'utf-8) ; pretty
+(set-terminal-coding-system 'utf-8) ; pretty
+(set-keyboard-coding-system 'utf-8) ; pretty
+(set-selection-coding-system 'utf-8) ; please
+(prefer-coding-system 'utf-8) ; with sugar on top
+(setq-default indent-tabs-mode nil)
+
+;; Turn off the blinking cursor
+(blink-cursor-mode -1)
+
+;; Never insert tabs
+(setq-default indent-tabs-mode nil)
+(set-default 'tab-width 2)
+
+(setq-default indicate-empty-lines t)
+
+;; Don't count two spaces after a period as the end of a sentence.
+;; Just one space is needed.
+(setq sentence-end-double-space nil)
+
+;; delete the region when typing, just like as we expect nowadays.
+(delete-selection-mode t)
+
+;; Highlight matching parentheses when the point is on them.
+(show-paren-mode t)
+(defvar show-paren-delay 0
+  "Delay (in seconds) before matching paren is highlighted.")
+
+;; Allow pasting selection outside of Emacs
+(setq x-select-enable-clipboard t)
+
+;; Show keystrokes in progress
+(setq echo-keystrokes 0.1)
+
+;; Transparently open compressed files
+(auto-compression-mode t)
+
+;; UTF-8 please
+(set-language-environment    'utf-8)
+
+;; Auto refresh buffers
+(global-auto-revert-mode 1)
+
+(column-number-mode t)
+
+;; Wrap line
+(global-visual-line-mode)
+(diminish 'visual-line-mode)
+
+;; Add parts of each file's directory to the buffer name if not unique
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+(setq uniquify-separator "/")
+(setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
+(setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
+
+;; -i gets alias definitions from .bash_profile
+(setq shell-command-switch "-ic")
+
+;; Don't beep at me
+(setq visible-bell t)
+
+;; Show active region
+(transient-mark-mode 1)
+(make-variable-buffer-local 'transient-mark-mode)
+(put 'transient-mark-mode 'permanent-local t)
+(setq-default transient-mark-mode t)
+
+;; Save minibuffer history
+(savehist-mode 1)
+(setq history-length 10000)
+
+;; Easily navigate sillycased words
+(global-subword-mode 1)
+
+;; Allow recursive minibuffers
+(setq enable-recursive-minibuffers t)
+
+;; Don't be so stingy on the memory, we have lots now. It's the distant future.
+(setq gc-cons-threshold 20000000)
+
+;; Nic says eval-expression-print-level needs to be set to nil (turned off) so
+;; that you can always see what's happening.
+(setq eval-expression-print-level nil)
+
+;; When popping the mark, continue popping until the cursor actually moves
+;; Also, if the last command was a copy - skip past all the expand-region cruft.
+(defadvice pop-to-mark-command (around ensure-new-position activate)
+  (let ((p (point)))
+    (when (eq last-command 'save-region-or-current-line)
+      ad-do-it
+      ad-do-it
+      ad-do-it)
+    (dotimes (i 10)
+      (when (= p (point)) ad-do-it))))
+
+;; Highlight current line
+(global-hl-line-mode 1)
+(set-face-attribute hl-line-face nil :underline nil)
+
+;; Rename modelines
+(defmacro rename-modeline (package-name mode new-name)
+  `(eval-after-load ,package-name
+                    '(defadvice ,mode (after rename-modeline activate)
+                                (setq mode-name ,new-name))))
+
+(rename-modeline "js2-mode" js2-mode "JS2")
+(rename-modeline "clojure-mode" clojure-mode "Clj")
+
+;; Misc
+(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+(setq-default left-fringe-width nil)
+(eval-after-load "vc" '(setq vc-handled-backends nil))
+(setq vc-follow-symlinks t)
+(setq large-file-warning-threshold nil)
+(setq split-width-threshold nil)
+
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+(setq font-lock-maximum-decoration t
+      truncate-partial-width-windows nil
+      scroll-preserve-screen-position t
+      inhibit-startup-message t
+      inhibit-splash-screen t
+      inhibit-startup-echo-area-message t
+      color-theme-is-global t
+      mouse-yank-at-point t
+      ring-bell-function 'ignore
+      whitespace-style '(face trailing lines-tail tabs)
+      whitespace-line-column 80
+      diff-switches "-u")
+
+#+end_src
+
+* Window management
+
+Whenever I split windows, I usually do so and also switch to the other
+window as well, so might as well rebind the splitting key bindings to
+do just that to reduce the repetition.
+
+#+begin_src emacs-lisp
+(defun vsplit-other-window ()
+  "Splits the window vertically and switches to that window."
+  (interactive)
+  (split-window-vertically)
+  (other-window 1 nil))
+
+(defun hsplit-other-window ()
+  "Splits the window horizontally and switches to that window."
+  (interactive)
+  (split-window-horizontally)
+  (other-window 1 nil))
+#+end_src
+
+** Winner mode
+
+Winner mode is a global minor mode that records the changes in the window
+configuration (i.e., how the frames are partitioned into windows), so that
+you can “undo” them.
+
+#+begin_src emacs-lisp
+;; Undo/redo window configuration with C-c <left>/<right>
+(winner-mode t)
+#+end_src
+
+* Convenience Mappings
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "<F1>") 'help-map)
+(global-set-key [remap kill-whole-line] 'smart-kill-whole-line)
+(global-set-key [(shift return)] 'smart-open-line)
+(global-set-key [(control shift return)] 'smart-open-line-above)
+#+end_src
+
+* Evil Mode
+
+I love Vim, so Evil is a must.
+
+#+begin_src emacs-lisp
+(defun air--config-evil-leader ()
+  "Configure evil leader mode."
+  (evil-leader/set-leader ",")
+  (setq evil-leader/in-all-states 1)
+  (evil-leader/set-key
+    ","  'helm-projectile
+    "<"  'helm-projectile-switch-project
+    "n"  'helm-find-files
+    "b"  'helm-mini             ;; Switch to another buffer
+    "m"  'avy-goto-char-2
+    "."  'switch-to-previous-buffer
+    ":"  'eval-expression
+    "c"  'evilnc-comment-or-uncomment-lines
+    "d"  (lambda () (interactive) (evil-ex-call-command nil "bdelete" nil))
+    "D"  'open-current-line-in-codebase-search
+    "l"  'whitespace-mode       ;; Show invisible characters
+    "o"  'delete-other-windows  ;; C-w o
+    "A"  'ag-project            ;; Ag search from project's root
+    "f"  'swiper-helm
+    "r"  'chrome-reload
+    "R"  (lambda () (interactive) (font-lock-fontify-buffer) (redraw-display))
+    "w"  'delete-trailing-whitespace
+    "t"  'gtags-reindex
+    "T"  'gtags-find-tag
+    "x"  'helm-M-x
+    "v"  'hsplit-other-window
+    "s"  'vsplit-other-window)
+
+  ;; Magit mappings
+  (evil-leader/set-key
+    "gs"  'magit-status
+    "gb"  'magit-blame-toggle)
+
+  (defun magit-blame-toggle ()
+    "Toggle magit-blame-mode on and off interactively."
+    (interactive)
+    (if (and (boundp 'magit-blame-mode) magit-blame-mode)
+        (magit-blame-quit)
+      (call-interactively 'magit-blame))))
+
+(defun air--config-evil ()
+  "Configure evil mode."
+
+  ;; Use Emacs state in these additional modes.
+  (dolist (mode '(ag-mode
+                  flycheck-error-list-mode
+                  git-rebase-mode))
+    (add-to-list 'evil-emacs-state-modes mode))
+
+  ;; Use insert state in these additional modes.
+  (dolist (mode '(magit-log-edit-mode))
+    (add-to-list 'evil-insert-state-modes mode))
+
+  (add-to-list 'evil-buffer-regexps '("\\*Flycheck"))
+
+  (evil-add-hjkl-bindings ag-mode-map 'normal
+    "n"   'evil-search-next
+    "N"   'evil-search-previous
+    "RET" 'compile-goto-error)
+
+  (evil-add-hjkl-bindings occur-mode-map 'emacs
+    (kbd "/")       'evil-search-forward
+    (kbd "n")       'evil-search-next
+    (kbd "N")       'evil-search-previous
+    (kbd "C-w C-w") 'other-window)
+
+  (defun next-conflict-marker ()
+    (interactive)
+    (evil-next-visual-line)
+    (if (not (search-forward-regexp "\\(>>>>\\|====\\|<<<<\\)" (point-max) t))
+        (evil-previous-visual-line))
+    (move-beginning-of-line nil))
+
+  (defun previous-conflict-marker ()
+    (interactive)
+    (search-backward-regexp "\\(>>>>\\|====\\|<<<<\\)" (point-min) t)
+    (move-beginning-of-line nil))
+
+  ;; Global bindings.
+
+  ;; Window motions
+  (define-key evil-normal-state-map (kbd "C-h")   'evil-window-left)
+  (define-key evil-normal-state-map (kbd "C-j")   'evil-window-down)
+  (define-key evil-normal-state-map (kbd "C-k")   'evil-window-up)
+  (define-key evil-normal-state-map (kbd "C-l")   'evil-window-right)
+
+  (define-key evil-normal-state-map (kbd ";")     'evil-ex)
+  (define-key evil-normal-state-map (kbd "C-]")   'gtags-find-tag-from-here)
+  (define-key evil-normal-state-map (kbd "g/")    'occur-last-search)
+  (define-key evil-normal-state-map (kbd "[i")    'show-first-occurrence)
+
+  (define-key evil-insert-state-map (kbd "C-a")   'smarter-move-beginning-of-line)
+  (define-key evil-insert-state-map (kbd "C-e")   'end-of-line) ;; I know...
+  (define-key evil-insert-state-map (kbd "S-h")   'smarter-move-beginning-of-line)
+  (define-key evil-insert-state-map (kbd "S-l")   'end-of-line)
+
+  ;; Treat wrapped line scrolling as single lines
+  (define-key evil-normal-state-map (kbd "j")     'evil-next-visual-line)
+  (define-key evil-normal-state-map (kbd "k")     'evil-previous-visual-line)
+
+  (define-key evil-normal-state-map (kbd "C-u") (lambda ()
+                                                  (interactive)
+                                                  (evil-scroll-up nil)))
+  (define-key evil-normal-state-map (kbd "C-d") (lambda ()
+                                                  (interactive)
+                                                  (evil-scroll-down nil)))
+
+  (evil-define-key 'normal org-mode-map (kbd "]n") 'org-forward-heading-same-level)
+  (evil-define-key 'normal org-mode-map (kbd "[n") 'org-backward-heading-same-level)
+  (evil-define-key 'normal org-mode-map (kbd "C-S-l") 'org-shiftright)
+  (evil-define-key 'normal org-mode-map (kbd "C-S-h") 'org-shiftleft)
+  (evil-define-key'insert org-mode-map (kbd "C-S-l") 'org-shiftright)
+  (evil-define-key 'insert org-mode-map (kbd "C-S-h") 'org-shiftleft)
+
+  (defun minibuffer-keyboard-quit ()
+    "Abort recursive edit.
+In Delete Selection mode, if the mark is active, just deactivate it;
+then it takes a second \\[keyboard-quit] to abort the minibuffer."
+    (interactive)
+    (if (and delete-selection-mode transient-mark-mode mark-active)
+        (setq deactivate-mark  t)
+      (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+      (abort-recursive-edit)))
+
+  ;; Make escape quit everything, whenever possible.
+  (define-key evil-normal-state-map [escape] 'keyboard-quit)
+  (define-key evil-visual-state-map [escape] 'keyboard-quit)
+  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+  (global-set-key [escape] 'evil-exit-emacs-state)
+
+  ;; Don't move back the cursor one position when exiting insert mode
+  (setq evil-move-cursor-back nil))
+
+(use-package evil
+  :ensure t
+  :config
+  (add-hook 'evil-mode-hook 'air--config-evil)
+  (evil-mode 1)
+
+  (use-package evil-escape
+    :diminish evil-escape-mode
+    :ensure t
+    :config
+    (setq-default evil-escape-key-sequence "jk")
+    :init
+    (evil-escape-mode))
+
+  (use-package evil-leader
+    :ensure t
+    :config
+    (global-evil-leader-mode)
+    (air--config-evil-leader))
+
+  (use-package evil-jumper
+    :ensure t
+    :config
+    (global-evil-jumper-mode))
+
+  (use-package evil-surround
+    :ensure t
+    :config
+    (global-evil-surround-mode 1))
+
+  (use-package evil-visualstar
+    :ensure t
+    :config
+    (global-evil-visualstar-mode))
+
+  (use-package evil-indent-textobject
+    :ensure t))
+
+#+end_src
+
+* Mac customizations
+
+There are configurations to make when running Emacs on OS X (hence the
+"darwin" system-type check).
+
+#+begin_src emacs-lisp
+(let ((is-mac (string-equal system-type "darwin")))
+  (when is-mac
+    ;; delete files by moving them to the trash
+    (setq delete-by-moving-to-trash t)
+    (setq trash-directory "~/.Trash")
+
+    ;; Don't make new frames when opening a new file with Emacs
+    (setq ns-pop-up-frames nil)
+
+    ;; set the Fn key as the hyper key
+    (setq ns-function-modifier 'hyper)
+
+    ;; Use Command-` to switch between Emacs windows (not frames)
+    (bind-key "s-`" 'other-window)
+
+    ;; Use Command-Shift-` to switch Emacs frames in reverse
+    (bind-key "s-~" (lambda() () (interactive) (other-window -1)))
+
+    ;; Because of the keybindings above, set one for `other-frame'
+    (bind-key "s-1" 'other-frame)
+
+    ;; Fullscreen!
+    (setq ns-use-native-fullscreen nil) ; Not Lion style
+    (bind-key "<s-return>" 'toggle-frame-fullscreen)
+    ;; Start maximized
+    (custom-set-variables
+      '(initial-frame-alist (quote ((fullscreen . maximized)))))
+
+    ;; buffer switching
+    (bind-key "s-{" 'previous-buffer)
+    (bind-key "s-}" 'next-buffer)
+
+    ;; Compiling
+    (bind-key "H-c" 'compile)
+    (bind-key "H-r" 'recompile)
+    (bind-key "H-s" (defun save-and-recompile () (interactive) (save-buffer) (recompile)))
+
+    ;; disable the key that minimizes emacs to the dock because I don't
+    ;; minimize my windows
+    ;; (global-unset-key (kbd "C-z"))
+
+    (defun open-dir-in-finder ()
+      "Open a new Finder window to the path of the current buffer"
+      (interactive)
+      (shell-command "open ."))
+    (bind-key "s-/" 'open-dir-in-finder)
+
+    (defun open-dir-in-iterm ()
+      "Open the current directory of the buffer in iTerm."
+      (interactive)
+      (let* ((iterm-app-path "/Applications/iTerm.app")
+             (iterm-brew-path "/opt/homebrew-cask/Caskroom/iterm2/1.0.0/iTerm.app")
+             (iterm-path (if (file-directory-p iterm-app-path)
+                             iterm-app-path
+                           iterm-brew-path)))
+        (shell-command (concat "open -a " iterm-path " ."))))
+    (bind-key "s-=" 'open-dir-in-iterm)
+
+    ;; Not going to use these commands
+    (put 'ns-print-buffer 'disabled t)
+    (put 'suspend-frame 'disabled t)))
+#+end_src
+
+~exec-path-from-shell~ makes the command-line path with Emacs's shell
+match the same one on OS X.
+
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
+  :ensure t
+  :init
+  (exec-path-from-shell-initialize))
+#+end_src
+
+* List buffers
+
+ibuffer is the improved version of list-buffers.
+
+#+begin_src emacs-lisp
+;; make ibuffer the default buffer lister.
+(defalias 'list-buffers 'ibuffer)
+#+end_src
+
+
+source: http://ergoemacs.org/emacs/emacs_buffer_management.html
+
+#+begin_src emacs-lisp
+(add-hook 'dired-mode-hook 'auto-revert-mode)
+
+;; Also auto refresh dired, but be quiet about it
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-verbose nil)
+#+end_src
+
+source: [[http://whattheemacsd.com/sane-defaults.el-01.html][Magnars Sveen]]
+
+* Recentf
+
+#+begin_src emacs-lisp
+(use-package recentf
+  :init
+  (progn
+    (recentf-mode t)
+    (setq recentf-max-saved-items 200)))
+#+end_src
+
+* Org mode
+
+Truly the way to [[http://orgmode.org/][live life in plain text]]. I mainly use it to take
+notes and save executable source blocks. I'm also starting to make use
+of its agenda, timestamping, and capturing features.
+
+It goes without saying that I also use it to manage my Emacs config.
+
+** Org activation bindings
+
+Set up some global key bindings that integrate with Org Mode features.
+
+#+begin_src emacs-lisp
+(bind-key "C-c l" 'org-store-link)
+(bind-key "C-c c" 'org-capture)
+(bind-key "C-c a" 'org-agenda)
+#+end_src
+
+*** Org agenda
+
+Learned about [[https://github.com/sachac/.emacs.d/blob/83d21e473368adb1f63e582a6595450fcd0e787c/Sacha.org#org-agenda][this =delq= and =mapcar= trick from Sacha Chua's config]].
+
+#+begin_src emacs-lisp
+(setq org-agenda-files
+      (delq nil
+            (mapcar (lambda (x) (and (file-exists-p x) x))
+                    '("~/Dropbox/Agenda"))))
+#+end_src
+
+*** Org capture
+
+#+begin_src emacs-lisp
+(bind-key "C-c c" 'org-capture)
+(setq org-default-notes-file "~/Dropbox/Notes/notes.org")
+#+end_src
+
+** Org setup
+
+Speed commands are a nice and quick way to perform certain actions
+while at the beginning of a heading. It's not activated by default.
+
+See the doc for speed keys by checking out [[elisp:(info%20"(org)%20speed%20keys")][the documentation for
+speed keys in Org mode]].
+
+#+begin_src emacs-lisp
+(setq org-use-speed-commands t)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq org-image-actual-width 550)
+#+end_src
+
+** Org tags
+
+The default value is -77, which is weird for smaller width windows.
+I'd rather have the tags align horizontally with the header. 45 is a
+good column number to do that.
+
+#+begin_src emacs-lisp
+(setq org-tags-column 45)
+#+end_src
+
+** Org babel languages
+
+#+begin_src emacs-lisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (C . t)
+   (calc . t)
+   (latex . t)
+   (java . t)
+   (ruby . t)
+   (scheme . t)
+   (sh . t)
+   (sqlite . t)
+   (js . t)))
+
+(defun my-org-confirm-babel-evaluate (lang body)
+  "Do not confirm evaluation for these languages."
+  (not (or (string= lang "C")
+           (string= lang "java")
+           (string= lang "python")
+           (string= lang "emacs-lisp")
+           (string= lang "sqlite"))))
+(setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+#+end_src
+
+** Org babel/source blocks
+
+I like to have source blocks properly syntax highlighted and with the
+editing popup window staying within the same window so all the windows
+don't jump around. Also, having the top and bottom trailing lines in
+the block is a waste of space, so we can remove them.
+
+I noticed that fontification doesn't work with markdown mode when the
+block is indented after editing it in the org src buffer---the leading
+#s for headers don't get fontified properly because they appear as Org
+comments. Setting ~org-src-preserve-indentation~ makes things
+consistent as it doesn't pad source blocks with leading spaces.
+
+#+begin_src emacs-lisp
+(setq org-src-fontify-natively t
+      org-src-window-setup 'current-window
+      org-src-strip-leading-and-trailing-blank-lines t
+      org-src-preserve-indentation t
+      org-src-tab-acts-natively t)
+#+end_src
+
+** Org exporting with Pandoc
+
+Pandoc converts between a huge number of different file formats.
+
+#+begin_src emacs-lisp
+(use-package ox-pandoc
+  :no-require t
+  :ensure t)
+#+end_src
+
+* Tramp
+
+[[http://www.emacswiki.org/emacs/TrampMode][TRAMP]] (Transparent Remote Access, Multiple Protocols) is a package for editing remote files.
+
+#+begin_src emacs-lisp :tangle no
+(use-package tramp)
+#+end_src
+
+* Locate
+
+Using OS X Spotlight within Emacs by modifying the ~locate~ function.
+
+I usually use [[*Helm][~helm-locate~]], which does live updates the spotlight
+search list as you type a query.
+
+#+begin_src emacs-lisp
+;; mdfind is the command line interface to Spotlight
+(setq locate-command "mdfind")
+#+end_src
+
+* Shell
+
+#+begin_src emacs-lisp
+(bind-key "C-x m" 'shell)
+(bind-key "C-x M" 'ansi-term)
+#+end_src
+
+* Packages
+
+These are the packages that are not built into Emacs.
+
+** Avy
+
+A quick way to jump around text in Emacs tree-style.
+
+#+begin_src emacs-lisp
+(use-package avy
+  :ensure t
+  :commands avy-goto-char-2)
+#+end_src
+
+** Ace Window
+
+[[https://github.com/abo-abo/ace-window][ace-window]] is a package that uses the same idea from ace-jump-mode for
+buffer navigation, but applies it to windows. The default keys are
+1-9, but it's faster to access the keys on the home row, so that's
+what I have them set to.
+
+#+begin_src emacs-lisp
+(use-package ace-window
+  :ensure t
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?;))
+  (ace-window-display-mode)
+  :bind ("s-o" . ace-window))
+#+end_src
+#+end_src
+
+** C-Eldoc
+   :PROPERTIES:
+   :GitHub:   https://github.com/mooz/c-eldoc
+   :END:
+
+This package displays function signatures in the mode line.
+
+#+begin_src emacs-lisp
+(use-package c-eldoc
+  :commands c-turn-on-eldoc-mode
+  :ensure t
+  :init (add-hook 'c-mode-hook #'c-turn-on-eldoc-mode))
+#+end_src
+
+** Clojure
+
+#+begin_src emacs-lisp
+(use-package clojure-mode
+  :ensure t)
+#+end_src
+
+** Company
+
+#+begin_src emacs-lisp
+(use-package company
+  :diminish company-mode
+  :init
+  (global-company-mode)
+  :config
+  ;(setq company-tooltip-common-selection ((t (:inherit company-tooltip-selection :background "yellow2" :foreground "#c82829"))))
+  ;(setq company-tooltip-selection ((t (:background "yellow2"))))
+  (setq company-idle-delay 0.5)
+  (setq company-selection-wrap-around t)
+  (define-key company-active-map [tab] 'company-complete)
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous))
+#+end_src
+
+** Dictionary
+
+#+begin_src emacs-lisp
+(use-package dictionary
+    :ensure t)
+#+end_src
+
+** Emacs IPython Notebook
+
+#+begin_src emacs-lisp
+(use-package ein
+  :ensure t)
+#+end_src
+
+** Emmet
+
+According to [[http://emmet.io/][their website]], "Emmet — the essential toolkit for web-developers."
+
+#+begin_src emacs-lisp
+(use-package emmet-mode
+  :ensure t
+  :commands emmet-mode
+  :config
+  (add-hook 'html-mode-hook 'emmet-mode)
+  (add-hook 'css-mode-hook 'emmet-mode))
+#+end_src
+
+** Evil Nerd Commenter
+   
+#+begin_src emacs-lisp
+(use-package evil-nerd-commenter
+  :ensure t
+  :commands evilnc-comment-or-uncomment-lines)
+#+end_src
+
+** Helm
+
+#+begin_src emacs-lisp
+(use-package helm
+  :ensure t
+  :diminish helm-mode
+  :init (progn
+          (require 'helm-config)
+
+          (use-package helm-projectile
+            :ensure t
+            :commands helm-projectile helm-projectile-switch-project
+            :bind ("C-c p h" . helm-projectile))
+
+          (use-package helm-ag :ensure t)
+
+          (use-package swiper-helm :ensure t)
+
+          (use-package helm-themes :ensure t)
+
+          (setq helm-locate-command "mdfind -interpret -name %s %s"
+                helm-buffers-fuzzy-matching t
+                helm-ff-newfile-prompt-p nil
+                helm-M-x-fuzzy-match t)
+          (helm-mode)))
+#+end_src
+
+** Magit
+
+A great interface for git projects. It's much more pleasant to use
+than the git interface on the command line. Use an easy keybinding to
+access magit.
+
+#+begin_src emacs-lisp
+(use-package magit
+  :ensure t
+  :bind ("C-c g" . magit-status)
+  :config
+  (define-key magit-status-mode-map (kbd "q") 'magit-quit-session))
+#+end_src
+
+*** Fullscreen magit
+
+#+BEGIN_QUOTE
+The following code makes magit-status run alone in the frame, and then
+restores the old window configuration when you quit out of magit.
+
+No more juggling windows after commiting. It's magit bliss.
+#+END_QUOTE
+[[http://whattheemacsd.com/setup-magit.el-01.html][Source: Magnar Sveen]]
+
+#+begin_src emacs-lisp
+;; full screen magit-status
+(defadvice magit-status (around magit-fullscreen activate)
+  (window-configuration-to-register :magit-fullscreen)
+  ad-do-it
+  (delete-other-windows))
+
+(defun magit-quit-session ()
+  "Restores the previous window configuration and kills the magit buffer"
+  (interactive)
+  (kill-buffer)
+  (jump-to-register :magit-fullscreen))
+#+end_src
+
+** Expand region
+
+#+begin_src emacs-lisp
+(use-package expand-region
+  :ensure t
+  :bind ("C-@" . er/expand-region))
+#+end_src
+
+** Flycheck
+
+Still need to set up hooks so that flycheck automatically runs in
+python mode, etc. js2-mode is already really good for the syntax
+checks, so I probably don't need the jshint checks with flycheck for
+it.
+
+#+begin_src emacs-lisp
+(use-package flycheck
+  :ensure t
+  :config
+    (evil-define-key 'normal flycheck-mode-map (kbd "]e") 'flycheck-next-error)
+    (evil-define-key 'normal flycheck-mode-map (kbd "[e") 'flycheck-previous-error)
+    (setq flycheck-html-tidy-executable "tidy5")
+    ;; Override default flycheck triggers
+    (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled)
+          flycheck-idle-change-delay 0.8)
+
+    (setq flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list))
+#+end_src
+
+*** Linter setups
+
+Install the HTML5/CSS/JavaScript linters.
+
+#+begin_src sh
+brew tap homebrew/dupes
+brew install tidy
+npm install -g jshint
+npm install -g eslint
+npm install -g csslint
+#+end_src
+
+** Gists
+
+#+BEGIN_SRC emacs-lisp
+(use-package gist
+  :ensure t
+  :commands gist-list)
+#+END_SRC
+
+** Macrostep
+
+Macrostep allows you to see what Elisp macros expand to. Learned about
+it from the [[https://www.youtube.com/watch?v%3D2TSKxxYEbII][package highlight talk for use-package]].
+
+#+begin_src emacs-lisp
+(use-package macrostep
+  :ensure t
+  :bind ("H-`" . macrostep-expand))
+#+end_src
+
+** Markdown mode
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :ensure t
+  :mode (("\\.markdown\\'" . markdown-mode)
+         ("\\.md\\'"       . markdown-mode)))
+#+end_src
+
+** Mmm Mode
+
+#+begin_src emacs-lisp
+(use-package mmm-mode
+  :defer t
+  :config
+  (setq mmm-global-mode 'maybe)
+  (mmm-add-classes
+   '((markdown-cl
+      :submode emacs-lisp-mode
+      :face mmm-declaration-submode-face
+      :front "^```cl[\n\r]+"
+      :back "^```$")))
+  (mmm-add-mode-ext-class 'markdown-mode nil 'markdown-cl))
+#+end_src
+
+** Multiple cursors
+
+We'll also need to ~(require 'multiple-cusors)~ because of [[https://github.com/magnars/multiple-cursors.el/issues/105][an autoload issue]].
+
+#+begin_src emacs-lisp
+(use-package multiple-cursors
+  :ensure t
+  :init (require 'multiple-cursors)
+  :bind (("C-S-c C-S-c" . mc/edit-lines)
+         ("C->"         . mc/mark-next-like-this)
+         ("C-<"         . mc/mark-previous-like-this)
+         ("C-c C-<"     . mc/mark-all-like-this)
+         ("C-!"         . mc/mark-next-symbol-like-this)
+         ("s-d"         . mc/mark-all-dwim)))
+#+end_src
+
+** Nlinum
+
+#+begin_src emacs-lisp
+;; Preset width nlinum
+(use-package nlinum
+  :ensure t
+  :config
+    (global-nlinum-mode t)
+    (setq nlinum-format "%d "))
+#+end_src
+
+** Perspective
+
+Workspaces in Emacs.
+
+#+begin_src emacs-lisp :tangle no
+(use-package perspective
+  :ensure t
+  :config (persp-mode))
+#+end_src
+
+** Projectile
+
+#+BEGIN_QUOTE
+Project navigation and management library for Emacs.
+#+END_QUOTE
+http://batsov.com/projectile/
+
+
+#+begin_src emacs-lisp
+(use-package projectile
+  :ensure t
+  :diminish projectile-mode
+  :commands projectile-mode
+  :config
+  (progn
+    (projectile-global-mode t)
+    (setq projectile-enable-caching t)))
+#+end_src
+
+** Python
+
+Integrates with IPython.
+
+#+begin_src emacs-lisp :tangle no
+(use-package python-mode
+  :ensure t)
+#+end_src
+
+** Rainbow mode
+
+#+begin_src emacs-lisp
+(use-package rainbow-mode
+  :ensure t)
+#+end_src
+
+** Restclient
+
+See [[http://emacsrocks.com/e15.html][Emacs Rocks! Episode 15]] to learn how restclient can help out with
+testing APIs from within Emacs. The HTTP calls you make in the buffer
+aren't constrainted within Emacs; there's the
+=restclient-copy-curl-command= to get the equivalent =curl= call
+string to keep things portable.
+
+#+begin_src emacs-lisp
+(use-package restclient
+  :ensure t
+  :mode ("\\.restclient\\'" . restclient-mode))
+#+end_src
+
+** Scratch
+
+Convenient package to create =*scratch*= buffers that are based on the
+current buffer's major mode. This is more convienent than manually
+creating a buffer to do some scratch work or reusing the initial
+=*scratch*= buffer.
+
+#+begin_src emacs-lisp
+(use-package scratch
+  :ensure t)
+#+end_src
+
+** Skewer mode
+
+Live coding for HTML/CSS/JavaScript.
+
+#+begin_src emacs-lisp
+(use-package skewer-mode
+  :commands skewer-mode
+  :ensure t
+  :config (skewer-setup))
+#+end_src
+
+** Smartparens mode
+
+#+begin_src emacs-lisp
+(use-package smartparens
+  :ensure t
+  :diminish smartparens-mode
+  :config (progn (require 'smartparens-config)
+                 (smartparens-global-mode t)))
+#+end_src
+
+*** Smartparens org mode
+
+Set up some pairings for org mode markup. These pairings won't
+activate by default; they'll only apply for wrapping regions.
+
+#+begin_src emacs-lisp
+(sp-local-pair 'org-mode "~" "~" :actions '(wrap))
+(sp-local-pair 'org-mode "/" "/" :actions '(wrap))
+(sp-local-pair 'org-mode "*" "*" :actions '(wrap))
+#+end_src
+** Smartscan
+
+#+BEGIN_QUOTE
+Quickly jumps between other symbols found at point in Emacs.
+#+END_QUOTE
+http://www.masteringemacs.org/article/smart-scan-jump-symbols-buffer
+
+
+#+begin_src emacs-lisp
+(use-package smartscan
+  :ensure t
+  :config (global-smartscan-mode 1)
+  :bind (("s-n" . smartscan-symbol-go-forward)
+         ("s-p" . smartscan-symbol-go-backward)))
+#+end_src
+
+** Smoothscrolling
+
+This makes it so ~C-n~-ing and ~C-p~-ing won't make the buffer jump
+around so much.
+
+#+begin_src emacs-lisp
+(use-package smooth-scrolling
+  :ensure t)
+#+end_src
+
+** Spaceline
+
+#+begin_src emacs-lisp
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config)
+  (spaceline-emacs-theme)
+  (spaceline-helm-mode)
+  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state))
+#+end_src
+
+** Swiper
+
+#+begin_src emacs-lisp
+(use-package swiper
+  :ensure t
+  :commands swiper)
+#+end_src
+
+** Undo Tree
+
+#+begin_src emacs-lisp
+(use-package undo-tree
+  :diminish undo-tree-mode
+  :init
+  (setq undo-tree-auto-save-history t
+        undo-tree-mode-lighter ""
+        undo-tree-history-directory-alist `(("." . ,(expand-file-name "undo" user-emacs-directory))))
+  (global-undo-tree-mode))
+#+end_src
+
+** Webmode
+
+#+begin_src emacs-lisp :tangle no
+(use-package web-mode
+  :ensure t
+  :config
+  (setq web-mode-attr-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-indent-style 2)
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-sql-indent-offset 2))
+#+end_src
+
+** Which Key
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :diminish ""
+  :config
+  (which-key-mode t))
+#+end_src
+
+** Wgrep
+
+#+begin_src emacs-lisp
+(use-package wgrep
+  :ensure t
+  :init
+  (use-package ag
+    :ensure t
+    :config
+    (add-hook 'ag-mode-hook
+                (lambda ()
+                (wgrep-ag-setup)
+                (define-key ag-mode-map (kbd "n") 'evil-search-next)
+                (define-key ag-mode-map (kbd "N") 'evil-search-previous)))
+    (setq ag-executable "/usr/local/bin/ag")
+    (setq ag-highlight-search t)
+    (setq ag-reuse-buffers t)
+    (setq ag-reuse-window t))
+  (use-package wgrep-ag
+    :ensure t
+    :commands (wgrep-ag-setup)))
+#+end_src
+
+** Yasnippet
+
+Yeah, snippets! I start with snippets from [[https://github.com/AndreaCrotti/yasnippet-snippets][Andrea Crotti's collection]]
+and have also modified them and added my own.
+
+It takes a few seconds to load and I don't need them immediately when
+Emacs starts up, so we can defer loading yasnippet until there's some
+idle time.
+
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :ensure t
+  :diminish yas-minor-mode
+  :config
+  (setq yas-snippet-dirs (concat user-emacs-directory "snippets"))
+  (yas-global-mode))
+#+end_src
+
+** Zoom-frm
+
+=zoom-frm= is a nice package that allows you to resize the text of
+entire Emacs frames (this includes text in the buffer, mode line, and
+minibuffer). The =zoom-in/out= command acts similar to the
+=text-scale-adjust= command---you can chain zooming in, out, or
+resetting to the default size once the command has been initially
+called.
+
+Changing the =frame-zoom-font-difference= essentially enables a
+"presentation mode" when calling =toggle-zoom-frame=.
+
+#+begin_src emacs-lisp
+(use-package zoom-frm
+  :ensure t
+  :bind (("C-=" . zoom-in/out)
+         ("C-z" . toggle-zoom-frame))
+  :config
+  (setq frame-zoom-font-difference 10))
+#+end_src
+
+* Languages
+** C/Java
+
+I don't like the default way that Emacs handles indentation. For instance,
+
+#+begin_src C
+int main(int argc, char *argv[])
+{
+  /* What's with the brace alignment? */
+  if (check)
+    {
+    }
+  return 0;
+}
+#+end_src
+
+#+begin_src java
+switch (number)
+    {
+    case 1:
+        doStuff();
+        break;
+    case 2:
+        doStuff();
+        break;
+    default:
+        break;
+    }
+#+end_src
+
+Luckily, I can modify the way Emacs formats code with this configuration.
+
+#+begin_src emacs-lisp
+(defun my-c-mode-hook ()
+  (setq c-basic-offset 4)
+  (c-set-offset 'substatement-open 0)   ; Curly braces alignment
+  (c-set-offset 'case-label 4))         ; Switch case statements alignment
+
+(add-hook 'c-mode-hook 'my-c-mode-hook)
+(add-hook 'java-mode-hook 'my-c-mode-hook)
+#+end_src
+
+* Misc
+** Display Time
+
+When displaying the time with =display-time-mode=, I don't care about
+the load average.
+
+#+begin_src emacs-lisp
+(setq display-time-default-load-average nil)
+#+end_src
+
+** Display Battery Mode
+
+See the documentation for =battery-mode-line-format= for the format
+characters.
+
+#+begin_src emacs-lisp
+(setq battery-mode-line-format "[%b%p%% %t]")
+#+end_src
+
+** Docview keybindings
+
+#+begin_src emacs-lisp
+(use-package doc-view
+  :config
+  (define-key doc-view-mode-map (kbd "<right>") 'doc-view-next-page)
+  (define-key doc-view-mode-map (kbd "<left>") 'doc-view-previous-page))
+#+end_src
+
+** OS X scrolling
+
+#+begin_src emacs-lisp
+(setq mouse-wheel-scroll-amount (quote (0.01)))
+#+end_src
+
+** Visible mode
+
+I found out about this mode my looking through simple.el. I use it to
+see raw org-mode files without going to a different mode like
+text-mode, which is what I had done in order to see invisible text
+(with org hyperlinks). The entire buffer contents will be visible
+while still being in org mode.
+
+#+begin_src emacs-lisp
+(use-package visible-mode
+  :bind ("H-v" . visible-mode))
+#+end_src
