@@ -897,16 +897,23 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (bind-key "C-x m" 'shell)
 (bind-key "C-x M" 'ansi-term)
 
-(use-package avy
-  :ensure t
-  :commands avy-goto-char-2)
-
 (use-package ace-window
   :ensure t
   :config
   (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?;))
   (ace-window-display-mode)
   :bind ("s-o" . ace-window))
+
+(use-package evil-anzu
+  :ensure t
+  :config
+  (progn
+    (setq anzu-search-threshold 1000
+          anzu-cons-mode-line-p nil)))
+
+(use-package avy
+  :ensure t
+  :commands avy-goto-char-2)
 
 (use-package c-eldoc
   :commands c-turn-on-eldoc-mode
@@ -992,6 +999,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :bind ("C-@" . er/expand-region))
 
 (use-package flycheck
+  :defer t
   :ensure t
   :config
     (evil-define-key 'normal flycheck-mode-map (kbd "]e") 'flycheck-next-error)

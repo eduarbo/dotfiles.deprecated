@@ -1120,16 +1120,6 @@ search list as you type a query.
 
 These are the packages that are not built into Emacs.
 
-** Avy
-
-A quick way to jump around text in Emacs tree-style.
-
-#+begin_src emacs-lisp
-(use-package avy
-  :ensure t
-  :commands avy-goto-char-2)
-#+end_src
-
 ** Ace Window
 
 [[https://github.com/abo-abo/ace-window][ace-window]] is a package that uses the same idea from ace-jump-mode for
@@ -1145,6 +1135,26 @@ what I have them set to.
   (ace-window-display-mode)
   :bind ("s-o" . ace-window))
 #+end_src
+
+** Anzu
+
+#+begin_src emacs-lisp
+(use-package evil-anzu
+  :ensure t
+  :config
+  (progn
+    (setq anzu-search-threshold 1000
+          anzu-cons-mode-line-p nil)))
+#+end_src
+
+** Avy
+
+A quick way to jump around text in Emacs tree-style.
+
+#+begin_src emacs-lisp
+(use-package avy
+  :ensure t
+  :commands avy-goto-char-2)
 #+end_src
 
 ** C-Eldoc
@@ -1302,6 +1312,7 @@ it.
 
 #+begin_src emacs-lisp
 (use-package flycheck
+  :defer t
   :ensure t
   :config
     (evil-define-key 'normal flycheck-mode-map (kbd "]e") 'flycheck-next-error)
