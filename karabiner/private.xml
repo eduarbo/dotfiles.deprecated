@@ -166,7 +166,6 @@
 
   <item>
     <name>Option keys to Super modifier</name>
-    <appendix>(+ Option_L and Option_R to Super)</appendix>
     <appendix>(+ When you type Option_L only, send Escape)</appendix>
     <identifier>private.option_key_to_Super</identifier>
 
