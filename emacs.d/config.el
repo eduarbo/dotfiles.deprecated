@@ -1094,6 +1094,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (require 'spaceline-config)
   (spaceline-emacs-theme)
   (spaceline-helm-mode)
+  (setq powerline-default-separator 'zigzag)
+  ;; Fix broken separator colors in OS X
+  (setq ns-use-srgb-colorspace nil)
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state))
 
 (use-package swiper
