@@ -478,6 +478,8 @@ Repeated invocations toggle between the two most recently open buffers."
 (global-visual-line-mode)
 (diminish 'visual-line-mode)
 
+(diminish 'isearch-mode)
+
 ;; Add parts of each file's directory to the buffer name if not unique
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
@@ -999,17 +1001,20 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :bind ("C-@" . er/expand-region))
 
 (use-package flycheck
-  :defer t
   :ensure t
+  :diminish flycheck-mode
+  :commands flycheck-mode
   :config
     (evil-define-key 'normal flycheck-mode-map (kbd "]e") 'flycheck-next-error)
     (evil-define-key 'normal flycheck-mode-map (kbd "[e") 'flycheck-previous-error)
     (setq flycheck-html-tidy-executable "tidy5")
     ;; Override default flycheck triggers
     (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled)
-          flycheck-idle-change-delay 0.8)
+          flycheck-idle-change-delay 0.3)
 
-    (setq flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list))
+    (setq flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list)
+  :init
+    (add-hook 'prog-mode-hook 'flycheck-mode))
 
 (use-package gist
   :ensure t
