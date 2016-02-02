@@ -2,6 +2,7 @@
 <root>
   <!-- For "space_to_control" -->
   <modifierdef>SPACE_TO_CONTROL</modifierdef>
+  <modifierdef>HYPER</modifierdef>
 
   <item>
     <name>Use the correct shift keys.</name>
@@ -165,37 +166,88 @@
   </item>
 
   <item>
-    <name>Option keys to Super modifier</name>
-    <appendix>(+ When you type Option_L only, send Escape)</appendix>
-    <identifier>private.option_key_to_Super</identifier>
+    <name>Change Option keys</name>
 
-    <!-- I took and adapted some helpful mappings from Steve Losh's post
-         http://stevelosh.com/blog/2012/10/a-modern-space-cadet -->
+    <item>
+      <name>Option_L to Super</name>
+      <appendix>(+ When you type Option_L only, send Escape)</appendix>
+      <identifier>private.option_L_to_Super</identifier>
 
-    <autogen>
-      __KeyOverlaidModifier__
-      KeyCode::OPTION_L, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+      <!-- I took this helpful mapping from Steve Losh's post
+           http://stevelosh.com/blog/2012/10/a-modern-space-cadet -->
 
-      KeyCode::COMMAND_L,
-      ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::OPTION_L,
 
-      KeyCode::ESCAPE
-    </autogen>
-    <autogen>
-      __KeyOverlaidModifier__
-      KeyCode::OPTION_R, ModifierFlag::OPTION_R | ModifierFlag::NONE,
+        KeyCode::COMMAND_L,
+        ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
 
-      KeyCode::COMMAND_L,
-      ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-    </autogen>
+        KeyCode::ESCAPE
+      </autogen>
+    </item>
+
+    <item>
+      <name>Option_R to Super</name>
+      <identifier>private.option_R_to_Super</identifier>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::OPTION_R,
+
+        KeyCode::COMMAND_L,
+        ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+
+        KeyCode::FORWARD_DELETE
+      </autogen>
+    </item>
+
+    <item>
+      <!-- This is not working when Option keys are already mapped to super :( -->
+      <name>Change Option_R+Option_L to Hyper</name>
+      <identifier>private.option_R_option_L_to_Hyper</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::OPTION_L, ModifierFlag::OPTION_L | ModifierFlag::OPTION_R,
+        KeyCode::VK_MODIFIER_HYPER
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::OPTION_R, ModifierFlag::OPTION_L | ModifierFlag::OPTION_R,
+        KeyCode::VK_MODIFIER_HYPER
+      </autogen>
+    </item>
   </item>
 
   <item>
-    <name>Super custom shortcuts</name>
+    <name>Hyper Shortcuts</name>
 
     <item>
-      <name>Super + {H,J,K,L} to {LEFT,DOWN,UP,RIGHT} (Vim style)</name>
+      <name>Home Row Numbers Overlay</name>
+      <appendix>Overlay 1234567890 onto the home row (ASDFGHJKL;)</appendix>
+      <identifier>private.hyper_to_homerow_numbers</identifier>
+
+      <autogen>__KeyToKey__ KeyCode::A, ModifierFlag::HYPER, KeyCode::KEY_1</autogen>
+      <autogen>__KeyToKey__ KeyCode::S, ModifierFlag::HYPER, KeyCode::KEY_2</autogen>
+      <autogen>__KeyToKey__ KeyCode::D, ModifierFlag::HYPER, KeyCode::KEY_3</autogen>
+      <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::HYPER, KeyCode::KEY_4</autogen>
+      <autogen>__KeyToKey__ KeyCode::G, ModifierFlag::HYPER, KeyCode::KEY_5</autogen>
+      <autogen>__KeyToKey__ KeyCode::H, ModifierFlag::HYPER, KeyCode::KEY_6</autogen>
+      <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::HYPER, KeyCode::KEY_7</autogen>
+      <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::HYPER, KeyCode::KEY_8</autogen>
+      <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::HYPER, KeyCode::KEY_9</autogen>
+      <autogen>__KeyToKey__ KeyCode::SEMICOLON, ModifierFlag::HYPER, KeyCode::KEY_0</autogen>
+    </item>
+  </item>
+
+  <item>
+    <name>Super shortcuts</name>
+
+    <item>
+      <name>Super + {H,J,K,L} to LEFT,DOWN,UP,RIGHT (à la Vim)</name>
       <identifier>private.super_hjkl_to_left_down_up_right</identifier>
+
       <autogen>
         __KeyToKey__
         KeyCode::J,
@@ -293,6 +345,12 @@
 
       <autogen>
         __KeyToKey__
+        KeyCode::BRACKET_LEFT, ModifierFlag::HYPER,
+
+        KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
+      </autogen>
+      <autogen>
+        __KeyToKey__
         KeyCode::BRACKET_LEFT,
         ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
 
@@ -302,6 +360,12 @@
         __KeyToKey__
         KeyCode::BRACKET_RIGHT,
         ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+
+        KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_R | ModifierFlag::SHIFT_R
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::BRACKET_RIGHT, ModifierFlag::HYPER,
 
         KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_R | ModifierFlag::SHIFT_R
       </autogen>
