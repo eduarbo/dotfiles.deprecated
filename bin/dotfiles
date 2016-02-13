@@ -130,6 +130,13 @@ if is_confirmed; then
   # Emacs
   _link 'emacs.d' '.emacs.d'
 
+  # Python
+  # Workaround to enable `pip install --user` for brewed Python. Remove `prefix`
+  # option from `distutils.cfg` so anaconda-mode extension for Emacs is able to
+  # install its dependencies in the background.
+  # See: https://github.com/proofit404/anaconda-mode#distutilsoptionerror
+  _link 'pydistutils.cfg' '.pydistutils.cfg'
+
   # Git
   _link 'git/gitconfig' '.gitconfig'
   _link 'git/gitattributes' '.gitattributes'
