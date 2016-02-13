@@ -5,8 +5,8 @@
 " Preamble                                                                  {{{1
 filetype off
 
-let mapleader = ","
-let maplocalleader = " "
+let mapleader = " "
+let maplocalleader = ","
 
 let s:ag = executable('ag')
 " }}}
