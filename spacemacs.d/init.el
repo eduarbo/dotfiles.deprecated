@@ -43,7 +43,6 @@ values."
             shell-default-height 30
             shell-default-position 'bottom)
      (deft :variables
-       deft-use-filter-string-for-filename t
        deft-directory "~/Dropbox/notes")
      syntax-checking
      osx
@@ -303,6 +302,10 @@ already narrowed."
   ;; one single keystrong
   (unbind-key "n" spacemacs-default-map)
   (spacemacs/set-leader-keys "TAB" 'narrow-or-widen-dwim)
+
+  ;; Deft sane defaults
+  (setq deft-use-filename-as-title nil
+        deft-use-filter-string-for-filename t)
 
   ;; Make evil-mode up/down operate in screen lines instead of logical lines
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
