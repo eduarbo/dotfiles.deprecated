@@ -110,6 +110,9 @@ git pull --rebase origin master
 # Ask before potentially overwriting files
 seek_confirmation "Warning: This step may overwrite some of your existing dotfiles."
 
+_backup "${HOME}/.emacs.d"
+git clone git@github.com:syl20bnr/spacemacs.git "${HOME}/.emacs.d"
+
 if is_confirmed; then
   _link 'ctags' '.ctags'
   _link 'jshintrc' '.jshintrc'
@@ -127,8 +130,8 @@ if is_confirmed; then
   _link 'vim' '.vim'
   _link 'vim' '.config/nvim'
 
-  # Emacs
-  _link 'emacs.d' '.emacs.d'
+  # My spacemacs specific configuration
+  _link 'spacemacs.d' '.spacemacs.d'
 
   # Python
   # Workaround to enable `pip install --user` for brewed Python. Remove `prefix`

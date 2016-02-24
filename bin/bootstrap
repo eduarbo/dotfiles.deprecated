@@ -55,6 +55,7 @@ extra_formulae=( #{{{
 'task'
 'tig'
 'vit'
+'ispell'
 'wget --with-iri'
 'emacs --HEAD --use-git-head --cocoa --with-srgb --with-imagemagick --with-gnutls'
 ) #}}}
