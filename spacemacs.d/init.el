@@ -355,7 +355,7 @@ already narrowed."
 
   ;; Delete the preceding character or all preceding whitespace back to the
   ;; previous non-whitespace character
-  (hungry-delete-mode)
+  (spacemacs/toggle-hungry-delete-on)
 
   (setq powerline-default-separator 'zigzag)
   )
