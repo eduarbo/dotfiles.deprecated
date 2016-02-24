@@ -23,6 +23,8 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+
+     ;; spell-checking
      (auto-completion :variables
                       auto-completion-return-key-behavior 'complete
                       auto-completion-enable-snippets-in-popup t
@@ -34,12 +36,14 @@ values."
      org
      (git :variables
           magit-repository-directories '("~/dev/"))
+     (version-control :variables
+                     version-control-diff-tool 'git-gutter+
+                     version-control-global-margin t)
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     ;; spell-checking
      syntax-checking
-     ;; version-control
+     osx
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -245,6 +249,10 @@ It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
 
+  ;; Enable fuzzy matching for everything
+  (setq helm-completion-in-region-fuzzy-match t
+        helm-mode-fuzzy-match t)
+
   ;; keep customize settings in their own file
   (setq custom-file (concat dotspacemacs-directory "custom.el"))
   (when (file-exists-p custom-file)
@@ -253,12 +261,90 @@ in `dotspacemacs/user-config'."
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
-This function is called at the very end of Spacemacs initialization after
-layers configuration. You are free to put any user code."
+This function is called at the very end of Spacemacs initialization after layers
+configuration. You are free to put any user code."
 
-  ;; Fix broken separator colors in OS X
-  (setq ns-use-srgb-colorspace nil)
+  (defun narrow-and-set-normal ()
+    "Narrow to the region and, if in a visual mode, set normal mode."
+    (interactive)
+    (narrow-to-region (region-beginning) (region-end))
+    (if (string= evil-state "visual")
+        (progn (evil-normal-state nil)
+               (evil-goto-first-line))))
 
-  ;; (global-company-mode)
+  ;; Taken from http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html
+  (defun narrow-or-widen-dwim (p)
+    "Widen if buffer is narrowed, narrow-dwim otherwise.
+Dwim means: region, org-src-block, org-subtree, or defun,
+whichever applies first. Narrowing to org-src-block actually
+calls `org-edit-src-code'.
+
+With prefix P, don't widen, just narrow even if buffer is
+already narrowed."
+    (interactive "P")
+    (declare (interactive-only))
+    (cond ((and (buffer-narrowed-p) (not p)) (widen))
+          ((region-active-p)
+           (narrow-and-set-normal))
+          ((and (boundp 'org-src-mode) org-src-mode (not p))
+           (org-edit-src-exit))
+          ((derived-mode-p 'org-mode)
+           (cond ((ignore-errors (org-edit-src-code)))
+                 ((ignore-errors (org-narrow-to-block) t))
+                 (t (org-narrow-to-subtree))))
+          ((derived-mode-p 'latex-mode)
+           (LaTeX-narrow-to-environment))
+          (t (narrow-to-defun))))
+
+  ;; Remove narrow prefix as `narrow-or-widen-dwim` does everything I need in
+  ;; one single keystrong
+  (unbind-key "n" spacemacs-default-map)
+  (spacemacs/set-leader-keys "TAB" 'narrow-or-widen-dwim)
+
+  ;; Make evil-mode up/down operate in screen lines instead of logical lines
+  (define-key evil-motion-state-map "j" 'evil-next-visual-line)
+  (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
+  ;; Also in visual mode
+  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
+  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+
+  (define-key evil-motion-state-map "]e" 'flycheck-next-error)
+  (define-key evil-motion-state-map "[e" 'flycheck-previous-error)
+
+  ;; Swap default bindings
+  (spacemacs/set-leader-keys
+    "SPC" 'helm-mini
+    "."   'spacemacs/alternate-buffer
+
+    ;; I don't need align-repeat, that is why evil-repeat exists
+    "ar"  'align-regexp
+
+    ;; "wc" is hard to type for me, "fq" is easier. Think at it as "File Quit"
+    "fq"  'quit-window
+
+    "wV"  'split-window-right
+    "wv"  'split-window-right-and-focus
+    "wS"  'split-window-below
+    "ws"  'split-window-below-and-focus)
+
+  (define-key evil-motion-state-map (kbd "C-h") 'evil-window-left)
+  (define-key evil-motion-state-map (kbd "C-j") 'evil-window-down)
+  (define-key evil-motion-state-map (kbd "C-k") 'evil-window-up)
+  (define-key evil-motion-state-map (kbd "C-l") 'evil-window-right)
+
+  (bind-map-set-keys evil-normal-state-map "Q" 'fill-paragraph)
+
+  ;; For python
+  (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  ;; For ruby
+  (add-hook 'ruby-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  ;; For Javascript
+  (add-hook 'js2-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+
+  ;; Use Spacemacs as the =$EDITOR= for git commits
+  (global-git-commit-mode t)
+
+  (global-company-mode)
+
   (setq powerline-default-separator 'zigzag)
   )
