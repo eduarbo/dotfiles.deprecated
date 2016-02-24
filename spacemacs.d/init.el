@@ -353,5 +353,9 @@ already narrowed."
 
   (global-company-mode)
 
+  ;; Delete the preceding character or all preceding whitespace back to the
+  ;; previous non-whitespace character
+  (hungry-delete-mode)
+
   (setq powerline-default-separator 'zigzag)
   )
