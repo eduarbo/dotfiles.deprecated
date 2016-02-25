@@ -310,6 +310,9 @@ already narrowed."
   ;; Deft sane defaults
   (setq deft-use-filename-as-title nil
         deft-use-filter-string-for-filename t)
+  (with-eval-after-load 'deft
+    (define-key deft-mode-map [(shift return)] 'deft-new-file)
+    )
 
   ;; Make evil-mode up/down operate in screen lines instead of logical lines
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
