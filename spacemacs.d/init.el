@@ -11,6 +11,9 @@ values."
    ;; `+distribution'. For now available distributions are `spacemacs-base'
    ;; or `spacemacs'. (default 'spacemacs)
    dotspacemacs-distribution 'spacemacs
+   ;; If non-nil layers with lazy install support are lazy installed.
+   ;; (default nil)
+   dotspacemacs-enable-lazy-installation nil
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
@@ -23,26 +26,23 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-
-     (auto-completion :variables
-                      auto-completion-return-key-behavior 'complete
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-enable-help-tooltip t
-                      auto-completion-enable-sort-by-usage t)
+     spacemacs-helm
+     auto-completion
      better-defaults
-     ;; emacs-lisp
-     ;; org
-     markdown
+     emacs-lisp
      (git :variables
           magit-repository-directories '("~/dev/"))
      (version-control :variables
-                     version-control-diff-tool 'git-gutter+
-                     version-control-global-margin t)
+                      version-control-diff-tool 'git-gutter+
+                      version-control-global-margin t)
+     (deft :variables
+       deft-directory "~/Dropbox/notes")
+     markdown
+     org
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     (deft :variables
-       deft-directory "~/Dropbox/notes")
+     ;; spell-checking
      syntax-checking
      osx
      )
@@ -50,7 +50,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(eyedropper)
+   dotspacemacs-additional-packages '()
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(evil-escape
                                     evil-search-highlight-persist
@@ -96,7 +96,7 @@ values."
    ;; If the value is nil then no banner is displayed. (default 'official)
    dotspacemacs-startup-banner 999
    ;; List of items to show in the startup buffer. If nil it is disabled.
-   ;; Possible values are: `recents' `bookmarks' `projects'.
+   ;; Possible values are: `recents' `bookmarks' `projects' `agenda' `todos'.
    ;; (default '(recents projects))
    dotspacemacs-startup-lists '(agenda todos)
    ;; Number of recent files to show in the startup buffer. Ignored if
@@ -129,6 +129,9 @@ values."
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
    ;; (default "C-M-m)
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+   ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
+   ;; (default "SPC")
+   dotspacemacs-emacs-command-key ";"
    ;; These variables control whether separate commands are bound in the GUI to
    ;; the key pairs C-i, TAB and C-m, RET.
    ;; Setting it to a non-nil value, allows for separate commands under <C-i>
@@ -136,14 +139,11 @@ values."
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
    dotspacemacs-distinguish-gui-tab nil
-   ;; (Not implemented) dotspacemacs-distinguish-gui-ret nil
-   ;; The command key used for Evil commands (ex-commands) and
-   ;; Emacs commands (M-x).
-   ;; By default the command key is `:' so ex-commands are executed like in Vim
-   ;; with `:' and Emacs commands are executed with `<leader> :'.
-   dotspacemacs-emacs-command-key ";"
-   ;; If non nil `Y' is remapped to `y$'. (default t)
-   dotspacemacs-remap-Y-to-y$ t
+   ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
+   dotspacemacs-remap-Y-to-y$ nil
+   ;; If non nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
+   ;; (default nil)
+   dotspacemacs-ex-substitute-global nil
    ;; Name of the default layout (default "Default")
    dotspacemacs-default-layout-name "Default"
    ;; If non nil the default layout name is displayed in the mode-line.
@@ -173,7 +173,7 @@ values."
    dotspacemacs-helm-position 'bottom
    ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
    ;; several times cycle between the kill ring content. (default nil)
-   dotspacemacs-enable-paste-micro-state nil
+   dotspacemacs-enable-paste-transient-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
    dotspacemacs-which-key-delay 0.4
@@ -188,7 +188,7 @@ values."
    dotspacemacs-loading-progress-bar nil
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup t
+   dotspacemacs-fullscreen-at-startup nil
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
    dotspacemacs-fullscreen-use-non-native t
@@ -199,16 +199,20 @@ values."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-active-transparency 95
+   dotspacemacs-active-transparency 90
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-inactive-transparency 90
+   ;; If non nil show the titles of transient states. (default t)
+   dotspacemacs-show-transient-state-title t
+   ;; If non nil show the color guide hint for transient state keys. (default t)
+   dotspacemacs-show-transient-state-color-guide t
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
    dotspacemacs-mode-line-unicode-symbols t
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
-   ;; scrolling overrides the default behavior of Emacs which recenters the
-   ;; point when it reaches the top or bottom of the screen. (default t)
+   ;; scrolling overrides the default behavior of Emacs which recenters point
+   ;; when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
@@ -217,6 +221,10 @@ values."
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
+   ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
+   ;; over any automatically added closing parenthesis, bracket, quote, etc…
+   ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
+   dotspacemacs-smart-closing-parenthesis nil
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one). (default 'all)
@@ -258,8 +266,8 @@ in `dotspacemacs/user-config'."
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
-This function is called at the very end of Spacemacs initialization after layers
-configuration. You are free to put any user code."
+This function is called at the very end of Spacemacs initialization after
+layers configuration. You are free to put any user code."
 
   (defun narrow-and-set-normal ()
     "Narrow to the region and, if in a visual mode, set normal mode."
@@ -298,20 +306,6 @@ already narrowed."
   (unbind-key "n" spacemacs-default-map)
   (spacemacs/set-leader-keys "TAB" 'narrow-or-widen-dwim)
 
-  ;; Deft sane defaults
-  (setq deft-use-filename-as-title nil
-        deft-use-filter-string-for-filename t)
-  (with-eval-after-load 'deft
-    (define-key deft-mode-map [(shift return)] 'deft-new-file)
-    )
-
-  ;; Make evil-mode up/down operate in screen lines instead of logical lines
-  (define-key evil-motion-state-map "j" 'evil-next-visual-line)
-  (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
-  ;; Also in visual mode
-  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
-  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
-
   (define-key evil-motion-state-map "]e" 'flycheck-next-error)
   (define-key evil-motion-state-map "[e" 'flycheck-previous-error)
 
@@ -321,7 +315,7 @@ already narrowed."
     "."   'spacemacs/alternate-buffer
 
     ;; I don't need align-repeat, that is why evil-repeat exists
-    "ar"  'align-regexp
+    "xar"  'align-regexp
 
     ;; "wc" is hard to type for me, "fq" is easier. Think at it as "File Quit"
     "fq"  'quit-window
@@ -331,7 +325,7 @@ already narrowed."
     "wS"  'split-window-below
     "ws"  'split-window-below-and-focus)
 
-  (define-key evil-normal-state-map ";" 'evil-ex)
+  (define-key evil-motion-state-map ";" 'evil-ex)
   (define-key evil-evilified-state-map ";" 'evil-ex)
   (define-key evil-ex-map "e" 'helm-find-files)
   (define-key evil-ex-map "b" 'helm-buffers-list)
@@ -343,6 +337,8 @@ already narrowed."
 
   (bind-map-set-keys evil-normal-state-map "Q" 'fill-paragraph)
 
+  ;; Packages
+
   (defun my//include-underscores-in-word-motions ()
     "Include underscores in word motions"
     (modify-syntax-entry ?_ "w")
@@ -351,27 +347,18 @@ already narrowed."
   (add-hook 'ruby-mode-hook #'my//include-underscores-in-word-motions)
   (add-hook 'js2-mode-hook #'my//include-underscores-in-word-motions)
 
-  ;; Default toggles
-
-  ;; Hide minor mode area
-  (spacemacs/toggle-mode-line-minor-modes-off)
-
-  ;; Wrap lines
-  (global-visual-line-mode)
-  ;; Distinguish wrapped lines with curly arrows
-  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
-  (setq adaptive-wrap-extra-indent 2)
-  ;; Break lines automatically
-  (add-hook 'prog-mode-hook #'auto-fill-mode)
-
-  ;; Shadow DEL and S-DEL to delete consecutive horizontal whitespace
-  (global-hungry-delete-mode)
+  ;; Deft sane defaults
+  (with-eval-after-load 'deft
+    (setq deft-use-filename-as-title nil
+          deft-use-filter-string-for-filename t)
+    (define-key deft-mode-map [(shift return)] 'deft-new-file)
+    )
 
   (with-eval-after-load 'org
     (add-to-list 'org-structure-template-alist '("t" "#+TITLE: "))
     )
 
-  ;; better UI
+  ;; Better UI
 
   ;; Darker vertical-border for gruvbox
   (set-face-attribute 'vertical-border nil :foreground "#1d2021" :background "White")
@@ -379,4 +366,20 @@ already narrowed."
   (setq powerline-default-separator 'utf-8)
   (custom-set-variables '(powerline-utf-8-separator-left #xe0b0)
                         '(powerline-utf-8-separator-right #xe0b2))
+
+  ;; Toggles
+
+  ;; Hide minor mode area
+  (spacemacs/toggle-mode-line-minor-modes-off)
+
+  ;; Wrap lines
+  ;; Distinguish wrapped lines with curly arrows
+  ;; (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+  (spacemacs/add-to-hooks 'spacemacs/toggle-auto-fill-mode-on
+                          '(org-mode-hook
+                            prog-mode-hook))
+  ;; Break lines automatically
+  (spacemacs/add-to-hooks 'spacemacs/toggle-visual-line-navigation-on
+                          '(org-mode-hook
+                            prog-mode-hook))
   )
