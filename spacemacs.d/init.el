@@ -404,7 +404,7 @@ already narrowed."
 
   ;; Wrap lines
   ;; Distinguish wrapped lines with curly arrows
-  ;; (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
   (spacemacs/add-to-hooks 'spacemacs/toggle-auto-fill-mode-on
                           '(org-mode-hook
                             prog-mode-hook))
