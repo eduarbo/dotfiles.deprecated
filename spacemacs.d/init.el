@@ -59,6 +59,7 @@ values."
      html
      javascript
      react
+     ruby
      sql
      )
    ;; List of additional packages that will be installed without being

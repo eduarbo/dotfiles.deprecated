@@ -64,6 +64,9 @@ gems=( #{{{
 sqlint
 pg_query
 tmuxinator
+pry
+pry-doc
+ruby_parser
 rubocop
 ) #}}}
 node_packages=( #{{{
