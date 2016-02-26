@@ -6,7 +6,7 @@ export NVM_DIR=~/.nvm
 source_file "$HOME/.nvm/nvm.sh"
 
 # Automatic Version Manager for Node
-source_file "$HOME/.avn/bin/avn.sh"
+# source_file "$HOME/.avn/bin/avn.sh"
 
 # force 256-color gruvbox palette
 # https://github.com/morhetz/gruvbox-generalized/tree/master/iterm2

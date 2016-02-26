@@ -48,9 +48,13 @@ values."
             shell-default-position 'bottom)
      ;; spell-checking
      syntax-checking
+
      osx
 
      python
+     html
+     javascript
+     react
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -312,8 +316,8 @@ already narrowed."
   (unbind-key "n" spacemacs-default-map)
   (spacemacs/set-leader-keys "TAB" 'narrow-or-widen-dwim)
 
-  (define-key evil-motion-state-map "]e" 'flycheck-next-error)
-  (define-key evil-motion-state-map "[e" 'flycheck-previous-error)
+  ;; (define-key evil-motion-state-map "]e" 'flycheck-next-error)
+  ;; (define-key evil-motion-state-map "[e" 'flycheck-previous-error)
 
   ;; Swap default bindings
   (spacemacs/set-leader-keys
@@ -397,6 +401,17 @@ already narrowed."
     ;; TODO contribute to company layer maybe?
     (company-flx-mode t)
     )
+
+  ;; disable jshint, jsonlist, and jscs since we prefer eslint checking
+  (setq flycheck-disabled-checkers
+        (append flycheck-disabled-checkers
+                '(javascript-jshint javascript-jscs json-jsonlist)))
+
+  (setq css-indent-offset 2
+        web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2
+        web-mode-attr-indent-offset 2)
 
   ;; Better UI
 

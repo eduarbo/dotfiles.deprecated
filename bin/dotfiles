@@ -114,10 +114,6 @@ _backup "${HOME}/.emacs.d"
 git clone git@github.com:syl20bnr/spacemacs.git "${HOME}/.emacs.d"
 
 if is_confirmed; then
-  _link 'ctags' '.ctags'
-  _link 'jshintrc' '.jshintrc'
-  _link 'eslintrc' '.eslintrc'
-
   # Bash
   _link 'bash/bash_profile' '.bash_profile'
   _link 'bash/bashrc' '.bashrc'
@@ -132,6 +128,11 @@ if is_confirmed; then
 
   # My spacemacs specific configuration
   _link 'spacemacs.d' '.spacemacs.d'
+
+  _link 'ctags' '.ctags'
+  _link 'jsbeautifyrc' '.jsbeautifyrc'
+  _link 'jshintrc' '.jshintrc'
+  _link 'eslintrc.js' '.eslintrc.js'
 
   # Python
   # Workaround to enable `pip install --user` for brewed Python. Remove `prefix`
