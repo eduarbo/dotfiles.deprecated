@@ -54,6 +54,7 @@ values."
 
      osx
 
+     shell-scripts
      python
      html
      javascript
