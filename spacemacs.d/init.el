@@ -28,8 +28,9 @@ values."
      ;; ----------------------------------------------------------------
      spacemacs-helm
      (auto-completion :variables
-                      auto-completion-return-key-behavior 'complete
-                      auto-completion-tab-key-behavior nil
+                      ;; auto-completion-enable-sort-by-usage t ; It breaks spacemacs
+                      auto-completion-return-key-behavior nil
+                      auto-completion-tab-key-behavior 'complete
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t)
      better-defaults
@@ -371,36 +372,8 @@ already narrowed."
     )
 
   (with-eval-after-load 'company
-    ;; 1. When typing, do not start auto-completion
-    ;; 2. On TAB, complete as much as possible inline
-    ;; 3. On TAB again, cycle
-    ;; 4. Use C-; to open helm company
-    ;; Credits: https://github.com/julienfantin/.emacs.d/blob/3ac7e435139e838d7d1af17617902e0e86e87172/init.el
-    (defun esk-overloaded-tab ()
-      (interactive)
-      (if (and (bound-and-true-p outline-regexp) (looking-at outline-regexp))
-          (call-interactively 'outline-cycle)
-        (call-interactively 'company-indent-or-complete-common)))
-
-    (define-key company-mode-map (kbd "TAB") 'esk-overloaded-tab)
-    (define-key company-mode-map (kbd "<tab>") 'esk-overloaded-tab)
-    (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
-    (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
-    (define-key company-active-map (kbd "<S-tab>")
-      'spacemacs//company-complete-common-or-cycle-backward)
-    (define-key company-active-map (kbd "<backtab>")
-      'spacemacs//company-complete-common-or-cycle-backward)
-
-    ;; (bind-key "C-n" 'company-select-next company-active-map)
-    ;; (bind-key "C-p" 'company-select-previous company-active-map)
-
-    (setq company-tooltip-align-annotations t
-          company-auto-complete 'company-explicit-action-p
-          company-idle-delay nil
-          company-minimum-prefix-length nil
-          company-abort-manual-when-too-short t)
-
-    ;; TODO contribute to company layer maybe?
+    ;; Workaround to get rid of annoying completion-at-point in empty strings
+    (setq tab-always-indent t)
     (company-flx-mode t)
     )
 
