@@ -330,8 +330,8 @@ already narrowed."
     ;; I don't need align-repeat, that is why evil-repeat exists
     "xar"  'align-regexp
 
-    ;; "wc" is hard to type for me, "fq" is easier. Think at it as "File Quit"
-    "fq"  'quit-window
+    ;; mnenonic of Quit Window
+    "qw"  'evil-quit
 
     "wV"  'split-window-right
     "wv"  'split-window-right-and-focus
