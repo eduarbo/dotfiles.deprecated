@@ -1,5 +1,4 @@
-export DOT="$HOME/.dotfiles"
-
+DOT="$HOME/.dotfiles"
 source "$DOT/lib/utils"
 source "$DOT/zsh/aliases"
 source "$DOT/zsh/colors"
