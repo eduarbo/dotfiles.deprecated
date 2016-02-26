@@ -24,16 +24,15 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
 
-     ;; spell-checking
      (auto-completion :variables
                       auto-completion-return-key-behavior 'complete
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t)
      better-defaults
-     emacs-lisp
+     ;; emacs-lisp
+     ;; org
      markdown
-     org
      (git :variables
           magit-repository-directories '("~/dev/"))
      (version-control :variables
@@ -51,7 +50,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(gruvbox-theme)
+   dotspacemacs-additional-packages '(eyedropper)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(evil-escape
                                     evil-search-highlight-persist
@@ -99,7 +98,7 @@ values."
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
-   dotspacemacs-startup-lists '(recents projects)
+   dotspacemacs-startup-lists '(agenda todos)
    ;; Number of recent files to show in the startup buffer. Ignored if
    ;; `dotspacemacs-startup-lists' doesn't include `recents'. (default 5)
    dotspacemacs-startup-recent-list-size 5
@@ -108,22 +107,14 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(
-                         ;; gruvbox
-                         subatomic
-                         spacemacs-dark
-                         spacemacs-light
-                         solarized-light
-                         solarized-dark
-                         leuven
-                         monokai
-                         zenburn)
+   dotspacemacs-themes '(subatomic
+                         gruvbox)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Hack"
-                               :size 12
+                               :size 13
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -150,7 +141,7 @@ values."
    ;; Emacs commands (M-x).
    ;; By default the command key is `:' so ex-commands are executed like in Vim
    ;; with `:' and Emacs commands are executed with `<leader> :'.
-   dotspacemacs-command-key ";"
+   dotspacemacs-emacs-command-key ";"
    ;; If non nil `Y' is remapped to `y$'. (default t)
    dotspacemacs-remap-Y-to-y$ t
    ;; Name of the default layout (default "Default")
@@ -173,7 +164,7 @@ values."
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
    dotspacemacs-use-ido nil
    ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
-   dotspacemacs-helm-resize t
+   dotspacemacs-helm-resize nil
    ;; if non nil, the helm header is hidden when there is only one source.
    ;; (default nil)
    dotspacemacs-helm-no-header t
@@ -232,7 +223,7 @@ values."
    dotspacemacs-highlight-delimiters 'all
    ;; If non nil advises quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server t
+   dotspacemacs-persistent-server nil
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
@@ -340,6 +331,11 @@ already narrowed."
     "wS"  'split-window-below
     "ws"  'split-window-below-and-focus)
 
+  (define-key evil-normal-state-map ";" 'evil-ex)
+  (define-key evil-evilified-state-map ";" 'evil-ex)
+  (define-key evil-ex-map "e" 'helm-find-files)
+  (define-key evil-ex-map "b" 'helm-buffers-list)
+
   (define-key evil-motion-state-map (kbd "C-h") 'evil-window-left)
   (define-key evil-motion-state-map (kbd "C-j") 'evil-window-down)
   (define-key evil-motion-state-map (kbd "C-k") 'evil-window-up)
@@ -347,21 +343,40 @@ already narrowed."
 
   (bind-map-set-keys evil-normal-state-map "Q" 'fill-paragraph)
 
-  ;; For python
-  (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-  ;; For ruby
-  (add-hook 'ruby-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-  ;; For Javascript
-  (add-hook 'js2-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  (defun my//include-underscores-in-word-motions ()
+    "Include underscores in word motions"
+    (modify-syntax-entry ?_ "w")
+    )
+  (add-hook 'python-mode-hook #'my//include-underscores-in-word-motions)
+  (add-hook 'ruby-mode-hook #'my//include-underscores-in-word-motions)
+  (add-hook 'js2-mode-hook #'my//include-underscores-in-word-motions)
 
-  ;; Use Spacemacs as the =$EDITOR= for git commits
-  (global-git-commit-mode t)
+  ;; Default toggles
 
-  (global-company-mode)
+  ;; Hide minor mode area
+  (spacemacs/toggle-mode-line-minor-modes-off)
 
-  ;; Delete the preceding character or all preceding whitespace back to the
-  ;; previous non-whitespace character
-  (spacemacs/toggle-hungry-delete-on)
+  ;; Wrap lines
+  (global-visual-line-mode)
+  ;; Distinguish wrapped lines with curly arrows
+  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+  (setq adaptive-wrap-extra-indent 2)
+  ;; Break lines automatically
+  (add-hook 'prog-mode-hook #'auto-fill-mode)
 
-  (setq powerline-default-separator 'zigzag)
+  ;; Shadow DEL and S-DEL to delete consecutive horizontal whitespace
+  (global-hungry-delete-mode)
+
+  (with-eval-after-load 'org
+    (add-to-list 'org-structure-template-alist '("t" "#+TITLE: "))
+    )
+
+  ;; better UI
+
+  ;; Darker vertical-border for gruvbox
+  (set-face-attribute 'vertical-border nil :foreground "#1d2021" :background "White")
+
+  (setq powerline-default-separator 'utf-8)
+  (custom-set-variables '(powerline-utf-8-separator-left #xe0b0)
+                        '(powerline-utf-8-separator-right #xe0b2))
   )
