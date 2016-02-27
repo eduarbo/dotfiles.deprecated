@@ -64,6 +64,11 @@ values."
           elm-reactor-address "0.0.0.0") ; default 127.0.0.1
      ruby
      sql
+     vagrant
+     pandoc
+     command-log
+     (spell-checking :variables
+                     spell-checking-enable-auto-dictionary t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
