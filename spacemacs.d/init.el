@@ -373,6 +373,13 @@ already narrowed."
   (add-hook 'ruby-mode-hook #'my//include-underscores-in-word-motions)
   (add-hook 'js2-mode-hook #'my//include-underscores-in-word-motions)
 
+  ;; Evil-args
+  (defun set-lispish-evil-args-delimiters ()
+    "Override default args delimiters on lisp languages"
+    (setq-local evil-args-delimiters '(" ")))
+  (add-hook 'lisp-mode-hook 'set-lispish-evil-args-delimiters)
+  (add-hook 'emacs-lisp-mode-hook 'set-lispish-evil-args-delimiters)
+
   ;; Deft sane defaults
   (with-eval-after-load 'deft
     (setq deft-use-filename-as-title nil
