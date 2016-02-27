@@ -53,7 +53,9 @@ values."
      syntax-checking
 
      osx
-     github
+
+     ;; Disabled for security reasons. It exposes my password in plain text!!!
+     ;; github
 
      shell-scripts
      python
