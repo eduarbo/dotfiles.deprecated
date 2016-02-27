@@ -404,7 +404,7 @@ already narrowed."
   ;; Better UI
 
   ;; Darker vertical-border for gruvbox
-  (set-face-attribute 'vertical-border nil :foreground "#1d2021" :background "White")
+  (set-face-attribute 'vertical-border nil :foreground "#1d2021" :background nil)
 
   (setq powerline-default-separator 'utf-8)
   (custom-set-variables '(powerline-utf-8-separator-left #xe0b0)
