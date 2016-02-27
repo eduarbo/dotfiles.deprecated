@@ -36,29 +36,27 @@ extra_formulae=( #{{{
 'gnu-sed --with-default-names'
 'cppcheck'
 'dark-mode'
-'fortune'
+'ffmepg'
 'git-lfs'
 'gtypist'
 'homebrew/dupes/grep'
 'homebrew/dupes/openssh'
 'libsass sassc'
 'mercurial'
-'--HEAD neovim'
+# '--HEAD neovim'
 'nvm'
 'openssl'
 'pgcli'
 'pandoc'
-'pt'
 'rsync --default-names'
 'selecta'
 'shellcheck checkbashisms'
-'task'
 'tig'
-'vit'
 'ispell'
 'trash'
 'wget --with-iri'
-'emacs --HEAD --use-git-head --cocoa --with-srgb --with-imagemagick --with-gnutls'
+'emacs --HEAD --use-git-head --cocoa --with-srgb --with-imagemagick
+--with-gnutls --with-libsrvg'
 ) #}}}
 gems=( #{{{
 sqlint
@@ -84,6 +82,9 @@ babel-eslint
 eslint-config-airbnb
 eslint-plugin-react
 tern
+# elm # Use the official installer for now as there are issues with elm-reactor in
+# OS X. See: https://github.com/kevva/elm-bin/issues/28
+elm-oracle
 # Not sure if eslint covers json files
 jsonlint
 ) #}}}
