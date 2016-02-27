@@ -53,6 +53,7 @@ values."
      syntax-checking
 
      osx
+     github
 
      shell-scripts
      python
