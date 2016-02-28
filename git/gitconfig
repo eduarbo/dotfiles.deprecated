@@ -84,3 +84,5 @@
 	prompt = false
 [url "https://github.com/"]
 	insteadOf = git://github.com/
+[gpg]
+	program = gpg2
