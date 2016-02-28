@@ -411,6 +411,11 @@ already narrowed."
         web-mode-code-indent-offset 2
         web-mode-attr-indent-offset 2)
 
+  ;; Support Syntax highlight for my dotfiles
+  (add-to-list 'auto-mode-alist (cons "/\\^gitconfig\\'" 'gitconfig-mode))
+  (add-to-list 'auto-mode-alist (cons "/\\^gitignore\\'" 'gitignore-mode))
+  (add-to-list 'auto-mode-alist (cons "/\\^gitattributes\\'" 'gitattributes-mode))
+
   ;; Better UI
 
   ;; Darker vertical-border for gruvbox
