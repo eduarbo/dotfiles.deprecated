@@ -40,8 +40,7 @@ values."
      (version-control :variables
                       version-control-diff-tool 'git-gutter+
                       version-control-global-margin t)
-     (deft :variables
-       deft-directory "~/Dropbox/notes")
+     deft
      markdown
      org
      (shell :variables
@@ -298,6 +297,9 @@ in `dotspacemacs/user-config'."
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
 
+  (defconst my-notes-directory "~/Dropbox/notes/"
+    "Path to my notes directory")
+
   (defun narrow-and-set-normal ()
     "Narrow to the region and, if in a visual mode, set normal mode."
     (interactive)
@@ -391,11 +393,14 @@ already narrowed."
           ;; kills all the local variables :/
           ;; TODO contribute with a better implementation
           deft-auto-save-interval 0
+          deft-directory my-notes-directory
           deft-use-filter-string-for-filename t)
     (define-key deft-mode-map [(shift return)] 'deft-new-file))
 
   (with-eval-after-load 'org
     (add-to-list 'org-structure-template-alist '("t" "#+TITLE: "))
+
+    (setq org-agenda-files (list my-notes-directory))
 
     ;; My sensitive data
     (require 'org-crypt)
