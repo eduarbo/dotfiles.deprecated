@@ -27,50 +27,50 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      spacemacs-helm
+     better-defaults
+     emacs-lisp
      (auto-completion :variables
                       ;; auto-completion-enable-sort-by-usage t ; It breaks spacemacs
                       auto-completion-return-key-behavior nil
                       auto-completion-tab-key-behavior 'complete
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t)
-     better-defaults
-     emacs-lisp
      (git :variables
           magit-repository-directories '("~/dev/"))
      (version-control :variables
                       version-control-diff-tool 'git-gutter+
                       version-control-global-margin t)
-     deft
-     markdown
-     org
      (shell :variables
             shell-default-shell 'eshell
             shell-enable-smart-eshell t
             shell-default-position 'bottom
             shell-default-height 30)
-     ;; spell-checking
+     (spell-checking :variables
+                     spell-checking-enable-auto-dictionary t)
      syntax-checking
-
+     deft
+     colors
      osx
 
      ;; Disabled for security reasons. It exposes my password in plain text!!!
      ;; github
 
-     shell-scripts
-     python
-     html
-     javascript
-     react
+     command-log
      (elm :variables
           elm-reactor-port "3000"          ; default 8000
           elm-reactor-address "0.0.0.0") ; default 127.0.0.1
+     html
+     javascript
+     markdown
+     org
+     pandoc
+     python
+     react
      ruby
+     shell-scripts
      sql
      vagrant
-     pandoc
-     command-log
-     (spell-checking :variables
-                     spell-checking-enable-auto-dictionary t)
+     yaml
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
