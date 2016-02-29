@@ -416,6 +416,45 @@ already narrowed."
   (add-to-list 'auto-mode-alist (cons "/\\^gitignore\\'" 'gitignore-mode))
   (add-to-list 'auto-mode-alist (cons "/\\^gitattributes\\'" 'gitattributes-mode))
 
+  ;; My sensitive data
+  ;; TODO move it to its own layer
+  ;; taken from: http://anirudhsasikumar.net/blog/2005.01.21.html
+  (define-minor-mode sensitive-mode
+  "For sensitive files like password lists.
+It disables backup creation and auto saving.
+
+With no argument, this command toggles the mode.
+Non-null prefix argument turns on the mode.
+Null prefix argument turns off the mode."
+  ;; The initial value.
+  nil
+  ;; The indicator for the mode line.
+  " Sensitive"
+  ;; The minor mode bindings.
+  nil
+  (if (symbol-value sensitive-mode)
+      (progn
+        ;; disable backups
+        (set (make-local-variable 'backup-inhibited) t)
+        ;; disable auto-save
+        (if auto-save-default
+            (auto-save-mode -1)))
+                                        ;resort to default value of backup-inhibited
+    (kill-local-variable 'backup-inhibited)
+                                        ;resort to default auto save setting
+    (if auto-save-default
+        (auto-save-mode 1))))
+
+  (require 'org-crypt)
+  ;; Encrypt all entries before saving
+  (org-crypt-use-before-save-magic)
+  (setq org-tags-exclude-from-inheritance (quote ("crypt")))
+  (setq org-crypt-disable-auto-save t)
+  ;; GPG key to use for encryption
+  (setq epa-file-encrypt-to "eduarbo@gmail.com")
+  (setq org-crypt-key "eduarbo@gmail.com")
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "D" 'org-decrypt-entry)
+
   ;; Better UI
 
   ;; Darker vertical-border for gruvbox
