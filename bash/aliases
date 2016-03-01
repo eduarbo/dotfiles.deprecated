@@ -1,78 +1,31 @@
-# Setup -------------------------------------------------------------------- {{{
-# Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then # GNU `ls`
-  _colorflag="--color"
-else # OS X `ls`
-  _colorflag="-G"
-fi
+#!/usr/bin/env bash
 
 # Allow aliases to be with sudo
 alias sudo="sudo "
 
-### Get os name via uname ###
-_myos="$(uname)"
-# }}}
-# Linux aliases ------------------------------------------------------------ {{{
-if [ $_myos = "Linux" ]; then
-  ##########################
-  # Linux-specific aliases #
-  ##########################
-
-  alias open="xdg-open"
-  alias o="xdg-open"
-  alias oo="xdg-open ."
-
-  alias update="sudo apt-get update"
-  alias install="sudo apt-get install"
-  alias remove="sudo apt-get remove"
-
-fi
-# }}}
 # OSX aliases -------------------------------------------------------------- {{{
-if [ "$_myos" = "Darwin" ]; then
-  ########################
-  # OSX-specific aliases #
-  ########################
+alias open="open"
+alias o="open"
+alias oo="open ."
 
-  alias open="open"
-  alias o="open"
-  alias oo="open ."
+# Empty the Trash on all mounted volumes and the main HDD
+# Also, clear Apple’s System Logs to improve shell startup speed
+alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
 
-  # Empty the Trash on all mounted volumes and the main HDD
-  # Also, clear Apple’s System Logs to improve shell startup speed
-  alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
+# Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
+alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update'
 
-  # JavaScriptCore REPL
-  _jscbin="/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc";
-  [ -e "${_jscbin}" ] && alias jsc="${_jscbin}";
-  unset _jscbin;
+# Recursively delete `.DS_Store` files
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
-  # Merge PDF files
-  # Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
-  _joinpy='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
-  [ -e "${_joinpy}" ] && alias mergepdf="${_joinpy}";
+# Lock the screen (when going AFK)
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 
-  # Google translate cli aliases
-  alias trse="trs {=es}"
-  alias trsf="trs {=fr}"
-
-  # Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-  alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update'
-
-  # Recursively delete `.DS_Store` files
-  alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
-
-  # Lock the screen (when going AFK)
-  alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-
-  alias b="brew"
-  alias c="brew cask"
-
-fi
+alias b="brew"
+alias c="brew cask"
 # }}}
-# Shortcuts ---------------------------------------------------------------- {{{
-unset _myos;
 
+# Shortcuts ---------------------------------------------------------------- {{{
 alias scp='rsync --rsh=ssh -CarvP'
 alias top='top -o cpu'
 
@@ -132,65 +85,26 @@ alias py2="python2"
 alias py3="python3"
 alias ipy="ipython"
 # }}}
+
 # Files & Directories ------------------------------------------------------ {{{
-alias -- -='cd -'
+# alias -- -='cd -'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
-alias l="ls -l ${_colorflag}" # List all files colorized in long format
-alias la="ls -lA ${_colorflag}" # List all files colorized in long format, including dot files
-alias lsd='ls -l ${_colorflag} | grep "^d"' # List only directories
-alias ls="command ls -h ${_colorflag}"
+alias l="ls -l" # List all files in long format
+alias la="ls -lA" # List all files in long format, including dot files
+alias lsd='ls -l | grep "^d"' # List only directories
+alias ls="command ls -h"
 alias lt='ls -ltr'
-unset _colorflag;
 
 alias md='mkdir -p'
 alias rd='rmdir'
 alias RM='rm -vrf'
-
-duh() { # disk usage for humans
-  test $# -eq 0 && set -- *
-  du -sch "$@" | sort -h
-}
-
-bam() { # backup with move
-  for file; do
-    mv -v $file{,.bak}
-  done
-}
-
-bum() { # undo backup move
-  for file; do
-    mv -v "$file" "${file%.bak}"
-  done
-}
-
-bac() { # backup with copy
-  for file; do
-    cp -Rpv "$file" "$file~$(date -Ins)~"
-  done
-}
-
-buc() { # undo backup copy
-  for file; do
-    dest=${file%%\~*}
-    test -d "$dest" && mv -v "$dest" "$file.orig"
-    mv -v "$file" "$dest"
-  done
-}
-
-mount-dir-ro() {
-sudo mount --bind "$@" &&
-  sudo mount -o remount,ro,bind "$@"
-}
 # }}}
-# Taskwarrior -------------------------------------------------------------- {{{
-alias t="task"
-alias ta="task add"
-# }}}
+
 # Git ---------------------------------------------------------------------- {{{
 alias g='git'
 alias gs='git status'
@@ -207,11 +121,6 @@ alias gnb='git checkout -b'                 # create and switch to a new branch 
 alias gd='git diff'                         # diff unstaged changes
 alias gdt='git difftool'                    # Git difftool
 alias gdc='git diff --cached'               # diff staged changes
-
-alias gl="git log --color --date=short --pretty=format:'%C(auto)%h %Cgreen%cD %C(cyan)%cr %Cblue[%cn]%C(auto)%d%n%Creset%B'"
-alias glg="git log --color --graph --date=short --pretty=format:'%C(auto)%h %Cgreen%cD %C(cyan)%cr %Cblue[%cn]%C(auto)%d%n%Creset%B'"
-alias gll="git log --color --date=short --pretty=format:'%C(auto)%h %Cgreen%cr %Cblue[%cn]%C(auto) %d%Creset%s'"
-alias glm='git log --color --author="$(git config user.name)" --pretty=format:"%C(auto)%h %Cgreen%cr%Creset %s" --date=short'
 
 alias gb='git branch'
 alias gbb='git branch -v'
@@ -236,11 +145,8 @@ alias gsd='git stash drop'                  # drop stashes
 
 alias gcp='git cherry-pick -x'              # grab a change from a branch
 alias gh='git help'
-
-# setopt nocompletealiases      # treat `gco` like `git checkout`
-# compdef _git tig=git-checkout # treat `tig` like `git checkout`
-# compdef hub=git               # treat `hub` like `git`
 # }}}
+
 # Misc --------------------------------------------------------------------- {{{
 alias server='python -m SimpleHTTPServer'
 
@@ -257,4 +163,3 @@ alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pa
 # [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
 alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
 # }}}
-# vim: set ft=zsh :
