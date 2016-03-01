@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 prompt () {
   local BGBLACK="\[\033[40m\]"
   local BGRED="\[\033[41m\]"
@@ -28,4 +29,3 @@ prompt () {
 }
 
 prompt
-# vim: set ft=sh :

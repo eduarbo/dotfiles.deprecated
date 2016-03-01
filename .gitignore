@@ -13,6 +13,11 @@ vim/autoload/plug.old.vim
 tmux/plugins/*
 !tmux/plugins/tpm
 
+# Fish files
+fishd.*
+# Fish installation script renames the existing config.fish to config.orig
+config.orig
+
 # Emacs files
 *.elc
 *#

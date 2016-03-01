@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 # Keep 9999 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=9999
 SAVEHIST=9999
@@ -16,4 +17,3 @@ setopt HIST_IGNORE_SPACE      # Does not record an event starting with a space
 setopt HIST_SAVE_NO_DUPS      # Does not write a duplicate event to the history file
 setopt HIST_VERIFY            # Does not execute immediately upon history expansion
 setopt INC_APPEND_HISTORY     # Writes to the history file immediately, not when the shell exits
-# vim: set ft=zsh :

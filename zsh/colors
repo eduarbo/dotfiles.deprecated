@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 autoload colors; colors
 
 # The variables are wrapped in \%\{\%\}. This should be the case for every
@@ -20,4 +21,3 @@ unset LSCOLORS
 
 export CLICOLOR=1
 export LS_COLORS=exfxcxdxbxegedabagacad
-# vim: set ft=zsh :

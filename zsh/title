@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 # Sets terminal window and tab titles.
 #
 # Authors:
@@ -115,4 +116,3 @@ function set-titles-preexec {
   set-titles-with-command "$2"
 }
 add-zsh-hook preexec set-titles-preexec
-# vim: set ft=zsh :

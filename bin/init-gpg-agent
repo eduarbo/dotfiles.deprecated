@@ -1,0 +1,9 @@
+#!/bin/bash
+# Script to start `gpg-agent` only once
+
+export GPG_TTY=$(tty)
+if [ -f ~/.gpg-agent-info ]; then
+    source ~/.gpg-agent-info
+else
+    eval $( gpg-agent --daemon --enable-ssh-support --write-env-file ~/.gpg-agent-info )
+fi

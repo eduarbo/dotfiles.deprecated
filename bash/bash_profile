@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 export DOT="$HOME/.dotfiles"
 export OS_NAME="$(uname)"
 
@@ -118,7 +119,7 @@ else
   echo "Can't find Homebrew"
 fi
 
-source "$DOT/zsh/aliases"
+source "$DOT/bash/aliases"
 source "$DOT/bash/prompt"
 # }}}
 # Options ------------------------------------------------------------------ {{{

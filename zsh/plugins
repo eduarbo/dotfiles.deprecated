@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 type_exists "fasd" && eval "$(fasd --init auto)"
 
 # Node version manager
@@ -35,4 +36,3 @@ if [[ "$HAS_BREW" ]]; then
 else
   echo "Can't find Homebrew :("
 fi
-# vim: set ft=zsh :

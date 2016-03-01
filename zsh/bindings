@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
   function zle-line-init() {
     echoti smkx
@@ -36,4 +37,3 @@ bindkey -M emacs '^N' history-substring-search-down
 
 # [Space] - do history expansion
 bindkey ' ' magic-space 
-# vim: set ft=zsh :

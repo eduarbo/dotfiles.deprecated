@@ -1,6 +1,7 @@
+#!/usr/bin/env zsh
 DOT="$HOME/.dotfiles"
 source "$DOT/lib/utils"
-source "$DOT/zsh/aliases"
+source "$DOT/bash/aliases"
 source "$DOT/zsh/colors"
 source "$DOT/zsh/history"
 source "$DOT/zsh/options"
@@ -8,14 +9,10 @@ source "$DOT/zsh/bindings"
 source "$DOT/zsh/prompt"
 source "$DOT/zsh/title"
 source "$DOT/zsh/completion"
-
-# Portal FTW!
-print -P "%F{231}GLaDOS v1.09 (c) 1982 Aperture Science, Inc.%f"
+source "$DOT/bin/init-gpg-agent"
 
 source_file "$HOME/.secrets"
 source_file "$HOME/.zshrc.local"
 
 # zsh-syntax-highlighting.zsh needs to be sourced at the end
 source "$DOT/zsh/plugins"
-
-# vim: set ft=zsh :
