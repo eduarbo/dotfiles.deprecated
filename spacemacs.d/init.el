@@ -61,6 +61,7 @@ values."
           elm-reactor-address "0.0.0.0") ; default 127.0.0.1
      html
      javascript
+     lua
      markdown
      org
      pandoc
