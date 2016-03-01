@@ -46,3 +46,4 @@ gnupg/*
 #But not these files
 !gnupg/gpg-agent.conf
 !gnupg/gpg.conf
+*.conf

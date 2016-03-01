@@ -63,4 +63,4 @@ if [[ ! -d "$TMPPREFIX" ]]; then
   mkdir -p "$TMPPREFIX"
 fi
 
-source "$DOT/bin/init-gpg-agent"
+source "$HOME/.dotfiles/bin/init-gpg-agent"
