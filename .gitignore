@@ -39,3 +39,4 @@ emacs.d/backups/
 emacs.d/network-security.data
 emacs.d/projectile.cache
 emacs.d/projectile-bookmarks.eld
+spacemacs.d/custom.el
