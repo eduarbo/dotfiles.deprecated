@@ -5,8 +5,6 @@ source "$HOME/.dotfiles/lib/utils"
 # List of packages {{{
 base_formulae=( #{{{
 'coreutils' # GNU core utilities
-'gnupg2'
-'pass'
 'bash'
 'bash-completion'
 'git'

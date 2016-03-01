@@ -121,6 +121,7 @@ fi
 
 source "$DOT/bash/aliases"
 source "$DOT/bash/prompt"
+source "$DOT/bin/init-gpg-agent"
 # }}}
 # Options ------------------------------------------------------------------ {{{
 # Autocorrect typos in path names when using `cd`

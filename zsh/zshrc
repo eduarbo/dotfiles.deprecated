@@ -9,7 +9,6 @@ source "$DOT/zsh/bindings"
 source "$DOT/zsh/prompt"
 source "$DOT/zsh/title"
 source "$DOT/zsh/completion"
-source "$DOT/bin/init-gpg-agent"
 
 source_file "$HOME/.secrets"
 source_file "$HOME/.zshrc.local"

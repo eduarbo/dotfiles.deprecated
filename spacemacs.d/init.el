@@ -409,10 +409,12 @@ already narrowed."
     (org-crypt-use-before-save-magic)
     (setq org-tags-exclude-from-inheritance (quote ("crypt")))
     (setq org-crypt-disable-auto-save 'encrypt)
-    ;; GPG key to use for encryption
-    (setq epa-file-encrypt-to "eduarbo@gmail.com")
     (setq org-crypt-key "eduarbo@gmail.com")
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode "D" 'org-decrypt-entry))
+    (setq epa-file-encrypt-to org-crypt-key)
+    ;; use gpg2 to cache the passphrase with gpg-agent, otherwise it won't work
+    (setq epg-gpg-program "gpg2")
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode "D" 'org-decrypt-entry)
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode "E" 'org-encrypt-entries))
 
   (with-eval-after-load 'company
     ;; Workaround to get rid of annoying completion-at-point in empty strings
