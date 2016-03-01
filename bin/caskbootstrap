@@ -9,6 +9,7 @@ _apps=( #{{{
 # don't need to be in a specific order
 # 'android-studio'
 'gpgtools'
+'hammerspoon'
 'adobe-reader'
 'alfred'
 'android-file-transfer'

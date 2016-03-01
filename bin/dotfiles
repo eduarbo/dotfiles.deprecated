@@ -132,6 +132,7 @@ if is_confirmed; then
   # My spacemacs specific configuration
   _link 'spacemacs.d' '.spacemacs.d'
 
+  _link 'hammerspoon/' '.hammerspoon'
   _link 'ctags' '.ctags'
   _link 'jsbeautifyrc' '.jsbeautifyrc'
   _link 'jshintrc' '.jshintrc'

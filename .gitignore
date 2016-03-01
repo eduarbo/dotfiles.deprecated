@@ -40,3 +40,9 @@ emacs.d/network-security.data
 emacs.d/projectile.cache
 emacs.d/projectile-bookmarks.eld
 spacemacs.d/custom.el
+
+# Ignore everything in gnupg
+gnupg/*
+#But not these files
+!gnupg/gpg-agent.conf
+!gnupg/gpg.conf
