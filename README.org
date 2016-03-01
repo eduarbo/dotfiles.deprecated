@@ -1,10 +1,10 @@
 #+TITLE: My dotfiles
 
+*The documentation is IN PROGRESS.*
+
 This is a collection of my configuration files under OSX.
 
-The documentation is IN PROGRESS.
-
-* What does it include?
+** What does it include?
 
 - spacemacs :: My main editor, the best of vim and emacs in one place
 - vim :: Minimal setup to edit files quickly now that my main editor is emacs
@@ -13,11 +13,9 @@ The documentation is IN PROGRESS.
 - zsh :: zshell settings, nice prompt, plugins and more
 - fish :: basic settings with some fisherman plugins
 - GPG :: gpg and gpg-agent config files with support for SSH authentication
-- karabiner & seil:: settings to customize my keyboard layout
+- karabiner & seil :: settings to customize my keyboard layout
 - hammerspoon :: configs to use it as tiling window manager and launcher
 - tmux :: Terminal multiplexer with a powerline-like status bar
 - fonts :: All my favorite fonts
 
-* TODO
-
-- Simplify installation script with =stow=
+** TODO Simplify installation script with =stow=
