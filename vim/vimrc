@@ -1410,7 +1410,7 @@ if has('nvim')
   let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 endif
 
-set guifont=Hack:h12
+set guifont=Hack:h13
 " }}}
 
 " TODO                                                                      {{{1
