@@ -4,6 +4,20 @@
   <modifierdef>SPACE_TO_CONTROL</modifierdef>
   <modifierdef>HYPER</modifierdef>
 
+  <replacementdef>
+    <replacementname>MEGA_KEY</replacementname>
+    <replacementvalue>
+      KeyCode::COMMAND_L, ModifierFlag::CONTROL_L | ModifierFlag::OPTION_L | ModifierFlag::NONE
+    </replacementvalue>
+  </replacementdef>
+
+  <replacementdef>
+    <replacementname>MEGA_MOD</replacementname>
+    <replacementvalue>
+      ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L | ModifierFlag::OPTION_L | ModifierFlag::NONE
+    </replacementvalue>
+  </replacementdef>
+
   <item>
     <name>Use the correct shift keys.</name>
     <identifier>private.correct_shift_keys</identifier>
@@ -169,53 +183,26 @@
     <name>Change Option keys</name>
 
     <item>
-      <name>Option_L to Super</name>
+      <name>Option_L to Mega</name>
       <appendix>(+ When you type Option_L only, send Escape)</appendix>
-      <identifier>private.option_L_to_Super</identifier>
+      <identifier>private.option_L_to_mega</identifier>
 
       <!-- I took this helpful mapping from Steve Losh's post
            http://stevelosh.com/blog/2012/10/a-modern-space-cadet -->
 
       <autogen>
         __KeyOverlaidModifier__
-        KeyCode::OPTION_L,
-
-        KeyCode::COMMAND_L,
-        ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::ESCAPE
+        KeyCode::OPTION_L, {{ MEGA_KEY }}, KeyCode::ESCAPE
       </autogen>
     </item>
 
     <item>
-      <name>Option_R to Super</name>
-      <identifier>private.option_R_to_Super</identifier>
+      <name>Option_R to Mega</name>
+      <identifier>private.option_R_to_mega</identifier>
 
       <autogen>
         __KeyOverlaidModifier__
-        KeyCode::OPTION_R,
-
-        KeyCode::COMMAND_L,
-        ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::FORWARD_DELETE
-      </autogen>
-    </item>
-
-    <item>
-      <!-- This is not working when Option keys are already mapped to super :( -->
-      <name>Change Option_R+Option_L to Hyper</name>
-      <identifier>private.option_R_option_L_to_Hyper</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::OPTION_L, ModifierFlag::OPTION_L | ModifierFlag::OPTION_R,
-        KeyCode::VK_MODIFIER_HYPER
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::OPTION_R, ModifierFlag::OPTION_L | ModifierFlag::OPTION_R,
-        KeyCode::VK_MODIFIER_HYPER
+        KeyCode::OPTION_R, {{ MEGA_KEY }}, KeyCode::FORWARD_DELETE
       </autogen>
     </item>
   </item>
@@ -242,131 +229,85 @@
   </item>
 
   <item>
-    <name>Super shortcuts</name>
+    <name>Mega shortcuts</name>
 
     <item>
-      <name>Super + {H,J,K,L} to LEFT,DOWN,UP,RIGHT (à la Vim)</name>
-      <identifier>private.super_hjkl_to_left_down_up_right</identifier>
+      <name>Mega + {H,J,K,L} to LEFT,DOWN,UP,RIGHT (à la Vim)</name>
+      <identifier>private.mega_hjkl_to_left_down_up_right</identifier>
 
       <autogen>
         __KeyToKey__
-        KeyCode::J,
-        ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::CURSOR_DOWN
+        KeyCode::J, {{ MEGA_MOD }}, KeyCode::CURSOR_DOWN
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::K,
-        ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::CURSOR_UP
+        KeyCode::K, {{ MEGA_MOD }}, KeyCode::CURSOR_UP
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::H,
-        ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::CURSOR_LEFT
+        KeyCode::H, {{ MEGA_MOD }}, KeyCode::CURSOR_LEFT
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::L,
-        ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::CURSOR_RIGHT
+        KeyCode::L, {{ MEGA_MOD }}, KeyCode::CURSOR_RIGHT
       </autogen>
     </item>
 
     <item>
-      <name>Super + Inverted T {I,J,K,L} to {UP,LEFT,DOWN,RIGHT}</name>
-      <identifier>private.super_ijkl_to_up_left_down_right</identifier>
+      <name>Mega + Inverted T {I,J,K,L} to {UP,LEFT,DOWN,RIGHT}</name>
+      <identifier>private.mega_ijkl_to_up_left_down_right</identifier>
       <autogen>
         __KeyToKey__
-        KeyCode::I,
-        ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::CURSOR_UP
+        KeyCode::I, {{ MEGA_MOD }}, KeyCode::CURSOR_UP
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::J,
-        ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::CURSOR_LEFT
+        KeyCode::J, {{ MEGA_MOD }}, KeyCode::CURSOR_LEFT
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::K,
-        ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::CURSOR_DOWN
+        KeyCode::K, {{ MEGA_MOD }}, KeyCode::CURSOR_DOWN
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::L,
-        ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::CURSOR_RIGHT
+        KeyCode::L, {{ MEGA_MOD }}, KeyCode::CURSOR_RIGHT
       </autogen>
     </item>
 
     <item>
-      <name>Super + Semicolon to add tilde</name>
-      <identifier>private.super_semicolon_add_tilde</identifier>
+      <name>Mega + Semicolon to add tilde</name>
+      <identifier>private.mega_semicolon_add_tilde</identifier>
 
       <autogen>
         __KeyToKey__
-        KeyCode::SEMICOLON,
-        ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::E, ModifierFlag::OPTION_L
+        KeyCode::SEMICOLON, {{ MEGA_MOD }}, KeyCode::E, ModifierFlag::OPTION_L
       </autogen>
     </item>
 
     <item>
-      <name>Super + N to add n tilde (~)</name>
-      <identifier>private.super_n_add_tilde</identifier>
+      <name>Mega + N to add n tilde (~)</name>
+      <identifier>private.mega_n_add_tilde</identifier>
 
       <autogen>
         __KeyToKey__
-        KeyCode::N,
-        ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::N, ModifierFlag::OPTION_L
+        KeyCode::N, {{ MEGA_MOD }}, KeyCode::N, ModifierFlag::OPTION_L
       </autogen>
     </item>
 
     <item>
       <name>
-        Super + brackets to move focus to previous/next tab in application
+        Mega + brackets to move focus to previous/next tab in application
       </name>
-      <identifier>private.super_to_command_shift_brackets</identifier>
+      <identifier>private.mega_to_command_shift_brackets</identifier>
 
       <autogen>
         __KeyToKey__
-        KeyCode::BRACKET_LEFT, ModifierFlag::HYPER,
-
+        KeyCode::BRACKET_LEFT, {{ MEGA_MOD }},
         KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::BRACKET_LEFT,
-        ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::BRACKET_RIGHT,
-        ModifierFlag::COMMAND_L |ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_R | ModifierFlag::SHIFT_R
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::BRACKET_RIGHT, ModifierFlag::HYPER,
-
+        KeyCode::BRACKET_RIGHT, {{ MEGA_MOD }},
         KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_R | ModifierFlag::SHIFT_R
       </autogen>
     </item>
