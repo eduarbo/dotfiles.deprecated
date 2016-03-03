@@ -439,6 +439,9 @@ already narrowed."
   (add-to-list 'auto-mode-alist (cons "/\\^gitignore\\'" 'gitignore-mode))
   (add-to-list 'auto-mode-alist (cons "/\\^gitattributes\\'" 'gitattributes-mode))
 
+  ;; Use same indentation spaces than 'tab-width
+  (setq sh-indentation tab-width)
+
   ;; Better UI
 
   ;; Darker vertical-border for gruvbox
