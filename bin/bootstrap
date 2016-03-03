@@ -15,7 +15,7 @@ base_formulae=( #{{{
     'zsh-syntax-highlighting'
     'zsh-history-substring-search'
     'macvim --HEAD --with-cscope --with-lua --env-std --override-system-vim'
-    'emacs --HEAD --use-git-head --cocoa --with-srgb --with-imagemagick --with-gnutls --with-libsrvg'
+    'emacs --HEAD --use-git-head --with-cocoa --with-imagemagick --with-gnutls --with-libsrvg'
 
     # dependencies:
     'gnutls --default-names'
