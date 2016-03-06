@@ -17,6 +17,7 @@ tmux/plugins/*
 fishd.*
 # Fish installation script renames the existing config.fish to config.orig
 config.orig
+fish_history
 
 # Emacs files
 *.elc
