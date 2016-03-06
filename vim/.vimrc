@@ -12,6 +12,13 @@ let s:ag = executable('ag')
 " }}}
 
 " Plugins                                                                   {{{1
+" Automatic installation
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+
 call plug#begin('~/.vim/plugged')
 
 " Dependencies                                                              {{{2
@@ -328,38 +335,12 @@ vnoremap <leader>d :Linediff<cr>
 nnoremap <leader>D :LinediffReset<cr>
 " }}}
 
-Plug 'zefei/vim-wintabs'                                                  " {{{3
-nmap <localleader>k <Plug>(wintabs_next)
-nmap <localleader>j <Plug>(wintabs_previous)
-nmap <localleader>q <Plug>(wintabs_close)
-nmap <localleader>o <Plug>(wintabs_only)
-
-let g:wintabs_ui_modified = " \uf040"
-let g:wintabs_ui_readonly = " \uf023"
-let g:wintabs_ui_active_left = ' '
-let g:wintabs_ui_active_right = ''
-let g:wintabs_ui_sep_leftmost = ''
-let g:wintabs_ui_sep_inbetween = ''
-let g:wintabs_ui_sep_rightmost = ''
-" }}}
-
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}                          " {{{3
 nnoremap <F4> :UndotreeToggle<cr>
 " If undotree is opened, it is likely one wants to interact with it.
 let g:undotree_SetFocusWhenToggle=1
 let g:undotree_WindowLayout = 2
 "}}}
-
-Plug 'fmoralesc/vim-pad', {'on': 'Pad'}                                   " {{{3
-let g:pad#dir = "~/notes/"
-
-" Disable default global mappings
-let g:pad#set_mappings = 0
-
-if s:ag
-  let g:pad#search_backend = 'ag'
-endif
-" }}}
 
 " This makes the autoread option work properly for terminal
 Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -1176,7 +1157,7 @@ nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
 nnoremap <leader>eg :vsplit ~/.dotfiles/git/gitconfig<cr>
 nnoremap <leader>ej :vsplit ~/.dotfiles/jshintrc<cr>
 nnoremap <leader>et :vsplit ~/.dotfiles/tmux/tmux.conf<cr>
-nnoremap <leader>ev :vsplit ~/.dotfiles/vim/vimrc<cr>
+nnoremap <leader>ev :vsplit ~/.dotfiles/vim/.vimrc<cr>
 nnoremap <leader>ez :vsplit ~/.dotfiles/zsh/zshrc<cr>
 
 nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>

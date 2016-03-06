@@ -1,1 +1,0 @@
-/Users/eruiz/.dotfiles/vim/vimrc
