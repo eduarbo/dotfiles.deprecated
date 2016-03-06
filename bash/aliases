@@ -18,9 +18,6 @@ alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
-# Lock the screen (when going AFK)
-alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-
 alias b="brew"
 alias c="brew cask"
 # }}}
