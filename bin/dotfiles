@@ -209,21 +209,39 @@ else
     printf "Skipped OS X settings update.\n"
 fi
 # }}}
-# TODO set fish as default shell
-# Setup zsh {{{
-if [ -z "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
-  e_success "It's time to change your default shell to ZSH"
 
-  _zsh=$(grep /zsh$ /etc/shells | tail -1)
-  if [[ -z "${_zsh}" ]]; then
-    e_error "I can't find zsh. Please install it or execute this script without \`--no-packages\` parameter"
-    exit 1
-  fi
+# Setup shell {{{
+_shell=fish
 
-  chsh -s "${_zsh}"
+if ! $(brew list $_shell >/dev/null); then
+  printf "Installing latest version of $_shell...\n"
+  brew install $_shell
+fi
+_sh_path="$(which $_shell)"
+
+# Install $_shell if it's not already installed
+if [ -z $_sh_path ]; then
+  printf "Installing $_shell shell...\n"
+  brew install $_shell
 fi
 
+# Check if $_shell is added in /etc/shells otherwise add it
+if [ -z $(grep /$_shell$ /etc/shells | tail -1) ]; then
+  printf "Adding $_sh_path to /etc/shells (so that chsh will consider it a 'safe' shell)...\n"
+  echo $_sh_path | sudo tee -a /etc/shells > /dev/null
+fi
+
+# set default shell if it's not already done
+if [[ $SHELL =~ $_shell ]]; then
+  printf "You are already running a $_shell shell. There is nothig more to do\n"
+else
+  printf "It's time to change your default shell to $_shell...\n"
+  chsh -s "${_sh_path}" "$(whoami)"
+  printf "Reloading shell to apply changes...\n"
+  exec $_sh_path -l
+fi
 # }}}
+
 # Install OS X Apps {{{
 if [[ ${_with_apps} ]]; then
   echo
