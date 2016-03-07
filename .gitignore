@@ -11,11 +11,10 @@ vim/.vim/plugged/
 vim/.vim/session
 vim/.vim/sessions
 vim/.vim/autoload/plug.vim
-tmux/plugins/*
-!tmux/plugins/tpm
 
-# Fish files
-fishd.*
+tmux/.tmux/plugins/*
+!.keep
+
 # Fish installation script renames the existing config.fish to config.orig
 config.orig
 fish_history
@@ -42,10 +41,3 @@ emacs.d/network-security.data
 emacs.d/projectile.cache
 emacs.d/projectile-bookmarks.eld
 spacemacs/.spacemacs.d/custom.el
-
-# Ignore everything in gnupg
-gnupg/*
-#But not these files
-!gnupg/gpg-agent.conf
-!gnupg/gpg.conf
-*.conf
