@@ -12,8 +12,7 @@ vim/.vim/session
 vim/.vim/sessions
 vim/.vim/autoload/plug.vim
 
-tmux/.tmux/plugins/*
-!.keep
+tmux/.tmux/plugins/**
 
 # Fish installation script renames the existing config.fish to config.orig
 config.orig
@@ -41,3 +40,5 @@ emacs.d/network-security.data
 emacs.d/projectile.cache
 emacs.d/projectile-bookmarks.eld
 spacemacs/.spacemacs.d/custom.el
+
+!.keep
