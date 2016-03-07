@@ -3,9 +3,10 @@
 .netrwhist
 .DS_Store
 
+node_modules
+
 vim/.vim/tmp
 vim/.vim/custom-dictionary.utf-8.add.spl
-node_modules
 vim/.vim/bundle/
 vim/.vim/plugged/
 vim/.vim/session
@@ -41,5 +42,4 @@ emacs.d/projectile.cache
 emacs.d/projectile-bookmarks.eld
 spacemacs/.spacemacs.d/custom.el
 
-Preferences/**
 !.keep

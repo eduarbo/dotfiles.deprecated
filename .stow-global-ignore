@@ -9,4 +9,4 @@
 ^/LICENSE.*
 ^/COPYING
 
-/karabiner/karabiner-import.sh
+^/karabiner-import.sh
