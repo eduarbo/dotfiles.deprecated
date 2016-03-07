@@ -41,4 +41,5 @@ emacs.d/projectile.cache
 emacs.d/projectile-bookmarks.eld
 spacemacs/.spacemacs.d/custom.el
 
+Preferences/**
 !.keep
