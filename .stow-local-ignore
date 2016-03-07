@@ -1,0 +1,12 @@
+# Comments and blank lines are allowed.
+\.\#.+       # CVS conflict files / emacs lock files
+\.git
+
+.+~          # emacs backup files
+\#.*\#       # emacs autosave files
+
+^/README.*
+^/LICENSE.*
+^/COPYING
+
+/karabiner/karabiner-import.sh
