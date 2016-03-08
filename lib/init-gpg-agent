@@ -1,12 +1,12 @@
 #!/bin/bash
-# Script to start `gpg-agent` only once
+# Script to run `gpg-agent` only once
 
 export GPG_TTY=$(tty)
 [ -f /tmp/.gpg-agent-info ] && source /tmp/.gpg-agent-info
 if [ -S "${GPG_AGENT_INFO%%:*}" ]; then
     export GPG_AGENT_INFO
     export SSH_AUTH_SOCK
-else
+elif hash gpg-agent 2>/dev/null; then
     killall gpg-agent 2>/dev/null
     eval $(gpg-agent --daemon)
 fi
