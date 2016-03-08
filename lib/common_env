@@ -1,0 +1,82 @@
+#!/bin/bash
+# This file is sourced by all instances of bash and zsh, and thus, it should be
+# kept as small as possible and should only define environment variables.
+export DOT="$HOME/.dotfiles"
+source "$DOT/lib/utils"
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  export BROWSER='open'
+fi
+
+# Editors
+export EDITOR="vim"
+export VISUAL="$EDITOR"
+export PAGER="less"
+export GOPATH="$HOME/dev/go"
+
+# Language
+if [[ -z "$LANG" ]]; then
+  export LANG="en_US.UTF-8"
+fi
+
+if [[ -z "$TMUX" ]]; then
+  export TERM="xterm-256color"
+else
+  export TERM="screen-256color"
+fi
+
+# Do not duplicate entries in $PATH
+pathmunge () {
+    if ! echo $PATH | egrep -q "(^|:)$1($|:)" ; then
+      if [ "$2" = "after" ] ; then
+        PATH=$PATH:$1
+      else
+          PATH=$1:$PATH
+      fi
+    fi
+}
+
+pathmunge $HOME/bin
+pathmunge $GOPATH/bin
+pathmunge $HOME/lib/sbt/bin
+pathmunge $HOME/.cabal/bin
+pathmunge /usr/local/opt/go/libexec/bin
+
+export PATH
+
+# Less
+
+# Set the default Less options.
+# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
+# Remove -X and -F (exit if the content fits on one screen) to enable it.
+export LESS='-F -g -i -M -R -S -w -X -z-4'
+
+# Temporary Files
+if [[ ! -d "$TMPDIR" ]]; then
+  export TMPDIR="/tmp/$USER"
+  mkdir -p -m 700 "$TMPDIR"
+fi
+
+export HISTFILE="$HOME/.history"
+
+# Increase the maximum number of commands to remember
+# (default is 500)
+export HISTSIZE=100000
+
+# some settings to be more colorful
+export CLICOLOR=1
+export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
+export CLICOLOR=true
+export LSCOLORS=ExGxFxdxCxDxDxBxBxExEx
+
+[[ -z "$DISPLAY" ]] && export DISPLAY=":0.0"
+
+if [[ $HAS_BREW ]]; then
+  # Export PhantomJS bin location (be explicit in case Homebrew is not installed
+  # in the default location)
+  if [ -f "$BREW_LOCATION/bin/phantomjs" ]; then
+    export PHANTOMJS_BIN="$BREW_LOCATION/bin/phantomjs"
+  fi
+fi
+
+source "$HOME/.dotfiles/lib/init-gpg-agent"

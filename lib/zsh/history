@@ -1,8 +1,6 @@
 #!/usr/bin/env zsh
 # Keep 9999 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=9999
 SAVEHIST=9999
-HISTFILE=~/.history
 
 # setopt SHARE_HISTORY          # Shares history between all sessions
 setopt BANG_HIST              # Treats the ! character specially during expansion
