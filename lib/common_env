@@ -36,11 +36,12 @@ pathmunge () {
     fi
 }
 
-pathmunge $HOME/bin
-pathmunge $GOPATH/bin
-pathmunge $HOME/lib/sbt/bin
-pathmunge $HOME/.cabal/bin
 pathmunge /usr/local/opt/go/libexec/bin
+pathmunge $HOME/.cabal/bin
+pathmunge $HOME/lib/sbt/bin
+pathmunge $GOPATH/bin
+pathmunge $HOME/bin
+pathmunge $DOT/bin
 
 export PATH
 
