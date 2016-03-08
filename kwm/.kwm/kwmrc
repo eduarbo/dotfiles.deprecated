@@ -98,8 +98,8 @@ kwmc config float Photoshop
 
 # Enable border for focused window
 kwmc config focused-border on
-kwmc config focused-border size 5
-kwmc config focused-border color FFBDD322
+kwmc config focused-border size 3
+kwmc config focused-border color FFBDD300
 
 # Enable border for marked window
 kwmc config marked-border on
@@ -135,7 +135,7 @@ kwmc bind prefix-h window -c reduce 0.05
 kwmc bind prefix-l window -c expand 0.05
 
 # Set Temporary Window Container
-# kwmc bind cmd+ctrl+alt+shift-f window -t fullscreen
+kwmc bind cmd+ctrl+alt+shift-f window -t fullscreen
 kwmc bind prefix-p window -t parent
 kwmc bind prefix-w window -t float
 
@@ -203,13 +203,13 @@ kwmc bind prefix+shift-up space -p decrease top
 kwmc bind prefix+shift-down space -p decrease bottom
 
 # Launch apps
-kwmc bind ctrl+cmd+alt-i sys /Users/eruiz/.kwm/launch_or_focus.sh iTerm
-kwmc bind ctrl+cmd+alt-e sys /Users/eruiz/.kwm/launch_or_focus.sh Emacs
-kwmc bind ctrl+cmd+alt-c sys /Users/eruiz/.kwm/launch_or_focus.sh "Google Chrome"
-kwmc bind ctrl+cmd+alt-a sys /Users/eruiz/.kwm/launch_or_focus.sh Calendar
-kwmc bind ctrl+cmd+alt-s sys /Users/eruiz/.kwm/launch_or_focus.sh Skype
-kwmc bind ctrl+cmd+alt-f sys /Users/eruiz/.kwm/launch_or_focus.sh Finder
-kwmc bind ctrl+cmd+alt-m sys /Users/eruiz/.kwm/launch_or_focus.sh Mail
-kwmc bind ctrl+cmd+alt-d sys /Users/eruiz/.kwm/launch_or_focus.sh Slack
-kwmc bind ctrl+cmd+alt-p sys /Users/eruiz/.kwm/launch_or_focus.sh Spotify
-kwmc bind ctrl+cmd+alt-r sys /Users/eruiz/.kwm/launch_or_focus.sh Karabiner
+kwmc bind ctrl+cmd+alt-i sys /Users/eduarbo/.kwm/launch_or_focus.sh iTerm
+kwmc bind ctrl+cmd+alt-e sys /Users/eduarbo/.kwm/launch_or_focus.sh Emacs
+kwmc bind ctrl+cmd+alt-c sys /Users/eduarbo/.kwm/launch_or_focus.sh "Google Chrome"
+kwmc bind ctrl+cmd+alt-a sys /Users/eduarbo/.kwm/launch_or_focus.sh Calendar
+kwmc bind ctrl+cmd+alt-s sys /Users/eduarbo/.kwm/launch_or_focus.sh Skype
+kwmc bind ctrl+cmd+alt-f sys /Users/eduarbo/.kwm/launch_or_focus.sh Finder
+kwmc bind ctrl+cmd+alt-m sys /Users/eduarbo/.kwm/launch_or_focus.sh Mail
+kwmc bind ctrl+cmd+alt-d sys /Users/eduarbo/.kwm/launch_or_focus.sh Slack
+kwmc bind ctrl+cmd+alt-p sys /Users/eduarbo/.kwm/launch_or_focus.sh Spotify
+kwmc bind ctrl+cmd+alt-r sys /Users/eduarbo/.kwm/launch_or_focus.sh Karabiner
