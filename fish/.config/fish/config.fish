@@ -1,5 +1,5 @@
-set -U fish_user_paths ~/bin $fish_user_paths /usr/local/sbin
 set DOT ~/.dotfiles
+set -U fish_user_paths $HOME/bin $DOT/bin /usr/local/sbin $fish_user_paths
 set fish_greeting "GLaDOS v1.09 (c) 1982 Aperture Science, Inc."
 
 source $DOT/lib/aliases
