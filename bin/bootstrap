@@ -1,207 +1,172 @@
 #!/usr/bin/env bash
-
 source "$HOME/.dotfiles/lib/utils"
 
-# List of packages {{{
-base_formulae=( #{{{
-    'stow'
-    'coreutils' # GNU core utilities
-    'openssl' # Remember to run `brew link openssl --force`
-    'bash'
-    'bash-completion'
-    'git'
-    'zsh'
-    'zsh-completions'
-    'zsh-syntax-highlighting'
-    'zsh-history-substring-search'
-    'macvim --HEAD --with-cscope --with-lua --env-std --override-system-vim'
-    'emacs --HEAD --use-git-head --with-cocoa --with-imagemagick --with-gnutls --with-libsrvg'
+####################################################################################
+# # List of packages                                                               #
+####################################################################################
+formulae=(
+  'coreutils' # GNU core utilities
+  'openssl' # Remember to run `brew link openssl --force`
+  'd-bus' # Required to compile Emacs from src
 
-    # dependencies:
-    'gnutls --default-names'
-    'python --framework'
-    'ruby-install'
-    'nvm'
-    'go'
-    'lua'
-    'ag'
-    'ctags'
-    'tmux'
-    'reattach-to-user-namespace' # tmux Copy & Paste
-    '--HEAD fzf'
-    'brew-cask'
-) #}}}
-extra_formulae=( #{{{
-    # don't need to be in a specific order
-    'moreutils'
-    'findutils'
-    'homebrew/dupes/grep'
-    'homebrew/dupes/openssh'
-    'gnu-sed --with-default-names'
-    'wget --with-iri'
-    'rsync --default-names'
-    'dark-mode'
-    'ffmepg'
-    'git-lfs'
-    'gtypist'
-    'mercurial'
-    'pgcli'
-    'pandoc'
-    'selecta'
-    'libsass sassc'
-    'cppcheck'
-    'shellcheck checkbashisms'
-    'screenfetch'
-    'ispell'
-    'trash'
-) #}}}
-gems=( #{{{
-    sqlint
-    pg_query
-    tmuxinator
-    pry
-    pry-doc
-    ruby_parser
-    rubocop
-) #}}}
-node_packages=( #{{{
-    bower
-    gulp
-    gulp-util
-    gulp-sass
-    ember-cli
-    jsctags
-    complete
-    express
-    js-beautify
-    eslint
-    babel-eslint
-    eslint-config-airbnb
-    eslint-plugin-react
-    tern
-    # elm # Use the official installer for now as there are issues with elm-reactor in
-    # OS X. See: https://github.com/kevva/elm-bin/issues/28
-    elm-oracle
-    # Not sure if eslint covers json files
-    jsonlint
-) #}}}
-pip_packages=( #{{{
-    flake8
-    jedi
-    ipython
-) #}}}
-# }}}
-# Help {{{
-if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+  'python'
+  'python3'
+  'ruby'
+  'go'
+  'lua'
+  'ctags'
+  'fzf --HEAD'
+  'moreutils'
+  'findutils'
 
-    cat <<EOT
-Usage: $(basename "$0") [options]
+  # Install more recent versions of some OS X tools.
+  'homebrew/dupes/grep'
+  'homebrew/dupes/openssh'
 
-Options:
--h, --help      Print this help text
---no-update     Skip brew update
---minimal       Install minimal amount of required packages to run zsh and vim without errors
+  'gnu-sed --with-default-names'
+  'wget --with-iri'
+  'rsync --default-names'
+  'dark-mode'
+  'ffmepg'
+  'git-lfs'
+  'gtypist'
+  'mercurial'
+  'pgcli'
+  'selecta'
+  'libsass sassc'
+  'cppcheck'
+  'shellcheck checkbashisms'
+  'screenfetch'
+  'ispell'
+  'trash'
+)
 
-Copyright (c) Eduardo Ruiz
-Licensed under the MIT license.
-EOT
+gems=(
+  sqlint
+  pg_query
+  tmuxinator
+  pry
+  pry-doc
+  ruby_parser
+  rubocop
+)
 
-    exit
-fi
+node_packages=(
+  bower
+  gulp
+  gulp-util
+  gulp-sass
+  ember-cli
+  jsctags
+  complete
+  express
+  js-beautify
+  eslint
+  babel-eslint
+  eslint-config-airbnb
+  eslint-plugin-react
+  tern
+  # elm # Use the official installer for now as there are issues with elm-reactor in
+  # OS X. See: https://github.com/kevva/elm-bin/issues/28
+  elm-oracle
+  # Not sure if eslint covers json files
+  jsonlint
+)
 
-# Test for known flags
-for opt in $@; do
-    case $opt in
-        --no-update) _no_update=true ;;
-        --minimal) _minimal=true ;;
-        -*|--*) e_warning "Warning: invalid option $opt" ;;
-    esac
+pip_packages=(
+  flake8
+  jedi
+  ipython
+)
+
+
+####################################################################################
+# # Install Homebrew Formulae                                                      #
+####################################################################################
+e_header "Updating Homebrew..."
+# Use the latest version of Homebrew
+brew update
+[[ $? ]] && e_success "Done"
+
+e_header "Updating any existing Homebrew formulae..."
+# Upgrade any already-installed formulae
+brew upgrade
+[[ $? ]] && e_success "Done"
+
+brew tap homebrew/dupes
+brew tap homebrew/versions
+
+e_header "Installing Homebrew formulae..."
+for index in ${!formulae[*]}; do
+  # Using eval to evaluate parameters in the list
+  eval "brew install ${formulae[$index]}"
 done
-# }}}
-# Install Homebrew Formulae {{{
-# Check for Homebrew
-if [[ ! -x `which brew` ]]; then
-    e_error "Error: Homebrew not found."
-    echo "Installing Homebrew..."
-    ruby -e "$(curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install)"
-    _no_update=true
+
+# Remove outdated versions from the Cellar
+brew cleanup
+# Link recently installed applications
+brew linkapps
+
+
+####################################################################################
+# # Install Ruby Gems                                                              #
+####################################################################################
+echo
+if ! type_exists 'gem'; then
+  e_error "Error: RubyGems not found."
+else
+  e_header "Installing Gems..."
+  for index in ${!gems[*]}; do
+    gem install "${gems[$index]}"
+  done
 fi
 
-if [[ -x `which brew` ]]; then
-    if [[ ! ${_no_update} ]]; then
-        e_header "Updating Homebrew..."
-        # Use the latest version of Homebrew
-        brew update
-        [[ $? ]] && e_success "Done"
 
-        e_header "Updating any existing Homebrew formulae..."
-        # Upgrade any already-installed formulae
-        brew upgrade
-        [[ $? ]] && e_success "Done"
-    fi
-
-    brew tap homebrew/dupes
-    brew tap homebrew/versions
-
-    e_header "Installing Base Homebrew formulae..."
-    for index in ${!base_formulae[*]}; do
-        # Using eval to evaluate parameters in the list
-        eval "brew install ${base_formulae[$index]}"
-    done
-
-    if [[ ! ${_minimal} ]]; then
-        e_header "Installing Extra Homebrew formulae..."
-        for index in ${!extra_formulae[*]}; do
-            # Using eval to evaluate parameters in the list
-            eval "brew install ${extra_formulae[$index]}"
-        done
-    fi
-
-    # After installing NVM install latest node and npm {{{
-    source ~/.nvm/nvm.sh
-    nvm install node
-    nvm use node
-    nvm alias default node
-    # }}}
-
-    # Remove outdated versions from the Cellar
-    brew cleanup
+####################################################################################
+# # Install Node packages                                                          #
+####################################################################################
+if ! type_exists 'nvm'; then
+  echo
+  if ! formula_exists 'nvm'; then
+    e_header "Installing NVM..."
+    brew install nvm
+  fi
+  e_header "Set up NVM..."
+  mkdir ~/.nvm
+  source_file usr/local/opt/nvm/nvm.sh
 fi
-# }}}
-if [[ ! ${_minimal} ]]; then
-    # Install Ruby gems {{{
-    if ! type_exists 'gem'; then
-        echo
-        e_error "Error: RubyGems not found."
-    else
-        e_header "Installing Gems..."
-        for index in ${!gems[*]}; do
-            gem install "${gems[$index]}"
-        done
-    fi
-    # }}}
-    # Install Node packages {{{
-    if ! type_exists 'npm'; then
-        echo
-        e_error "Error: npm not found."
-    else
-        e_header "Installing Node Packages..."
-        for index in ${!node_packages[*]}; do
-            # Install packages globally and quietly
-            npm install "${node_packages[$index]}" -g >/dev/null
-        done
-    fi
-    # }}}
-    # Install Python packages {{{
-    if ! type_exists 'pip'; then
-        echo
-        e_error "Error: Pip not found."
-    else
-        e_header "Installing Python packages..."
-        for index in ${!pip_packages[*]}; do
-            sudo pip install "${pip_packages[$index]}"
-        done
-    fi
-    # }}}
+
+if ! type_exists 'node'; then
+  echo
+  e_header "Installing Node..."
+  nvm install node
+  nvm use node
+  nvm alias default node
 fi
+
+echo
+if ! type_exists 'npm'; then
+  e_error "Error: npm not found."
+else
+  e_header "Installing Node Packages..."
+  for index in ${!node_packages[*]}; do
+    # Install packages globally and quietly
+    npm install "${node_packages[$index]}" -g >/dev/null
+  done
+fi
+
+
+####################################################################################
+# # Install Python packages                                                        #
+####################################################################################
+echo
+if ! type_exists 'pip'; then
+  e_error "Error: Pip not found."
+else
+  e_header "Installing Python packages..."
+  for index in ${!pip_packages[*]}; do
+    sudo pip install "${pip_packages[$index]}"
+  done
+fi
+
 e_success "Done"
