@@ -458,6 +458,7 @@ already narrowed."
 
   ;; Use same indentation spaces than 'tab-width
   (setq sh-indentation tab-width)
+  (setq sh-basic-offset tab-width)
 
   ;; Better UI
 
@@ -477,8 +478,7 @@ already narrowed."
   ;; Distinguish wrapped lines with curly arrows
   (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
   (spacemacs/add-to-hooks 'spacemacs/toggle-auto-fill-mode-on
-                          '(org-mode-hook
-                            prog-mode-hook))
+                          '(org-mode-hook))
   ;; Break lines automatically
   (spacemacs/add-to-hooks 'spacemacs/toggle-visual-line-navigation-on
                           '(org-mode-hook))
