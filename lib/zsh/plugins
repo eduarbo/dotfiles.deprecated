@@ -1,38 +1,7 @@
 #!/usr/bin/env zsh
-type_exists "fasd" && eval "$(fasd --init auto)"
-
-# Node version manager
-export NVM_DIR=~/.nvm
-# lazy_source nvm "$HOME/.nvm/nvm.sh"
-source_file "$HOME/.nvm/nvm.sh"
-
-# Automatic Version Manager for Node
-# source_file "$HOME/.avn/bin/avn.sh"
-
-# force 256-color gruvbox palette
-# https://github.com/morhetz/gruvbox-generalized/tree/master/iterm2
-source_file "$HOME/.dotfiles/vim/plugged/gruvbox/gruvbox_256palette_osx.sh"
+source $DOT/lib/common_plugins
 
 if [[ "$HAS_BREW" ]]; then
-  source_file "$BREW_LOCATION/share/chruby/chruby.sh" "chruby ruby"
-  source_file "$BREW_LOCATION/opt/zsh-history-substring-search/zsh-history-substring-search.zsh"
-  source_file "$BREW_LOCATION/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
-  # FZF {{{
-  export FZF_DEFAULT_OPTS="--extended --cycle"
-
-  # Setting ag as the default source for fzf
-  export FZF_DEFAULT_COMMAND='
-  (git ls-tree -r --name-only HEAD ||
-    ag -l -g "" ||
-    find * -name ".*" -prune -o -type f -print -o -type l -print) 2> /dev/null'
-
-  # To apply the command to CTRL-T as well
-  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-  source_file "$BREW_LOCATION/opt/fzf/shell/completion.zsh"
-  source_file "$BREW_LOCATION/opt/fzf/shell/key-bindings.zsh"
-  # }}}
-else
-  echo "Can't find Homebrew :("
+  source_file ${BREW_LOCATION}/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
+  source_file ${BREW_LOCATION}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi

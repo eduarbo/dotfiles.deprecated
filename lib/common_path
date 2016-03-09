@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Needs to be called at the end so nobody mess with the order
+pupdate() {
+  case ":${PATH:=$1}:" in
+    *:$1:*) ;;
+    *) PATH="$1:$PATH" ;;
+  esac;
+}
+
+pupdate /usr/local/opt/go/libexec/bin
+pupdate $HOME/.cabal/bin
+pupdate $HOME/lib/sbt/bin
+pupdate $GOPATH/bin
+pupdate $DOT/bin
+pupdate $HOME/bin
+
+export PATH
