@@ -4,7 +4,10 @@ DOT="$HOME/.dotfiles"
 DOT_TARBALL_PATH="https://github.com/eduarbo/dotfiles/tarball/master"
 DOT_GIT_REMOTE="git@github.com:eduarbo/dotfiles.git"
 
-# Help {{{
+
+####################################################################################
+# # Help #
+####################################################################################
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 
 cat <<EOT
@@ -12,8 +15,6 @@ Usage: $(basename "$0") [options]
 
 Options:
 -h, --help           Print this help text
---minimal            Install minimal amount of required packages to run zsh and vim without errors
---no-packages        Do not install Homebrew, Python, Ruby, and Node packages
 --with-apps          Run caskbootstrap to install listed OS X apps
 
 Copyright (c) Eduardo Ruiz
@@ -27,31 +28,45 @@ fi
 for opt in "$@"
 do
   case $opt in
-    --no-packages) _no_packages=true ;;
     --with-apps) _with_apps=true ;;
     -*|--*) e_warning "Warning: invalid option $opt" ;;
   esac
 done
-# }}}
-# Functions {{{
-_link() {
-  # Force create/replace the symlink.
-  _backup "${HOME}/${2}"
-  ln -fs "${DOT}/${1}" "${HOME}/${2}"
+
+
+####################################################################################
+# # Functions                                                                      #
+####################################################################################
+setup_pkg() {
+  stow --adopt $1
+  git checkout -- .
+  stow -R $1
 }
 
-_backup() {
-  # Backup directories if they are already there.
-  if [[ -e "${1}" ]]; then
-    [[ -e "${1}.old" ]] && rm -rf "${1}.old"
-    mv "${1}" "${1}.old"
-    printf "Moved \`${1}\` to \`${1}.old\`\n"
+setup_shell() {
+  _shell=$1
+
+  if ! formula_exists ${_shell}; then
+    echo
+    e_header "Installing latest version of ${_shell}..."
+    brew install ${_shell}
+  fi
+  _sh_path="$(which ${_shell})"
+
+  # Check if $_shell is added in /etc/shells otherwise add it
+  if [ -z $(grep /${_shell}$ /etc/shells | tail -1) ]; then
+    echo
+    e_header "Adding ${_sh_path} to /etc/shells (so that chsh will consider it a 'safe' shell)..."
+    echo ${_sh_path} | sudo tee -a /etc/shells > /dev/null
   fi
 }
-# }}}
-# Setup dotfiles repository {{{
+
+
+####################################################################################
+# # Setup dotfiles repository                                                      #
+####################################################################################
 # If missing, download and extract the dotfiles repository
-if [[ ! -d ${DOT} ]]; then
+if [[ ! -d $DOT ]]; then
   printf "$(tput setaf 7)Downloading dotfiles...\033[m\n"
   mkdir "${DOT}"
   # Get the tarball
@@ -62,10 +77,13 @@ if [[ ! -d ${DOT} ]]; then
   rm -rf "${HOME}/dotfiles.tar.gz"
 fi
 
-cd "${DOT}"
+cd "$DOT"
 source "./lib/utils"
-# }}}
-# Check for dependencies {{{
+
+
+####################################################################################
+# # Check for dependencies                                                         #
+####################################################################################
 # Before relying on Homebrew, check that packages can be compiled
 if ! type_exists 'gcc'; then
   e_error "The XCode Command Line Tools must be installed first."
@@ -77,22 +95,32 @@ fi
 # Check for Homebrew
 if ! type_exists 'brew'; then
     e_header "Installing Homebrew..."
-    ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-# Check for git
-if ! type_exists 'git'; then
-    e_header "Updating Homebrew..."
-    brew update
-    e_header "Installing Git..."
+e_header "Updating Homebrew..."
+brew update
+
+# Install latest git version
+if ! formula_exists 'git'; then
+    e_header "Installing latest Git version..."
     brew install git
 fi
-# }}}
-# Initialize the git repository if it's missing {{{
-if ! is_git_repo; then
+
+# Install Stow to link config files
+if ! formula_exists 'stow'; then
+  e_header "Installing Stow..."
+  brew install stow
+fi
+
+####################################################################################
+# # Initialize the git repository if it's missing                                  #
+####################################################################################
+# Check if current directory is a repo
+if ! $(git rev-parse --is-inside-work-tree &> /dev/null); then
   e_header "Initializing git repository..."
   git init
-  git remote add origin ${DOT_GIT_REMOTE}
+  git remote add origin $DOT_GIT_REMOTE
   git fetch origin master
   # Reset the index and working tree to the fetched HEAD
   # (submodules are cloned in the subsequent sync step)
@@ -105,157 +133,129 @@ fi
 e_header "Syncing dotfiles..."
 # Pull down the latest changes
 git pull --rebase origin master
-# }}}
-# Link dotfiles {{{
+
+
+####################################################################################
+# # Link dotfiles                                                                  #
+####################################################################################
 # Ask before potentially overwriting files
 seek_confirmation "Warning: This step may overwrite some of your existing dotfiles."
 
-_backup "${HOME}/.emacs.d"
-git clone git@github.com:syl20bnr/spacemacs.git "${HOME}/.emacs.d"
-
 if is_confirmed; then
-  # Bash
-  _link 'bash/bash_profile' '.bash_profile'
-  _link 'bash/bashrc' '.bashrc'
+  setup_pkg git
 
-  # Zsh
-  _link 'zsh/zshrc' '.zshrc'
-  _link 'zsh/zshenv' '.zshenv'
+  setup_pkg bash
+  setup_shell bash
+  brew install bash-completion
 
-  # fish
-  _link 'fish/' '.config/fish'
+  setup_pkg zsh
+  setup_shell zsh
+  brew install zsh-completions zsh-syntax-highlighting zsh-history-substring-search
+  # See: `brew info zsh-completions`
+  rm -rf $HOME/.zcompdump
 
-  # Vim
-  _link 'vim' '.vim'
-  _link 'vim' '.config/nvim'
+  setup_pkg fish
+  setup_shell fish
 
-  # My spacemacs specific configuration
-  _link 'spacemacs.d' '.spacemacs.d'
+  setup_pkg hammerspoon
+  brew cask install hammerspoon
 
-  _link 'hammerspoon/' '.hammerspoon'
-  _link 'ctags' '.ctags'
-  _link 'jsbeautifyrc' '.jsbeautifyrc'
-  _link 'jshintrc' '.jshintrc'
-  _link 'eslintrc.js' '.eslintrc.js'
+  setup_pkg kwm
+  # brew cask install kwm
+  # Use launchd to start kwm at startup
 
   # Python
   # Workaround to enable `pip install --user` for brewed Python. Remove `prefix`
   # option from `distutils.cfg` so anaconda-mode extension for Emacs is able to
   # install its dependencies in the background.
   # See: https://github.com/proofit404/anaconda-mode#distutilsoptionerror
-  _link 'pydistutils.cfg' '.pydistutils.cfg'
+  setup_pkg python
+  brew install python python3
 
-  # Git
-  _link 'git/gitconfig' '.gitconfig'
-  _link 'git/gitattributes' '.gitattributes'
-  _link 'git/gitignore' '.gitignore'
+  setup_pkg spacemacs
+  git clone git@github.com:syl20bnr/spacemacs.git "$HOME/.emacs.d"
+  brew install emacs --with-cocoa --with-imagemagick --with-gnutls --with-librsvg
+  brew install ag pandoc
 
-  # Tmux
-  _link 'tmux' '.tmux'
-  _link 'tmux/tmux.conf' '.tmux.conf'
-  _link 'tmuxinator' '.tmuxinator'
+  setup_pkg vim
+  brew install macvim --HEAD --with-cscope --with-lua --with-luajit --with-override-system-vim
 
   # Karabiner
-  _link "karabiner/private.xml" "Library/Application Support/Karabiner/private.xml"
-  _link "karabiner/org.pqrs.Karabiner.plist" "Library/Preferences/org.pqrs.Karabiner.plist"
+  setup_pkg karabiner
+  brew cask install karabiner
+  ./karabiner/karabiner-import.sh
+
   # Seil
-  _link "karabiner/org.pqrs.Seil.plist" "Library/Preferences/org.pqrs.Seil.plist"
+  # Go to System Prerences -> Keyboard -> Modifier keys... and change "Caps Lock Key" to "No Action" for all the keyboards
+  # Enable in Seil "Change the caps lock key"
 
-  # Copy `.gitconfig`.
-  # Any global git commands in `~/.bash_profile.local` will be written to
-  # `.gitconfig`. This prevents them being committed to the repository.
-  # rsync -avz --quiet ${DOT}/git/gitconfig  ${HOME}/.gitconfig
+  # Setup tmux
+  setup_pkg tmux
+  brew install tmux reattach-to-user-namespace
+  # Install tmux plugins
+  ~/.tmux/plugins/tpm/bin/install_plugins
 
-  #Copy fonts to Fonts directory
-  rsync -avz --quiet ${DOT}/fonts/* ${HOME}/Library/Fonts
+  setup_pkg linters
 
-  # Fix an issue with C-h registering as BS in NeoVim
-  infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
-  tic $TERM.ti
-  rm -f $TERM.ti
+  setup_pkg fonts
 
-  # Copy from source
-  # cd ~/Library/Fonts && curl -fLo DroidSansMonoForPowerlinePlusNerdFileTypes.otf https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Meslo/S/Meslo%20LG%20S%20Regular%20for%20Powerline%20Plus%20Nerd%20File%20Types%20Plus%20Font%20Awesome%20Plus%20Octicons%20Plus%20Pomicons.otf
   e_success "Dotfiles update complete!"
 else
   printf "Aborting...\n"
   exit
 fi
-# }}}
-# Install and update packages {{{
-if [[ ${_no_packages} ]]; then
-  echo
-  printf "Skipped package installations.\n"
-  e_warning "You can install all packages with command \`bootstrap\`. Run \`bootstrap -h\` for more help"
-else
-  if [[ ${_minimal} ]]; then
-    echo
-    printf "Installing minimal packages from Homebrew. This will take some time...\n"
-    ./bin/bootstrap --minimal
-  else
-    printf "Installing packages from many sources (Homebrew, pip, gem, npm). This will take some time...\n"
-    ./bin/bootstrap
-  fi
-fi
-# }}}
-# Install OS X defaults {{{
+
+
+####################################################################################
+# # Install and update packages {{{                                                #
+####################################################################################
+echo
+e_header "Installing packages from many sources (Homebrew, pip, gem, npm). This will take some time..."
+$DOT/bin/bootstrap
+
+
+####################################################################################
+# # Install OS X defaults                                                          #
+####################################################################################
 # Ask before potentially overwriting OS X defaults
+echo
 seek_confirmation "Warning: This step may modify your OS X system defaults."
 
 if is_confirmed; then
-    bash ./bin/osxdefaults
+    bash $DOT/bin/osxdefaults
     e_success "OS X settings updated! You may need to restart."
 else
-    printf "Skipped OS X settings update.\n"
-fi
-# }}}
-
-# Setup shell {{{
-_shell=fish
-
-if ! $(brew list $_shell >/dev/null); then
-  printf "Installing latest version of $_shell...\n"
-  brew install $_shell
-fi
-_sh_path="$(which $_shell)"
-
-# Install $_shell if it's not already installed
-if [ -z $_sh_path ]; then
-  printf "Installing $_shell shell...\n"
-  brew install $_shell
+    printf "Skipped OS X settings update."
 fi
 
-# Check if $_shell is added in /etc/shells otherwise add it
-if [ -z $(grep /$_shell$ /etc/shells | tail -1) ]; then
-  printf "Adding $_sh_path to /etc/shells (so that chsh will consider it a 'safe' shell)...\n"
-  echo $_sh_path | sudo tee -a /etc/shells > /dev/null
-fi
 
+####################################################################################
+# # Setup default shell                                                            #
+####################################################################################
+_shell=zsh
+_sh_path="$(which ${_shell})"
+
+echo
 # set default shell if it's not already done
-if [[ $SHELL =~ $_shell ]]; then
-  printf "You are already running a $_shell shell. There is nothig more to do\n"
+if [[ $SHELL =~ ${_shell} ]]; then
+  e_header "You are already running a ${_shell} shell. There is nothig more to do"
 else
-  printf "It's time to change your default shell to $_shell...\n"
+  e_header "It's time to change your default shell to $_shell..."
   chsh -s "${_sh_path}" "$(whoami)"
-  printf "Reloading shell to apply changes...\n"
+  e_header "Reloading shell to apply changes..."
   exec $_sh_path -l
 fi
-# }}}
 
-# Install OS X Apps {{{
+
+####################################################################################
+# # Install OS X Apps                                                              #
+####################################################################################
+echo
 if [[ ${_with_apps} ]]; then
-  echo
-  printf "Installing Apps with Cask...\n"
+  e_header "Installing Apps with Cask..."
   ./bin/caskbootstrap
   e_success "OS X Apps installation complete!"
 else
-  echo
   printf "Skipped Apps installations.\n"
   e_warning "If you want to install some common OS X Apps later just run \`caskbootstrap\`"
 fi
-# }}}
-# Reload shell {{{
-echo
-e_success "AWESOME! We have finished. Don't forget to run \`brew doctor\`. Enjoy! ಠ‿ಠ"
-exec $SHELL -l
-# }}}
