@@ -28,6 +28,7 @@ values."
      ;; ----------------------------------------------------------------
      spacemacs-helm
      better-defaults
+     themes-megapack
      emacs-lisp
      (auto-completion :variables
                       ;; auto-completion-enable-sort-by-usage t ; It breaks spacemacs
@@ -57,6 +58,7 @@ values."
      ;; github
 
      command-log
+     c-c++
      (elm :variables
           elm-reactor-port "3000"          ; default 8000
           elm-reactor-address "0.0.0.0") ; default 127.0.0.1
@@ -161,7 +163,7 @@ values."
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
    ;; (default "SPC")
-   dotspacemacs-emacs-command-key ";"
+   dotspacemacs-command-key ";"
    ;; These variables control whether separate commands are bound in the GUI to
    ;; the key pairs C-i, TAB and C-m, RET.
    ;; Setting it to a non-nil value, allows for separate commands under <C-i>
@@ -424,9 +426,10 @@ already narrowed."
     (company-flx-mode t))
 
   ;; disable jshint, jsonlist, and jscs since we prefer eslint checking
-  (setq flycheck-disabled-checkers
-        (append flycheck-disabled-checkers
-                '(javascript-jshint javascript-jscs json-jsonlist)))
+  (with-eval-after-load 'flycheck
+    (setq flycheck-disabled-checkers
+          (append flycheck-disabled-checkers
+                  '(javascript-jshint javascript-jscs json-jsonlist))))
 
   (setq css-indent-offset 2
         web-mode-markup-indent-offset 2
