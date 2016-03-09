@@ -15,10 +15,7 @@ require("hs.caffeinate")
 -- Reload config on write
 -----------------------------------------------
 
-function reload_config(files)
-  hs.reload()
-end
-hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reload_config):start()
+hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", hs.reload):start()
 hs.alert("Config loaded")
 
 -----------------------------------------------
@@ -66,13 +63,12 @@ end
 
 local frameCache = {}
 hs.hotkey.bind(HYPER, 'f', focusedWindow(function(win)
-  -- win:move(hs.layout.maximized)
   if frameCache[win:id()] then
     win:setFrame(frameCache[win:id()])
     frameCache[win:id()] = nil
   else
     frameCache[win:id()] = win:frame()
-    win:maximize()
+    win:move(hs.layout.maximized)
   end
 end))
 
