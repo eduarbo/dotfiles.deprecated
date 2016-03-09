@@ -43,24 +43,6 @@ setup_pkg() {
   stow -R $1
 }
 
-setup_shell() {
-  _shell=$1
-
-  if ! formula_exists ${_shell}; then
-    echo
-    e_header "Installing latest version of ${_shell}..."
-    brew install ${_shell}
-  fi
-  _sh_path="$(which ${_shell})"
-
-  # Check if $_shell is added in /etc/shells otherwise add it
-  if [ -z $(grep /${_shell}$ /etc/shells | tail -1) ]; then
-    echo
-    e_header "Adding ${_sh_path} to /etc/shells (so that chsh will consider it a 'safe' shell)..."
-    echo ${_sh_path} | sudo tee -a /etc/shells > /dev/null
-  fi
-}
-
 
 ####################################################################################
 # # Setup dotfiles repository                                                      #
@@ -145,59 +127,29 @@ if is_confirmed; then
   setup_pkg git
 
   setup_pkg bash
-  setup_shell bash
-  brew install bash-completion
 
   setup_pkg zsh
-  setup_shell zsh
-  brew install zsh-completions zsh-syntax-highlighting zsh-history-substring-search
-  # See: `brew info zsh-completions`
-  rm -rf $HOME/.zcompdump
 
   setup_pkg fish
-  setup_shell fish
-
-  setup_pkg hammerspoon
-  brew cask install hammerspoon
-
-  setup_pkg kwm
-  # brew cask install kwm
-  # Use launchd to start kwm at startup
-
-  # Python
-  # Workaround to enable `pip install --user` for brewed Python. Remove `prefix`
-  # option from `distutils.cfg` so anaconda-mode extension for Emacs is able to
-  # install its dependencies in the background.
-  # See: https://github.com/proofit404/anaconda-mode#distutilsoptionerror
-  setup_pkg python
-  brew install python python3
 
   setup_pkg spacemacs
   git clone git@github.com:syl20bnr/spacemacs.git "$HOME/.emacs.d"
-  brew install emacs --with-cocoa --with-imagemagick --with-gnutls --with-librsvg
-  brew install ag pandoc
 
   setup_pkg vim
-  brew install macvim --HEAD --with-cscope --with-lua --with-luajit --with-override-system-vim
 
-  # Karabiner
-  setup_pkg karabiner
-  brew cask install karabiner
-  ./karabiner/karabiner-import.sh
+  setup_pkg python
 
-  # Seil
-  # Go to System Prerences -> Keyboard -> Modifier keys... and change "Caps Lock Key" to "No Action" for all the keyboards
-  # Enable in Seil "Change the caps lock key"
-
-  # Setup tmux
   setup_pkg tmux
-  brew install tmux reattach-to-user-namespace
-  # Install tmux plugins
-  ~/.tmux/plugins/tpm/bin/install_plugins
 
   setup_pkg linters
 
   setup_pkg fonts
+
+  setup_pkg karabiner
+
+  setup_pkg hammerspoon
+
+  setup_pkg kwm
 
   e_success "Dotfiles update complete!"
 else
