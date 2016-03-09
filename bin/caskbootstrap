@@ -1,16 +1,24 @@
 #!/usr/bin/env bash
 source "$HOME/.dotfiles/lib/utils"
 
-# List of Apps
+# Ask for the administrator password upfront.
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until the script has finished.
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+
+####################################################################################
+# List of Apps                                                                     #
+####################################################################################
 _apps=(
     # dependencies:
     'java' # required by jdownloader
 
     # don't need to be in a specific order
-    'asepsis'
     'gpgtools'
     'hammerspoon'
-    'adobe-reader'
+    # 'adobe-reader'
     'alfred'
     'android-file-transfer'
     'appcleaner'
@@ -26,7 +34,7 @@ _apps=(
     'google-earth-pro'
     'grandperspective'
     'handbrake'
-    'iterm2'
+    # 'iterm2'
     'jdownloader'
     'jing'
     'karabiner'
@@ -48,16 +56,36 @@ _apps=(
     'licecap'
 )
 
-# Check for cask
+####################################################################################
+# Check for cask                                                                   #
+####################################################################################
 if ! type_exists 'brew'; then
   e_error "You should install Homebrew first"
   exit
 fi
 
-# Install Apps
+
+####################################################################################
+# Install Apps                                                                     #
+####################################################################################
 e_header "Installing Cask packages..."
 brew cask update
-brew cask install "${_apps[@]}"
+for index in ${!_apps[*]}; do
+  # Using eval to evaluate parameters in the list
+  eval "brew cask install ${_apps[$index]}"
+done
 brew cask cleanup
+
+
+####################################################################################
+# Setup Apps                                                                       #
+####################################################################################
+#Karabiner
+$DOT/karabiner/karabiner-import.sh
+
+# Seil
+# Go to System Prerences -> Keyboard -> Modifier keys... and change "Caps Lock Key" to "No Action" for all the keyboards
+# Enable in Seil "Change the caps lock key"
+
 
 [[ $? ]] && e_success "Done"
