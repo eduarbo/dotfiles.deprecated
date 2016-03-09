@@ -304,6 +304,18 @@ layers configuration. You are free to put any user code."
   (defconst my-notes-directory "~/Dropbox/notes/"
     "Path to my notes directory")
 
+  (defun my-comment-box (b e)
+    "Draw a box comment around the region but arrange for the region to extend
+to at least the fill column. Place the point after the comment box."
+    (interactive "r")
+    (let ((e (copy-marker e t)))
+      (goto-char b)
+      (end-of-line)
+      (insert-char ?  (- fill-column (current-column)))
+      (comment-box b e 1)
+      (goto-char e)
+      (set-marker e nil)))
+
   (defun narrow-and-set-normal ()
     "Narrow to the region and, if in a visual mode, set normal mode."
     (interactive)
@@ -354,6 +366,8 @@ already narrowed."
 
     ;; mnenonic of Quit Window
     "qw"  'evil-quit
+
+    "cb"  'my-comment-box
 
     "wV"  'split-window-right
     "wv"  'split-window-right-and-focus
