@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 source "$HOME/.dotfiles/lib/utils"
 
+# Ask for the administrator password upfront.
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until the script has finished.
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
 ####################################################################################
 # # List of packages                                                               #
 ####################################################################################
 formulae=(
+  'stow'
+  'git'
   'coreutils' # GNU core utilities
   'openssl' # Remember to run `brew link openssl --force`
   'd-bus' # Required to compile Emacs from src
@@ -15,19 +23,27 @@ formulae=(
   'go'
   'lua'
   'ctags'
-  'fzf --HEAD'
+  'fzf'
   'moreutils'
   'findutils'
+  'bash bash-completion'
+  'zsh-completions zsh-syntax-highlighting zsh-history-substring-search'
+  'fish'
+  'tmux reattach-to-user-namespace'
+  'emacs --with-cocoa --with-imagemagick --with-gnutls --with-librsvg'
+  'macvim --HEAD --with-cscope --with-lua --with-luajit --with-override-system-vim'
 
   # Install more recent versions of some OS X tools.
   'homebrew/dupes/grep'
   'homebrew/dupes/openssh'
 
+  'ag'
+  'pandoc'
   'gnu-sed --with-default-names'
   'wget --with-iri'
   'rsync --default-names'
   'dark-mode'
-  'ffmepg'
+  'ffmpeg'
   'git-lfs'
   'gtypist'
   'mercurial'
@@ -90,7 +106,7 @@ brew update
 
 e_header "Updating any existing Homebrew formulae..."
 # Upgrade any already-installed formulae
-brew upgrade
+brew upgrade --all
 [[ $? ]] && e_success "Done"
 
 brew tap homebrew/dupes
@@ -106,6 +122,42 @@ done
 brew cleanup
 # Link recently installed applications
 brew linkapps
+
+
+####################################################################################
+# Set up installed apps                                                            #
+####################################################################################
+setup_shell() {
+  _shell=$1
+
+  if ! formula_exists ${_shell}; then
+    echo
+    e_header "Installing latest version of ${_shell}..."
+    brew install ${_shell}
+  fi
+  _sh_path="$(which ${_shell})"
+
+  # Check if $_shell is added in /etc/shells otherwise add it
+  if [ -z $(grep /${_shell}$ /etc/shells | tail -1) ]; then
+    echo
+    e_header "Adding ${_sh_path} to /etc/shells (so that chsh will consider it a 'safe' shell)..."
+    echo ${_sh_path} | sudo tee -a /etc/shells > /dev/null
+  fi
+}
+
+# Bash
+setup_shell bash
+
+# Zsh
+setup_shell zsh
+rm -rf $HOME/.zcompdump
+
+# Fish
+setup_shell fish
+
+# Tmux
+# Install tmux plugins
+~/.tmux/plugins/tpm/bin/install_plugins
 
 
 ####################################################################################
@@ -133,7 +185,7 @@ if ! type_exists 'nvm'; then
   fi
   e_header "Set up NVM..."
   mkdir ~/.nvm
-  source_file usr/local/opt/nvm/nvm.sh
+  source_file /usr/local/opt/nvm/nvm.sh
 fi
 
 if ! type_exists 'node'; then
@@ -163,6 +215,9 @@ echo
 if ! type_exists 'pip'; then
   e_error "Error: Pip not found."
 else
+  e_header "Upgrading pip..."
+  pip install --upgrade pip
+  echo
   e_header "Installing Python packages..."
   for index in ${!pip_packages[*]}; do
     sudo pip install "${pip_packages[$index]}"
