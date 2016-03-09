@@ -51,6 +51,18 @@ if [[ $HAS_BREW ]]; then
   # To apply the command to CTRL-T as well
   export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
 
-  source_file ${BREW_LOCATION}/opt/fzf/shell/completion.${SHELL_NAME}
+  # Setup fzf
+  # ---------
+  if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
+    export PATH="$PATH:/usr/local/opt/fzf/bin"
+  fi
+
+  # Man path
+  # --------
+  if [[ ! "$MANPATH" == */usr/local/opt/fzf/man* && -d "/usr/local/opt/fzf/man" ]]; then
+    export MANPATH="$MANPATH:/usr/local/opt/fzf/man"
+  fi
+
+  [[ $- == *i* ]] && source_file ${BREW_LOCATION}/opt/fzf/shell/completion.${SHELL_NAME}
   source_file ${BREW_LOCATION}/opt/fzf/shell/key-bindings.${SHELL_NAME}
 fi
