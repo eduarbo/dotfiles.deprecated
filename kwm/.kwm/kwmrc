@@ -19,10 +19,10 @@
 # include binds
 
 # Set default values for screen padding
-kwmc config padding top 40
-kwmc config padding bottom 20
-kwmc config padding left 20
-kwmc config padding right 20
+kwmc config padding top 10
+kwmc config padding bottom 10
+kwmc config padding left 10
+kwmc config padding right 10
 
 # Set default values for container gaps
 kwmc config gap vertical 15
