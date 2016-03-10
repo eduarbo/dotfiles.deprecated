@@ -112,19 +112,19 @@ e_header "Updating any existing Homebrew formulae..."
 brew upgrade --all
 [[ $? ]] && e_success "Done"
 
-# brew tap homebrew/dupes
-# brew tap homebrew/versions
+brew tap homebrew/dupes
+brew tap homebrew/versions
 
-# e_header "Installing Homebrew formulae..."
-# for index in ${!formulae[*]}; do
-#   _pkg=${formulae[$index]}
-#   eval "brew install $_pkg"
-# done
+e_header "Installing Homebrew formulae..."
+for index in ${!formulae[*]}; do
+  _pkg=${formulae[$index]}
+  eval "brew install $_pkg"
+done
 
-# # Remove outdated versions from the Cellar
-# brew cleanup
-# # Link recently installed applications
-# brew linkapps
+# Remove outdated versions from the Cellar
+brew cleanup
+# Link recently installed applications
+brew linkapps
 e_success "Done"
 
 
