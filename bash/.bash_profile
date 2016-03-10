@@ -1,7 +1,6 @@
 #!/bin/bash
-source "$HOME/.dotfiles/lib/common_env"
+source $HOME/.dotfiles/lib/common_env
 
-# Exports ------------------------------------------------------------------ {{{
 # Ignore duplicate commands in the history
 export HISTCONTROL=ignoredups:erasedups
 
@@ -18,4 +17,3 @@ export MANPAGER="less -X"
 # Make new shells get the history lines from all previous
 # shells instead of the default "last window closed" history
 export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
-# }}}
