@@ -19,9 +19,12 @@ formulae=(
 
   'python'
   'python3'
-  'ruby'
+  'chruby'
+  'ruby-install'
+  'ruby-build'
   'go'
   'lua'
+  'nvm'
   'ctags'
   'fzf'
   'moreutils'
@@ -109,32 +112,27 @@ e_header "Updating any existing Homebrew formulae..."
 brew upgrade --all
 [[ $? ]] && e_success "Done"
 
-brew tap homebrew/dupes
-brew tap homebrew/versions
+# brew tap homebrew/dupes
+# brew tap homebrew/versions
 
-e_header "Installing Homebrew formulae..."
-for index in ${!formulae[*]}; do
-  # Using eval to evaluate parameters in the list
-  eval "brew install ${formulae[$index]}"
-done
+# e_header "Installing Homebrew formulae..."
+# for index in ${!formulae[*]}; do
+#   _pkg=${formulae[$index]}
+#   eval "brew install $_pkg"
+# done
 
-# Remove outdated versions from the Cellar
-brew cleanup
-# Link recently installed applications
-brew linkapps
+# # Remove outdated versions from the Cellar
+# brew cleanup
+# # Link recently installed applications
+# brew linkapps
+e_success "Done"
 
 
 ####################################################################################
-# Set up installed apps                                                            #
+# Set up installed brew packages                                                   #
 ####################################################################################
 setup_shell() {
   _shell=$1
-
-  if ! formula_exists ${_shell}; then
-    echo
-    e_header "Installing latest version of ${_shell}..."
-    brew install ${_shell}
-  fi
   _sh_path="$(which ${_shell})"
 
   # Check if $_shell is added in /etc/shells otherwise add it
@@ -144,6 +142,8 @@ setup_shell() {
     echo ${_sh_path} | sudo tee -a /etc/shells > /dev/null
   fi
 }
+
+e_header "Set up installed brew packages..."
 
 # Bash
 setup_shell bash
@@ -155,41 +155,69 @@ rm -rf $HOME/.zcompdump
 # Fish
 setup_shell fish
 
+# nvm
+mkdir ~/.nvm
+source_file $BREW_LOCATION/opt/nvm/nvm.sh
+
 # Tmux
-# Install tmux plugins
+e_header "Installing Tmux Plugins..."
 ~/.tmux/plugins/tpm/bin/install_plugins
+
+e_success "Done"
 
 
 ####################################################################################
 # # Install Ruby Gems                                                              #
 ####################################################################################
+source_file $BREW_LOCATION/opt/chruby/share/chruby/chruby.sh
+
 echo
-if ! type_exists 'gem'; then
-  e_error "Error: RubyGems not found."
+# Install gems only if chruby and ruby-install are installed
+if ! type_exists 'chruby'; then
+  e_error "Error: chruby not found."
+elif ! type_exists 'ruby-install'; then
+  e_error "Error: ruby-install not found."
 else
-  e_header "Installing Gems..."
-  for index in ${!gems[*]}; do
-    gem install "${gems[$index]}"
-  done
+  # Check for rubies in Chruby RUBIES paths or install latest ruby
+  if ! [ "$(chruby | grep ruby)" ]; then
+    e_header "Installing Ruby..."
+    ruby-install ruby
+  fi
+
+  # Pick latest ruby version installed
+  chruby ruby
+
+  if ! type_exists 'gem'; then
+    e_error "Error: RubyGems not found."
+  else
+    e_header "Installing Gems..."
+    # Cache gem list
+    _gem_list=$(gem list)
+
+    for index in ${!gems[*]}; do
+      _gem=${gems[$index]}
+
+      # Install only missing gems
+      ! test "$(echo $_gem_list | grep $_gem)" && gem install "$_gem"
+    done
+
+    # Update installed gems to the latest version
+    gem update
+
+    # Clean up old versions of installed gems
+    gem cleanup
+    e_success "Done"
+  fi
 fi
 
 
 ####################################################################################
 # # Install Node packages                                                          #
 ####################################################################################
+echo
 if ! type_exists 'nvm'; then
-  echo
-  if ! formula_exists 'nvm'; then
-    e_header "Installing NVM..."
-    brew install nvm
-  fi
-  e_header "Set up NVM..."
-  mkdir ~/.nvm
-  source_file /usr/local/opt/nvm/nvm.sh
-fi
-
-if ! type_exists 'node'; then
-  echo
+  e_error "Error: nvm not found."
+elif ! type_exists 'node'; then
   e_header "Installing Node..."
   nvm install node
   nvm use node
@@ -205,6 +233,7 @@ else
     # Install packages globally and quietly
     npm install "${node_packages[$index]}" -g >/dev/null
   done
+  e_success "Done"
 fi
 
 
@@ -222,6 +251,5 @@ else
   for index in ${!pip_packages[*]}; do
     sudo pip install "${pip_packages[$index]}"
   done
+  e_success "Done"
 fi
-
-e_success "Done"
