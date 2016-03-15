@@ -30,9 +30,12 @@ formulae=(
   'moreutils'
   'findutils'
   'bash bash-completion'
-  'zsh-completions zsh-syntax-highlighting zsh-history-substring-search'
+  'zsh-completions'
+  'zsh-syntax-highlighting'
+  'zsh-history-substring-search'
   'fish'
-  'tmux reattach-to-user-namespace'
+  'tmux'
+  'reattach-to-user-namespace'
   'emacs --with-cocoa --with-imagemagick --with-gnutls --with-librsvg'
   'macvim --HEAD --with-cscope --with-lua --with-luajit --with-override-system-vim'
 
@@ -52,9 +55,11 @@ formulae=(
   'mercurial'
   'pgcli'
   'selecta'
-  'libsass sassc'
+  'libsass'
+  'sassc'
   'cppcheck'
-  'shellcheck checkbashisms'
+  'shellcheck'
+  'checkbashisms'
   'screenfetch'
   'ispell'
   'trash'
@@ -68,6 +73,7 @@ gems=(
   pry-doc
   ruby_parser
   rubocop
+  lolcat
 )
 
 node_packages=(
