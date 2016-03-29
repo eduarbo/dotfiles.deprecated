@@ -53,6 +53,7 @@ values."
      deft
      colors
      osx
+     erc
 
      ;; Disabled for security reasons. It exposes my password in plain text!!!
      ;; github
