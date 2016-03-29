@@ -12,6 +12,7 @@ export EDITOR="vim"
 export VISUAL=$EDITOR
 export PAGER="less"
 export GOPATH=$HOME/dev/go
+export WORKON_HOME=$HOME/.virtualenvs
 
 # Language
 if [[ -z "$LANG" ]]; then
