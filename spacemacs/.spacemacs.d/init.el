@@ -361,9 +361,10 @@ already narrowed."
   (spacemacs/set-leader-keys
     "SPC" 'helm-mini
     "."   'spacemacs/alternate-buffer
+    ","   'evil-avy-goto-char-2
 
     ;; I don't need align-repeat, that is why evil-repeat exists
-    "xar"  'align-regexp
+    "xar" 'align-regexp
 
     ;; mnenonic of Quit Window
     "qw"  'evil-quit
