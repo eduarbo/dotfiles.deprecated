@@ -49,7 +49,8 @@ values."
      (spell-checking :variables
                      spell-checking-enable-by-default nil
                      spell-checking-enable-auto-dictionary t)
-     syntax-checking
+     (syntax-checking :variables
+                      syntax-checking-enable-tooltips nil)
      deft
      colors
      osx
@@ -404,6 +405,15 @@ already narrowed."
     (setq-local evil-args-delimiters '(" ")))
   (add-hook 'lisp-mode-hook 'set-lispish-evil-args-delimiters)
   (add-hook 'emacs-lisp-mode-hook 'set-lispish-evil-args-delimiters)
+
+  ;; bind evil-forward/backward-args
+  (define-key evil-normal-state-map "L" 'evil-forward-arg)
+  (define-key evil-normal-state-map "H" 'evil-backward-arg)
+  (define-key evil-motion-state-map "L" 'evil-forward-arg)
+  (define-key evil-motion-state-map "H" 'evil-backward-arg)
+
+  ;; bind evil-jump-out-args
+  (define-key evil-normal-state-map "K" 'evil-jump-out-args)
 
   ;; Deft sane defaults
   (with-eval-after-load 'deft
