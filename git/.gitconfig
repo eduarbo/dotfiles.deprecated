@@ -18,6 +18,7 @@
 [user]
 	name = eduarbo
 	email = eduarbo@gmail.com
+	useconfigonly = true
 [alias]
   # add
   chunkyadd = add --patch           # stage commits chunk by chunk
