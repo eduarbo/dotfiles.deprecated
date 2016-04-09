@@ -425,6 +425,8 @@ already narrowed."
           deft-auto-save-interval 0
           deft-directory my-notes-directory
           deft-use-filter-string-for-filename t)
+    ;; Do not ask me to follow symlinks
+    (setq vc-follow-symlinks nil)
     (define-key deft-mode-map [(shift return)] 'deft-new-file))
 
   (with-eval-after-load 'org
