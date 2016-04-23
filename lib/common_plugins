@@ -20,9 +20,10 @@ source "$HOME/.dotfiles/lib/init-gpg-agent"
 ####################################################################################
 export NVM_DIR=${HOME}/.nvm
 # TODO Make lazy_load compatible with bash
-if [[ $IS_ZSH ]]; then
-  lazy_source nvm $BREW_LOCATION/opt/nvm/nvm.sh
-fi
+# if [[ $IS_ZSH ]]; then
+#   lazy_source nvm $BREW_LOCATION/opt/nvm/nvm.sh
+# fi
+source_file $BREW_LOCATION/opt/nvm/nvm.sh
 
 
 ####################################################################################
