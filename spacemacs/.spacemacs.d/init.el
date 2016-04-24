@@ -72,7 +72,8 @@ values."
      markdown
      org
      pandoc
-     python
+     (python :variables
+             python-enable-yapf-format-on-save t)
      react
      ruby
      shell-scripts
@@ -144,7 +145,9 @@ values."
    dotspacemacs-themes (if window-system
                            '(subatomic
                              gruvbox)
-                         '(gruvbox))
+                         '(subatomic256
+                           flatland
+                           smyx))
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -413,7 +416,61 @@ already narrowed."
 
   (bind-map-set-keys evil-normal-state-map "Q" 'fill-paragraph)
 
-  ;; Packages
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Defaults                                                                       ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  (setq vc-follow-symlinks nil)
+
+  (setq css-indent-offset 2
+        web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2
+        web-mode-attr-indent-offset 2)
+
+  ;; Support Syntax highlight for my dotfiles
+  (add-to-list 'auto-mode-alist (cons "/\\^gitconfig\\'" 'gitconfig-mode))
+  (add-to-list 'auto-mode-alist (cons "/\\^gitignore\\'" 'gitignore-mode))
+  (add-to-list 'auto-mode-alist (cons "/\\^gitattributes\\'" 'gitattributes-mode))
+
+  ;; Use same indentation spaces than 'tab-width
+  (setq sh-indentation tab-width)
+  (setq sh-basic-offset tab-width)
+
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Better UI                                                                      ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  ;; Darker vertical-border for gruvbox
+  (set-face-attribute 'vertical-border nil :foreground "#1d2021" :background nil)
+
+  (setq powerline-default-separator 'utf-8)
+  (custom-set-variables '(powerline-utf-8-separator-left #xe0b0)
+                        '(powerline-utf-8-separator-right #xe0b2))
+
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Toggles                                                                        ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  ;; Hide minor mode area
+  (spacemacs/toggle-mode-line-minor-modes-off)
+
+  ;; Wrap lines
+  ;; Distinguish wrapped lines with curly arrows
+  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+  (spacemacs/add-to-hooks 'spacemacs/toggle-auto-fill-mode-on
+                          '(org-mode-hook))
+  ;; Break lines automatically
+  (spacemacs/add-to-hooks 'spacemacs/toggle-visual-line-navigation-on
+                          '(org-mode-hook))
+
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Packages                                                                       ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   (defun my//include-underscores-in-word-motions ()
     "Include underscores in word motions"
@@ -453,7 +510,6 @@ already narrowed."
                                    (nospace . "_")
                                    (case-fn . downcase)))
     ;; Do not ask me to follow symlinks
-    (setq vc-follow-symlinks nil)
     (define-key deft-mode-map [(shift return)] 'deft-new-file))
 
   (with-eval-after-load 'org
@@ -517,42 +573,4 @@ already narrowed."
     (setq flycheck-disabled-checkers
           (append flycheck-disabled-checkers
                   '(javascript-jshint javascript-jscs json-jsonlist))))
-
-  (setq css-indent-offset 2
-        web-mode-markup-indent-offset 2
-        web-mode-css-indent-offset 2
-        web-mode-code-indent-offset 2
-        web-mode-attr-indent-offset 2)
-
-  ;; Support Syntax highlight for my dotfiles
-  (add-to-list 'auto-mode-alist (cons "/\\^gitconfig\\'" 'gitconfig-mode))
-  (add-to-list 'auto-mode-alist (cons "/\\^gitignore\\'" 'gitignore-mode))
-  (add-to-list 'auto-mode-alist (cons "/\\^gitattributes\\'" 'gitattributes-mode))
-
-  ;; Use same indentation spaces than 'tab-width
-  (setq sh-indentation tab-width)
-  (setq sh-basic-offset tab-width)
-
-  ;; Better UI
-
-  ;; Darker vertical-border for gruvbox
-  (set-face-attribute 'vertical-border nil :foreground "#1d2021" :background nil)
-
-  (setq powerline-default-separator 'utf-8)
-  (custom-set-variables '(powerline-utf-8-separator-left #xe0b0)
-                        '(powerline-utf-8-separator-right #xe0b2))
-
-  ;; Toggles
-
-  ;; Hide minor mode area
-  (spacemacs/toggle-mode-line-minor-modes-off)
-
-  ;; Wrap lines
-  ;; Distinguish wrapped lines with curly arrows
-  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
-  (spacemacs/add-to-hooks 'spacemacs/toggle-auto-fill-mode-on
-                          '(org-mode-hook))
-  ;; Break lines automatically
-  (spacemacs/add-to-hooks 'spacemacs/toggle-visual-line-navigation-on
-                          '(org-mode-hook))
   )
