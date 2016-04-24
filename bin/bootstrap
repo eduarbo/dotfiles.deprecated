@@ -102,6 +102,7 @@ pip_packages=(
   flake8
   jedi
   ipython
+  yapf
 )
 
 
