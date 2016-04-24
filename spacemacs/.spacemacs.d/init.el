@@ -389,8 +389,8 @@ already narrowed."
 
     "cb"  'my-comment-box
 
-    ;; mnenonic of Today
-    "at" 'open-my-journal
+    ;; mnenonic of Journal
+    "aj" 'open-my-journal
     ;; Secrets
     "aS" 'open-my-darkest-secrets
 
