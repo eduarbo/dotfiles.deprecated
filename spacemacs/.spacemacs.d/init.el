@@ -306,6 +306,23 @@ layers configuration. You are free to put any user code."
   (defconst my-notes-directory "~/Dropbox/notes/"
     "Path to my notes directory")
 
+  (defconst my-secrets-path (concat my-notes-directory "secrets.org")
+    "Path to my secrets file")
+
+  (defun my-journal-path ()
+    "Path to the note of the day"
+    (concat my-notes-directory (format-time-string "%Y%m%d.org")))
+
+  (defun open-my-journal ()
+    "Open note of the day"
+    (interactive)
+    (find-file (my-journal-path)))
+
+  (defun open-my-darkest-secrets ()
+    "Open my secrets file"
+    (interactive)
+    (find-file my-secrets-path))
+
   (defun my-comment-box (b e)
     "Draw a box comment around the region but arrange for the region to extend
 to at least the fill column. Place the point after the comment box."
@@ -372,6 +389,11 @@ already narrowed."
 
     "cb"  'my-comment-box
 
+    ;; mnenonic of Today
+    "at" 'open-my-journal
+    ;; Secrets
+    "aS" 'open-my-darkest-secrets
+
     "wV"  'split-window-right
     "wv"  'split-window-right-and-focus
     "wS"  'split-window-below
@@ -424,15 +446,49 @@ already narrowed."
           ;; TODO contribute with a better implementation
           deft-auto-save-interval 0
           deft-directory my-notes-directory
-          deft-use-filter-string-for-filename t)
+          deft-use-filter-string-for-filename t
+          deft-file-naming-rules '((noslash . "_")
+                                   (nospace . "_")
+                                   (case-fn . downcase)))
     ;; Do not ask me to follow symlinks
     (setq vc-follow-symlinks nil)
     (define-key deft-mode-map [(shift return)] 'deft-new-file))
 
   (with-eval-after-load 'org
-    (add-to-list 'org-structure-template-alist '("t" "#+TITLE: "))
+    (defun journal-file-insert ()
+      "Insert's the journal heading based on the file's name."
+      (interactive)
+      (when (string-match "\\(20[0-9][0-9]\\)\\([0-9][0-9]\\)\\([0-9][0-9]\\)"
+                          (buffer-name))
+        (let ((year  (string-to-number (match-string 1 (buffer-name))))
+              (month (string-to-number (match-string 2 (buffer-name))))
+              (day   (string-to-number (match-string 3 (buffer-name))))
+              (datim nil))
+          (setq datim (encode-time 0 0 0 day month year))
+          (insert (format-time-string
+                   "#+TITLE: Journal - %A, %b %e, %Y\n" datim)
+                  "#+PROPERTY: LOGGING lognoterepeat\n\n"))))
+
+    (require 'autoinsert)
+    (setq auto-insert-query nil)  ;; don't want to be prompted before insertion
+    (add-hook 'find-file-hook 'auto-insert)
+    (add-to-list 'auto-insert-alist '(".*/[0-9]*\.org$" . journal-file-insert))
+
+    (setq org-capture-templates
+          '(("t" "Todo" entry (file+headline (my-journal-path) "Tasks")
+             "* TODO %?\n\n%i\n")
+            ("r" "Reminder" entry (file+headline (my-journal-path) "Tasks")
+             "* TODO %?\n%^{prompt|SCHEDULED|DEADLINE}: %^t\n\n%i\n")
+            ("j" "Journal" entry (file (my-journal-path))
+             "* %? :journal:\n%T\n\n%i\n"
+             :empty-lines 1)
+            ("s" "Secret" entry (file my-secrets-path)
+             "* %? :crypt:%^g\n")
+            ("l" "Login" entry (file my-secrets-path)
+             "* %? :crypt:login:\n %^{username}p\n %^{password}p\n %^{website}\n")))
 
     (setq org-agenda-files (list my-notes-directory))
+    (setq org-default-notes-file (my-journal-path))
 
     ;; My sensitive data
     (require 'org-crypt)
