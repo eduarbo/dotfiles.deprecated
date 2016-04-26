@@ -81,15 +81,16 @@ node_packages=(
   gulp
   gulp-util
   gulp-sass
-  ember-cli
   jsctags
   complete
   express
   js-beautify
   eslint
   babel-eslint
-  eslint-config-airbnb
+  eslint-config-airbnb-base
+  eslint-config-react
   eslint-plugin-react
+  eslint-plugin-import
   tern
   # elm # Use the official installer for now as there are issues with elm-reactor in
   # OS X. See: https://github.com/kevva/elm-bin/issues/28
