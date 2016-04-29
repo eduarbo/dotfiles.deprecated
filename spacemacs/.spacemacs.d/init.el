@@ -451,6 +451,8 @@ already narrowed."
   (setq-default js2-mode-show-parse-errors nil
                 js2-mode-show-strict-warnings nil)
 
+  (add-to-list 'magic-mode-alist '("import *" . react-mode))
+
   ;; Support Syntax highlight for my dotfiles
   (add-to-list 'auto-mode-alist (cons "/\\^gitconfig\\'" 'gitconfig-mode))
   (add-to-list 'auto-mode-alist (cons "/\\^gitignore\\'" 'gitignore-mode))
