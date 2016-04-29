@@ -85,7 +85,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(company-flx)
+   dotspacemacs-additional-packages '(company-flx editorconfig)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(evil-escape
                                     evil-search-highlight-persist
@@ -340,6 +340,20 @@ to at least the fill column. Place the point after the comment box."
       (goto-char e)
       (set-marker e nil)))
 
+  ;; Use local eslint executable when it's available in node_modules
+  ;; Source: http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
+  (defun my/use-eslint-from-node-modules ()
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (eslint (and root
+                        (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                          root))))
+      (when (file-executable-p eslint)
+        (setq-local flycheck-javascript-eslint-executable eslint))))
+
+  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
   (defun narrow-and-set-normal ()
     "Narrow to the region and, if in a visual mode, set normal mode."
     (interactive)
@@ -428,6 +442,14 @@ already narrowed."
         web-mode-css-indent-offset 2
         web-mode-code-indent-offset 2
         web-mode-attr-indent-offset 2)
+
+  ;; Force js to indent 2 levels
+  (setq-default js2-basic-offset 2
+                js-indent-level 2)
+
+  ;; Let flycheck handle parse errors
+  (setq-default js2-mode-show-parse-errors nil
+                js2-mode-show-strict-warnings nil)
 
   ;; Support Syntax highlight for my dotfiles
   (add-to-list 'auto-mode-alist (cons "/\\^gitconfig\\'" 'gitconfig-mode))
@@ -573,4 +595,8 @@ already narrowed."
     (setq flycheck-disabled-checkers
           (append flycheck-disabled-checkers
                   '(javascript-jshint javascript-jscs json-jsonlist))))
+
+  (require 'editorconfig)
+  (editorconfig-mode 1)
+
   )
