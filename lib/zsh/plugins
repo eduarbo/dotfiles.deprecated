@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-source $DOT/lib/common_plugins
-
-if [[ "$HAS_BREW" ]]; then
-  source_file ${BREW_LOCATION}/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
-  source_file ${BREW_LOCATION}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi

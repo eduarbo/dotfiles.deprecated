@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-source $DOT/lib/utils
 source $DOT/lib/aliases
 source $DOT/lib/zsh/colors
 source $DOT/lib/zsh/history
@@ -13,5 +12,7 @@ source_file $HOME/.secrets
 source_file $HOME/.zshrc.local
 
 # zsh-syntax-highlighting.zsh needs to be sourced at the end
-source $DOT/lib/zsh/plugins
-source $DOT/lib/common_path
+if [[ "$HAS_BREW" ]]; then
+  source_file ${BREW_LOCATION}/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
+  source_file ${BREW_LOCATION}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
