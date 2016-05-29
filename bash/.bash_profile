@@ -1,5 +1,7 @@
 #!/bin/bash
 source $HOME/.dotfiles/lib/common_env
+source $DOT/lib/utils
+source $DOT/lib/common_path
 
 # Ignore duplicate commands in the history
 export HISTCONTROL=ignoredups:erasedups

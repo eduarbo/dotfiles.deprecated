@@ -4,10 +4,7 @@ source "$HOME/.bash_profile"
 ####################################################################################
 # Source                                                                           #
 ####################################################################################
-source $DOT/lib/utils
 source $DOT/lib/aliases
-source $DOT/lib/common_plugins
-source $DOT/lib/common_path
 
 source_file $BREW_LOCATION/etc/bash_completion
 

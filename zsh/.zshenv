@@ -2,8 +2,8 @@
 # This file is sourced by all instances of Zsh, and thus, it should be kept as
 # small as possible and should only define environment variables.
 
-source $DOT/lib/utils
 source $HOME/.dotfiles/lib/common_env
+source $DOT/lib/utils
 
 TMPPREFIX="${TMPDIR%/}/zsh"
 if [[ ! -d "$TMPPREFIX" ]]; then

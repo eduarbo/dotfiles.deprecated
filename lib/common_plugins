@@ -23,7 +23,7 @@ export NVM_DIR=${HOME}/.nvm
 # if [[ $IS_ZSH ]]; then
 #   lazy_source nvm $BREW_LOCATION/opt/nvm/nvm.sh
 # fi
-source_file $BREW_LOCATION/opt/nvm/nvm.sh
+source_file "$NVM_DIR/nvm.sh"
 
 
 ####################################################################################
