@@ -108,6 +108,7 @@ alias RM='rm -vrf'
 alias g='git'
 alias gs='git status'
 alias ga='git add'
+alias gl='git log'
 alias gt='git tag -n'                       # show tags with <n> lines of each tag message
 
 alias gc='git commit'
