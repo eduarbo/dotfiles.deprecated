@@ -7,6 +7,7 @@ source $DOT/lib/zsh/bindings
 source $DOT/lib/zsh/prompt
 source $DOT/lib/zsh/title
 source $DOT/lib/zsh/completion
+source $DOT/lib/common_plugins
 
 source_file $HOME/.secrets
 source_file $HOME/.zshrc.local

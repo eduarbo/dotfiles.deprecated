@@ -10,5 +10,4 @@ if [[ ! -d "$TMPPREFIX" ]]; then
   mkdir -p "$TMPPREFIX"
 fi
 
-source $DOT/lib/common_plugins
 source $DOT/lib/common_path
