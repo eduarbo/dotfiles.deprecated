@@ -464,6 +464,9 @@ already narrowed."
   (custom-set-variables '(powerline-utf-8-separator-left #xe0b0)
                         '(powerline-utf-8-separator-right #xe0b2))
 
+  ;; I need to compile spaceline to take the changes
+  (spaceline-compile)
+
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Toggles                                                                        ;;
