@@ -13,7 +13,7 @@ values."
    dotspacemacs-distribution 'spacemacs
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '()
+   dotspacemacs-configuration-layer-path '("~/.spacemacs.d/layers/")
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
@@ -23,7 +23,6 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     spacemacs-helm
      better-defaults
      themes-megapack
      emacs-lisp
@@ -83,7 +82,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(company-flx editorconfig)
+   dotspacemacs-additional-packages '(company-flx)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(evil-escape
                                     evil-search-highlight-persist
@@ -131,7 +130,7 @@ values."
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects' `agenda' `todos'.
    ;; (default '(recents projects))
-   dotspacemacs-startup-lists '(agenda todos projects)
+   dotspacemacs-startup-lists '(recents projects)
    ;; Number of recent files to show in the startup buffer. Ignored if
    ;; `dotspacemacs-startup-lists' doesn't include `recents'. (default 5)
    dotspacemacs-startup-recent-list-size 5
@@ -590,8 +589,4 @@ already narrowed."
     (setq flycheck-disabled-checkers
           (append flycheck-disabled-checkers
                   '(javascript-jshint javascript-jscs json-jsonlist))))
-
-  (require 'editorconfig)
-  (editorconfig-mode 1)
-
   )
