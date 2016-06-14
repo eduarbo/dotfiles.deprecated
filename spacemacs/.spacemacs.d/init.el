@@ -300,27 +300,86 @@ in `dotspacemacs/user-config'."
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
 
-  (defconst my-notes-directory "~/Dropbox/notes/"
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; My Notes                                                                       ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  (defconst my/notes-directory "~/Dropbox/notes/"
     "Path to my notes directory")
 
-  (defconst my-secrets-path (concat my-notes-directory "secrets.org")
-    "Path to my secrets file")
-
-  (defun my-journal-path ()
+  (defun my/journal-path ()
     "Path to the note of the day"
-    (concat my-notes-directory (format-time-string "%Y%m%d.org")))
+    (concat my/notes-directory (format-time-string "%Y%m%d.org")))
 
-  (defun open-my-journal ()
+  (defun my/open-journal ()
     "Open note of the day"
     (interactive)
-    (find-file (my-journal-path)))
+    (find-file (my/journal-path)))
+  ;; mnemonic of Journal
+  (spacemacs/set-leader-keys "aj" 'my/open-journal)
 
-  (defun open-my-darkest-secrets ()
+  (defconst my/secrets-path (concat my/notes-directory "secrets.org")
+    "Path to my secrets file")
+
+  (defun my/open-darkest-secrets ()
     "Open my secrets file"
     (interactive)
-    (find-file my-secrets-path))
+    (find-file my/secrets-path))
+  (spacemacs/set-leader-keys "aS" 'my/open-darkest-secrets)
 
-  (defun my-comment-box (b e)
+  (with-eval-after-load 'org
+    (defun journal-file-insert ()
+      "Insert's the journal heading based on the file's name."
+      (interactive)
+      (when (string-match "\\(20[0-9][0-9]\\)\\([0-9][0-9]\\)\\([0-9][0-9]\\)"
+                          (buffer-name))
+        (let ((year  (string-to-number (match-string 1 (buffer-name))))
+              (month (string-to-number (match-string 2 (buffer-name))))
+              (day   (string-to-number (match-string 3 (buffer-name))))
+              (datim nil))
+          (setq datim (encode-time 0 0 0 day month year))
+          (insert (format-time-string
+                   "#+TITLE: Journal - %A, %b %e, %Y\n" datim)
+                  "#+PROPERTY: LOGGING lognoterepeat\n\n"))))
+
+    (setq org-capture-templates nil)
+    (when (file-exists-p my/secrets-path)
+      (setq org-capture-templates
+            (append '(("s" "Secret"
+                       entry (file my/secrets-path)
+                       "* %? :crypt:%^g\n")
+                      ("l" "Login"
+                       entry (file my/secrets-path)
+                       "* %? :crypt:login:\n %^{username}p\n %^{password}p\n %^{website}\n"))
+                    org-capture-templates)))
+
+    (require 'autoinsert)
+    (setq auto-insert-query nil)  ;; don't want to be prompted before insertion
+    (add-hook 'find-file-hook 'auto-insert)
+    (add-to-list 'auto-insert-alist '(".*/[0-9]*\.org$" . journal-file-insert))
+
+    (setq org-capture-templates
+          (append '(("t" "Todo"
+                     entry (file+headline (my/journal-path) "Tasks")
+                     "* TODO %?\n\n%i\n")
+                    ("r" "Reminder"
+                     entry (file+headline (my/journal-path) "Tasks")
+                     "* TODO %?\n%^{prompt|SCHEDULED|DEADLINE}: %^t\n\n%i\n")
+                    ("j" "Journal"
+                     entry (file (my/journal-path))
+                     "* %? :journal:\n%T\n\n%i\n"
+                     :empty-lines 1))
+                  org-capture-templates))
+
+    (setq org-agenda-files (list my/notes-directory))
+    (setq org-default-notes-file (my/journal-path)))
+
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Extra utils                                                                    ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  (defun my/comment-box (b e)
     "Draw a box comment around the region but arrange for the region to extend
 to at least the fill column. Place the point after the comment box."
     (interactive "r")
@@ -331,22 +390,9 @@ to at least the fill column. Place the point after the comment box."
       (comment-box b e 1)
       (goto-char e)
       (set-marker e nil)))
+  (spacemacs/set-leader-keys "cb" 'my/comment-box)
 
-  ;; Use local eslint executable when it's available in node_modules
-  ;; Source: http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
-  (defun my/use-eslint-from-node-modules ()
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (eslint (and root
-                        (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                          root))))
-      (when (file-executable-p eslint)
-        (setq-local flycheck-javascript-eslint-executable eslint))))
-
-  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
-
-  (defun narrow-and-set-normal ()
+  (defun my/narrow-and-set-normal ()
     "Narrow to the region and, if in a visual mode, set normal mode."
     (interactive)
     (narrow-to-region (region-beginning) (region-end))
@@ -355,7 +401,7 @@ to at least the fill column. Place the point after the comment box."
                (evil-goto-first-line))))
 
   ;; Taken from http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html
-  (defun narrow-or-widen-dwim (p)
+  (defun my/narrow-or-widen-dwim (p)
     "Widen if buffer is narrowed, narrow-dwim otherwise.
 Dwim means: region, org-src-block, org-subtree, or defun,
 whichever applies first. Narrowing to org-src-block actually
@@ -367,7 +413,7 @@ already narrowed."
     (declare (interactive-only))
     (cond ((and (buffer-narrowed-p) (not p)) (widen))
           ((region-active-p)
-           (narrow-and-set-normal))
+           (my/narrow-and-set-normal))
           ((and (boundp 'org-src-mode) org-src-mode (not p))
            (org-edit-src-exit))
           ((derived-mode-p 'org-mode)
@@ -378,15 +424,16 @@ already narrowed."
            (LaTeX-narrow-to-environment))
           (t (narrow-to-defun))))
 
-  ;; Remove narrow prefix as `narrow-or-widen-dwim` does everything I need in
+  ;; Remove narrow prefix as `my/narrow-or-widen-dwim` does everything I need in
   ;; one single keystrong
   (unbind-key "n" spacemacs-default-map)
-  (spacemacs/set-leader-keys "TAB" 'narrow-or-widen-dwim)
+  (spacemacs/set-leader-keys "TAB" 'my/narrow-or-widen-dwim)
 
-  ;; (define-key evil-motion-state-map "]e" 'flycheck-next-error)
-  ;; (define-key evil-motion-state-map "[e" 'flycheck-previous-error)
 
-  ;; Swap default bindings
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Better mappings                                                                ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
   (spacemacs/set-leader-keys
     "SPC" 'helm-mini
     "."   'spacemacs/alternate-buffer
@@ -395,21 +442,13 @@ already narrowed."
     ;; I don't need align-repeat, that is why evil-repeat exists
     "xar" 'align-regexp
 
-    ;; mnenonic of Quit Window
+    ;; mnemonic of Quit Window
     "qw"  'evil-quit
-
-    "cb"  'my-comment-box
-
-    ;; mnenonic of Journal
-    "aj" 'open-my-journal
-    ;; Secrets
-    "aS" 'open-my-darkest-secrets
 
     "wV"  'split-window-right
     "wv"  'split-window-right-and-focus
     "wS"  'split-window-below
     "ws"  'split-window-below-and-focus)
-
   (define-key evil-motion-state-map ";" 'evil-ex)
   (define-key evil-evilified-state-map ";" 'evil-ex)
   (define-key evil-ex-map "e" 'helm-find-files)
@@ -427,7 +466,7 @@ already narrowed."
   ;; Defaults                                                                       ;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-  (setq vc-follow-symlinks nil)
+  (setq vc-follow-symlinks t)
 
   (setq css-indent-offset 2
         web-mode-markup-indent-offset 2
@@ -488,7 +527,7 @@ already narrowed."
 
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Packages                                                                       ;;
+  ;; Extra Packages configuration                                                   ;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   (defun my//include-underscores-in-word-motions ()
@@ -523,63 +562,13 @@ already narrowed."
           ;; kills all the local variables :/
           ;; TODO contribute with a better implementation
           deft-auto-save-interval 0
-          deft-directory my-notes-directory
+          deft-directory my/notes-directory
           deft-use-filter-string-for-filename t
           deft-file-naming-rules '((noslash . "_")
                                    (nospace . "_")
                                    (case-fn . downcase)))
     ;; Do not ask me to follow symlinks
     (define-key deft-mode-map [(shift return)] 'deft-new-file))
-
-  (with-eval-after-load 'org
-    (defun journal-file-insert ()
-      "Insert's the journal heading based on the file's name."
-      (interactive)
-      (when (string-match "\\(20[0-9][0-9]\\)\\([0-9][0-9]\\)\\([0-9][0-9]\\)"
-                          (buffer-name))
-        (let ((year  (string-to-number (match-string 1 (buffer-name))))
-              (month (string-to-number (match-string 2 (buffer-name))))
-              (day   (string-to-number (match-string 3 (buffer-name))))
-              (datim nil))
-          (setq datim (encode-time 0 0 0 day month year))
-          (insert (format-time-string
-                   "#+TITLE: Journal - %A, %b %e, %Y\n" datim)
-                  "#+PROPERTY: LOGGING lognoterepeat\n\n"))))
-
-    (require 'autoinsert)
-    (setq auto-insert-query nil)  ;; don't want to be prompted before insertion
-    (add-hook 'find-file-hook 'auto-insert)
-    (add-to-list 'auto-insert-alist '(".*/[0-9]*\.org$" . journal-file-insert))
-
-    (setq org-capture-templates
-          '(("t" "Todo" entry (file+headline (my-journal-path) "Tasks")
-             "* TODO %?\n\n%i\n")
-            ("r" "Reminder" entry (file+headline (my-journal-path) "Tasks")
-             "* TODO %?\n%^{prompt|SCHEDULED|DEADLINE}: %^t\n\n%i\n")
-            ("j" "Journal" entry (file (my-journal-path))
-             "* %? :journal:\n%T\n\n%i\n"
-             :empty-lines 1)
-            ("s" "Secret" entry (file my-secrets-path)
-             "* %? :crypt:%^g\n")
-            ("l" "Login" entry (file my-secrets-path)
-             "* %? :crypt:login:\n %^{username}p\n %^{password}p\n %^{website}\n")))
-
-    (setq org-agenda-files (list my-notes-directory))
-    (setq org-default-notes-file (my-journal-path))
-
-    ;; My sensitive data
-    (require 'org-crypt)
-
-    ;; Encrypt all entries before saving
-    (org-crypt-use-before-save-magic)
-    (setq org-tags-exclude-from-inheritance (quote ("crypt")))
-    (setq org-crypt-disable-auto-save 'encrypt)
-    (setq org-crypt-key "eduarbo@gmail.com")
-    (setq epa-file-encrypt-to org-crypt-key)
-    ;; use gpg2 to cache the passphrase with gpg-agent, otherwise it won't work
-    (setq epg-gpg-program "gpg2")
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode "D" 'org-decrypt-entry)
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode "E" 'org-encrypt-entries))
 
   (with-eval-after-load 'company
     ;; Workaround to get rid of annoying completion-at-point in empty strings
@@ -588,6 +577,20 @@ already narrowed."
 
   ;; disable jshint, jsonlist, and jscs since I prefer eslint checking
   (with-eval-after-load 'flycheck
+    ;; Use local eslint executable when it's available in node_modules
+    ;; Source: http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
+    (defun my/use-eslint-from-node-modules ()
+      (let* ((root (locate-dominating-file
+                    (or (buffer-file-name) default-directory)
+                    "node_modules"))
+             (eslint (and root
+                          (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                            root))))
+        (when (file-executable-p eslint)
+          (setq-local flycheck-javascript-eslint-executable eslint))))
+
+    (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
     (setq flycheck-check-syntax-automatically '(mode-enabled save))
     (setq flycheck-disabled-checkers
           (append flycheck-disabled-checkers
