@@ -78,8 +78,11 @@ values."
      vagrant
      yaml
 
+     ;; Private layers
      (crypt :variables
             crypt-gpg-key "eduarbo@gmail.com")
+     (notes :variables
+            notes-directory "~/Dropbox/notes/")
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -301,81 +304,6 @@ This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; My Notes                                                                       ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  (defconst my/notes-directory "~/Dropbox/notes/"
-    "Path to my notes directory")
-
-  (defun my/journal-path ()
-    "Path to the note of the day"
-    (concat my/notes-directory (format-time-string "%Y%m%d.org")))
-
-  (defun my/open-journal ()
-    "Open note of the day"
-    (interactive)
-    (find-file (my/journal-path)))
-  ;; mnemonic of Journal
-  (spacemacs/set-leader-keys "aj" 'my/open-journal)
-
-  (defconst my/secrets-path (concat my/notes-directory "secrets.org")
-    "Path to my secrets file")
-
-  (defun my/open-darkest-secrets ()
-    "Open my secrets file"
-    (interactive)
-    (find-file my/secrets-path))
-  (spacemacs/set-leader-keys "aS" 'my/open-darkest-secrets)
-
-  (with-eval-after-load 'org
-    (defun journal-file-insert ()
-      "Insert's the journal heading based on the file's name."
-      (interactive)
-      (when (string-match "\\(20[0-9][0-9]\\)\\([0-9][0-9]\\)\\([0-9][0-9]\\)"
-                          (buffer-name))
-        (let ((year  (string-to-number (match-string 1 (buffer-name))))
-              (month (string-to-number (match-string 2 (buffer-name))))
-              (day   (string-to-number (match-string 3 (buffer-name))))
-              (datim nil))
-          (setq datim (encode-time 0 0 0 day month year))
-          (insert (format-time-string
-                   "#+TITLE: Journal - %A, %b %e, %Y\n" datim)
-                  "#+PROPERTY: LOGGING lognoterepeat\n\n"))))
-
-    (setq org-capture-templates nil)
-    (when (file-exists-p my/secrets-path)
-      (setq org-capture-templates
-            (append '(("s" "Secret"
-                       entry (file my/secrets-path)
-                       "* %? :crypt:%^g\n")
-                      ("l" "Login"
-                       entry (file my/secrets-path)
-                       "* %? :crypt:login:\n %^{username}p\n %^{password}p\n %^{website}\n"))
-                    org-capture-templates)))
-
-    (require 'autoinsert)
-    (setq auto-insert-query nil)  ;; don't want to be prompted before insertion
-    (add-hook 'find-file-hook 'auto-insert)
-    (add-to-list 'auto-insert-alist '(".*/[0-9]*\.org$" . journal-file-insert))
-
-    (setq org-capture-templates
-          (append '(("t" "Todo"
-                     entry (file+headline (my/journal-path) "Tasks")
-                     "* TODO %?\n\n%i\n")
-                    ("r" "Reminder"
-                     entry (file+headline (my/journal-path) "Tasks")
-                     "* TODO %?\n%^{prompt|SCHEDULED|DEADLINE}: %^t\n\n%i\n")
-                    ("j" "Journal"
-                     entry (file (my/journal-path))
-                     "* %? :journal:\n%T\n\n%i\n"
-                     :empty-lines 1))
-                  org-capture-templates))
-
-    (setq org-agenda-files (list my/notes-directory))
-    (setq org-default-notes-file (my/journal-path)))
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Extra utils                                                                    ;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -553,22 +481,6 @@ already narrowed."
 
   ;; bind evil-jump-out-args
   (define-key evil-normal-state-map "K" 'evil-jump-out-args)
-
-  ;; Deft sane defaults
-  (with-eval-after-load 'deft
-    (setq deft-use-filename-as-title nil
-          ;; Disabled until find a way to disable it by buffer. deft-mode-hook
-          ;; is fired after timer is created and when deft-mode is called it
-          ;; kills all the local variables :/
-          ;; TODO contribute with a better implementation
-          deft-auto-save-interval 0
-          deft-directory my/notes-directory
-          deft-use-filter-string-for-filename t
-          deft-file-naming-rules '((noslash . "_")
-                                   (nospace . "_")
-                                   (case-fn . downcase)))
-    ;; Do not ask me to follow symlinks
-    (define-key deft-mode-map [(shift return)] 'deft-new-file))
 
   (with-eval-after-load 'company
     ;; Workaround to get rid of annoying completion-at-point in empty strings
