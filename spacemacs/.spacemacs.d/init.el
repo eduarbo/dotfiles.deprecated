@@ -289,7 +289,7 @@ It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
 
-  (toggle-debug-on-error)
+  ;; (toggle-debug-on-error)
 
   ;; keep customize settings in their own file
   (setq custom-file (concat dotspacemacs-directory "custom.el"))
