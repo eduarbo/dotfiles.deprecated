@@ -35,7 +35,7 @@ values."
      (git :variables
           magit-repository-directories '("~/dev/"))
      (version-control :variables
-                      version-control-diff-tool 'git-gutter+
+                      version-control-diff-tool 'git-gutter
                       version-control-global-margin t)
      (shell :variables
             shell-default-shell 'eshell
