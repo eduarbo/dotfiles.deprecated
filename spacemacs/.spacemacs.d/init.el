@@ -83,12 +83,13 @@ values."
             crypt-gpg-key "eduarbo@gmail.com")
      (notes :variables
             notes-directory "~/Dropbox/notes/")
+     defaults
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(company-flx)
+   dotspacemacs-additional-packages '()
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(evil-escape
                                     evil-search-highlight-persist
@@ -288,223 +289,16 @@ It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
 
-  ;; Enable fuzzy matching for everything
-  (setq helm-completion-in-region-fuzzy-match t
-        helm-mode-fuzzy-match t)
+  (toggle-debug-on-error)
 
   ;; keep customize settings in their own file
   (setq custom-file (concat dotspacemacs-directory "custom.el"))
-  (when (file-exists-p custom-file)
-    (load custom-file))
-  )
+  (when (file-exists-p custom-file) (load custom-file)))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Extra utils                                                                    ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  (defun my/comment-box (b e)
-    "Draw a box comment around the region but arrange for the region to extend
-to at least the fill column. Place the point after the comment box."
-    (interactive "r")
-    (let ((e (copy-marker e t)))
-      (goto-char b)
-      (end-of-line)
-      (insert-char ?  (- fill-column (current-column)))
-      (comment-box b e 1)
-      (goto-char e)
-      (set-marker e nil)))
-  (spacemacs/set-leader-keys "cb" 'my/comment-box)
-
-  (defun my/narrow-and-set-normal ()
-    "Narrow to the region and, if in a visual mode, set normal mode."
-    (interactive)
-    (narrow-to-region (region-beginning) (region-end))
-    (if (string= evil-state "visual")
-        (progn (evil-normal-state nil)
-               (evil-goto-first-line))))
-
-  ;; Taken from http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html
-  (defun my/narrow-or-widen-dwim (p)
-    "Widen if buffer is narrowed, narrow-dwim otherwise.
-Dwim means: region, org-src-block, org-subtree, or defun,
-whichever applies first. Narrowing to org-src-block actually
-calls `org-edit-src-code'.
-
-With prefix P, don't widen, just narrow even if buffer is
-already narrowed."
-    (interactive "P")
-    (declare (interactive-only))
-    (cond ((and (buffer-narrowed-p) (not p)) (widen))
-          ((region-active-p)
-           (my/narrow-and-set-normal))
-          ((and (boundp 'org-src-mode) org-src-mode (not p))
-           (org-edit-src-exit))
-          ((derived-mode-p 'org-mode)
-           (cond ((ignore-errors (org-edit-src-code)))
-                 ((ignore-errors (org-narrow-to-block) t))
-                 (t (org-narrow-to-subtree))))
-          ((derived-mode-p 'latex-mode)
-           (LaTeX-narrow-to-environment))
-          (t (narrow-to-defun))))
-
-  ;; Remove narrow prefix as `my/narrow-or-widen-dwim` does everything I need in
-  ;; one single keystrong
-  (unbind-key "n" spacemacs-default-map)
-  (spacemacs/set-leader-keys "TAB" 'my/narrow-or-widen-dwim)
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Better mappings                                                                ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  (spacemacs/set-leader-keys
-    "SPC" 'helm-mini
-    "."   'spacemacs/alternate-buffer
-    ","   'evil-avy-goto-char-2
-
-    ;; I don't need align-repeat, that is why evil-repeat exists
-    "xar" 'align-regexp
-
-    ;; mnemonic of Quit Window
-    "qw"  'evil-quit
-
-    "wV"  'split-window-right
-    "wv"  'split-window-right-and-focus
-    "wS"  'split-window-below
-    "ws"  'split-window-below-and-focus)
-  (define-key evil-motion-state-map ";" 'evil-ex)
-  (define-key evil-evilified-state-map ";" 'evil-ex)
-  (define-key evil-ex-map "e" 'helm-find-files)
-  (define-key evil-ex-map "b" 'helm-buffers-list)
-
-  (define-key evil-motion-state-map (kbd "C-h") 'evil-window-left)
-  (define-key evil-motion-state-map (kbd "C-j") 'evil-window-down)
-  (define-key evil-motion-state-map (kbd "C-k") 'evil-window-up)
-  (define-key evil-motion-state-map (kbd "C-l") 'evil-window-right)
-
-  (bind-map-set-keys evil-normal-state-map "Q" 'fill-paragraph)
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Defaults                                                                       ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  (setq vc-follow-symlinks t)
-
-  (setq css-indent-offset 2
-        web-mode-markup-indent-offset 2
-        web-mode-css-indent-offset 2
-        web-mode-code-indent-offset 2
-        web-mode-attr-indent-offset 2)
-
-  ;; Force js to indent 2 levels
-  (setq-default js2-basic-offset 2
-                js-indent-level 2)
-
-  ;; Let flycheck handle parse errors
-  (setq-default js2-mode-show-parse-errors nil
-                js2-mode-show-strict-warnings nil)
-
-  (add-to-list 'magic-mode-alist '("import *" . react-mode))
-
-  ;; Support Syntax highlight for my dotfiles
-  (add-to-list 'auto-mode-alist (cons "/\\^gitconfig\\'" 'gitconfig-mode))
-  (add-to-list 'auto-mode-alist (cons "/\\^gitignore\\'" 'gitignore-mode))
-  (add-to-list 'auto-mode-alist (cons "/\\^gitattributes\\'" 'gitattributes-mode))
-
-  ;; Use same indentation spaces than 'tab-width
-  (setq sh-indentation tab-width)
-  (setq sh-basic-offset tab-width)
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Better UI                                                                      ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  ;; Darker vertical-border for gruvbox
-  (set-face-attribute 'vertical-border nil :foreground "#1d2021" :background nil)
-
-  (setq powerline-default-separator 'utf-8)
-  (custom-set-variables '(powerline-utf-8-separator-left #xe0b0)
-                        '(powerline-utf-8-separator-right #xe0b2))
-
-  ;; I need to compile spaceline to take the changes
-  (spaceline-compile)
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Toggles                                                                        ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
   ;; Hide minor mode area
-  (spacemacs/toggle-mode-line-minor-modes-off)
-
-  ;; Wrap lines
-  ;; Distinguish wrapped lines with curly arrows
-  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
-  (spacemacs/add-to-hooks 'spacemacs/toggle-auto-fill-mode-on
-                          '(org-mode-hook))
-  ;; Break lines automatically
-  (spacemacs/add-to-hooks 'spacemacs/toggle-visual-line-navigation-on
-                          '(org-mode-hook))
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Extra Packages configuration                                                   ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  (defun my//include-underscores-in-word-motions ()
-    "Include underscores in word motions"
-    (modify-syntax-entry ?_ "w")
-    )
-  (add-hook 'python-mode-hook #'my//include-underscores-in-word-motions)
-  (add-hook 'ruby-mode-hook #'my//include-underscores-in-word-motions)
-  (add-hook 'js2-mode-hook #'my//include-underscores-in-word-motions)
-
-  ;; Evil-args
-  (defun set-lispish-evil-args-delimiters ()
-    "Override default args delimiters on lisp languages"
-    (setq-local evil-args-delimiters '(" ")))
-  (add-hook 'lisp-mode-hook 'set-lispish-evil-args-delimiters)
-  (add-hook 'emacs-lisp-mode-hook 'set-lispish-evil-args-delimiters)
-
-  ;; bind evil-forward/backward-args
-  (define-key evil-normal-state-map "L" 'evil-forward-arg)
-  (define-key evil-normal-state-map "H" 'evil-backward-arg)
-  (define-key evil-motion-state-map "L" 'evil-forward-arg)
-  (define-key evil-motion-state-map "H" 'evil-backward-arg)
-
-  ;; bind evil-jump-out-args
-  (define-key evil-normal-state-map "K" 'evil-jump-out-args)
-
-  (with-eval-after-load 'company
-    ;; Workaround to get rid of annoying completion-at-point in empty strings
-    (setq tab-always-indent t)
-    (company-flx-mode t))
-
-  ;; disable jshint, jsonlist, and jscs since I prefer eslint checking
-  (with-eval-after-load 'flycheck
-    ;; Use local eslint executable when it's available in node_modules
-    ;; Source: http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
-    (defun my/use-eslint-from-node-modules ()
-      (let* ((root (locate-dominating-file
-                    (or (buffer-file-name) default-directory)
-                    "node_modules"))
-             (eslint (and root
-                          (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                            root))))
-        (when (file-executable-p eslint)
-          (setq-local flycheck-javascript-eslint-executable eslint))))
-
-    (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
-
-    (setq flycheck-check-syntax-automatically '(mode-enabled save))
-    (setq flycheck-disabled-checkers
-          (append flycheck-disabled-checkers
-                  '(javascript-jshint javascript-jscs json-jsonlist))))
-  )
+  (spacemacs/toggle-mode-line-minor-modes-off))
