@@ -17,14 +17,16 @@ source "$HOME/.dotfiles/lib/init-gpg-agent"
 # FASD                                                                             #
 ####################################################################################
 fasd_cache=$HOME/.fasd-init-$SHELL_NAME
-if [ "$(type_exists fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-  if [[ $IS_ZSH ]]; then
-    fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
-  elif [[ $IS_BASH ]]; then
-    fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
+if type_exists 'fasd'; then
+  if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+    if [[ $IS_ZSH ]]; then
+      fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
+    elif [[ $IS_BASH ]]; then
+      fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
+    fi
   fi
 fi
-source "$fasd_cache"
+source_file "$fasd_cache"
 unset fasd_cache
 
 
