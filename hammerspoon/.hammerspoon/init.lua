@@ -119,3 +119,19 @@ hs.hotkey.bind(MEGA, '/', function()
   local time = os.date('%I:%M%p'):gsub('^0',''):lower()
   hs.alert(time..' - '..date, 2.5)
 end)
+
+-----------------------------------------------
+-- Toggle screen for focused window
+-----------------------------------------------
+
+hs.hotkey.bind(MEGA, "tab", function ()
+  moveWindowToToNextScreen(hs.window.focusedWindow())
+end)
+
+function moveWindowToToNextScreen(win)
+  if win:screen():toWest() then
+    win:moveOneScreenWest(0)
+  else
+    win:moveOneScreenEast(0)
+  end
+end
