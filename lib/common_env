@@ -46,7 +46,7 @@ export HISTSIZE=100000
 
 # some settings to be more colorful
 export CLICOLOR=1
-export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
+export GREP_COLOR='1;32'
 export CLICOLOR=true
 export LSCOLORS=ExGxFxdxCxDxDxBxBxExEx
 
