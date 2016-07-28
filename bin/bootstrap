@@ -100,8 +100,8 @@ node_packages=(
 )
 
 pip_packages=(
+  virtualenv
   flake8
-  jedi
   ipython
   yapf
 )

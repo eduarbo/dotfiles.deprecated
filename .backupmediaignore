@@ -1,3 +1,6 @@
+.DS_Store
+.localized
+.com.apple.timemachine.supported
 .Spotlight-*/
 .fseventsd
 .TemporaryItems

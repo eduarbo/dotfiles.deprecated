@@ -1,87 +1,18 @@
 #!/bin/sh
+REPOSITORY="eduarbo@192.168.0.10:backups/$(hostname)"
 
-# Ask for the administrator password upfront
-sudo -v
+# Backup all of /home and /var/www except a few
+# excluded directories
+borg create -v --stats --progress                \
+     $REPOSITORY::'{hostname}-{now:%Y-%m-%d}'    \
+     /                                           \
+     --exclude-from "~/.dotfiles/.backupignore"  \
+     --exclude-if-present ".EXCLUDE"             \
+     -C lz4
 
-REMOTE=""
-MEDIA=""
-DST_REMOTE="eduarbo@eduarbo.com:backup/osx"
-DST_MEDIA_REMOTE="eduarbo@eduarbo.com:backup/media"
-
-PROG=$0
-SRC="/"
-DST="/Volumes/backup/"
-EXCLUDE="$HOME/.dotfiles/.backupignore"
-OPTS="-vax -S -H --xattrs --acls --ignore-errors --force --delete --delete-excluded --exclude-from=$EXCLUDE"
-
-SRC_MEDIA="$HOME/Pictures $HOME/Music"
-DST_MEDIA="/Volumes/media/"
-EXCLUDE_MEDIA="$HOME/.dotfiles/.backupmediaignore"
-OPTS_MEDIA="-vax -S -H --xattrs --acls --ignore-errors --exclude-from=$EXCLUDE_MEDIA"
-
-# -v                      increase verbosity
-# -a                      turns on archive mode (recursive copy + retain attributes)
-# -x                      don't cross device boundaries (ignore mounted volumes)
-# -S                      handles spare files efficiently
-# -H                      preserves hard-links
-# --acls                  update the destination ACLs to be the same as the source ACLs
-# --delete                delete any files that have been deleted locally
-# --delete-excluded       delete any files (on DST) that are part of the list of excluded files
-# --exclude-from          reference a list of files to exclude
-# --xattrs                update the remote extended attributes to be the same as the local ones
-
-while getopts r option
-do
-  case "${option}"
-    in
-    r) REMOTE="true";;
-    m) MEDIA="true";;
-  esac
-done
-
-if [ ! -r "$SRC" ]; then
-  M="Source $SRC not readable - Cannot start the sync process"
-  logger -t $PROG $M
-  echo $M
-fi
-
-# if [ ! -r "$SRC_MEDIA" ]; then
-#   M="Source $SRC_MEDIA not readable - Cannot start the sync process"
-#   logger -t $PROG $M
-#   echo $M
-# fi
-
-# if [ ! -r "$SRC" ] && [ ! -r "$SRC_MEDIA" ]; then
-#   exit;
-# fi
-
-logger -t $PROG "Start rsync"
-
-if [ -w "$DST" && $MEDIA != "true" ]; then
-  sudo rsync $OPTS $SRC $DST
-else
-  M="Destination $DST not readable - Cannot sync files"
-  logger -t $PROG $M
-  echo $M
-fi
-# Backup media
-
-if [ -w "$DST_MEDIA" ]; then
-  sudo rsync $OPTS_MEDIA $SRC_MEDIA $DST_MEDIA
-else
-  M="Destination $DST_MEDIA not readable - Cannot sync files"
-  logger -t $PROG $M
-  echo $M
-fi
-
-if [ $REMOTE ]; then 
-  sudo rsync -e ssh -p 2222 $OPTS $SRC $DST_REMOTE
-  sudo rsync -e ssh -p 2222 $OPTS_MEDIA $SRC_MEDIA $DST_MEDIA_REMOTE
-fi
-
-logger -t $PROG "End rsync"
-
-# make the backup bootable - comment this out if needed
-sudo bless -folder "$DST"/System/Library/CoreServices
-
-exit 0
+# Use the `prune` subcommand to maintain 7 daily, 4 weekly and 6 monthly
+# archives of THIS machine. The '{hostname}-' prefix is very important to
+# limit prune's operation to this machine's archives and not apply to
+# other machine's archives also.
+borg prune -v $REPOSITORY --prefix '{hostname}-' \
+     --keep-daily=7 --keep-weekly=4 --keep-monthly=6

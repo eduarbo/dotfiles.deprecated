@@ -1,21 +1,37 @@
+/dev/*
+/proc/*
+/sys/*
+/tmp/*
+/run/*
+/mnt/*
+/media/*
+/lost+found
+.$RECYCLE.BIN
+.DS_Store
 .Spotlight-*/
+.fseventsd
+.TemporaryItems
 .Trashes
+.localized
+.com.apple.timemachine.supported
+*/.Trash
 /afs/*
 /automount/*
 /cores/*
-/dev/*
 /Network/*
 /private/tmp/*
 /private/var/run/*
 /private/var/spool/postfix/*
 /private/var/vm/*
 /Previous Systems.localized
-/tmp/*
 /Volumes/*
-*/.Trash
 /Users/*/Movies/*
+/Users/*/Videos/*
+/Users/*/TV Shows/*
 /Users/*/Music/*
 /Users/*/Pictures/*
 /Users/*/Downloads/*
 /Users/*/Dropbox/*
+/Users/*/Google Drive/*
 /Users/*/Library/Mail/*
+/Users/*/VirtualBox VMs/
