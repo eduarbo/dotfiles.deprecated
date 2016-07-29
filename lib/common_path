@@ -14,5 +14,6 @@ pupdate $HOME/lib/sbt/bin
 pupdate $GOPATH/bin
 pupdate $DOT/bin
 pupdate $HOME/bin
+pupdate /usr/local/sbin
 
 export PATH
