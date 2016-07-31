@@ -1,0 +1,4 @@
+tap 'caskroom/cask'
+tap 'caskroom/fonts'
+cask 'font-hack'
+cask 'font-meslo-lg-for-powerline'
