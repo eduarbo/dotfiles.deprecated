@@ -82,7 +82,7 @@ values."
      (crypt :variables
             crypt-gpg-key "eduarbo@gmail.com")
      (notes :variables
-            notes-directory "~/Dropbox/notes/")
+            notes-directory "~/Google Drive/notes/")
      defaults
      )
    ;; List of additional packages that will be installed without being
