@@ -45,3 +45,10 @@ source_file $BREW_LOCATION/opt/chruby/share/chruby/chruby.sh
 # Enable auto-switching of Rubies specified by .ruby-version files
 source_file $BREW_LOCATION/opt/chruby/share/chruby/auto.sh
 # type_exists chruby && test "$(chruby | grep ruby)" && chruby ruby
+
+####################################################################################
+# TheFuck                                                                          #
+####################################################################################
+if type_exists 'thefuck'; then
+  eval "$(thefuck --alias)"
+fi
