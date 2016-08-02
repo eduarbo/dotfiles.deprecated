@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 # Set path for custom preferences
-defaults write com.googlecode.iterm2 PrefsCustomFolder ~/.dotfiles/iterm
+defaults write com.googlecode.iterm2 PrefsCustomFolder ~/Library/Preferences
 defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder 1

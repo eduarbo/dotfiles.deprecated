@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-rm ~/Library/Preferences/com.googlecode.iterm2.plist
-#defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder 0
