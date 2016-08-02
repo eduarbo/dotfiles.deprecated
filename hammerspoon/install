@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+defaults write org.hammerspoon.Hammerspoon '{
+    MJShowDockIconKey = 0;
+    MJShowMenuIconKey = 0;
+    MJSkipDockMenuIconProblemAlertKey = 1;
+}'
+
