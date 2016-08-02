@@ -1,0 +1,3 @@
+tap 'koekeishiya/kwm'
+# Only restart when installing or upgrading kwm
+brew 'kwm', restart_service: :changed
