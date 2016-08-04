@@ -10,61 +10,6 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ####################################################################################
 # # List of packages                                                               #
 ####################################################################################
-formulae=(
-  'stow'
-  'git'
-  'coreutils' # GNU core utilities
-  'openssl' # Remember to run `brew link openssl --force`
-  'd-bus' # Required to compile Emacs from src
-
-  'python'
-  'python3'
-  'chruby'
-  'ruby-install'
-  'ruby-build'
-  'go'
-  'lua'
-  'nvm'
-  'ctags'
-  'fzf'
-  'moreutils'
-  'findutils'
-  'bash bash-completion'
-  'zsh-completions'
-  'zsh-syntax-highlighting'
-  'zsh-history-substring-search'
-  'fish'
-  'tmux'
-  'reattach-to-user-namespace'
-  'emacs --with-cocoa --with-imagemagick --with-gnutls --with-librsvg'
-  'macvim --HEAD --with-cscope --with-lua --with-luajit --with-override-system-vim'
-
-  # Install more recent versions of some OS X tools.
-  'homebrew/dupes/grep'
-  'homebrew/dupes/openssh'
-
-  'ag'
-  'pandoc'
-  'gnu-sed --with-default-names'
-  'wget --with-iri'
-  'rsync --default-names'
-  'dark-mode'
-  'ffmpeg'
-  'git-lfs'
-  'gtypist'
-  'mercurial'
-  'pgcli'
-  'selecta'
-  'libsass'
-  'sassc'
-  'cppcheck'
-  'shellcheck'
-  'checkbashisms'
-  'screenfetch'
-  'ispell'
-  'trash'
-)
-
 gems=(
   sqlint
   pg_query
@@ -106,55 +51,6 @@ pip_packages=(
   yapf
 )
 
-
-####################################################################################
-# # Install Homebrew Formulae                                                      #
-####################################################################################
-e_header "Updating Homebrew..."
-# Use the latest version of Homebrew
-brew update
-[[ $? ]] && e_success "Done"
-
-e_header "Updating any existing Homebrew formulae..."
-# Upgrade any already-installed formulae
-brew upgrade --all
-[[ $? ]] && e_success "Done"
-
-brew tap homebrew/dupes
-brew tap homebrew/versions
-
-e_header "Installing Homebrew formulae..."
-for index in ${!formulae[*]}; do
-  _pkg=${formulae[$index]}
-  eval "brew install $_pkg"
-done
-
-# Remove outdated versions from the Cellar
-brew cleanup
-# Link recently installed applications
-brew linkapps
-e_success "Done"
-
-
-####################################################################################
-# Set up installed brew packages                                                   #
-####################################################################################
-setup_shell() {
-  _shell=$1
-  _sh_path="$(which ${_shell})"
-
-  # Check if $_shell is added in /etc/shells otherwise add it
-  if [ -z $(grep /${_shell}$ /etc/shells | tail -1) ]; then
-    echo
-    e_header "Adding ${_sh_path} to /etc/shells (so that chsh will consider it a 'safe' shell)..."
-    echo ${_sh_path} | sudo tee -a /etc/shells > /dev/null
-  fi
-}
-
-e_header "Set up installed brew packages..."
-
-# Bash
-setup_shell bash
 
 # Zsh
 setup_shell zsh

@@ -152,6 +152,11 @@ sudo pmset -a sms 0
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
 ###############################################################################
+# global mouse tracking speed (1...5)
+defaults write NSGlobalDomain com.apple.mouse.scaling -float 5
+
+# global trackpad tracking speed (1...5)
+defaults write NSGlobalDomain com.apple.trackpad.scaling -int 3
 
 # Trackpad: enable tap to click for this user and for the login screen
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
@@ -184,7 +189,6 @@ defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
-#!! mine was 2
 defaults write NSGlobalDomain KeyRepeat -int 0
 
 # Set a shorter Delay until key repeat
