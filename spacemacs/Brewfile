@@ -1,4 +1,10 @@
-brew 'd12frosted/emacs-plus/emacs-plus', args: ['with-cocoa', 'with-gnutls', 'with-librsvg', 'with-imagemagick', 'with-spacemacs-icon']
+brew 'd12frosted/emacs-plus/emacs-plus',
+     args: [
+     'with-cocoa',
+     'with-gnutls',
+     'with-librsvg',
+     'with-imagemagick',
+     'with-spacemacs-icon']
 brew 'pandoc'
 brew 'ispell'
 brew 'trash'
