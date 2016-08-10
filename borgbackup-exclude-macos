@@ -1,0 +1,86 @@
+# List of excluded files taken from:
+# - https://bombich.com/kb/ccc4/some-files-and-folders-are-automatically-excluded-from-backup-task
+# - http://www.immortalfiles.com/exclude-mac-os-x-system-cache-log-and-deleted-files.html
+
+# Users files
+sh:/Users/*/.cache
+sh:/Users/*/Downloads/
+sh:/Users/*/Dropbox
+sh:/Users/*/Google Drive
+sh:/Users/*/Library/Calendars/Calendar Cache
+sh:/Users/*/Library/Developer/Xcode/DerivedData
+sh:/Users/*/Library/Logs/
+sh:/Users/*/Movies/
+sh:/Users/*/Music/
+sh:/Users/*/Pictures/
+sh:/Users/*/TV Shows/
+sh:/Users/*/Videos/
+sh:/Users/*/VirtualBox VMs/
+sh:/Users/*/Documents
+sh:/Users/*/.shh
+
+# Large datastores that are erased on startup
+/private/var/vm/
+/private/var/tmp/
+/private/tmp/
+/cores
+
+# Dynamically-generated devices
+# They are dynamically created every time you start the machine
+/Volumes/
+/dev/
+/automount
+/Network
+/.vol/*
+/net
+
+# Filesystem implementation details
+/.HFS+ Private Directory Data*
+/lost+found
+*/Network Trash Folder
+
+# Volume-specific preferences
+*/.metadata_never_index
+*/.metadata_never_index_unless_rootfs
+/.com.apple.timemachine.donotpresent
+*/.VolumeIcon.icns
+/System/Library/CoreServices/.disk_label*
+/TheVolumeSettingsFolder
+
+# Time Machine backups
+/Backups.backupdb
+/.MobileBackups
+/.MobileBackups.trash
+/.MobileBackups.trash
+
+# Corrupted iCloud Local Storage
+*/Library/Mobile Documents.*
+*/.webtmp
+
+# Trash
+*/.Trash
+*/.Trashes
+
+# Apple-proprietary data stores and Cache files
+sh:**/Caches
+*/.DocumentRevisions-V100*
+*/.Spotlight-V100
+*/.fseventsd
+/.file
+/.hotfiles.btree
+/Library/Logs
+/Users/Shared/adi
+/afs/
+/private/tftpboot/
+/private/var/backups/
+/private/var/db/BootCaches
+/private/var/db/crls/
+/private/var/db/dhcpclient/
+/private/var/db/dyld/dyld_*
+/private/var/db/systemstats/
+/private/var/folders/
+/private/var/log/
+/private/var/run/
+/private/var/spool/postfix/
+/private/var/spool/qmaster
+*.old
