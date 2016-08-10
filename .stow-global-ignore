@@ -9,5 +9,8 @@
 ^/README.*
 ^/LICENSE.*
 ^/COPYING
+^/TODO
 
-^/karabiner-import.sh
+^/Brewfile
+^/install
+^/uninstall
