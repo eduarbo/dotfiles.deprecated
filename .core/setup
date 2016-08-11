@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+DOT="$HOME/.dotfiles"
+DOT_TARBALL_PATH="https://github.com/eduarbo/dotfiles/tarball/master"
+DOT_GIT_REMOTE="git@github.com:eduarbo/dotfiles.git"
+
+# # Functions                                                                      #
+####################################################################################
+install_homebrew () {
+  # Check for Homebrew
+  if ! type_exists 'brew'; then
+    e_header "Installing Homebrew..."
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+    brew analytics off
+
+    e_header "Updating Homebrew..."
+    brew update
+    brew doctor
+
+    brew tap "homebrew/bundle"
+  fi
+}
+
+# Install latest git version
+install_git () {
+  if ! type_exists 'git'; then
+    e_header "Installing latest Git version..."
+    brew install git
+  fi
+}
+
+# Install Stow to link config files
+install_stow () {
+  if ! type_exists 'stow'; then
+    e_header "Installing Stow..."
+    brew install stow
+  fi
+}
+
+setup_dotfiles() {
+  # If missing, download and extract the dotfiles repository
+  if [[ ! -d $DOT ]]; then
+    printf "$(tput setaf 7)Downloading dotfiles...\033[m\n"
+    mkdir "${DOT}"
+    # Get the tarball
+    curl -fsSLo "${HOME}/dotfiles.tar.gz" "${DOT_TARBALL_PATH}"
+    # Extract to the dotfiles directory
+    tar -zxf "${HOME}/dotfiles.tar.gz" --strip-components 1 -C "${DOT}"
+    # Remove the tarball
+    rm -rf "${HOME}/dotfiles.tar.gz"
+  fi
+}
+
+setup_dotfiles_repo() {
+  # Check if current directory is a repo
+  if ! $(git rev-parse --is-inside-work-tree &> /dev/null); then
+    e_header "Initializing git repository..."
+    git init
+    git remote add origin $DOT_GIT_REMOTE
+    git fetch origin master
+    # Reset the index and working tree to the fetched HEAD
+    # (submodules are cloned in the subsequent sync step)
+    git reset --hard FETCH_HEAD
+    # Remove any untracked files
+    git clean -fd
+  fi
+
+  # sync with the remote repository
+  e_header "Syncing dotfiles..."
+  # Pull down the latest changes
+  git pull --rebase origin master
+}
+
+setup() {
+  setup_dotfiles
+  # cd $DOT
+  source "$DOT/bash/lib/utils"
+  install_homebrew
+  install_git
+  install_stow
+  # setup_dotfiles_repo
+}
+
+setup
