@@ -1,0 +1,113 @@
+# List of excluded files taken from:
+# - https://bombich.com/kb/ccc4/some-files-and-folders-are-automatically-excluded-from-backup-task
+# - http://www.immortalfiles.com/exclude-mac-os-x-system-cache-log-and-deleted-files.html
+
+# Large datastores that are erased on startup
+/private/var/vm/
+/private/var/tmp/
+/private/tmp/
+/cores/
+
+# Dynamically-generated devices
+# They are dynamically created every time you start the machine
+/Volumes/
+/dev/
+/automount/
+/Network/
+/tmp/
+/.vol/
+/net/
+
+# Filesystem implementation details
+/.HFS+ Private Directory Data*
+/lost+found
+*/Network Trash Folder
+
+# Volume-specific preferences
+*/.metadata_never_index
+*/.metadata_never_index_unless_rootfs
+/.com.apple.timemachine.donotpresent
+*/.VolumeIcon.icns
+/System/Library/CoreServices/.disk_label*
+/TheVolumeSettingsFolder
+
+# Time Machine backups
+/Backups.backupdb
+/.MobileBackups
+/.MobileBackups.trash
+/MobileBackups.trash
+
+# Corrupted iCloud Local Storage
+*/Library/Mobile Documents.*
+*/.webtmp
+
+# Trash
+*/.Trash
+*/.Trashes
+
+# Apple-proprietary data stores and Cache files
+sh:**/Caches
+/.DocumentRevisions-V100*
+/.Spotlight-V100
+/.fseventsd
+/.file
+/.hotfiles.btree
+/Library/Logs/
+/Users/Shared/adi
+/afs/
+/private/Network/
+/private/tftpboot/
+/private/var/automount/
+/private/var/backups/
+/private/var/db/BootCaches/
+/private/var/db/crls/
+/private/var/db/dhcpclient/
+/private/var/db/fseventsd/
+/private/var/db/dyld/dyld_*/
+/private/var/db/systemstats/
+/private/var/folders/
+/private/var/log/
+/private/var/run/
+/private/var/spool/postfix/
+/private/var/spool/cups/
+/private/var/spool/fax/
+/private/var/spool/uucp/
+/private/var/spool/qmaster/
+
+# More exclusions from /System/Library/CoreServices/backupd.bundle/Contents/Resources/StdExclusions.plist
+/.TemporaryItems
+/.com.apple.backupd.mvlist.plist
+/Desktop DB
+/Desktop DF
+/Network/Servers
+/Library/Updates
+/Previous Systems
+/Users/Shared/SC Info
+/Users/Guest
+/home
+/private/var/db/com.apple.backupd.backupVerification
+/private/var/db/efw_cache
+/private/var/db/Spotlight
+/private/var/db/Spotlight-V100
+/private/var/db/systemstats
+/private/var/lib/postfix/greylist.db
+
+# home
+*/.DS_Store
+sh:/Users/*/.cache
+sh:/Users/*/Downloads
+sh:/Users/*/Dropbox
+sh:/Users/*/Google Drive
+sh:/Users/*/Library/Application Support/SyncServices/data.version
+sh:/Users/*/Library/Application Support/Ubiquity
+sh:/Users/*/Library/Calendars/Calendar Cache
+sh:/Users/*/Library/Developer/Xcode/DerivedData
+sh:/Users/*/Library/Logs/
+sh:/Users/*/Library/Safari/HistoryIndex.sk
+sh:/Users/*/Library/Safari/Icons.db
+sh:/Users/*/Library/Safari/WebpageIcons.db
+sh:/Users/*/Movies/
+sh:/Users/*/Music/
+sh:/Users/*/TV Shows/
+sh:/Users/*/Videos/
+sh:/Users/*/VirtualBox VMs/
