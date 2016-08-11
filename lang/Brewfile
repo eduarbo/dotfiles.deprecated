@@ -1,0 +1,8 @@
+brew 'python'
+brew 'python3'
+brew 'ruby'
+brew 'chruby'
+brew 'go'
+brew 'lua'
+brew 'nvm'
+brew 'postgresql', restart_service: :changed
