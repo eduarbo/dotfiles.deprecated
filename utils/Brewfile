@@ -1,3 +1,11 @@
+brew 'coreutils'
+brew 'findutils', args: ['with-default-names']
+brew 'gnu-sed', args: ['with-default-names']
+brew 'grep', args: ['with-default-names']
+brew 'openssh'
+brew 'rsync'
+# Remember to: `brew unlink openssl && brew link openssl --overwrite --force`
+brew 'openssl'
 brew 'mvtools'
 brew 'ffms2'
 brew 'subliminal'	# Subtitles everywhere
@@ -15,88 +23,5 @@ brew 'tree'	# shows the file system in a more graphical way
 brew 'screenfetch'
 brew 'archey'
 brew 'android-platform-tools'
-brew 'mas'
-brew 'ffmpeg',
-     args: [
-     'with-dcadec',
-     'with-faac',
-     'with-fdk-aac',
-     'with-ffplay',
-     'with-fontconfig',
-     'with-freetype',
-     'with-frei0r',
-     'with-lame',
-     'with-libass',
-     'with-libbluray',
-     'with-libbs2b',
-     'with-libcaca',
-     'with-libsoxr',
-     'with-libssh',
-     'with-libvidstab',
-     'with-libvorbis',
-     'with-libvpx',
-     'with-opencore-amr',
-     'with-openh264',
-     'with-openjpeg',
-     'with-openssl',
-     'with-opus',
-     'with-pkg-config',
-     'with-qtkit',
-     'with-rtmpdump',
-     'with-rubberband',
-     'with-schroedinger',
-     'with-sdl',
-     'with-snappy',
-     'with-speex',
-     'with-texi2html',
-     'with-theora',
-     'with-tools',
-     'with-webp',
-     'with-x264',
-     'with-x265',
-     'with-xvid',
-     'with-yasm',
-     'with-zeromq',
-     'with-zimg']
-tap 'mpv-player/mpv'
-brew 'mpv', args: ['with-bundle', 'with-vapoursynth']
-
-cask 'betterzipql'
-cask 'qlcolorcode'
-cask 'qlimagesize'
-cask 'qlprettypatch'
-cask 'qlmarkdown'
-cask 'qlstephen'
-cask 'quicklook-json'
-
-cask 'adobe-reader'
-cask 'android-file-transfer'
-cask 'appcleaner'
 cask 'borgbackup'
-cask 'calibre'
-cask 'colorsnapper'
-cask 'dropbox'
-cask 'flux'
-cask 'google-chrome'
-cask 'google-hangouts'
-cask 'grandperspective'
-cask 'handbrake'
-cask 'java'
-cask 'jdownloader'
-cask 'keycastr'
-cask 'licecap'
-cask 'omnidisksweeper'
 cask 'caskroom/versions/osxfuse-beta'
-cask 'silverlight'
-cask 'skype'
-cask 'spotify'
-cask 'sshfs'
-cask 'the-unarchiver'
-cask 'transmission'
-cask 'unetbootin'
-cask 'virtualbox'
-cask 'vlc'
-cask 'wireshark'
-cask 'menubar-countdown'
-cask 'torbrowser'
-cask 'adobe-photoshop-lightroom'
