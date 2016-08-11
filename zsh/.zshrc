@@ -15,5 +15,4 @@ source_file $HOME/.zshrc.local
 # zsh-syntax-highlighting.zsh needs to be sourced at the end
 if [ "$HAS_BREW" ]; then
   source_file ${BREW_LOCATION}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  source_file ${BREW_LOCATION}/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
 fi

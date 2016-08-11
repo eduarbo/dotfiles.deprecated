@@ -2,9 +2,8 @@
 # This file is sourced by all instances of Zsh, and thus, it should be kept as
 # small as possible and should only define environment variables.
 
-source $DOT/zsh/lib/utils
-
 export DOT=$HOME/.dotfiles
+source $DOT/zsh/lib/utils
 
 if [[ "$OSTYPE" == darwin* ]]; then
   export BROWSER='open'
