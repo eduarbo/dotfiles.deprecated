@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-source $DOT/zsh/lib/aliases
+source $DOT/bash/lib/aliases
 source $DOT/zsh/lib/colors
 source $DOT/zsh/lib/history
 source $DOT/zsh/lib/options
