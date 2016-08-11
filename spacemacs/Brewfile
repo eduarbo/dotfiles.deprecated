@@ -9,6 +9,15 @@ brew 'pandoc'
 brew 'ispell'
 brew 'trash'
 brew 'ctags'
+# Langs
+brew 'python'
+brew 'python3'
+brew 'ruby'
+brew 'chruby'
+brew 'go'
+brew 'lua'
+brew 'nvm'
+brew 'postgresql', restart_service: :changed
 # linters
 brew 'cppcheck'
 brew 'shellcheck'
