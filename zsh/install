@@ -1,6 +1,7 @@
+#!/usr/bin/env bash
+source "$HOME/.dotfiles/bash/lib/utils"
 _zsh_path="$(which zsh)"
 
-echo
 # set default shell if it's not already done
 if [[ $SHELL =~ zsh ]]; then
   e_header "You are already running a zsh shell. There is nothig more to do"
