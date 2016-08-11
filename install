@@ -2,30 +2,49 @@
 
 source "$DOT/bash/lib/utils"
 
+stow_pkg() {
+  LINKS=$(stow -d $DOT -t $HOME -nv --adopt $1 2>&1 | sed '$d')
+
+  if [[ -n "$LINKS" ]]; then
+    e_warning "Warning: The following files may be overwriten"
+    echo "$LINKS"
+    seek_confirmation "Are you sure want to continue?"
+
+    if is_confirmed; then
+      echo "==> Starting symlink of $1 dotfiles"
+      stow -d $DOT -t $HOME --adopt $1
+      git checkout $DOT/$1
+      stow -R $1
+    else
+      printf "Aborting installation of package $1...\n"
+    fi
+  fi
+}
+
+brew_bundle() {
+  if [[ -f "$package_path/Brewfile" ]]; then
+    echo "==> Starting installation of dependencies"
+    brew bundle --file=$package_path/Brewfile
+  fi
+}
+
 setup_pkg() {
-  stow -d $DOT -t $HOME --adopt $1
-  git checkout $DOT/$1
-  stow -R $1
+  if [[ -f "$package_path/setup" ]]; then
+    echo "==> Starting set up of $1 package"
+    bash $package_path/setup
+  fi
 }
 
 install() {
   package_path=$DOT/$1
   if [[ -d $package_path ]]; then
-    e_header "Installing $1..."
+    e_header "Installing $1 package..."
 
+    stow_pkg $1
+    brew_bundle $1
     setup_pkg $1
 
-    if [[ -f "$package_path/Brewfile" ]]; then
-      echo "Installing dependencies... "
-      brew bundle --file=$package_path/Brewfile
-    fi
-
-    if [[ -f "$package_path/setup" ]]; then
-      echo "Setting up $1... "
-      bash $package_path/setup
-    fi
-
-    e_success "$1 installed successfully"
+    e_success "$1 package installed successfully"
   else
     e_error "'$1' package was not found"
   fi
@@ -33,15 +52,18 @@ install() {
 
 install_macos_defaults() {
   # Ask before potentially overwriting MacOS defaults
-  echo
-  seek_confirmation "Warning: This step may modify your MacOs system defaults."
+  if [ ! -f $DOT/.macosdefaultsinstalled ]; then
+    seek_confirmation "Do you want to install MacOS defaults?.
+  Warning: This step may modify your MacOS system defaults."
 
-  if is_confirmed; then
-    bash $DOT/bin/macosdefaults
-    touch $DOT/.macosdefaultsinstalled
-    e_success "MacOS settings updated! You may need to restart."
-  else
-    printf "Skipped MacOS settings update."
+    if is_confirmed; then
+      echo
+      bash $DOT/bin/macosdefaults
+      touch $DOT/.macosdefaultsinstalled
+      e_success "MacOS settings updated! You may need to restart."
+    else
+      printf "Skipped MacOS settings update."
+    fi
   fi
 }
 
@@ -53,21 +75,8 @@ if [[ $# -eq 0 ]]; then
 fi
 
 # Ask before potentially overwriting files
-seek_confirmation "Warning: This step may overwrite some of your existing dotfiles."
-
-if is_confirmed; then
-  for package in "$@"; do
-    install $package
-  done
-  e_success "Dotfiles update complete!"
-
-  if [ ! -f $DOT/.macosdefaultsinstalled ]; then
-    seek_confirmation "Do you want to install MacOS defaults?"
-    if is_confirmed; then
-      install_macos_defaults
-    fi
-  fi
-else
-  printf "Aborting...\n"
-  exit 0
-fi
+for package in "$@"; do
+  install $package
+done
+e_success "Dotfiles update complete!"
+install_macos_defaults
