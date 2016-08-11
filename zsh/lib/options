@@ -38,3 +38,10 @@ unsetopt nomatch
 
 autoload colors; colors;
 export LSCOLORS="Gxfxcxdxbxegedabagacad"
+
+# When Ctrl-w treat slashes, dots and few other things as delimiters too
+autoload -U select-word-style
+select-word-style bash
+
+# Do not override existing file. To override file use >| instead of >
+setopt NOCLOBBER

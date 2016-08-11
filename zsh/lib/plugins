@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "$HOME/.dotfiles/lib/init-gpg-agent"
+source "$DOT/zsh/lib/init-gpg-agent"
 
 # # force 256-color gruvbox palette
 # # https://github.com/morhetz/gruvbox-generalized/tree/master/iterm2
