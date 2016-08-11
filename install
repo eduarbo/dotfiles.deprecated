@@ -11,13 +11,23 @@ setup_pkg() {
 install() {
   package_path=$DOT/$1
   if [[ -d $package_path ]]; then
-    e_header "Installing $1... "
+    e_header "Installing $1..."
+
     setup_pkg $1
-    brew bundle --file=$package_path/Brewfile
-    [[ -f "$package_path/setup" ]] && bash $package_path/setup
-    e_success "Done"
+
+    if [[ -f "$package_path/Brewfile" ]]; then
+      e_header "Installing $1 dependencies... "
+      brew bundle --file=$package_path/Brewfile
+    fi
+
+    if [[ -f "$package_path/setup" ]]; then
+      e_header "Installing $1 dependencies... "
+      bash $package_path/setup
+    fi
+
+    e_success "$1 installed successfully"
   else
-    e_error "$1 package does not exist"
+    e_error "Could not find $1"
   fi
 }
 
