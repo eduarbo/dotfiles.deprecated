@@ -3,8 +3,8 @@
 source "$DOT/bash/lib/utils"
 
 setup_pkg() {
-  stow --adopt $1
-  git checkout -- .
+  stow -d $DOT -t $HOME --adopt $1
+  git checkout $DOT/$1
   stow -R $1
 }
 
@@ -21,7 +21,7 @@ install() {
     fi
 
     if [[ -f "$package_path/setup" ]]; then
-      e_header "Installing $1 dependencies... "
+      echo "Installing $1 dependencies... "
       bash $package_path/setup
     fi
 
@@ -46,11 +46,10 @@ install_macos_defaults() {
 }
 
 # Basic setup
-./.core/setup
-setup_pkg .core
+install .core
 
-if [ -z $1 ]; then
-  exit
+if [[ $# -eq 0 ]]; then
+  exit 0
 fi
 
 # Ask before potentially overwriting files
@@ -70,5 +69,5 @@ if is_confirmed; then
   fi
 else
   printf "Aborting...\n"
-  exit
+  exit 1
 fi
