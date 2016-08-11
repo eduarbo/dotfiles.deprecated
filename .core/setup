@@ -4,8 +4,6 @@ DOT="$HOME/.dotfiles"
 DOT_TARBALL_PATH="https://github.com/eduarbo/dotfiles/tarball/master"
 DOT_GIT_REMOTE="git@github.com:eduarbo/dotfiles.git"
 
-# # Functions                                                                      #
-####################################################################################
 install_homebrew () {
   # Check for Homebrew
   if ! type_exists 'brew'; then
@@ -17,9 +15,14 @@ install_homebrew () {
     e_header "Updating Homebrew..."
     brew update
     brew doctor
-
-    brew tap "homebrew/bundle"
   fi
+}
+
+install_taps () {
+  brew tap 'homebrew/bundle'
+  brew tap 'caskroom/cask'
+  brew tap 'homebrew/core'
+  brew tap 'homebrew/dupes'
 }
 
 # Install latest git version
@@ -72,14 +75,10 @@ setup_dotfiles_repo() {
   git pull --rebase origin master
 }
 
-setup() {
-  setup_dotfiles
-  # cd $DOT
-  source "$DOT/bash/lib/utils"
-  install_homebrew
-  install_git
-  install_stow
-  # setup_dotfiles_repo
-}
-
-setup
+setup_dotfiles
+source "$DOT/bash/lib/utils"
+install_homebrew
+install_taps
+install_git
+install_stow
+setup_dotfiles_repo
