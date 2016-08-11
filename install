@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+source "$DOT/bash/lib/utils"
+
+setup_pkg() {
+  stow --adopt $1
+  git checkout -- .
+  stow -R $1
+}
+
+install() {
+  package_path=$DOT/$1
+  if [[ -d $package_path ]]; then
+    e_header "Installing $1... "
+    # setup_pkg $1
+    brew bundle --file=$package_path/Brewfile
+    [[ -f "$package_path/install" ]] && bash $package_path/install
+    e_success "Done"
+  else
+    e_error "$1 package does not exist"
+  fi
+}
+
+install_macos_defaults() {
+  # Ask before potentially overwriting MacOS defaults
+  echo
+  seek_confirmation "Warning: This step may modify your MacOs system defaults."
+
+  if is_confirmed; then
+    bash $DOT/bin/macosdefaults
+    touch $DOT/.macosdefaultsinstalled
+    e_success "MacOS settings updated! You may need to restart."
+  else
+    printf "Skipped MacOS settings update."
+  fi
+}
+
+# Basic setup
+./.core/setup
+setup_pkg .core
+
+if [ -z $1 ]; then
+  exit
+fi
+
+# Ask before potentially overwriting files
+seek_confirmation "Warning: This step may overwrite some of your existing dotfiles."
+
+if is_confirmed; then
+  for package in "$@"; do
+    install $package
+  done
+  e_success "Dotfiles update complete!"
+
+  if [ ! -f $DOT/.macosdefaultsinstalled ]; then
+    seek_confirmation "Do you want to install MacOS defaults?"
+    if is_confirmed; then
+      install_macos_defaults
+    fi
+  fi
+else
+  printf "Aborting...\n"
+  exit
+fi
