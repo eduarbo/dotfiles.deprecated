@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-source "$HOME/.dotfiles/bash/lib/utils"
 _zsh_path="$(which zsh)"
 
 # set default shell if it's not already done
 if [[ $SHELL =~ zsh ]]; then
-  e_header "You are already running a zsh shell. There is nothig more to do"
+  echo "You are already running a zsh shell, Good for you!"
 else
-  e_header "It's time to change your default shell to $_shell..."
+  echo "It's time to change your default shell to $_shell..."
   chsh -s "${_zsh_path}" "$(whoami)"
-  e_header "Reloading shell to apply changes..."
+  echo "Reloading shell to apply changes..."
   exec $_zsh_path -l
 fi
