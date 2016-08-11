@@ -38,6 +38,7 @@ install_stow () {
   if ! type_exists 'stow'; then
     e_header "Installing Stow..."
     brew install stow
+    ln -sf $DOT/.stow-global-ignore $HOME
   fi
 }
 

@@ -46,7 +46,7 @@ install_macos_defaults() {
 }
 
 # Basic setup
-install .core
+bash $DOT/setup
 
 if [[ $# -eq 0 ]]; then
   exit 0
