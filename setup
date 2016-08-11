@@ -70,10 +70,13 @@ setup_dotfiles_repo() {
     git clean -fd
   fi
 
-  # sync with the remote repository
-  e_header "Syncing dotfiles..."
-  # Pull down the latest changes
-  git pull --rebase origin master
+  # Check if master branch is sync'd
+  if [ x"$(git rev-parse master)" != x"$(git rev-parse origin/master)" ]; then
+    # sync with the remote repository
+    e_header "Syncing dotfiles..."
+    # Pull down the latest changes
+    git pull --rebase origin master
+  fi
 }
 
 setup_dotfiles
