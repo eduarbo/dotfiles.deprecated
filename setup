@@ -16,9 +16,7 @@ install_homebrew () {
     brew update
     brew doctor
   fi
-}
 
-install_taps () {
   brew tap 'homebrew/bundle'
   brew tap 'caskroom/cask'
   brew tap 'homebrew/core'
@@ -29,7 +27,8 @@ install_taps () {
 install_git () {
   if ! type_exists 'git'; then
     e_header "Installing latest Git version..."
-    brew install git
+    # brew install git
+    trytoinstall git
   fi
 }
 
@@ -37,7 +36,7 @@ install_git () {
 install_stow () {
   if ! type_exists 'stow'; then
     e_header "Installing Stow..."
-    brew install stow
+    trytoinstall stow
     ln -sf $DOT/.stow-global-ignore $HOME
   fi
 }
@@ -81,8 +80,7 @@ setup_dotfiles_repo() {
 
 setup_dotfiles
 source "$DOT/bash/lib/utils"
-install_homebrew
-install_taps
+[[ $IS_MACOS ]] && install_homebrew
 install_git
 install_stow
 setup_dotfiles_repo

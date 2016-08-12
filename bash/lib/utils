@@ -86,3 +86,8 @@ case "$OSTYPE" in
   darwin*)  IS_MACOS=1 ;;
   linux*)   IS_LINUX=1 ;;
 esac
+
+trytoinstall {
+  brew install "$1" 2>/dev/null
+  pacman install -Sy --noconfirm "$1" 2>/dev/null
+}
