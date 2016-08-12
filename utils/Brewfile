@@ -23,5 +23,3 @@ brew 'tree'	# shows the file system in a more graphical way
 brew 'screenfetch'
 brew 'archey'
 brew 'android-platform-tools'
-cask 'borgbackup'
-cask 'caskroom/versions/osxfuse-beta'
