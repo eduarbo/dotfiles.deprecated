@@ -67,6 +67,7 @@ values."
      javascript
      lua
      markdown
+     nginx
      org
      pandoc
      (python :variables
