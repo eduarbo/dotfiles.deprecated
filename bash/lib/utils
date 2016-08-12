@@ -87,7 +87,7 @@ case "$OSTYPE" in
   linux*)   IS_LINUX=1 ;;
 esac
 
-trytoinstall {
+trytoinstall() {
   brew install "$1" 2>/dev/null
   pacman install -Sy --noconfirm "$1" 2>/dev/null
 }
