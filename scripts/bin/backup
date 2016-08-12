@@ -1,18 +1,47 @@
 #!/bin/sh
-REPOSITORY="eduarbo@192.168.0.10:backups/$(hostname)"
 
-# Backup all of /home and /var/www except a few
-# excluded directories
-borg create -v --stats --progress                \
-     $REPOSITORY::'{hostname}-{now:%Y-%m-%d}'    \
-     /                                           \
-     --exclude-from "~/.dotfiles/.backupignore"  \
-     --exclude-if-present ".EXCLUDE"             \
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+
+  cat <<EOT
+Usage: $(basename "$0") [OPTION ...] [PATH]
+
+Options:
+-h, --help           Print this help text
+
+Copyright (c) Eduardo Ruiz
+Licensed under the MIT license.
+EOT
+
+  exit
+fi
+
+EXCLUDEFILE="$DOT/backupignore"
+
+if [ -n "$1" ]; then
+  # use argument as prefix
+  PREFIX=$1
+else
+  # without arguments use hostname as prefix
+  PREFIX="$(hostname -s)"
+  case "$OSTYPE" in
+    darwin*) EXCLUDEFILE="$DOT/backupignore-macos" ;;
+    linux*) EXCLUDEFILE="$DOT/backupignore-linux" ;;
+  esac
+fi
+
+# Clean name
+PREFIX=$(basename `realpath $PREFIX` | tr ' ' - | tr [:upper:] [:lower:] | tr -d '.')
+
+borg create -v --stats --progress -x              \
+     "$BORG_REPO::$PREFIX-$(date +%y-%m-%d-$$)"  \
+     /                                            \
+     --exclude-from $EXCLUDEFILE                  \
+     --exclude-if-present '.EXCLUDE'              \
      -C lz4
 
 # Use the `prune` subcommand to maintain 7 daily, 4 weekly and 6 monthly
 # archives of THIS machine. The '{hostname}-' prefix is very important to
 # limit prune's operation to this machine's archives and not apply to
 # other machine's archives also.
-borg prune -v $REPOSITORY --prefix '{hostname}-' \
+borg prune -v $BORG_REPO --prefix "$PREFIX-" \
      --keep-daily=7 --keep-weekly=4 --keep-monthly=6

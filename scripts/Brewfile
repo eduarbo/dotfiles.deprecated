@@ -1,0 +1,2 @@
+cask 'borgbackup'
+cask 'caskroom/versions/osxfuse-beta'
