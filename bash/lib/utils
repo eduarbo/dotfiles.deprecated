@@ -81,3 +81,8 @@ elif [[ -n $BASH_VERSION ]]; then
   IS_BASH=1
   SHELL_NAME="bash"
 fi
+
+case "$OSTYPE" in
+  darwin*)  IS_MACOS=1 ;;
+  linux*)   IS_LINUX=1 ;;
+esac
