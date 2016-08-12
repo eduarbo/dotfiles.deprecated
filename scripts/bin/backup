@@ -24,8 +24,8 @@ else
   # without arguments use hostname as prefix
   PREFIX="$(hostname -s)"
   case "$OSTYPE" in
-    darwin*) EXCLUDEFILE="$DOT/backupignore-macos" ;;
-    linux*) EXCLUDEFILE="$DOT/backupignore-linux" ;;
+    darwin*) EXCLUDEFILE="$DOT/scripts/lib/backupignore-macos" ;;
+    linux*) EXCLUDEFILE="$DOT/scripts/lib/backupignore-linux" ;;
   esac
 fi
 
