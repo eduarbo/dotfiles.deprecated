@@ -88,6 +88,10 @@ case "$OSTYPE" in
 esac
 
 trytoinstall() {
-  brew install "$1" 2>/dev/null
-  pacman install -Sy --noconfirm "$1" 2>/dev/null
+  brew install "$1" 2>/dev/null ||
+    apt install -y "$1" 2>/dev/null ||
+    sudo apt install -y "$1" 2>/dev/null ||
+    sudo apt-get install -y "$1" 2>/dev/null ||
+    sudo pacman install -Sy --noconfirm "$1" 2>/dev/null &&
+    echo "$1 installation succeeded" || echo "$1 installation failed"
 }
