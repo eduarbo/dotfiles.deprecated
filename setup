@@ -23,21 +23,10 @@ install_homebrew () {
   brew tap 'homebrew/dupes'
 }
 
-# Install latest git version
-install_git () {
-  if ! type_exists 'git'; then
-    e_header "Installing latest Git version..."
-    # brew install git
-    trytoinstall git
-  fi
-}
-
-# Install Stow to link config files
-install_stow () {
-  if ! type_exists 'stow'; then
-    e_header "Installing Stow..."
-    trytoinstall stow
-    ln -sf $DOT/.stow-global-ignore $HOME
+install_pkg () {
+  if ! type_exists "$1"; then
+    e_header "Installing $1..."
+    trytoinstall "$1"
   fi
 }
 
@@ -81,6 +70,7 @@ setup_dotfiles_repo() {
 setup_dotfiles
 source "$DOT/bash/lib/utils"
 [[ $IS_MACOS ]] && install_homebrew
-install_git
-install_stow
+install_pkg git
+install_pkg stow
+ln -sf $DOT/.stow-global-ignore $HOME
 setup_dotfiles_repo
