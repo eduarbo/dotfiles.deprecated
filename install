@@ -22,9 +22,10 @@ stow_pkg() {
 }
 
 install_deps() {
-  if [[ -f "$package_path/Brewfile" ]]; then
+  deps="$package_path/deps"
+  if [[ -f "$deps" ]]; then
     echo "==> Starting installation of dependencies"
-    ponle --file "$package_path/deps"
+    ponle --file "$deps"
   fi
 }
 
