@@ -21,7 +21,7 @@ stow_pkg() {
   fi
 }
 
-brew_bundle() {
+install_deps() {
   if [[ -f "$package_path/Brewfile" ]]; then
     echo "==> Starting installation of dependencies"
     ponle --file "$package_path/deps"
