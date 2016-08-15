@@ -12,8 +12,7 @@ pupdate /usr/local/opt/go/libexec/bin
 pupdate $HOME/.cabal/bin
 pupdate $HOME/lib/sbt/bin
 pupdate $GOPATH/bin
-pupdate $DOT/bin
-pupdate $HOME/bin
+# pupdate $HOME/bin
 pupdate /usr/local/sbin
 
 export PATH
