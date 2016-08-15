@@ -100,5 +100,4 @@ fi
 for package in "$@"; do
   install $package
 done
-e_success "Dotfiles update complete!"
 install_macos_defaults
