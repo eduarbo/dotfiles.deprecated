@@ -34,8 +34,8 @@ the package.
 ** Credits
 Inspiration and some code was taken from many sources, including:
 
-- [@joedicastro](https://github.com/joedicastro/dotfiles)
-- [@mathiasbynens](https://github.com/mathiasbynens/dotfiles)
-- [@necolas](https://github.com/necolas/dotfiles)
-- [@sjl](https://bitbucket.org/sjl/dotfiles)
-- [Prezto](https://github.com/sorin-ionescu/prezto/)
+- [[https://github.com/joedicastro/dotfiles][@joedicastro]]
+- [[https://github.com/mathiasbynens/dotfiles][@mathiasbynens]]
+- [[https://github.com/necolas/dotfiles][@necolas]]
+- [[https://bitbucket.org/sjl/dotfiles][@sjl]]
+- [[https://github.com/sorin-ionescu/prezto/][Prezto]]
