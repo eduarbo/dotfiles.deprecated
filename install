@@ -24,7 +24,7 @@ stow_pkg() {
 brew_bundle() {
   if [[ -f "$package_path/Brewfile" ]]; then
     echo "==> Starting installation of dependencies"
-    brew bundle --file=$package_path/Brewfile
+    ponle --file "$package_path/deps"
   fi
 }
 
@@ -36,12 +36,13 @@ setup_pkg() {
 }
 
 install() {
-  package_path=$DOT/$1
+  package_path="$DOT/$1"
+
   if [[ -d $package_path ]]; then
     e_header "Installing $1 package..."
 
     stow_pkg $1
-    brew_bundle $1
+    install_deps $1
     setup_pkg $1
 
     e_success "$1 package installed successfully"

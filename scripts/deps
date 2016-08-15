@@ -1,0 +1,3 @@
+linux:borg
+macos:borgbackup
+macos:caskroom/versions/osxfuse-beta

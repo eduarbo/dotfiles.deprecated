@@ -1,3 +1,0 @@
-brew 'tmux'
-brew 'doxygen'
-brew 'reattach-to-user-namespace'

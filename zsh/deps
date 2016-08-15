@@ -1,0 +1,6 @@
+zsh
+zsh-completions
+zsh-syntax-highlighting
+zsh-history-substring-search
+macos:ag
+macos:fasd

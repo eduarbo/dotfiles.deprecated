@@ -1,0 +1,25 @@
+macos:d12frosted/emacs-plus/emacs-plus --with-cocoa --with-gnutls --with-librsvg --with-imagemagick --with-spacemacs-icon
+linux:emacs
+pandoc
+ispell
+macos:trash
+ctags
+python
+python3
+ruby
+chruby
+go
+lua
+nvm
+postgresql
+cppcheck
+shellcheck
+checkbashisms
+
+npm:eslint
+npm:babel-eslint
+npm:eslint-config-airbnb-base
+npm:eslint-config-react
+npm:eslint-plugin-react
+npm:eslint-plugin-import
+npm:tern

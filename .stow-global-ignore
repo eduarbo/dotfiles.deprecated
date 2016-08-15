@@ -11,6 +11,6 @@
 ^/COPYING
 ^/TODO
 
-^/Brewfile
+^/deps
 ^/setup
 ^/lib

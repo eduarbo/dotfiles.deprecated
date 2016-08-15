@@ -1,3 +1,0 @@
-brew 'vim', args:['HEAD', 'with-lua', 'with-luajit']
-brew 'fzf'
-

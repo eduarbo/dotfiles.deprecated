@@ -1,0 +1,3 @@
+linux:vim
+macos:vim --HEAD --with-lua --with-luajit
+macos:fzf

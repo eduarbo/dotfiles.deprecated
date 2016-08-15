@@ -1,6 +1,0 @@
-brew 'zsh'
-brew 'zsh-completions'
-brew 'zsh-syntax-highlighting'
-brew 'zsh-history-substring-search'
-brew 'ag'
-brew 'fasd'
