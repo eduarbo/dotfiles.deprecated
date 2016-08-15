@@ -96,7 +96,6 @@ if [[ $# -eq 0 ]]; then
   exit 0
 fi
 
-# Ask before potentially overwriting files
 for package in "$@"; do
   install $package
 done
