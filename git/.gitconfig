@@ -77,8 +77,6 @@
   trustExitCode = true
 [mergetool]
   keepBackup = false
-[remote "origin"]
-  prune = true
 [log]
   abbrevCommit = true
 [difftool]
