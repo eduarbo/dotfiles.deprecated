@@ -86,12 +86,3 @@ case "$OSTYPE" in
   darwin*)  IS_MACOS=1 ;;
   linux*)   IS_LINUX=1 ;;
 esac
-
-trytoinstall() {
-  brew install "$1" 2>/dev/null ||
-    apt install -y "$1" 2>/dev/null ||
-    sudo apt install -y "$1" 2>/dev/null ||
-    sudo apt-get install -y "$1" 2>/dev/null ||
-    sudo pacman install -Sy --noconfirm "$1" 2>/dev/null &&
-    e_success "$1 installation succeeded" || e_error "$1 installation failed"
-}

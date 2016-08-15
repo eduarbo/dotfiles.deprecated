@@ -23,13 +23,6 @@ install_homebrew () {
   brew tap 'homebrew/dupes'
 }
 
-install_pkg () {
-  if ! type_exists "$1"; then
-    e_header "Installing $1..."
-    trytoinstall "$1"
-  fi
-}
-
 setup_dotfiles() {
   # If missing, download and extract the dotfiles repository
   if [[ ! -d $DOT ]]; then
@@ -67,10 +60,26 @@ setup_dotfiles_repo() {
   fi
 }
 
+ponle() {
+  ponle="$HOME/bin/ponle"
+  if [[ ! -x "$ponle" ]]; then
+    e_header "Downloading ponle script..."
+    curl --create-dirs -o "$ponle" https://raw.githubusercontent.com/eduarbo/ponle/master/ponle
+    chmod +x "$ponle"
+  fi
+  $ponle "$@"
+}
+
+installpkg() {
+  if ! type_exists "$1"; then
+    e_header "Installing $1..."
+    ponle "$1"
+  fi
+}
+
 setup_dotfiles
 source "$DOT/bash/lib/utils"
-[[ $IS_MACOS ]] && install_homebrew
-install_pkg git
-install_pkg stow
+installpkg git
+installpkg stow
 ln -sf $DOT/.stow-global-ignore $HOME
 setup_dotfiles_repo
