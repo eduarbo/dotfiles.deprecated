@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+DOT="$HOME/.dotfiles"
 source "$DOT/bash/lib/utils"
 
 stow_pkg() {
@@ -69,8 +70,27 @@ install_macos_defaults() {
   fi
 }
 
+ponle() {
+  ponle="$HOME/bin/ponle"
+  if [[ ! -x "$ponle" ]]; then
+    e_header "Downloading ponle script..."
+    curl --create-dirs -o "$ponle" https://raw.githubusercontent.com/eduarbo/ponle/master/ponle
+    chmod +x "$ponle"
+  fi
+  $ponle "$@"
+}
+
+install_if_missing() {
+  if ! type_exists "$1"; then
+    e_header "Installing $1..."
+    ponle "$1"
+  fi
+}
+
 # Basic setup
-source "$DOT/setup"
+install_if_missing git
+install_if_missing stow
+ln -sf $DOT/.stow-global-ignore $HOME
 
 if [[ $# -eq 0 ]]; then
   exit 0
