@@ -31,6 +31,11 @@ the package.
 3) Install desired packages with the ~install~ script: ~./install zsh spacemacs
    vim gnupg~
 
+** Screenshots
+- [[http://i.imgur.com/l8huFzc.jpg]]
+- [[https://i.imgur.com/G5vCJPr.jpg]]
+- [[https://i.imgur.com/I7j7Cik.jpg]]
+
 ** Credits
 Inspiration and some code was taken from many sources, including:
 
