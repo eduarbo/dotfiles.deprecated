@@ -32,8 +32,10 @@ fi
 # Clean name
 PREFIX=$(basename `realpath $PREFIX` | tr ' ' - | tr [:upper:] [:lower:] | tr -d '.')
 
-borg create -v --stats --progress -x              \
-     "$BORG_REPO::$PREFIX-$(date +%y-%m-%d-$$)"  \
+# -E will preserve the environment
+# -s runs a command, defaults to a shell
+sudo -E borg create -v --stats --progress -x      \
+     "::$PREFIX-$(date +%y-%m-%d-$$)"             \
      /                                            \
      --exclude-from $EXCLUDEFILE                  \
      --exclude-if-present '.EXCLUDE'              \
