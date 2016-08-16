@@ -86,3 +86,8 @@ fi
 export NVM_DIR=${HOME}/.nvm
 
 source $DOT/bash/lib/path
+
+# Borg
+BORG_REPO="/media/nas/backups/bak"
+[[ $(hostname) != "lab" ]] && BORG_REPO="eduarbo@192.168.0.10:$BORG_REPO"
+export BORG_REPO
