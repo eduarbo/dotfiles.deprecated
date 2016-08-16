@@ -55,7 +55,12 @@ install() {
 
 install_macos_defaults() {
   # Ask before potentially overwriting MacOS defaults
-  if [ ! -f $DOT/.macosdefaultsinstalled ]; then
+  case $(uname) in
+    Darwin) ISMACOS=1 ;;
+    Linux) ISLINUX=1 ;;
+  esac
+
+  if [ ! -f $DOT/.macosdefaultsinstalled ] && [ $(uname) == Darwin ]; then
     seek_confirmation "Do you want to install MacOS defaults?.
   Warning: This step may modify your MacOS system defaults."
 
