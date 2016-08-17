@@ -1,49 +1,79 @@
 #!/usr/bin/env bash
+# backup - a CLI Bash script to backup my system or specific files with
+# borgbackup
 
-if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+# Copyright (c) 2016 Eduardo Ruiz Macias <eduarbo@gmail.com>
 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+usage() {
   cat <<EOT
-Usage: $(basename "$0") [OPTION ...] [PATH]
+Usage: $(basename "$0") [OPTIONS ...] [FILE ...]
 
 Options:
--h, --help           Print this help text
+-h           Print this help text
+-p PREFIX    Set the prefix for the borg archive name to "PREFIX".
+             The default value is the hostname.
+-s SUFFIX    Add a suffix to the borg archive name.
 
 Copyright (c) Eduardo Ruiz
-Licensed under the MIT license.
+Licensed under the GPL license.
 EOT
-
-  exit
-fi
+  exit 0
+}
 
 EXCLUDEFILE="$DOT/backupignore"
+BACKUPDIRS="/"
+# Use hostname as prefix and normalize name
+TIMESTAMP="$(date +%y-%m-%d-%H%M)"
+PREFIX=$(basename `realpath $(hostname -s)` | tr ' ' - | tr [:upper:] [:lower:] | tr -d '.')
+SUFFIX=
 
-if [ -n "$1" ]; then
-  # use argument as prefix
-  PREFIX=$1
-else
-  # without arguments use hostname as prefix
-  PREFIX="$(hostname -s)"
-  case "$OSTYPE" in
-    darwin*) EXCLUDEFILE="$DOT/scripts/lib/backupignore-macos" ;;
-    linux*) EXCLUDEFILE="$DOT/scripts/lib/backupignore-linux" ;;
+case "$(uname)" in
+  Darwin) EXCLUDEFILE="$DOT/scripts/lib/backupignore-macos" ;;
+  Linux) EXCLUDEFILE="$DOT/scripts/lib/backupignore-linux" ;;
+esac
+
+while getopts ":p:s:h" opt; do
+  case $opt in
+    h) usage ;;
+    p) PREFIX="$OPTARG" ;;
+    s) SUFFIX="$OPTARG" ;;
+    \?) echo "Invalid option: -$OPTARG" >&2 ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
   esac
+done
+
+shift "$((OPTIND-1))"
+
+if [[ $# -ne 0 ]]; then
+  BACKUPDIRS=("$@")
 fi
 
-# Clean name
-PREFIX=$(basename `realpath $PREFIX` | tr ' ' - | tr [:upper:] [:lower:] | tr -d '.')
+ARCHIVE="::$PREFIX-$TIMESTAMP"
+if [ -n "$SUFFIX" ]; then
+  ARCHIVE="$ARCHIVE-$SUFFIX"
+fi
 
 # -E will preserve the environment
-# -s runs a command, defaults to a shell
-sudo -E borg create -v --stats --progress -x      \
-     "::$PREFIX-$(date +%y-%m-%d-$$)"             \
-     /                                            \
-     --exclude-from $EXCLUDEFILE                  \
-     --exclude-if-present '.EXCLUDE'              \
-     -C lz4
+sudo -E borg create -vspx "$ARCHIVE" "${BACKUPDIRS[@]}" -C lz4 --exclude-from "$EXCLUDEFILE" --exclude-if-present '.EXCLUDE'
 
 # Use the `prune` subcommand to maintain 7 daily, 4 weekly and 6 monthly
 # archives of THIS machine. The '{hostname}-' prefix is very important to
 # limit prune's operation to this machine's archives and not apply to
 # other machine's archives also.
-borg prune -v $BORG_REPO --prefix "$PREFIX-" \
-     --keep-daily=7 --keep-weekly=4 --keep-monthly=6
+borg prune -v $BORG_REPO --prefix "$PREFIX-" --keep-daily=7 --keep-weekly=4 --keep-monthly=6
