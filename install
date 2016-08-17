@@ -79,7 +79,8 @@ ponle() {
   ponle="$HOME/bin/ponle"
   if [[ ! -x "$ponle" ]]; then
     e_header "Downloading ponle script..."
-    curl --create-dirs -o "$ponle" https://raw.githubusercontent.com/eduarbo/ponle/master/ponle
+    curl --create-dirs -o "$ponle" -H "Cache-Control: no-cache" \
+         https://raw.githubusercontent.com/eduarbo/ponle/master/ponle
     chmod +x "$ponle"
   fi
   $ponle "$@"
