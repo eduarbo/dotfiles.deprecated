@@ -1,3 +1,2 @@
-linux:borg
-macos:caskroom/cask/borgbackup
+borgbackup
 macos:caskroom/versions/osxfuse-beta
