@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Install Tmux Plugin Manager and plugins
+$HOME/.tmux/plugins/tpm/bin/install_plugins
