@@ -235,6 +235,7 @@ xmap <leader>c <Plug>Commentary
 
 augroup plugin_commentary
   au!
+  set commentstring=#\ %s
   au FileType clojurescript setlocal commentstring=;\ %s
   au FileType puppet,tmux setlocal commentstring=#\ %s
 augroup END
