@@ -51,8 +51,6 @@ export GREP_COLOR='1;32'
 export CLICOLOR=true
 export LSCOLORS=ExGxFxdxCxDxDxBxBxExEx
 
-[[ -z "$DISPLAY" ]] && export DISPLAY=":0.0"
-
 
 ####################################################################################
 # Plugins                                                                          #
