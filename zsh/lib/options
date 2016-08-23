@@ -45,3 +45,5 @@ select-word-style bash
 
 # Do not override existing file. To override file use >| instead of >
 setopt NOCLOBBER
+# prevents the current line from being saved if it begins with a space
+setopt histignorespace
