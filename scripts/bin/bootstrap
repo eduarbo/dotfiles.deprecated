@@ -11,14 +11,6 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # # List of packages                                                               #
 ####################################################################################
 gems=(
-  sqlint
-  pg_query
-  tmuxinator
-  pry
-  pry-doc
-  ruby_parser
-  rubocop
-  lolcat
 )
 
 node_packages=(
@@ -28,27 +20,13 @@ node_packages=(
   gulp-sass
   jsctags
   complete
-  express
-  js-beautify
-  eslint
-  babel-eslint
-  eslint-config-airbnb-base
-  eslint-config-react
-  eslint-plugin-react
-  eslint-plugin-import
-  tern
   # elm # Use the official installer for now as there are issues with elm-reactor in
   # OS X. See: https://github.com/kevva/elm-bin/issues/28
   elm-oracle
   # Not sure if eslint covers json files
-  jsonlint
 )
 
 pip_packages=(
-  virtualenv
-  flake8
-  ipython
-  yapf
 )
 
 

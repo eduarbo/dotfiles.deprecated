@@ -1,8 +1,8 @@
-macos:d12frosted/emacs-plus/emacs-plus --with-cocoa --with-gnutls --with-librsvg --with-imagemagick --with-spacemacs-icon
 linux:emacs
+macos:d12frosted/emacs-plus/emacs-plus --with-cocoa --with-gnutls --with-librsvg --with-imagemagick --with-spacemacs-icon
+macos:trash
 pandoc
 ispell
-macos:trash
 ctags
 python
 python3
@@ -16,6 +16,12 @@ cppcheck
 shellcheck
 checkbashisms
 
+gem:sqlint
+gem:pry
+gem:pry-doc
+gem:ruby_parser
+gem:rubocop
+
 npm:eslint
 npm:babel-eslint
 npm:eslint-config-airbnb-base
@@ -23,3 +29,10 @@ npm:eslint-config-react
 npm:eslint-plugin-react
 npm:eslint-plugin-import
 npm:tern
+npm:js-beautify
+npm:jsonlint
+
+pip:virtualenv
+pip:flake8
+pip:ipython
+pip:yapf
