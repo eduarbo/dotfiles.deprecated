@@ -1,2 +1,3 @@
 linux:xclip
-macos:tmux
+tmux
+tmuxinator
