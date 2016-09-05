@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<workflow>
-  <name>StrongPassword</name>
-  <version>1.4</version>
-  <bundle>com.vitorgalvao.alfred.strongpassword</bundle>
-  <updated>1436809815</updated>
-  <file>strongpassword.alfredworkflow</file>
-</workflow>
