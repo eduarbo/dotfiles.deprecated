@@ -96,13 +96,14 @@ install_if_missing() {
 setup_pip() {
   install_if_missing python
   install_if_missing python3
-  pip install --upgrade pip setuptools
+  # Upgrade pip and setuptools
+  ponle pip:pip pip:setuptools
 }
 
 setup_npm() {
+  source_file $BREW_LOCATION/opt/nvm/nvm.sh
   install_if_missing nvm
   [[ ! -d "$HOME/.nvm" ]] && mkdir ~/.nvm
-  source_file $BREW_LOCATION/opt/nvm/nvm.sh
 
   if ! type_exists 'npm'; then
     e_header "Installing Node..."
@@ -113,6 +114,7 @@ setup_npm() {
 }
 
 setup_gem() {
+  source_file $BREW_LOCATION/opt/chruby/share/chruby/chruby.sh
   install_if_missing chruby
   install_if_missing ruby-install
 
@@ -121,7 +123,7 @@ setup_gem() {
     e_error "Error: ruby-install not found."
   else
     # Check for rubies in Chruby RUBIES paths or install latest ruby
-    if [[ ! "$(chruby | grep ruby)" ]]; then
+    if [[ ! $(chruby | grep ruby) ]]; then
       e_header "Installing latest Ruby..."
       ruby-install --no-reinstall ruby
     fi
