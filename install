@@ -121,9 +121,9 @@ setup_gem() {
     e_error "Error: ruby-install not found."
   else
     # Check for rubies in Chruby RUBIES paths or install latest ruby
-    if ! [ "$(chruby | grep ruby)" ]; then
+    if [[ ! "$(chruby | grep ruby)" ]]; then
       e_header "Installing latest Ruby..."
-      ruby-install ruby
+      ruby-install --no-reinstall ruby
     fi
 
     # Pick latest ruby version installed
