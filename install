@@ -93,9 +93,60 @@ install_if_missing() {
   fi
 }
 
+setup_pip() {
+  install_if_missing python
+  install_if_missing python3
+  pip install --upgrade pip setuptools
+}
+
+setup_npm() {
+  install_if_missing nvm
+  [[ ! -d "$HOME/.nvm" ]] && mkdir ~/.nvm
+  source_file $BREW_LOCATION/opt/nvm/nvm.sh
+
+  if ! type_exists 'npm'; then
+    e_header "Installing Node..."
+    nvm install node
+    nvm use node
+    nvm alias default node
+  fi
+}
+
+setup_gem() {
+  install_if_missing chruby
+  install_if_missing ruby-install
+
+  # Install gems only if chruby and ruby-install are installed
+  if ! type_exists 'ruby-install'; then
+    e_error "Error: ruby-install not found."
+  else
+    # Check for rubies in Chruby RUBIES paths or install latest ruby
+    if ! [ "$(chruby | grep ruby)" ]; then
+      e_header "Installing latest Ruby..."
+      ruby-install ruby
+    fi
+
+    # Pick latest ruby version installed
+    source_file $BREW_LOCATION/opt/chruby/share/chruby/chruby.sh
+    chruby ruby
+  fi
+}
+
+e_warning "Some commands (like 'apt') need to be run with elevated privileges.
+Let's ask for sudo upfront"
+
+# Ask for the administrator password upfront.
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until the script has finished.
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
 # Basic setup
 install_if_missing git
 install_if_missing stow
+setup_pip
+setup_npm
+setup_gem
 ln -sf $DOT/.stow-global-ignore $HOME
 
 if [[ $# -eq 0 ]]; then

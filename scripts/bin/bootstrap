@@ -14,16 +14,6 @@ gems=(
 )
 
 node_packages=(
-  bower
-  gulp
-  gulp-util
-  gulp-sass
-  jsctags
-  complete
-  # elm # Use the official installer for now as there are issues with elm-reactor in
-  # OS X. See: https://github.com/kevva/elm-bin/issues/28
-  elm-oracle
-  # Not sure if eslint covers json files
 )
 
 pip_packages=(

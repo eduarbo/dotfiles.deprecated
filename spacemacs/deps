@@ -4,10 +4,6 @@ macos:trash
 pandoc
 ispell
 ctags
-python
-python3
-ruby
-chruby
 go
 lua
 nvm
@@ -21,6 +17,10 @@ gem:pry
 gem:pry-doc
 gem:ruby_parser
 gem:rubocop
+
+# Use the official installer for now as there are issues with elm-reactor in
+# macOS. See: https://github.com/kevva/elm-bin/issues/28
+# npm:elm-orace
 
 npm:eslint
 npm:babel-eslint
