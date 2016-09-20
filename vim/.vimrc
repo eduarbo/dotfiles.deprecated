@@ -21,10 +21,6 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-" Dependencies                                                              {{{2
-Plug 'xolox/vim-misc', {'for': ['python', 'c', 'cpp', 'javascript']}
-" }}}
-
 " File Finders                                                              {{{2
 let ctrlP_opts = {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
 Plug 'ctrlpvim/ctrlp.vim', ctrlP_opts                                     " {{{3
@@ -298,7 +294,6 @@ omap <silent> iE <Plug>CamelCaseMotion_ie
 xmap <silent> iE <Plug>CamelCaseMotion_ie
 " }}}
 
-Plug 'xolox/vim-easytags', {'for': ['python', 'c', 'cpp', 'javascript']}
 Plug 'terryma/vim-expand-region'
 Plug 'rstacruz/vim-closer'
 Plug 'tpope/vim-surround'
