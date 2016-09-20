@@ -76,6 +76,7 @@ values."
      ruby
      shell-scripts
      sql
+     typescript
      vagrant
      yaml
 
