@@ -440,7 +440,6 @@ let g:go_highlight_structs = 1
 " prevent "vim-go" from showing a quickfix window when |g:go_fmt_command| fails
 let g:go_fmt_fail_silently = 1
 " }}}
-Plug 'tejr/vim-tmux'
 Plug 'tpope/vim-git'
 Plug 'lambdatoast/elm.vim'
 
