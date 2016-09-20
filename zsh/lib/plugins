@@ -33,7 +33,11 @@ unset fasd_cache
 ####################################################################################
 # FZF                                                                              #
 ####################################################################################
+
+# Auto-completion
 [[ $- == *i* ]] && source_file ${BREW_LOCATION}/opt/fzf/shell/completion.${SHELL_NAME}
+
+# Key bindings
 source_file ${BREW_LOCATION}/opt/fzf/shell/key-bindings.${SHELL_NAME}
 
 
