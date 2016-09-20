@@ -161,19 +161,20 @@ command! FZFMru call fzf#run({
       \   'down':    '30%'
       \ })
 
-if fn#InTmuxSession()
-  " Checking that we are in a tmux session because FZF opens in a tmux pane
-  " Let's overwrite CtrlP mapping if we are in Tmux, otherwise it will open
-  " terminal window
-  nnoremap <leader>, :FZF<CR>
-  nnoremap <leader>m :FZFMru<CR>
-  nnoremap <silent> <Leader>b :call fzf#run({
-        \   'source':  reverse(<sid>buflist()),
-        \   'sink':    function('<sid>bufopen'),
-        \   'options': '+m',
-        \   'down':    len(<sid>buflist()) + 2
-        \ })<CR>
-endif
+" FIXME functino doesn't exist
+" if fn#InTmuxSession()
+"   " Checking that we are in a tmux session because FZF opens in a tmux pane
+"   " Let's overwrite CtrlP mapping if we are in Tmux, otherwise it will open
+"   " terminal window
+"   nnoremap <leader>, :FZF<CR>
+"   nnoremap <leader>m :FZFMru<CR>
+"   nnoremap <silent> <Leader>b :call fzf#run({
+"         \   'source':  reverse(<sid>buflist()),
+"         \   'sink':    function('<sid>bufopen'),
+"         \   'options': '+m',
+"         \   'down':    len(<sid>buflist()) + 2
+"         \ })<CR>
+" endif
 " }}}
 Plug 'Shougo/neomru.vim'
 " }}}
@@ -1284,16 +1285,17 @@ colorscheme gruvbox
 " Keep same color as linenumber column
 
 " Override template's colors
-call fn#HL('Folded', ['#7c6f64', 243])
-call fn#HL('Comment', ['#665c54', 241])
-call fn#HL('LineNr', ['#3c3836', 237], ['#1d2021', 234])
-call fn#HL('TabLineSel', ['#fabd2f', 214], ['#1d2021', 234], 'bold,')
-call fn#HL('jsonCommentError', ['#fabd2f', 167])
-call fn#HL('helpExample', ['#a89984', 246])
-call fn#HL('StatusLine', ['#fabd2f', 214])
-call fn#HL('StatusLineNC', ['#3c3836', 237])
-call fn#HL('VertSplit', ['#3c3836', 237])
-call fn#HL('ColorColumn', ['NONE', 'NONE'], ['#282828', 235])
+" TODO update fn names
+" call fn#HL('Folded', ['#7c6f64', 243])
+" call fn#HL('Comment', ['#665c54', 241])
+" call fn#HL('LineNr', ['#3c3836', 237], ['#1d2021', 234])
+" call fn#HL('TabLineSel', ['#fabd2f', 214], ['#1d2021', 234], 'bold,')
+" call fn#HL('jsonCommentError', ['#fabd2f', 167])
+" call fn#HL('helpExample', ['#a89984', 246])
+" call fn#HL('StatusLine', ['#fabd2f', 214])
+" call fn#HL('StatusLineNC', ['#3c3836', 237])
+" call fn#HL('VertSplit', ['#3c3836', 237])
+" call fn#HL('ColorColumn', ['NONE', 'NONE'], ['#282828', 235])
 " Setting background past textwidth characters
 
 let &colorcolumn=join(range(81,999),",")
