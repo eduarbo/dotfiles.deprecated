@@ -6,7 +6,6 @@ ispell
 ctags
 go
 lua
-nvm
 postgresql
 cppcheck
 shellcheck
