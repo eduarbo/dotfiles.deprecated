@@ -93,28 +93,34 @@ nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>m :CtrlPMRUFiles<cr>
 " }}}
 
-let nerdTree_opts = {'on': ['NERDTreeToggle', 'NERDTreeFind']}
-Plug 'scrooloose/nerdtree', nerdTree_opts                                 " {{{3
-" Open the project tree and expose current file in the nerdtree with ,N
-nnoremap <Leader>N :NERDTreeFind<CR>
-noremap  <leader>n :NERDTreeToggle<cr>
+  " Map CTRL-R to reload the Dirvish buffer.
+  au FileType dirvish nnoremap <buffer> <C-R> :<C-U>Dirvish %<CR>
+" Wrappers for most used UNIX commands
+Plug 'tpope/vim-eunuch'
 
-let NERDTreeStatusline="%{getcwd()}"
-let NERDTreeHighlightCursorline = 1
-let NERDTreeIgnore = ['\~$', '.*\.pyc$']
-
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDChristmasTree = 1
-let NERDTreeChDirMode = 2
-let NERDTreeMapJumpFirstChild = 'gK'
-
-augroup ps_nerdtree
+let dirvish_opts = {'on': ['Dirvish']}
+Plug 'justinmk/vim-dirvish', dirvish_opts                                " {{{3
+nnoremap <Leader>N :Dirvish<CR>
+augroup ps_dirvish
   au!
+  au FileType dirvish nnoremap <buffer> v
+        \ :vsp <C-R>=fnameescape(getline('.'))<CR><CR>
+  au FileType dirvish nnoremap <buffer> s
+        \ :sp <C-R>=fnameescape(getline('.'))<CR><CR>
 
-  au Filetype nerdtree setlocal nolist
-  au Filetype nerdtree nnoremap <buffer> H :vertical resize -10<cr>
-  au Filetype nerdtree nnoremap <buffer> L :vertical resize +10<cr>
+  " Map t to "open in new tab".
+  au FileType dirvish
+        \  nnoremap <buffer> t :call dirvish#open('tabedit', 0)<CR>
+        \ |xnoremap <buffer> t :call dirvish#open('tabedit', 0)<CR>
+
+  " Enable :Gstatus and friends.
+  au FileType dirvish call fugitive#detect(@%)
+
+
+  " Map `gh` to hide dot-prefixed files.
+  " To "toggle" this, just press `R` to reload.
+  au FileType dirvish nnoremap <buffer>
+        \ gh :keeppatterns g@\v/\.[^\/]+/?$@d<cr>
 augroup END
 " }}}
 
@@ -125,7 +131,7 @@ vmap <leader>a <Plug>CtrlSFVwordPath
 nmap <leader>a <Plug>CtrlSFCwordPath
 nmap <leader>A :CtrlSFToggle<CR>
 vmap <leader>A :CtrlSFToggle<CR>
-noremap <localleader>a :CtrlSF 
+noremap <localleader>a :CtrlSF
 
 let g:ctrlsf_mapping = {
     \ "quit": "",
@@ -396,6 +402,10 @@ Plug 'airblade/vim-gitgutter'                                             " {{{3
 let g:gitgutter_map_keys = 0
 nmap [h <Plug>GitGutterPrevHunk
 nmap ]h <Plug>GitGutterNextHunk
+
+nmap <Leader>hs <Plug>GitGutterStageHunk
+nmap <Leader>hu <Plug>GitGutterUndoHunk
+nmap <Leader>hp <Plug>GitGutterPreviewHunk
 " }}}
 
 Plug 'christoomey/vim-tmux-navigator'
@@ -407,7 +417,7 @@ Plug 'kshenoy/vim-signature'
 
 let scratch_opts = {'on': [
       \'Scratch', 'ScratchInsert', 'ScratchPreview', 'ScratchSelection',
-      \'<Plug>(scratch-insert-reuse)', '<Plug>(scratch-insert-clear)', 
+      \'<Plug>(scratch-insert-reuse)', '<Plug>(scratch-insert-clear)',
       \'<Plug>(scratch-selection-reuse)', '<Plug>(scratch-selection-clear)'
       \ ]}
 Plug 'mtth/scratch.vim', scratch_opts                                     " {{{3
@@ -499,7 +509,7 @@ let g:js_indent_flat_switch = 1
 " }}}
 Plug 'heavenshell/vim-jsdoc'
 " supports latest language features
-Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' } 
+Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' }
 Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
 
@@ -1014,7 +1024,6 @@ nnoremap <leader>` mzggg?G`z
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 
-" teseasdf asfd sadf asdfasdfasdf asdfas dfasdfsadfasdfasdfsdf sdfasdf sadf asdf asdf asfd sad fas dfa sdf asdf 
 " Formatting, TextMate-style
 vnoremap <silent> <Plug>FormatSelection gq
       \:call repeat#set("\<Plug>FormatSelection")<CR>
