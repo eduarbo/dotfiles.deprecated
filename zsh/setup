@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
-_zsh_path="$(which zsh)"
+_zsh_path="$(command -v zsh)"
 
 # set default shell if it's not already done
 if [[ $SHELL =~ zsh ]]; then
   echo "You are already running a zsh shell, Good for you!"
 else
+  if [[ -z $(cat "/etc/shells" | grep "${_zsh_path}") ]]; then
+    # Add zsh to shells if it's not there
+    echo "${_zsh_path}" | sudo tee -a /etc/shells
+  fi
+
   echo "It's time to change your default shell to $_shell..."
   chsh -s "${_zsh_path}" "$(whoami)"
   echo "Reloading shell to apply changes..."
