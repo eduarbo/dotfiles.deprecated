@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# Clean preferences
+/Applications/Karabiner.app/Contents/Library/bin/karabiner \
+     be_careful_to_use__clear_all_values_by_name \
+     "Default Profile"
+
+cli=/usr/local/bin/karabiner
+
+$cli set private.f19_to_delete 1
+/bin/echo -n .
+$cli set private.mega_hjkl_to_left_down_up_right 1
+/bin/echo -n .
+$cli set private.mega_to_command_shift_brackets 1
+/bin/echo -n .
+$cli set private.option_L_to_mega 1
+/bin/echo -n .
+$cli set private.option_R_to_mega 1
+/bin/echo -n .
+$cli set private.shifts_to_parens 1
+/bin/echo -n .
+$cli set remap.command_to_command_brackets 1
+/bin/echo -n .
+$cli set remap.space_to_control 1
+/bin/echo -n .
+$cli set repeat.initial_wait 333
+/bin/echo -n .
+/bin/echo

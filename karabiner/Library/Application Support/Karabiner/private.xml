@@ -119,7 +119,7 @@
   </item>
 
   <item>
-    <name>Command keys to Command</name>
+    <name>Command keys to Brackets ({})</name>
     <appendix>(+ When you type Command_R only, send Bracket_Right)</appendix>
     <appendix>(+ When you type Command_L only, send Bracket_Left)</appendix>
 
