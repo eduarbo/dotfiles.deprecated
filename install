@@ -66,7 +66,7 @@ install_macos_defaults() {
 
     if is_confirmed; then
       echo
-      bash $DOT/bin/macosdefaults
+      bash $DOT/scripts/bin/macosdefaults
       touch $DOT/.macosdefaultsinstalled
       e_success "MacOS settings updated! You may need to restart."
     else
