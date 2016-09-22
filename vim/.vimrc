@@ -5,8 +5,8 @@
 " Preamble                                                                  {{{1
 filetype off
 
-let mapleader = " "
-let maplocalleader = ","
+let g:mapleader = " "
+let g:maplocalleader = ","
 
 let s:ag = executable('ag')
 " }}}
@@ -25,8 +25,9 @@ call plug#begin('~/.vim/plugged')
 " Wrappers for most used UNIX commands
 Plug 'tpope/vim-eunuch'
 
-let dirvish_opts = {'on': ['Dirvish']}
-Plug 'justinmk/vim-dirvish', dirvish_opts                                 " {{{3
+Plug 'justinmk/vim-dirvish', {
+      \ 'on': ['Dirvish']
+      \ }                                                                 " {{{3
 nnoremap <Leader>N :Dirvish<CR>
 augroup ps_dirvish
   au!
@@ -53,9 +54,12 @@ augroup ps_dirvish
 augroup END
 " }}}
 
-let ctrlsf_opts = {'on': ['<Plug>CtrlSFVwordPath', '<Plug>CtrlSFCwordPath',
-      \'CtrlSFToggle', 'CtrlSF']}
-Plug 'dyng/ctrlsf.vim', ctrlsf_opts                                       " {{{3
+Plug 'dyng/ctrlsf.vim', { 'on': [
+      \ '<Plug>CtrlSFVwordPath',
+      \ '<Plug>CtrlSFCwordPath',
+      \ 'CtrlSFToggle',
+      \ 'CtrlSF'
+      \ ]}                                                                " {{{3
 vmap <leader>a <Plug>CtrlSFVwordPath
 nmap <leader>a <Plug>CtrlSFCwordPath
 nmap <leader>A :CtrlSFToggle<CR>
@@ -125,8 +129,7 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
 "
 Plug 'ervandew/supertab'
 
-let ycm_opts = {'do': './install.py --clang-completer'}
-" Plug 'Valloric/YouCompleteMe', ycm_opts                                 " {{{3
+Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}   " {{{3
 
 let g:ycm_auto_trigger = 1
 let g:ycm_min_num_of_chars_for_completion = 2
@@ -237,8 +240,7 @@ Plug 'tpope/vim-endwise'
 
 " Productivity                                                              {{{2
 
-let linediff_opts = {'on': ['Linediff', 'LinediffReset']}
-Plug 'AndrewRadev/linediff.vim', linediff_opts                            " {{{3
+Plug 'AndrewRadev/linediff.vim', {'on': ['Linediff', 'LinediffReset']}    " {{{3
 vnoremap <leader>d :Linediff<cr>
 nnoremap <leader>D :LinediffReset<cr>
 " }}}
@@ -344,12 +346,11 @@ Plug 'tpope/vim-repeat'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'kshenoy/vim-signature'
 
-let scratch_opts = {'on': [
+Plug 'mtth/scratch.vim', {'on': [
       \'Scratch', 'ScratchInsert', 'ScratchPreview', 'ScratchSelection',
       \'<Plug>(scratch-insert-reuse)', '<Plug>(scratch-insert-clear)',
       \'<Plug>(scratch-selection-reuse)', '<Plug>(scratch-selection-clear)'
-      \ ]}
-Plug 'mtth/scratch.vim', scratch_opts                                     " {{{3
+      \ ]}                                                                " {{{3
 let g:scratch_horizontal = 0
 let g:scratch_top = 0
 let g:scratch_height = 80
@@ -415,8 +416,7 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'tpope/vim-haml'
 
 " Javascript
-let jsbeautify_opts = {'do': 'npm install -g js-beautify'}
-Plug 'maksimr/vim-jsbeautify', jsbeautify_opts                            " {{{3
+Plug 'maksimr/vim-jsbeautify', {'do': 'npm install -g js-beautify'}       " {{{3
 augroup ft_jsbeautify
   au!
   autocmd FileType javascript nnoremap <buffer>  <localleader>= :call JsBeautify()<cr>
