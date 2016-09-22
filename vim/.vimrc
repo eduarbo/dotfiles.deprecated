@@ -112,8 +112,9 @@ Plug 'Shougo/neomru.vim'
 " }}}
 
 " General Code                                                              {{{2
-Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'                                                   " {{{3
+" vim-snippets depends on ultisnips
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'                       " {{{3
+
 " remap Ultisnips for compatibility for YCM
 let g:UltiSnipsExpandTrigger = '<C-j>'
 let g:UltiSnipsJumpForwardTrigger = '<C-j>'
