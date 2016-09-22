@@ -4,5 +4,7 @@ cli=/Applications/Seil.app/Contents/Library/bin/seil
 
 $cli set enable_capslock 1
 /bin/echo -n .
+$cli set keycode_capslock 80
+/bin/echo -n .
 
 echo 'Do not forget to change Caps Lock configuration to "No Action" in "System Preferences > Keyboard > Modifier Keys..."'
