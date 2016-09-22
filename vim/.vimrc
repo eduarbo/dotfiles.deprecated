@@ -709,6 +709,9 @@ if executable('ag')
   command! -nargs=+ -bang Ag silent! grep <args> | redraw! | botright copen
 endif
 
+" :set encoding should be described before :scriptencoding, otherwise Vim can
+" not recognize the character code of your vimrc
+set encoding=utf-8
 scriptencoding utf-8
 
 set modeline
@@ -736,7 +739,6 @@ set splitbelow
 set splitright
 set iskeyword+=-
 set fillchars=diff:⣿,vert:┃,stl:━,stlnc:━     " Customize text for closed folds
-" set fillchars=diff:⣿,vert:│,stl:-,stlnc:     " Customize text for closed folds
 set autowrite
 set autoread                    " Reload files changed outside vim
 set shiftround                  " When at 3 spaces, and I hit > ... go to 4, not 5
@@ -745,9 +747,12 @@ set linebreak
 set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
 set pastetoggle=<F2>            " Use it for pasting large amounts of text into Vim, disabling all kinds of smartness and just pasting a whole buffer of text
-set ssop-=options    " do not store global and local values in a session
-set ssop-=folds      " do not store folds
+set ssop-=options               " do not store global and local values in a session
+set ssop-=folds                 " do not store folds
 set nocursorline
+set display+=lastline           " Show partially hidden wrapped lines
+set tabpagemax=50
+set sessionoptions-=options
 set statusline=
 " set statusline+=━
 
@@ -775,7 +780,7 @@ set synmaxcol=255
 " Basically this makes terminal Vim work sanely.
 set notimeout
 set ttimeout
-set ttimeoutlen=10
+set ttimeoutlen=100
 
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
@@ -834,6 +839,10 @@ set formatoptions=qrn1
 if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j " Delete comment character when joining commented lines
 endif
+
+if !empty(&viminfo)
+  set viminfo^=!
+endif
 " }}}
 
 " Backups                                                                   {{{2
@@ -883,9 +892,6 @@ iabbrev lmis ಠ‿ಠ
 " }}}
 
 " Convenience mappings                                                      {{{1
-" Better than jj
-inoremap jk <Esc>
-
 " Terminal sends Nul when C-space is pressed
 noremap <C-space> <Nul>
 
