@@ -22,75 +22,6 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " File Finders                                                              {{{2
-" let ctrlP_opts = {'on': ['CtrlPTag', 'CtrlPBuffer', 'CtrlPMRUFiles', 'CtrlP']}
-" Plug 'ctrlpvim/ctrlp.vim', ctrlP_opts                                     " {{{3
-" let g:ctrlp_dont_split = 'NERD_tree_2'
-" let g:ctrlp_jump_to_buffer = 0
-" let g:ctrlp_working_path_mode = 0
-" let g:ctrlp_match_window_reversed = 1
-" let g:ctrlp_split_window = 0
-" let g:ctrlp_max_height = 20
-" let g:ctrlp_extensions = ['tag']
-" let g:ctrlp_map = ''
-" let g:ctrlp_custom_ignore = 'static'
-
-" let g:ctrlp_prompt_mappings = {
-"       \ 'PrtSelectMove("j")':   ['<c-j>', '<down>', '<s-tab>'],
-"       \ 'PrtSelectMove("k")':   ['<c-k>', '<up>', '<tab>'],
-"       \ 'PrtHistory(-1)':       ['<c-n>'],
-"       \ 'PrtHistory(1)':        ['<c-p>'],
-"       \ 'ToggleFocus()':        ['<c-space>'],
-"       \ }
-
-" let ctrlp_filter_greps = "".
-"       \ "egrep -iv '\\.(" .
-"       \ "jar|class|swp|swo|log|so|o|pyc|jpe?g|png|gif|mo|po" .
-"       \ ")$' | " .
-"       \ "egrep -v '^(\\./)?(" .
-"       \ ".git/|.hg/|.svn/" .
-"       \ ")'"
-
-" let my_ctrlp_user_command = "" .
-"       \ "find %s '(' -type f -or -type l ')' -maxdepth 15 -not -path '*/\\.*/*' | " .
-"       \ ctrlp_filter_greps
-
-" let my_ctrlp_hg_command = "hg --cwd %s locate -I ."
-
-" let my_ctrlp_git_command = "" .
-"       \ "cd %s && git ls-files --exclude-standard -co | " .
-"       \ ctrlp_filter_greps
-
-" let my_ctrlp_ag_command = 'ag %s -l --nocolor -g "" | ' . ctrlp_filter_greps
-
-" " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-" if s:ag
-"   " Use Ag over Grep
-"   set grepprg="ag --nogroup --nocolor"
-
-"   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-"   let my_ctrlp_user_command = my_ctrlp_ag_command
-
-"   " ag is fast enough that CtrlP doesn't need to cache
-"   let g:ctrlp_use_caching = 0
-" endif
-
-" " Multiple VCS's:
-" let g:ctrlp_user_command = {
-"       \ 'types': {
-"       \ 1: ['.git', my_ctrlp_git_command],
-"       \ 2: ['.hg', my_ctrlp_hg_command],
-"       \ },
-"       \ 'fallback': my_ctrlp_user_command
-"       \ }
-
-" nnoremap <leader>, :CtrlP<cr>
-" nnoremap <leader>. :CtrlPTag<cr>
-" nnoremap <leader>b :CtrlPBuffer<cr>
-" nnoremap <leader>m :CtrlPMRUFiles<cr>
-" " }}}
-
-  " Map CTRL-R to reload the Dirvish buffer.
-  au FileType dirvish nnoremap <buffer> <C-R> :<C-U>Dirvish %<CR>
 " Wrappers for most used UNIX commands
 Plug 'tpope/vim-eunuch'
 
@@ -112,11 +43,13 @@ augroup ps_dirvish
   " Enable :Gstatus and friends.
   au FileType dirvish call fugitive#detect(@%)
 
-
   " Map `gh` to hide dot-prefixed files.
   " To "toggle" this, just press `R` to reload.
   au FileType dirvish nnoremap <buffer>
         \ gh :keeppatterns g@\v/\.[^\/]+/?$@d<cr>
+
+  " Map CTRL-R to reload the Dirvish buffer.
+  au FileType dirvish nnoremap <buffer> <C-R> :<C-U>Dirvish %<CR>
 augroup END
 " }}}
 
