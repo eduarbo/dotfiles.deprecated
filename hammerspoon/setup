@@ -5,4 +5,3 @@ defaults write org.hammerspoon.Hammerspoon '{
     MJShowMenuIconKey = 0;
     MJSkipDockMenuIconProblemAlertKey = 1;
 }'
-
