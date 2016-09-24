@@ -1121,9 +1121,6 @@ noremap k gk
 noremap gj j
 noremap gk k
 
-" this allows all window commands in insert mode and i'm not accidentally deleting words anymore :-)
-inoremap <C-w> <C-o><C-w>
-
 noremap - <C-w>-
 noremap + <C-w>+
 
