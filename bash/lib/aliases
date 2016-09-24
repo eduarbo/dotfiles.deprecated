@@ -45,7 +45,7 @@ alias ef='v ~/.config/fish/config.fish'
 alias eg='v ~/.gitconfig'
 alias ej='v ~/.jshintrc'
 alias et='v ~/.tmux.conf'
-alias ev='v ~/.vimrc'
+alias ev='v ~/.vim/vimrc'
 alias todo="v ~/todo.md"
 alias etp="v ~/tp.md"
 
