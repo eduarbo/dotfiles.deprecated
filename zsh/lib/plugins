@@ -4,7 +4,7 @@ source "$DOT/zsh/lib/init-gpg-agent"
 
 # # force 256-color gruvbox palette
 # # https://github.com/morhetz/gruvbox-generalized/tree/master/iterm2
-# source_file "$HOME/.dotfiles/vim/plugged/gruvbox/gruvbox_256palette_osx.sh"
+# source_file "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh"
 
 
 ####################################################################################
