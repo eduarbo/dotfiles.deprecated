@@ -65,7 +65,7 @@ function! fn#GenerateUnicodeTable(first, last)    " {{{
   " Description: Generates a table of Unicode characters from `a:first` to
   " `a:last` and prints it in a new vertical buffer
   " Eg:
-  "   :call GenerateUnicodeTable(0xf000, 0xffff)
+  "   :call fn#GenerateUnicodeTable(0xf000, 0xffff)
 
   vnew
   vertical resize 58
@@ -105,7 +105,8 @@ function! fn#MyFoldText()                         " {{{
   let maxlen = windowwidth - len(foldedlinecount) - 9
   let line = strpart(line, 0, maxlen)
   let fillcharcount = maxlen - len(line)
-  return line . " \uf470 " . repeat(" ",fillcharcount) . ' ' . foldedlinecount . ' lines'
+  return line . " •••" . repeat(" ",fillcharcount) . ' ' . foldedlinecount . ' lines'
+
 endfunction " }}}
 
 function! fn#HL(group, fg, ...)                   " {{{
