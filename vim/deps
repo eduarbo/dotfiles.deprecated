@@ -1,3 +1,5 @@
 linux:vim
 macos:vim --HEAD --with-lua --with-luajit
+macos:neovim/neovim/neovim --HEAD
 macos:fzf
+pip:neovim
