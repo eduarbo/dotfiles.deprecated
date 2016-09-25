@@ -28,7 +28,8 @@ Plug 'tpope/vim-eunuch'
 Plug 'justinmk/vim-dirvish', {
       \ 'on': ['Dirvish']
       \ }                                                                 " {{{3
-nnoremap <Leader>N :Dirvish<CR>
+nnoremap <Leader>n :Dirvish<CR>
+nnoremap <Leader>N :Dirvish %<CR>
 augroup ps_dirvish
   au!
   au FileType dirvish nnoremap <buffer> v
