@@ -192,17 +192,23 @@ let g:neomake_c_enabled_makers = ['gcc', 'clang-tidy']
 let g:neomake_cpp_enabled_makers = ['g++', 'clang-tidy']
 
 let g:neomake_error_sign = {
-      \ 'text': ' ',
-      \ 'texthl': 'WarningMsg'
+      \ 'text': ' ',
+      \ 'texthl': 'NeomakeErrorSign'
       \ }
 
 let g:neomake_warning_sign = {
       \ 'text': '',
-      \ 'texthl': 'ModeMsg'
+      \ 'texthl': 'NeomakeWarningSign'
       \ }
 
 let g:neomake_message_sign = {
-      \ 'text': ''
+      \ 'text': '',
+      \ 'texthl': 'NeomakeMessageSign'
+      \ }
+
+let g:neomake_info_sign = {
+      \ 'text': 'ℹ',
+      \ 'texthl': 'NeomakeInfoSign'
       \ }
 
 au! BufWritePost * Neomake
@@ -456,7 +462,7 @@ let g:airline_theme='tomorrow'
 let g:airline_section_z = '%3P '
 let g:airline#extensions#default#layout = [
       \ [ 'a', 'b', 'c' ],
-      \ [ 'x', 'z', 'error' ]
+      \ [ 'x', 'z', 'error', 'warning' ]
       \ ]
 "}}}
 Plug 'morhetz/gruvbox' "{{{
