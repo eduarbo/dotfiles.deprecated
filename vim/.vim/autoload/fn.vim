@@ -1,4 +1,4 @@
-function! fn#ToggleStatement(statement)           " {{{
+function! fn#ToggleStatement(statement)                                   " {{{
   " Description: Adds desired text if current line is different than text,
   " otherwise it removes the line. Useful to add breakpoints
 
@@ -13,7 +13,7 @@ function! fn#ToggleStatement(statement)           " {{{
   endif
 endfunction "}}}
 
-function! fn#CycleCommand(cmd, onReach)           " {{{
+function! fn#CycleCommand(cmd, onReach)                                   " {{{
   " Description: Cycle through commands to call `a:onReach` when error 'E553 No
   " more items' is given by command `a:cmd`. Useful for some QuickFix and
   " Location-list commands to jump to the top when last error in QuickFix is
@@ -28,7 +28,7 @@ function! fn#CycleCommand(cmd, onReach)           " {{{
   endtry
 endfunction "}}}
 
-function! fn#ZoomToggle()                         " {{{
+function! fn#ZoomToggle()                                                 " {{{
   " Description: Maximize current window or restore previous size of all
   " windows.
   " Source: Taken from BenC's answer at on Stack Overflow at
@@ -45,13 +45,13 @@ function! fn#ZoomToggle()                         " {{{
   endif
 endfunction "}}}
 
-function! fn#GoogleIt(query)                      " {{{
+function! fn#GoogleIt(query)                                              " {{{
   " Description: Search `a:query` into Google.com
 
   silent! exec 'silent! !open "https://www.google.com/search?q=' . a:query . '"'
 endfunction "}}}
 
-function! fn#SynStack()                           " {{{
+function! fn#SynStack()                                                   " {{{
   " Description: Show syntax highlighting groups for word under cursor
   " Source: Taken from someone's dotfiles... Don't remmeber who :(
 
@@ -59,9 +59,9 @@ function! fn#SynStack()                           " {{{
     return
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc "}}}
+endfunction "}}}
 
-function! fn#GenerateUnicodeTable(first, last)    " {{{
+function! fn#GenerateUnicodeTable(first, last)                            " {{{
   " Description: Generates a table of Unicode characters from `a:first` to
   " `a:last` and prints it in a new vertical buffer
   " Eg:
@@ -85,13 +85,13 @@ function! fn#GenerateUnicodeTable(first, last)    " {{{
   endwhile
 endfunction "}}}
 
-function! fn#InTmuxSession()                      " {{{
+function! fn#InTmuxSession()                                              " {{{
   " Description: Check if Vim was loaded in Tmux
 
   return !has('gui_running') && $TMUX != ''
 endfunction "}}}
 
-function! fn#MyFoldText()                         " {{{
+function! fn#MyFoldText()                                                 " {{{
   let line = getline(v:foldstart)
 
   let nucolwidth = &fdc + &number * &numberwidth
@@ -107,9 +107,45 @@ function! fn#MyFoldText()                         " {{{
   let fillcharcount = maxlen - len(line)
   return line . " •••" . repeat(" ",fillcharcount) . ' ' . foldedlinecount . ' lines'
 
-endfunction " }}}
+endfunction "}}}
 
-function! fn#HL(group, fg, ...)                   " {{{
+function! fn#BetterFoldText()                                             " {{{
+  " Taken from: https://coderwall.com/p/usd_cw/a-pretty-vim-foldtext-function
+  let l:lpadding = &fdc
+  redir => l:signs
+  execute 'silent sign place buffer='.bufnr('%')
+  redir End
+  let l:lpadding += l:signs =~ 'id=' ? 2 : 0
+
+  if exists("+relativenumber")
+    if (&number)
+      let l:lpadding += max([&numberwidth, strlen(line('$'))]) + 1
+    elseif (&relativenumber)
+      let l:lpadding += max([&numberwidth, strlen(v:foldstart - line('w0')), strlen(line('w$') - v:foldstart), strlen(v:foldstart)]) + 1
+    endif
+  else
+    if (&number)
+      let l:lpadding += max([&numberwidth, strlen(line('$'))]) + 1
+    endif
+  endif
+
+  " expand tabs
+  let l:start = substitute(getline(v:foldstart), '\t', repeat(' ', &tabstop), 'g')
+  let l:end = substitute(substitute(getline(v:foldend), '\t', repeat(' ', &tabstop), 'g'), '^\s*', '', 'g')
+
+  let l:info = ' (' . (v:foldend - v:foldstart) . ')'
+  let l:infolen = strlen(substitute(l:info, '.', 'x', 'g'))
+  let l:width = winwidth(0) - l:lpadding - l:infolen
+
+  let l:separator = ' … '
+  let l:separatorlen = strlen(substitute(l:separator, '.', 'x', 'g'))
+  let l:start = strpart(l:start , 0, l:width - strlen(substitute(l:end, '.', 'x', 'g')) - l:separatorlen)
+  let l:text = l:start . ' … ' . l:end
+
+  return l:text . repeat(' ', l:width - strlen(substitute(l:text, ".", "x", "g"))) . l:info
+endfunction "}}}
+
+function! fn#HL(group, fg, ...)                                           " {{{
   " Description: Simple way to set highlighting for cterm and gui terminals
   " Arguments: group, guifg, guibg, gui, guisp
   " Eg:
@@ -155,7 +191,7 @@ function! fn#HL(group, fg, ...)                   " {{{
   execute join(histring, ' ')
 endfunction "}}}
 
-function! fn#ToggleProfile()                      " {{{
+function! fn#ToggleProfile()                                              " {{{
   " Description: I'm tired of profiling manually everytime. This function allows
   " me to start, pause and resume profiling so I can figure out what is slowing
   " Vim down easily.
