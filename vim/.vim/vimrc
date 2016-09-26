@@ -467,7 +467,22 @@ let g:gruvbox_invert_selection = 0
 let g:gruvbox_sign_column = "bg0"
 let g:gruvbox_number_column = "dark0_soft"
 
-" Keep same color as linenumber column
+" Override gruvbox colors
+augroup custom_gruvbox
+  au!
+
+  autocmd ColorScheme gruvbox
+        \ call fn#HL('Folded', ['#504945', 239]) |
+        \ call fn#HL('VertSplit', ['#32302f', 236]) |
+        \ call fn#HL('jsonCommentError', ['#fabd2f', 167]) |
+        \ call fn#HL('FoldColumn', ['#504945', 239]) |
+        \ call fn#HL('Folded', ['#504945', 239]) |
+        \ call fn#HL('Comment', ['#504945', 239], ['NONE', 'NONE'], 'italic,') |
+        \ call fn#HL('CursorLine', ['NONE', 'NONE'], ['#282828', 235]) |
+        \ call fn#HL('CursorColumn', ['NONE', 'NONE'], ['#282828', 235]) |
+        \ call fn#HL('CursorLineNr', ['#fabd2f', 214]) |
+        \ call fn#HL('ColorColumn',  ['NONE', 'NONE'], ['#282828', 235])
+augroup END
 "}}}
 "}}}2
 
@@ -1187,20 +1202,8 @@ syntax enable
 colorscheme gruvbox
 set background=dark
 
-" Override gruvbox colors
-call fn#HL('VertSplit', ['#32302f', 236])
-call fn#HL('jsonCommentError', ['#fabd2f', 167])
-call fn#HL('FoldColumn', ['#504945', 239])
-call fn#HL('Folded', ['#504945', 239])
-
-call fn#HL('Comment', ['#504945', 239], ['NONE', 'NONE'], 'italic,')
-call fn#HL('CursorLine', ['NONE', 'NONE'], ['#282828', 235])
-call fn#HL('CursorColumn', ['NONE', 'NONE'], ['#282828', 235])
-call fn#HL('CursorLineNr', ['#fabd2f', 214])
-call fn#HL('ColorColumn',  ['NONE', 'NONE'], ['#282828', 235])
-
 " Setting background past textwidth characters
-let &colorcolumn=join(range(81,999),",")
+" let &colorcolumn=join(range(81,999),",")
 "}}}1
 "
 " Environments (GUI/Console)                                                {{{1
