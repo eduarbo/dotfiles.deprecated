@@ -285,7 +285,7 @@ nnoremap <leader>D :LinediffReset<cr>
 " }}}
 
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}                          " {{{3
-nnoremap <F4> :UndotreeToggle<cr>
+nnoremap <leader>tu :UndotreeToggle<cr>
 " If undotree is opened, it is likely one wants to interact with it.
 let g:undotree_SetFocusWhenToggle=1
 let g:undotree_WindowLayout = 2
@@ -368,13 +368,15 @@ augroup ft_fugitive "{{{
 augroup END "}}}
 " }}}
 
-Plug 'airblade/vim-gitgutter'                                             " {{{3
+Plug 'airblade/vim-gitgutter'                                             " {{{
 let g:gitgutter_map_keys = 1
 let g:gitgutter_sign_added = s:diff_added_sign
 let g:gitgutter_sign_modified = s:diff_modified_sign
 let g:gitgutter_sign_removed = s:diff_removed_sign
 let g:gitgutter_sign_removed_first_line = s:diff_removed_first_line_sign
 let g:gitgutter_sign_modified_removed = s:diff_modified_removed_sign
+nnoremap <leader>tg :GitGutterToggle<cr>
+"}}}
 
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-scripts/listmaps.vim', {'on': 'Listmaps'}
@@ -527,6 +529,8 @@ let g:airline_mode_map = {
       \ '' : '',
       \ 't'  : '',
       \ }
+
+nnoremap <leader>ta :AirlineToggle<cr>
 "}}}
 Plug 'morhetz/gruvbox' "{{{
 " Guvbox specific
@@ -785,7 +789,7 @@ set ttyfast                     " Improves redrawing
 " set ttyscroll=10
 set noruler                     " Never show current positions along the bottom
 set backspace=indent,eol,start  " Allow backspace in insert mode
-set number                      " Line numbers are good
+set nonumber                    " Line numbers are good
 set laststatus=2                " Never show the status line
 set history=1000                " Store lots of :cmdline history
 set list                        " Hide invisible chars
@@ -945,6 +949,13 @@ iabbrev lmis ಠ‿ಠ
 "}}}1
 
 " Convenience mappings                                                      {{{1
+
+" Toggles                                                                   {{{2
+nnoremap <leader>tn :set number!<cr>
+" [i]nvisible characters
+nnoremap <leader>ti :set list!<cr>
+"}}}
+
 " Terminal sends Nul when C-space is pressed
 noremap <C-space> <Nul>
 
@@ -1032,10 +1043,6 @@ nnoremap <localleader>= mzgg=G`z
 " Keep the cursor in place while joining lines
 nnoremap J mzJ`z
 
-" Split line (sister to [J]oin lines)
-" The normal use of S is covered by cc, so don't worry about shadowing it.
-nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
-
 " Select (charwise) the contents of the current line, excluding indentation.
 " Great for pasting Python lines into REPLs.
 nnoremap vv ^vg_
@@ -1057,9 +1064,6 @@ command! -bang WQ wq<bang>
 " I suck at typing.
 nnoremap <localleader>- ==
 vnoremap - =
-
-" Toggle [i]nvisible characters
-nnoremap <leader>i :set list!<cr>
 
 " Unfuck my screen
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
