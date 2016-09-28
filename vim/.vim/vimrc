@@ -346,7 +346,7 @@ nnoremap <silent> <Plug>SendCurrentLineToTmux mz^vg_"vy :<C-u>call VimuxSlime()<
 nmap <LocalLeader>vs <Plug>SendCurrentLineToTmux
 " }}}
 
-Plug 'tpope/vim-fugitive'                                                 " {{{3
+Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim' " {{{
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gw :Gwrite<cr>
@@ -356,17 +356,15 @@ nnoremap <leader>go :Gcheckout<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :Gremove<cr>
-nnoremap <leader>gl :Shell git gl -18<cr>:wincmd \|<cr>
+nnoremap <leader>gl :GV<cr>
+nnoremap <leader>gL :GV!<cr>
 
 " Hub
 nnoremap <leader>gh :Gbrowse<cr>
 vnoremap <leader>gh :Gbrowse<cr>
 
-augroup ft_fugitive "{{{
-  au!
-  au BufNewFile,BufRead .git/index setlocal nolist
-augroup END "}}}
-" }}}
+autocmd! BufNewFile,BufRead .git/index setlocal nolist
+"}}}
 
 Plug 'airblade/vim-gitgutter'                                             " {{{
 let g:gitgutter_map_keys = 1
