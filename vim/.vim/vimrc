@@ -196,7 +196,6 @@ let g:neomake_ruby_enabled_makers = ['mri']
 let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_c_enabled_makers = ['gcc', 'clang-tidy']
 let g:neomake_cpp_enabled_makers = ['g++', 'clang-tidy']
-let g:neomake_airline = 1
 
 let g:neomake_error_sign = {
       \ 'text': s:error_sign,
@@ -491,10 +490,8 @@ let g:airline#extensions#default#layout = [
       \ ]
 let g:airline_symbols = {
       \ 'branch': '',
-      \ 'paste': '',
-      \ 'spell': ''
+      \ 'paste': ''
       \ }
-
 let g:airline_mode_map = {
       \ '__' : '-',
       \ 'n'  : '',
@@ -511,6 +508,33 @@ let g:airline_mode_map = {
       \ }
 
 nnoremap <leader>ta :AirlineToggle<cr>
+
+function! s:count(counts, symbol, keys) abort
+  let l:cnt = 0
+  for l:key in a:keys
+    let l:cnt += get(a:counts, l:key)
+  endfor
+
+  return l:cnt ? a:symbol.l:cnt.' ' : ''
+endfunction
+
+function! s:airlineInit()
+  function! airline#parts#spell()
+    " Redefine spell function to display language
+    return g:airline_detect_spell && &spell ? ' '.&spelllang : ''
+  endfunction
+
+  function! airline#extensions#neomake#get_errors()
+    return s:count(neomake#statusline#LoclistCounts(),
+          \ g:airline#extensions#neomake#error_symbol, ['E', 'S', 'x'])
+  endfunction
+
+  function! airline#extensions#neomake#get_warnings()
+    return s:count(neomake#statusline#LoclistCounts(),
+          \ g:airline#extensions#neomake#warning_symbol, ['W'])
+  endfunction
+endfunction
+autocmd! User AirlineAfterInit call s:airlineInit()
 "}}}
 Plug 'morhetz/gruvbox' "{{{
 " Guvbox specific
