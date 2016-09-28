@@ -259,6 +259,26 @@ set viewoptions=cursor,folds,slash,unix
 
 " Productivity                                                              {{{2
 
+Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' } "{{{
+nnoremap <leader>q :Sayonara<cr>
+nnoremap <leader>Q :Sayonara!<cr>
+"}}}
+
+Plug 'easymotion/vim-easymotion' "{{{
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+let g:EasyMotion_smartcase = 1  " Turn on case insensitive feature
+
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-s2)
+xmap s <Plug>(easymotion-s2)
+omap s <Plug>(easymotion-s2)
+nmap t <Plug>(easymotion-t2)
+
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+"}}}
+
 Plug 'AndrewRadev/linediff.vim', {'on': ['Linediff', 'LinediffReset']}    " {{{3
 vnoremap <leader>d :Linediff<cr>
 nnoremap <leader>D :LinediffReset<cr>
