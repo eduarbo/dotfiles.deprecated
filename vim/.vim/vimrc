@@ -11,7 +11,7 @@ let s:diff_added_sign = ' '
 let s:diff_modified_sign = ' '
 let s:diff_removed_sign = ' '
 let s:diff_removed_first_line_sign = ' '
-let s:diff_modified_removed_sign = ' '
+let s:diff_modified_removed_sign = ' '
 "}}}1
 
 " Preamble                                                                  {{{1
