@@ -184,16 +184,10 @@ augroup rainbow_parentheses "{{{
 augroup END "}}}
 " }}}
 
-Plug 'tpope/vim-commentary'                                               " {{{3
+Plug 'tpope/vim-commentary', {'on': ['Commentary', 'CommentaryLine']}     " {{{
 nmap <leader>c <Plug>CommentaryLine
 xmap <leader>c <Plug>Commentary
-
-augroup plugin_commentary "{{{
-  au!
-  au FileType clojurescript setlocal commentstring=;\ %s
-  au FileType puppet,tmux setlocal commentstring=#\ %s
-augroup END "}}}
-" }}}3
+"}}}
 
 Plug 'benekastah/neomake'                                                 " {{{3
 let g:neomake_javascript_enabled_makers = ['eslint']
