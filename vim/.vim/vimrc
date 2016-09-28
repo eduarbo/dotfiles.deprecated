@@ -184,9 +184,9 @@ augroup rainbow_parentheses "{{{
 augroup END "}}}
 " }}}
 
-Plug 'tpope/vim-commentary', {'on': ['Commentary', 'CommentaryLine']}     " {{{
-nmap <leader>c <Plug>CommentaryLine
-xmap <leader>c <Plug>Commentary
+Plug 'tpope/vim-commentary', {'on': 'Commentary'}     " {{{
+nnoremap <leader>c :Commentary<cr>
+xnoremap <leader>c :Commentary<cr>
 "}}}
 
 Plug 'benekastah/neomake'                                                 " {{{3
@@ -288,19 +288,19 @@ let g:undotree_WindowLayout = 2
 " This makes the autoread option work properly for terminal
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
-Plug 'benmills/vimux'                                                     " {{{3
+Plug 'benmills/vimux' " {{{
 " Prompt for a command to run
-map <LocalLeader>vp :VimuxPromptCommand<CR>
+noremap <LocalLeader>vp :VimuxPromptCommand<CR>
 " Run last command executed by VimuxRunCommand
-map <LocalLeader>vl :VimuxRunLastCommand<CR>
+noremap <LocalLeader>vl :VimuxRunLastCommand<CR>
 " Inspect runner pane
-map <LocalLeader>vi :VimuxInspectRunner<CR>
+noremap <LocalLeader>vi :VimuxInspectRunner<CR>
 " Close vim tmux runner opened by VimuxRunCommand
-map <LocalLeader>vq :VimuxCloseRunner<CR>
+noremap <LocalLeader>vq :VimuxCloseRunner<CR>
 " Interrupt any command running in the runner pane
-map <LocalLeader>vx :VimuxInterruptRunner<CR>
+noremap <LocalLeader>vx :VimuxInterruptRunner<CR>
 " Zoom the runner pane (use <bind-key> z to restore runner pane)
-map <LocalLeader>vz :call VimuxZoomRunner()<CR>"
+noremap <LocalLeader>vz :call VimuxZoomRunner()<CR>"
 
 augroup vimux "{{{
   au!
@@ -328,17 +328,16 @@ function! VimuxSlime() "{{{
 endfunction "}}}
 
 " If text is selected, save it in the v buffer and send that buffer it to tmux
-vnoremap <silent> <Plug>SendSelectedLineToTmux "vy :<C-u>call VimuxSlime()<CR>j
+vmap <silent> <Plug>SendSelectedLineToTmux "vy :<C-u>call VimuxSlime()<CR>j
       \:call repeat#set("\<Plug>SendSelectedLineToTmux")<CR>
 " TODO: Is not sending the indentation properly. FIXIT!
-"
 vmap <LocalLeader>vs <Plug>SendSelectedLineToTmux
 
 " Select current line and send it to tmux
-nnoremap <silent> <Plug>SendCurrentLineToTmux mz^vg_"vy :<C-u>call VimuxSlime()<CR>`zj
+nmap <silent> <Plug>SendCurrentLineToTmux mz^vg_"vy :<C-u>call VimuxSlime()<CR>`zj
       \:call repeat#set("\<Plug>SendCurrentLineToTmux")<CR>
 nmap <LocalLeader>vs <Plug>SendCurrentLineToTmux
-" }}}
+"}}}
 
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim' " {{{
 nnoremap <leader>gd :Gdiff<cr>
@@ -957,9 +956,6 @@ inoremap <F1> <ESC>
 " Stop it, hash key.
 inoremap # X<BS>#
 
-" Kill window
-nnoremap K :q<cr>
-
 " Sort lines
 nnoremap <leader>S vip:!sort<cr>
 vnoremap <leader>S :!sort<cr>
@@ -1008,9 +1004,9 @@ cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 
 " Formatting, TextMate-style
-vnoremap <silent> <Plug>FormatSelection gq
+vmap <silent> <Plug>FormatSelection gq
       \:call repeat#set("\<Plug>FormatSelection")<CR>
-nnoremap <silent> <Plug>FormatLine ^vg_gq$
+nmap <silent> <Plug>FormatLine ^vg_gq$
       \:call repeat#set("\<Plug>FormatLine")<CR>
 
 vmap Q <Plug>FormatSelection
@@ -1088,13 +1084,13 @@ nnoremap <localleader>\ :call fn#ToggleProfile()<CR>
 
 " QuickFix and Location-list cycle mappings compatible with repeat plugin. This
 " fixes Syntastic error jumping too
-nnoremap <silent> <Plug>QuickfixNext     :call fn#CycleCommand('cnext', 'cfirst')<CR>
+nmap <silent> <Plug>QuickfixNext     :call fn#CycleCommand('cnext', 'cfirst')<CR>
       \:silent! call repeat#set("\<Plug>QuickfixNext")<CR>
-nnoremap <silent> <Plug>QuickfixPrevious :call fn#CycleCommand('cprev', 'clast')<CR>
+nmap <silent> <Plug>QuickfixPrevious :call fn#CycleCommand('cprev', 'clast')<CR>
       \:silent! call repeat#set("\<Plug>QuickfixPrevious")<CR>
-nnoremap <silent> <Plug>LocationNext     :call fn#CycleCommand('lnext', 'lfirst')<CR>
+nmap <silent> <Plug>LocationNext     :call fn#CycleCommand('lnext', 'lfirst')<CR>
       \:silent! call repeat#set("\<Plug>LocationNext")<CR>
-nnoremap <silent> <Plug>LocationPrevious :call fn#CycleCommand('lprev', 'llast')<CR>
+nmap <silent> <Plug>LocationPrevious :call fn#CycleCommand('lprev', 'llast')<CR>
       \:silent! call repeat#set("\<Plug>LocationPrevious")<CR>
 
 " Override unimpaired mappings
