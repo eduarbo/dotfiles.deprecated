@@ -356,6 +356,7 @@ nnoremap <leader>go :Gcheckout<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :Gremove<cr>
+nnoremap <leader>gP :Gpush<cr>
 nnoremap <leader>gl :GV<cr>
 nnoremap <leader>gL :GV!<cr>
 
