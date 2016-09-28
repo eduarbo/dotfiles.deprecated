@@ -500,7 +500,7 @@ let g:airline#extensions#hunks#hunk_symbols = [
       \ s:diff_removed_sign ]
 let g:airline#extensions#default#layout = [
       \ [ 'a', 'b', 'c' ],
-      \ [ 'x', 'z', 'error', "warning" ] 
+      \ [ 'x', 'z', 'error', 'warning' ]
       \ ]
 let g:airline_symbols = {
       \ 'branch': '',
