@@ -4,9 +4,9 @@
 
 " Symbols
 let s:error_sign = ''
-let s:warning_sign = ''
-let s:message_sign = ''
-let s:info_sign = 'ℹ'
+let s:warning_sign = ''
+let s:message_sign = ''
+let s:info_sign = ''
 let s:diff_added_sign = ' '
 let s:diff_modified_sign = ' '
 let s:diff_removed_sign = ' '
@@ -472,8 +472,13 @@ let g:airline_section_z = '%3P '
 " let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tagbar#enabled = 0
 let g:airline#extensions#wordcount#enabled = 0
+
 let g:airline#extensions#neomake#error_symbol = s:error_sign.' '
 let g:airline#extensions#neomake#warning_symbol = s:warning_sign.' '
+let g:airline#extensions#whitespace#symbol = 'Ξ'
+let g:airline#extensions#whitespace#trailing_format = '%s'
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 let g:airline#extensions#hunks#hunk_symbols = [
       \ s:diff_added_sign,
       \ s:diff_modified_sign,
