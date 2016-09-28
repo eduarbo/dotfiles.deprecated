@@ -931,9 +931,14 @@ iabbrev lmis ಠ‿ಠ
 " Convenience mappings                                                      {{{1
 
 " Toggles                                                                   {{{2
-nnoremap <leader>tn :set number!<cr>
-" [i]nvisible characters
-nnoremap <leader>ti :set list!<cr>
+nnoremap <leader>tc :setlocal cursorline!<cr>
+nnoremap <leader>th :setlocal hlsearch!<cr>
+nnoremap <leader>ti :setlocal list!<cr>
+nnoremap <leader>tn :setlocal number!<cr>
+nnoremap <leader>tn :setlocal relativenumber!<cr>
+nnoremap <leader>ts :setlocal spell!<cr>
+nnoremap <leader>tu :setlocal cursorcolumn!<cr>
+nnoremap <leader>tw :setlocal wrap!<cr>
 "}}}
 
 " Terminal sends Nul when C-space is pressed
