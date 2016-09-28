@@ -2,11 +2,23 @@
 " Author: Eduardo Ruiz <eduarbo@gmail.com>
 " Source: https://github.com/eduarbo/dotfiles/tree/master/vim
 
+" Symbols
+let s:error_sign = ''
+let s:warning_sign = ''
+let s:message_sign = ''
+let s:info_sign = 'ℹ'
+let s:diff_added_sign = ' '
+let s:diff_modified_sign = ' '
+let s:diff_removed_sign = ' '
+let s:diff_removed_first_line_sign = ' '
+let s:diff_modified_removed_sign = ' '
+"}}}1
+
 " Preamble                                                                  {{{1
 filetype off
 
-let g:mapleader = " "
-let g:maplocalleader = ","
+let g:mapleader = ' '
+let g:maplocalleader = ','
 
 let s:ag = executable('ag')
 "}}}1
@@ -68,7 +80,7 @@ vmap <leader>A :CtrlSFToggle<CR>
 noremap <localleader>a :CtrlSF
 
 let g:ctrlsf_mapping = {
-      \ "quit": "",
+      \ 'quit': '',
       \ }
 
 " For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
@@ -81,9 +93,9 @@ let g:ctrlsf_ackprg = 'ag'
 Plug 'Shougo/neomru.vim'
 Plug 'junegunn/fzf.vim', {'on': ['FZF', 'FZFMru', 'FZFBuffers']}          " {{{3
 " Open files in horizontal split
-set rtp+=/usr/local/opt/fzf
+set runtimepath+=/usr/local/opt/fzf
 " open fzf from MacVim in a new iTerm2 window
-let g:fzf_launcher = "~/.vim/in_a_new_term_function %s"
+let g:fzf_launcher = '~/.vim/in_a_new_term_function %s'
 
 let g:fzf_layout = { 'down': '~30%' }
 let g:fzf_action = {
@@ -92,10 +104,10 @@ let g:fzf_action = {
       \ 'ctrl-v': 'vsplit' }
 
 function! s:buflist() "{{{
-  redir => ls
+  redir => l:ls
   silent ls
   redir END
-  return split(ls, '\n')
+  return split(l:ls, '\n')
 endfunction "}}}
 
 function! s:bufopen(e) "{{{
@@ -128,7 +140,7 @@ let g:UltiSnipsExpandTrigger = '<C-j>'
 let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "ultisnippets"]
+let g:UltiSnipsSnippetDirectories=['UltiSnips', 'ultisnippets']
 " }}}
 "
 Plug 'ervandew/supertab'
@@ -190,28 +202,29 @@ let g:neomake_ruby_enabled_makers = ['mri']
 let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_c_enabled_makers = ['gcc', 'clang-tidy']
 let g:neomake_cpp_enabled_makers = ['g++', 'clang-tidy']
+let g:neomake_airline = 1
 
 let g:neomake_error_sign = {
-      \ 'text': ' ',
-      \ 'texthl': 'NeomakeErrorSign'
+      \ 'text': s:error_sign,
+      \ 'texthl': 'GruvboxRedSign'
       \ }
 
 let g:neomake_warning_sign = {
-      \ 'text': '',
-      \ 'texthl': 'NeomakeWarningSign'
+      \ 'text': s:warning_sign,
+      \ 'texthl': 'GruvboxYellowSign'
       \ }
 
 let g:neomake_message_sign = {
-      \ 'text': '',
-      \ 'texthl': 'NeomakeMessageSign'
+      \ 'text': s:message_sign,
+      \ 'texthl': 'GruvboxGreenSign'
       \ }
 
 let g:neomake_info_sign = {
-      \ 'text': 'ℹ',
-      \ 'texthl': 'NeomakeInfoSign'
+      \ 'text': s:info_sign,
+      \ 'texthl': 'GruvboxBlueSign'
       \ }
 
-au! BufWritePost * Neomake
+autocmd! BufWritePost,BufEnter * Neomake
 " }}}
 
 Plug 'bkad/CamelCaseMotion'                                               " {{{3
@@ -234,7 +247,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-endwise'
 Plug 'kshenoy/vim-origami'                                                " {{{
-let g:OrigamiFoldAtCol = "-3"
+let g:OrigamiFoldAtCol = '-3'
 "}}}
 Plug 'Konfekt/FastFold'                                                   " {{{
 let g:fastfold_skip_filetypes= [ 'taglist' ]
@@ -297,7 +310,7 @@ augroup END "}}}
 function! VimuxSlime() "{{{
   " Send selected text to Tmux
   call VimuxSendText(@v)
-  call VimuxSendKeys("Enter")
+  call VimuxSendKeys('Enter')
 endfunction "}}}
 
 " If text is selected, save it in the v buffer and send that buffer it to tmux
@@ -336,14 +349,12 @@ augroup END "}}}
 " }}}
 
 Plug 'airblade/vim-gitgutter'                                             " {{{3
-let g:gitgutter_map_keys = 0
-nmap [h <Plug>GitGutterPrevHunk
-nmap ]h <Plug>GitGutterNextHunk
-
-nmap <Leader>hs <Plug>GitGutterStageHunk
-nmap <Leader>hu <Plug>GitGutterUndoHunk
-nmap <Leader>hp <Plug>GitGutterPreviewHunk
-" }}}
+let g:gitgutter_map_keys = 1
+let g:gitgutter_sign_added = s:diff_added_sign
+let g:gitgutter_sign_modified = s:diff_modified_sign
+let g:gitgutter_sign_removed = s:diff_removed_sign
+let g:gitgutter_sign_removed_first_line = s:diff_removed_first_line_sign
+let g:gitgutter_sign_modified_removed = s:diff_modified_removed_sign
 
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-scripts/listmaps.vim', {'on': 'Listmaps'}
@@ -455,34 +466,60 @@ Plug 'tpope/vim-rails'
 
 " Style                                                                     {{{2
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes' "{{{
-let g:airline#extensions#tagbar#enabled = 0
-let g:airline#extensions#wordcount#enabled = 0
 let g:airline_powerline_fonts = 1
 let g:airline_theme='tomorrow'
 let g:airline_section_z = '%3P '
+" let g:airline_skip_empty_sections = 1
+let g:airline#extensions#tagbar#enabled = 0
+let g:airline#extensions#wordcount#enabled = 0
+let g:airline#extensions#neomake#error_symbol = s:error_sign.' '
+let g:airline#extensions#neomake#warning_symbol = s:warning_sign.' '
+let g:airline#extensions#hunks#hunk_symbols = [
+      \ s:diff_added_sign,
+      \ s:diff_modified_sign,
+      \ s:diff_removed_sign ]
 let g:airline#extensions#default#layout = [
       \ [ 'a', 'b', 'c' ],
-      \ [ 'x', 'z', 'error', 'warning' ]
+      \ [ 'x', 'z', 'error', "warning" ] 
       \ ]
+let g:airline_symbols = {
+      \ 'branch': '',
+      \ 'paste': '',
+      \ 'spell': ''
+      \ }
+
+let g:airline_mode_map = {
+      \ '__' : '-',
+      \ 'n'  : '',
+      \ 'i'  : '',
+      \ 'R'  : '',
+      \ 'c'  : '',
+      \ 'v'  : '',
+      \ 'V'  : '',
+      \ '' : '',
+      \ 's'  : '',
+      \ 'S'  : '',
+      \ '' : '',
+      \ 't'  : '',
+      \ }
 "}}}
 Plug 'morhetz/gruvbox' "{{{
 " Guvbox specific
 let g:gruvbox_italic=1
-let g:gruvbox_contrast_dark = "hard"
+let g:gruvbox_contrast_dark = 'hard'
 let g:gruvbox_invert_selection = 0
-let g:gruvbox_sign_column = "bg0"
-let g:gruvbox_number_column = "dark0_soft"
+let g:gruvbox_sign_column = 'bg0'
+let g:gruvbox_number_column = 'dark0_soft'
 
 " Override gruvbox colors
 augroup custom_gruvbox
   au!
 
   autocmd ColorScheme gruvbox
-        \ call fn#HL('Folded', ['#504945', 239]) |
         \ call fn#HL('VertSplit', ['#32302f', 236]) |
         \ call fn#HL('jsonCommentError', ['#fabd2f', 167]) |
         \ call fn#HL('FoldColumn', ['#504945', 239]) |
-        \ call fn#HL('Folded', ['#504945', 239]) |
+        \ call fn#HL('Folded', ['#504945', 239], ['#282828', 235]) |
         \ call fn#HL('Comment', ['#504945', 239], ['NONE', 'NONE'], 'italic,') |
         \ call fn#HL('CursorLine', ['NONE', 'NONE'], ['#282828', 235]) |
         \ call fn#HL('CursorColumn', ['NONE', 'NONE'], ['#282828', 235]) |
@@ -744,8 +781,8 @@ set linebreak
 set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
 set pastetoggle=<F2>            " Use it for pasting large amounts of text into Vim, disabling all kinds of smartness and just pasting a whole buffer of text
-set ssop-=options               " do not store global and local values in a session
-set ssop-=folds                 " do not store folds
+set sessionoptions-=options     " do not store global and local values in a session
+set sessionoptions-=folds       " do not store folds
 set display+=lastline           " Show partially hidden wrapped lines
 set tabpagemax=50
 set sessionoptions-=options
@@ -827,7 +864,7 @@ set wrap
 set textwidth=80
 set formatoptions=qrn1
 
-if v:version > 703 || v:version == 703 && has("patch541")
+if v:version > 703 || v:version == 703 && has('patch541')
   set formatoptions+=j " Delete comment character when joining commented lines
 endif
 
@@ -846,13 +883,13 @@ set directory=$HOME/.vim/tmp/swap/   " swap files
 
 " Make those folders automatically if they don't already exist.
 if !isdirectory(expand(&undodir))
-  call mkdir(expand(&undodir), "p")
+  call mkdir(expand(&undodir), 'p')
 endif
 if !isdirectory(expand(&backupdir))
-  call mkdir(expand(&backupdir), "p")
+  call mkdir(expand(&backupdir), 'p')
 endif
 if !isdirectory(expand(&directory))
-  call mkdir(expand(&directory), "p")
+  call mkdir(expand(&directory), 'p')
 endif
 "}}}2
 
@@ -860,15 +897,15 @@ endif
 
 " Abbreviations                                                             {{{1
 function! EatChar(pat) "{{{
-  let c = nr2char(getchar(0))
-  return (c =~ a:pat) ? '' : c
+  let l:c = nr2char(getchar(0))
+  return (l:c =~ a:pat) ? '' : l:c
 endfunction "}}}
 
 function! MakeSpacelessIabbrev(from, to) "{{{
-  execute "iabbrev <silent> ".a:from." ".a:to."<C-R>=EatChar('\\s')<CR>"
+  execute 'iabbrev <silent> '.a:from.' '.a:to."<C-R>=EatChar('\\s')<CR>"
 endfunction "}}}
 function! MakeSpacelessBufferIabbrev(from, to) "{{{
-  execute "iabbrev <silent> <buffer> ".a:from." ".a:to."<C-R>=EatChar('\\s')<CR>"
+  execute 'iabbrev <silent> <buffer> '.a:from.' '.a:to."<C-R>=EatChar('\\s')<CR>"
 endfunction "}}}
 
 call MakeSpacelessIabbrev('gh/',  'http://github.com/')
@@ -1143,10 +1180,10 @@ nnoremap <leader>s <C-w>s
 "}}}2
 " Visual Mode */# from Scrooloose                                           {{{2
 function! s:VSetSearch() "{{{
-  let temp = @@
+  let l:temp = @@
   norm! gvy
   let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-  let @@ = temp
+  let @@ = l:temp
 endfunction "}}}
 
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
@@ -1199,7 +1236,7 @@ endfunction "}}}
 "}}}1
 
 " Colorscheme                                                               {{{1
-if (has("termguicolors"))
+if (has('termguicolors'))
   " True colors
   set termguicolors
 endif
@@ -1218,13 +1255,13 @@ if has('gui_running')   " GUI Vim                                           {{{
   set guifont=Hack:h13
 
   " Remove all the UI cruft
-  set go-=T                       " Hide the toolbar
-  set go-=m                       " Hide the menu
-  set go-=l
-  set go-=L
-  set go-=r
-  set go-=R
-  set go+=c
+  set guioptions-=T                       " Hide the toolbar
+  set guioptions-=m                       " Hide the menu
+  set guioptions-=l
+  set guioptions-=L
+  set guioptions-=r
+  set guioptions-=R
+  set guioptions+=c
 
   highlight SpellBad term=underline gui=undercurl guisp=Orange
 
@@ -1240,11 +1277,11 @@ if has('gui_running')   " GUI Vim                                           {{{
     autocmd VimEnter * silent! GuiRunning
   augroup END "}}}
 
-  if has("gui_macvim") "{{{
+  if has('gui_macvim') "{{{
     " Full screen means FULL screen
     set fuoptions=maxvert,maxhorz
     "}}}
-  elseif has("gui_gtk2") "{{{
+  elseif has('gui_gtk2') "{{{
     " Maximize gvim window.
     set lines=999 columns=999
     "}}}
@@ -1252,7 +1289,7 @@ if has('gui_running')   " GUI Vim                                           {{{
     " Non-MacVim GUI
   end "}}}
   "}}}
-elseif $TMUX != ''      " In tmux session                                   {{{
+elseif $TMUX !=# ''      " In tmux session                                   {{{
 
   " These sequences tell tmux to change the cursor shape to a bar or block.
 
