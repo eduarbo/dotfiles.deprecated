@@ -221,21 +221,11 @@ let g:neomake_info_sign = {
 autocmd! BufWritePost,BufEnter * Neomake
 " }}}
 
-Plug 'bkad/CamelCaseMotion'                                               " {{{3
-map <S-W> <Plug>CamelCaseMotion_w
-map <S-B> <Plug>CamelCaseMotion_b
-map <S-E> <Plug>CamelCaseMotion_e
-
-" Replace default 'iw' text-object and define 'ib' and 'ie' motions:
-omap <silent> iW <Plug>CamelCaseMotion_iw
-xmap <silent> iW <Plug>CamelCaseMotion_iw
-omap <silent> iB <Plug>CamelCaseMotion_ib
-xmap <silent> iB <Plug>CamelCaseMotion_ib
-omap <silent> iE <Plug>CamelCaseMotion_ie
-xmap <silent> iE <Plug>CamelCaseMotion_ie
-" }}}
-
-Plug 'terryma/vim-expand-region'
+Plug 'chaoren/vim-wordmotion'
+Plug 'terryma/vim-expand-region' "{{{
+map K <Plug>(expand_region_expand)
+map J <Plug>(expand_region_shrink)
+"}}}
 Plug 'rstacruz/vim-closer'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
