@@ -142,8 +142,11 @@ let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
 let g:UltiSnipsSnippetDirectories=['UltiSnips', 'ultisnippets']
 " }}}
-"
-Plug 'ervandew/supertab'
+
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }             " {{{
+let g:deoplete#enable_at_startup = 1
+" let g:deoplete#disable_auto_complete = 1
+ "}}}
 
 " Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'} " {{{3
 
