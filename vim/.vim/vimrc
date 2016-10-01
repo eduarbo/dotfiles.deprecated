@@ -144,7 +144,6 @@ let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
 let g:UltiSnipsSnippetDirectories=['UltiSnips', 'ultisnippets']
 " }}}
-
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }             " {{{
 let g:deoplete#enable_at_startup = 1
 " let g:deoplete#disable_auto_complete = 1
@@ -188,12 +187,10 @@ augroup rainbow_parentheses                                               " {{{
   au syntax clojure RainbowParenthesesLoadBraces
 augroup END "}}}
 " }}}
-
 Plug 'tpope/vim-commentary', {'on': 'Commentary'}                         " {{{
 nnoremap <leader>c :Commentary<cr>
 xnoremap <leader>c :Commentary<cr>
 "}}}
-
 Plug 'benekastah/neomake'                                                 " {{{3
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_json_enabled_makers = ['jsonlint']
@@ -224,16 +221,15 @@ let g:neomake_info_sign = {
 
 autocmd! BufWritePost,BufEnter * Neomake
 " }}}
-
 Plug 'chaoren/vim-wordmotion'
 Plug 'terryma/vim-expand-region'                                          " {{{
 map K <Plug>(expand_region_expand)
 map J <Plug>(expand_region_shrink)
 "}}}
-Plug 'rstacruz/vim-closer'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'rstacruz/vim-closer'
 Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-surround'
 Plug 'kshenoy/vim-origami'                                                " {{{
 let g:OrigamiFoldAtCol = '-3'
 "}}}
@@ -245,12 +241,10 @@ set viewoptions=cursor,folds,slash,unix
 "}}}
 "}}}2
 " Productivity                                                              {{{2
-
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }                           " {{{
 nnoremap <leader>q :Sayonara<cr>
 nnoremap <leader>Q :Sayonara!<cr>
 "}}}
-
 Plug 'easymotion/vim-easymotion'                                          " {{{
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 let g:EasyMotion_smartcase = 1  " Turn on case insensitive feature
@@ -265,22 +259,17 @@ nmap t <Plug>(easymotion-t2)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 "}}}
-
 Plug 'AndrewRadev/linediff.vim', {'on': ['Linediff', 'LinediffReset']}    " {{{3
 vnoremap <leader>d :Linediff<cr>
 nnoremap <leader>D :LinediffReset<cr>
 " }}}
-
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}                          " {{{3
 nnoremap <leader>tu :UndotreeToggle<cr>
 " If undotree is opened, it is likely one wants to interact with it.
 let g:undotree_SetFocusWhenToggle=1
 let g:undotree_WindowLayout = 2
 "}}}
-
-" This makes the autoread option work properly for terminal
 Plug 'tmux-plugins/vim-tmux-focus-events'
-
 Plug 'benmills/vimux'                                                     " {{{
 " Prompt for a command to run
 noremap <LocalLeader>vp :VimuxPromptCommand<CR>
@@ -331,7 +320,6 @@ nmap <silent> <Plug>SendCurrentLineToTmux mz^vg_"vy :<C-u>call VimuxSlime()<CR>`
       \:call repeat#set("\<Plug>SendCurrentLineToTmux")<CR>
 nmap <LocalLeader>vs <Plug>SendCurrentLineToTmux
 "}}}
-
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'                        " {{{
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gs :Gstatus<cr>
@@ -350,7 +338,6 @@ vnoremap <leader>gh :Gbrowse<cr>
 
 autocmd! BufNewFile,BufRead .git/index setlocal nolist
 "}}}
-
 Plug 'airblade/vim-gitgutter'                                             " {{{
 let g:gitgutter_map_keys = 1
 let g:gitgutter_sign_added = s:diff_added_sign
@@ -360,7 +347,6 @@ let g:gitgutter_sign_removed_first_line = s:diff_removed_first_line_sign
 let g:gitgutter_sign_modified_removed = s:diff_modified_removed_sign
 nnoremap <leader>tg :GitGutterToggle<cr>
 "}}}
-
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-scripts/listmaps.vim', {'on': 'Listmaps'}
 Plug 'tpope/vim-abolish'
@@ -368,7 +354,6 @@ Plug 'tpope/vim-repeat'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'kshenoy/vim-signature'
 Plug 'wellle/targets.vim'
-
 Plug 'mtth/scratch.vim', {'on': [
       \'Scratch', 'ScratchInsert', 'ScratchPreview', 'ScratchSelection',
       \'<Plug>(scratch-insert-reuse)', '<Plug>(scratch-insert-clear)',
@@ -553,7 +538,7 @@ augroup custom_gruvbox
         \ call fn#HL('VertSplit', ['#3c3836', 236]) |
         \ call fn#HL('jsonCommentError', ['#fabd2f', 167]) |
         \ call fn#HL('FoldColumn', ['#504945', 239]) |
-        \ call fn#HL('Folded', ['#665c54', 241], ['#282828', 235], 'bold,') |
+        \ call fn#HL('Folded', ['#a89984', 241], ['#282828', 235]) |
         \ call fn#HL('Comment', ['#504945', 243], ['NONE', 'NONE'], 'italic,') |
         \ call fn#HL('CursorLine', ['NONE', 'NONE'], ['#282828', 235]) |
         \ call fn#HL('CursorColumn', ['NONE', 'NONE'], ['#282828', 235]) |
@@ -649,7 +634,6 @@ augroup ft_javascript                                                     " {{{
 
   au FileType javascript setlocal foldmethod=marker
   au FileType javascript setlocal foldmarker={,}
-  au FileType javascript setlocal foldtext=getline(v:foldstart)
   au FileType javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2
   au FileType javascript setlocal foldlevel=99
   au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
