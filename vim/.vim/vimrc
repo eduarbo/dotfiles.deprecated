@@ -63,44 +63,50 @@ let g:ctrlsf_ackprg = 'ag'
 "}}}3
 
 " Most Recently Used files
-Plug 'Shougo/neomru.vim'
-Plug 'junegunn/fzf.vim', {'on': ['FZF', 'FZFMru', 'FZFBuffers']}          " {{{3
+Plug 'junegunn/fzf.vim'                                                   " {{{3
 " Open files in horizontal split
 set runtimepath+=/usr/local/opt/fzf
+
 " open fzf from MacVim in a new iTerm2 window
 let g:fzf_launcher = '~/.vim/in_a_new_term_function %s'
+
+" File preview using Highlight
+"    (http://www.andre-simon.de/doku/highlight/en/highlight.html)
+let g:fzf_files_options =
+  \ '--preview "(highlight -O ansi {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+
+" [[B]Commits] Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
 
 let g:fzf_layout = { 'down': '~30%' }
 let g:fzf_action = {
       \ 'ctrl-t': 'tab split',
       \ 'ctrl-s': 'split',
-      \ 'ctrl-v': 'vsplit' }
+      \ 'ctrl-v': 'vsplit'
+      \ }
 
-function! s:buflist()                                                     " {{{
-  redir => l:ls
-  silent ls
-  redir END
-  return split(l:ls, '\n')
-endfunction "}}}
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.fzf-history'
 
-function! s:bufopen(e)                                                    " {{{
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction "}}}
+" git grep
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0, <bang>0)
 
-command! Buffers call fzf#run(fzf#wrap('buffers', {
-      \   'source':  reverse(<sid>buflist()),
-      \   'sink':    function('<sid>bufopen'),
-      \   'options': '+m',
-      \   'down':    len(<sid>buflist()) + 2
-      \ }))
-
-command! Mru call fzf#run(fzf#wrap('mru', {
-      \   'source':  'sed "1d" $HOME/.cache/neomru/file'
-      \ }))
-
-nnoremap <silent> <leader>, :FZF<CR>
-nnoremap <silent> <leader>m :Mru<CR>
-nnoremap <silent> <Leader>b :Buffers<CR>
+nnoremap <silent> <leader>fh :History<CR>
+nnoremap <silent> <leader>ff :Files<CR>
+nnoremap <silent> <leader>fc :BCommits<CR>
+nnoremap <leader>gg :GGrep 
+nnoremap <silent> <leader>gf :GFiles<CR>
+nnoremap <silent> <leader>gC :Commits<CR>
+nnoremap <silent> <leader>bf :Buffers<CR>
+nnoremap <silent> <leader>bl :BLines<CR>
+nnoremap <silent> <leader>bL :Lines<CR>
 "}}}3
 "}}}2
 " General Code                                                              {{{2
