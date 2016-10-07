@@ -40,36 +40,6 @@ call plug#begin('~/.vim/plugged')
 " Wrappers for most used UNIX commands
 Plug 'tpope/vim-eunuch'
 
-Plug 'justinmk/vim-dirvish', {
-      \ 'on': ['Dirvish']
-      \ }                                                                 " {{{3
-nnoremap <Leader>n :Dirvish<CR>
-nnoremap <Leader>N :Dirvish %<CR>
-augroup ps_dirvish                                                        " {{{
-  au!
-  au FileType dirvish nnoremap <buffer> v
-        \ :vsp <C-R>=fnameescape(getline('.'))<CR><CR>
-  au FileType dirvish nnoremap <buffer> s
-        \ :sp <C-R>=fnameescape(getline('.'))<CR><CR>
-
-  " Map t to "open in new tab".
-  au FileType dirvish
-        \  nnoremap <buffer> t :call dirvish#open('tabedit', 0)<CR>
-        \ |xnoremap <buffer> t :call dirvish#open('tabedit', 0)<CR>
-
-  " Enable :Gstatus and friends.
-  au FileType dirvish call fugitive#detect(@%)
-
-  " Map `gh` to hide dot-prefixed files.
-  " To "toggle" this, just press `R` to reload.
-  au FileType dirvish nnoremap <buffer>
-        \ gh :keeppatterns g@\v/\.[^\/]+/?$@d<cr>
-
-  " Map CTRL-R to reload the Dirvish buffer.
-  au FileType dirvish nnoremap <buffer> <C-R> :<C-U>Dirvish %<CR>
-augroup END "}}}
-" }}}
-
 Plug 'dyng/ctrlsf.vim', { 'on': [
       \ '<Plug>CtrlSFVwordPath',
       \ '<Plug>CtrlSFCwordPath',
