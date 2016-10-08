@@ -97,6 +97,9 @@ command! -bang -nargs=* GGrep
 nnoremap <silent> <leader>fh :History<CR>
 nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>fc :BCommits<CR>
+nnoremap <silent> <leader>h<space> :Helptags<CR>
+nnoremap <silent> <leader>hm :Maps<CR>
+nnoremap <silent> <leader>; :Commands<CR>
 nnoremap <leader>gg :GGrep 
 nnoremap <silent> <leader>gf :GFiles<CR>
 nnoremap <silent> <leader>gC :Commits<CR>
