@@ -1132,8 +1132,8 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-nnoremap <leader>v <C-w>v
-nnoremap <leader>s <C-w>s
+nnoremap <leader>wv <C-w>v
+nnoremap <leader>ws <C-w>s
 "}}}2
 " Visual Mode */# from Scrooloose                                           {{{2
 function! s:VSetSearch()                                                  " {{{
