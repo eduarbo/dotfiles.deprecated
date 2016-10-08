@@ -40,24 +40,20 @@ call plug#begin('~/.vim/plugged')
 " Wrappers for most used UNIX commands
 Plug 'tpope/vim-eunuch'
 
-Plug 'dyng/ctrlsf.vim', { 'on': [
-      \ '<Plug>CtrlSFVwordPath',
-      \ '<Plug>CtrlSFCwordPath',
-      \ 'CtrlSFToggle',
-      \ 'CtrlSF'
-      \ ]}                                                                " {{{3
-vmap <leader>a <Plug>CtrlSFVwordPath
-nmap <leader>a <Plug>CtrlSFCwordPath
-nmap <leader>A :CtrlSFToggle<CR>
-vmap <leader>A :CtrlSFToggle<CR>
-noremap <localleader>a :CtrlSF
+Plug 'dyng/ctrlsf.vim'                                                    " {{{3
+vmap <leader>ss <Plug>CtrlSFVwordPath
+nmap <leader>ss <Plug>CtrlSFCwordPath
+nmap <leader>s/ <Plug>CtrlSFPwordPath
+nmap <leader>st :CtrlSFToggle<CR>
+nmap <leader>sf <Plug>CtrlSFPrompt
 
 let g:ctrlsf_mapping = {
-      \ 'quit': '',
+      \ 'split': '<c-s>',
+      \ 'vsplit': '<c-v>',
+      \ 'next': '<c-n>',
+      \ 'prev': '<c-N',
+      \ 'openb': '',
       \ }
-
-" For some strage reason, CtrlSF maps q to a call. Don't fuck with macros CtrlSF!
-noremap q q
 
 let g:ctrlsf_ackprg = 'ag'
 "}}}3
