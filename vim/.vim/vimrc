@@ -426,6 +426,7 @@ Plug 'othree/javascript-libraries-syntax.vim'
 " Ruby
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
+"}}}
 "}}}2
 " Style                                                                     {{{2
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'    " {{{
