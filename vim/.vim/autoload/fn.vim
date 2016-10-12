@@ -18,6 +18,22 @@ function! fn#CycleCommand(cmd, onReach) abort                             " {{{
   endtry
 endfunction "}}}
 
+function! fn#OpenInSplitIfBufferDirty(file, ...) abort "{{{
+  " Description: Open file in Split if Buffer not empty
+  " Inspired By:
+  " http://stackoverflow.com/questions/11060984/vim-split-if-the-buffer-not-empty
+
+  if line('$') ==# 1 && getline(1) ==# ''
+    exec 'e' a:file
+  else
+    if a:0
+      exec 'vsplit' a:file
+    else
+      exec 'split' a:file
+    endif
+  endif
+endfunction "}}}
+
 function! fn#ZoomToggle() abort                                           " {{{
   " Description: Maximize current window or restore previous size of all
   " windows.

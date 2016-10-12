@@ -1047,14 +1047,17 @@ vnoremap - =
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 "}}}1
 " Quick Editing:                                                            {{{1
-nnoremap <leader>ec :vsplit ~/.dotfiles/linters/.editorconfig<cr>
-nnoremap <leader>ej :vsplit ~/.dotfiles/lintesr/.jshintrc<cr>
-nnoremap <leader>ed :vsplit ~/.vim/custom-dictionary.utf-8.add<cr>
-nnoremap <leader>eg :vsplit ~/.dotfiles/git/.gitconfig<cr>
-nnoremap <leader>et :vsplit ~/.dotfiles/tmux/.tmux.conf<cr>
-nnoremap <leader>ez :vsplit ~/.dotfiles/zsh/.zshrc<cr>
-nnoremap <leader>ev :vsplit ~/.dotfiles/vim/.vim/vimrc<cr>
-nnoremap <leader>eb :vsplit ~/.dotfiles/bash/.bash_profile<cr>
+command -nargs=1 -complete=file -bar CleverOpen :call fn#OpenInSplitIfBufferDirty(<q-args>)
+command -nargs=1 -complete=file -bar CleverVOpen :call fn#OpenInSplitIfBufferDirty(<q-args>, 1)
+
+nnoremap <silent> <leader>ec :CleverVOpen ~/.dotfiles/linters/.editorconfig<cr>
+nnoremap <silent> <leader>ej :CleverVOpen ~/.dotfiles/lintesr/.jshintrc<cr>
+nnoremap <silent> <leader>ed :CleverVOpen ~/.vim/custom-dictionary.utf-8.add<cr>
+nnoremap <silent> <leader>eg :CleverVOpen ~/.dotfiles/git/.gitconfig<cr>
+nnoremap <silent> <leader>et :CleverVOpen ~/.dotfiles/tmux/.tmux.conf<cr>
+nnoremap <silent> <leader>ez :CleverVOpen ~/.dotfiles/zsh/.zshrc<cr>
+nnoremap <silent> <leader>ev :CleverVOpen ~/.dotfiles/vim/.vim/vimrc<cr>
+nnoremap <silent> <leader>eb :CleverVOpen ~/.dotfiles/bash/.bash_profile<cr>
 "}}}1
 " Searching And Movement:                                                   {{{1
 " Use sane regexes.
