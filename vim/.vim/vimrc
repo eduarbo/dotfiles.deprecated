@@ -1276,5 +1276,4 @@ endif "}}}
 "}}}1
 " TODO                                                                      {{{1
 " * Add more customized snippets
-" * Fix annoying bug with YCM that's clears whole word when type
 "}}}1
