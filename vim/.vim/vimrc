@@ -345,17 +345,17 @@ let g:undotree_WindowLayout = 2
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'benmills/vimux'                                                     " {{{
 " Prompt for a command to run
-noremap <LocalLeader>vp :VimuxPromptCommand<CR>
+noremap <leader>vp :VimuxPromptCommand<CR>
 " Run last command executed by VimuxRunCommand
-noremap <LocalLeader>vl :VimuxRunLastCommand<CR>
+noremap <leader>vl :VimuxRunLastCommand<CR>
 " Inspect runner pane
-noremap <LocalLeader>vi :VimuxInspectRunner<CR>
+noremap <leader>vi :VimuxInspectRunner<CR>
 " Close vim tmux runner opened by VimuxRunCommand
-noremap <LocalLeader>vq :VimuxCloseRunner<CR>
+noremap <leader>vq :VimuxCloseRunner<CR>
 " Interrupt any command running in the runner pane
-noremap <LocalLeader>vx :VimuxInterruptRunner<CR>
+noremap <leader>vx :VimuxInterruptRunner<CR>
 " Zoom the runner pane (use <bind-key> z to restore runner pane)
-noremap <LocalLeader>vz :call VimuxZoomRunner()<CR>"
+noremap <leader>vz :call VimuxZoomRunner()<CR>"
 
 augroup vimux                                                             " {{{
   au!
@@ -363,17 +363,17 @@ augroup vimux                                                             " {{{
 
   au FileType sh nnoremap <buffer> <localleader>e :VimuxRunCommand 'sh '.bufname('%')<CR>
 
-  au FileType python* nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; ipython '.bufname('%')<CR>
-  au FileType python* nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; ipython'<CR>
+  au FileType python* nnoremap <buffer> <leader>ve :VimuxRunCommand 'clear; ipython '.bufname('%')<CR>
+  au FileType python* nnoremap <buffer> <leader>vr :VimuxRunCommand 'clear; ipython'<CR>
 
-  au FileType ruby nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; ruby '.bufname('%')<CR>
-  au FileType ruby nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; irb'<CR>
+  au FileType ruby nnoremap <buffer> <leader>ve :VimuxRunCommand 'clear; ruby '.bufname('%')<CR>
+  au FileType ruby nnoremap <buffer> <leader>vr :VimuxRunCommand 'clear; irb'<CR>
 
-  au FileType go nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; go run '.bufname('%')<CR>
-  au FileType go nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; gore'<CR>
+  au FileType go nnoremap <buffer> <leader>ve :VimuxRunCommand 'clear; go run '.bufname('%')<CR>
+  au FileType go nnoremap <buffer> <leader>vr :VimuxRunCommand 'clear; gore'<CR>
 
-  au FileType javascript nnoremap <buffer> <localleader>ve :VimuxRunCommand 'clear; node '.bufname('%')<CR>
-  au FileType javascript nnoremap <buffer> <localleader>vr :VimuxRunCommand 'clear; node'<CR>
+  au FileType javascript nnoremap <buffer> <leader>ve :VimuxRunCommand 'clear; node '.bufname('%')<CR>
+  au FileType javascript nnoremap <buffer> <leader>vr :VimuxRunCommand 'clear; node'<CR>
 augroup END "}}}
 
 function! VimuxSlime()                                                    " {{{
@@ -386,12 +386,12 @@ endfunction "}}}
 vmap <silent> <Plug>SendSelectedLineToTmux "vy :<C-u>call VimuxSlime()<CR>j
       \:call repeat#set("\<Plug>SendSelectedLineToTmux")<CR>
 " TODO: Is not sending the indentation properly. FIXIT!
-vmap <LocalLeader>vs <Plug>SendSelectedLineToTmux
+vmap <leader>vs <Plug>SendSelectedLineToTmux
 
 " Select current line and send it to tmux
 nmap <silent> <Plug>SendCurrentLineToTmux mz^vg_"vy :<C-u>call VimuxSlime()<CR>`zj
       \:call repeat#set("\<Plug>SendCurrentLineToTmux")<CR>
-nmap <LocalLeader>vs <Plug>SendCurrentLineToTmux
+nmap <leader>vs <Plug>SendCurrentLineToTmux
 "}}}
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'                        " {{{
 nnoremap <leader>gd :Gdiff<cr>
@@ -720,16 +720,8 @@ augroup END "}}}
 augroup ft_markdown                                                       " {{{
   au!
 
-  au BufNewFile,BufRead *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=markdown
-
   au FileType markdown normal! zR
   au FileType markdown setlocal foldlevel=1
-  au FileType markdown setlocal nofoldenable    " disable folding
-
-  " Use <localleader>1/2/3 to add headings.
-  au FileType markdown nnoremap <buffer> <localleader>1 yypVr=:redraw<cr>
-  au FileType markdown nnoremap <buffer> <localleader>2 yypVr-:redraw<cr>
-  au FileType markdown nnoremap <buffer> <localleader>3 mzI###<space><ESC>`zllll
 augroup END "}}}
 augroup ft_nginx                                                          " {{{
   au!
@@ -875,7 +867,7 @@ endif
 " Basically this makes terminal Vim work sanely.
 set notimeout
 set ttimeout
-set ttimeoutlen=10
+set ttimeoutlen=0
 
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
@@ -998,7 +990,8 @@ command! ZoomToggle call fn#ZoomToggle()
 nnoremap <silent> <leader>z :ZoomToggle<CR>
 
 " Google it
-vnoremap <silent> <leader>? "gy<Esc>:call fn#GoogleIt(@g)<CR>:redraw!<CR>
+vnoremap <silent> <leader>? "zy:call fn#GoogleIt(@z)<CR>:redraw!<CR>
+nnoremap <silent> <leader>? :call fn#GoogleIt(expand('<cword>'))<CR>:redraw!<CR>
 
 " Show the stack of syntax hilighting groups affecting whatever is under the
 " cursor.
@@ -1067,7 +1060,7 @@ nnoremap <leader>. <C-^>
 nnoremap <leader><cr> :silent !/usr/local/bin/ctags -R . && sed -i .bak -E -e '/^[^	]+	[^	]+.py	.+v$/d' tags<cr>:redraw!<cr>
 
 " Clean trailing whitespace
-nnoremap <localleader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+nnoremap <leader>bw mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
 " Copy/Paste to and from Desktop Environment
 noremap <leader>y "+y
@@ -1113,7 +1106,7 @@ nnoremap ><lt> V`]>
 nnoremap =- V`]=
 
 " indent all
-nnoremap <localleader>= mzgg=G`z
+nnoremap <leader>= mzgg=G`z
 
 " Keep the cursor in place while joining lines
 nnoremap J mzJ`z
@@ -1135,10 +1128,6 @@ command! -bang Wa wa<bang>
 command! -bang WA wa<bang>
 command! -bang Wq wq<bang>
 command! -bang WQ wq<bang>
-
-" I suck at typing.
-nnoremap <localleader>- ==
-vnoremap - =
 
 " Unfuck my screen
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
@@ -1262,8 +1251,8 @@ nnoremap <silent> zR zR:<c-u>setlocal foldlevel?<CR>
 nnoremap <silent> zM zM:<c-u>setlocal foldlevel?<CR>
 
 " Space to toggle folds.
-nnoremap <localleader><localleader> za
-vnoremap <localleader><localleader> za
+nnoremap <leader><leader> za
+vnoremap <leader><leader> za
 
 " Make zO recursively open whatever top level fold we're in, no matter where the
 " cursor happens to be.
