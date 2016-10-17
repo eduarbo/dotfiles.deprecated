@@ -421,28 +421,10 @@ let g:gitgutter_sign_modified_removed = s:diff_modified_removed_sign
 nnoremap <leader>tg :GitGutterToggle<cr>
 "}}}
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'vim-scripts/listmaps.vim', {'on': 'Listmaps'}
-Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-repeat'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'kshenoy/vim-signature'
 Plug 'wellle/targets.vim'
-Plug 'mtth/scratch.vim', {'on': [
-      \'Scratch', 'ScratchInsert', 'ScratchPreview', 'ScratchSelection',
-      \'<Plug>(scratch-insert-reuse)', '<Plug>(scratch-insert-clear)',
-      \'<Plug>(scratch-selection-reuse)', '<Plug>(scratch-selection-clear)'
-      \ ]}                                                                " {{{3
-let g:scratch_horizontal = 0
-let g:scratch_top = 0
-let g:scratch_height = 80
-let g:scratch_no_mappings = 1
-let g:scratch_insert_autohide = 0
-
-nmap <localleader>s <Plug>(scratch-insert-reuse)
-nmap <localleader>S <Plug>(scratch-insert-clear)
-xmap <localleader>s <Plug>(scratch-selection-reuse)
-xmap <localleader>S <Plug>(scratch-selection-clear)
-" }}}
 "}}}2
 " Language-specific                                                         {{{2
 Plug 'fatih/vim-go', {'for': 'go'}                                        " {{{
