@@ -442,7 +442,14 @@ Plug 'lambdatoast/elm.vim'
 
 " Markdown
 Plug 'shime/vim-livedown', {'for': ['markdown']}
-Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax' "{{{
+let g:pandoc#syntax#conceal#urls = 1
+let g:pandoc#syntax#codeblocks#embeds#langs = [
+      \ 'ruby',
+      \ 'python',
+      \ 'bash=sh'
+      \ ]
 "}}}
 " Python {{{
 Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
@@ -498,6 +505,7 @@ Plug 'jason0x43/vim-js-indent'                                            " {{{
 let g:js_indent_flat_switch = 1
 "}}}
 Plug 'heavenshell/vim-jsdoc'
+Plug 'ternjs/tern_for_vim'
 " supports latest language features
 Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' }
 Plug 'othree/yajs.vim'
