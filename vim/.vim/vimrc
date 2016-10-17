@@ -91,13 +91,114 @@ let g:fzf_history_dir = '~/.fzf-history'
 command! -bang -nargs=* GGrep
   \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0, <bang>0)
 
+command! -bang -nargs=* Grep
+  \ call fzf#vim#grep('ag --nogroup --color '.shellescape(<q-args>), 0, <bang>0)
+
+command! -bang -nargs=* GrepFiles
+  \ call fzf#vim#grep('ag -l '.shellescape(<q-args>), 0, <bang>0)
+
+let g:my_notes_dir = "~/Google Drive/notes"
+
+" My note-taking approach {{{
+command! -bang -nargs=* NotesGrep call fzf#run({
+      \ 'source':  printf('ag --nogroup --column --color "%s"',
+      \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+      \ 'sink*':   function('<sid>ag_handler'),
+      \ 'options': '--ansi --delimiter : --nth 4.. '.
+      \            '--multi -1 --expect=ctrl-t,ctrl-v,ctrl-s',
+      \ 'down':    '~50%',
+      \ 'dir':     g:my_notes_dir
+      \ }, <bang>0)
+function! s:ag_to_qf(line)
+  let l:parts = split(a:line, ':')
+  return {'filename': l:parts[0], 'lnum': l:parts[1], 'col': l:parts[2],
+        \ 'text': join(l:parts[3:], ':')}
+endfunction
+function! s:ag_handler(lines)
+  if len(a:lines) < 2 | return | endif
+
+  let l:cmd = get(g:fzf_action, a:lines[0], 'e')
+  let l:list = map(a:lines[1:], 's:ag_to_qf(v:val)')
+
+  let l:first = l:list[0]
+  execute l:cmd escape(l:first.filename, ' %#\')
+  execute l:first.lnum
+  execute 'normal!' l:first.col.'|zz'
+
+  if len(l:list) > 1
+    call setqflist(l:list)
+    copen
+    wincmd p
+  endif
+endfunction
+
+command -nargs=* NoteYesterday call s:Note(<q-args>, -1)
+command -nargs=* NoteTomorrow call s:Note(<q-args>, 1)
+command -nargs=* Note call s:Note(<q-args>)
+function! s:Note(title, ...) abort "{{{
+  " title, [offset: integer]
+  " Description: Create a note. If `title` is missing it will use as file name
+  " the current date. An optional offset day can be passed to create a note with
+  " a different date.
+
+  let l:ext = '.md'
+  let l:title = a:title
+  let l:dir = expand(g:my_notes_dir)
+  if empty(a:title)
+    let l:offset = a:0 ? a:1 * 86400 : 0  " 86400 seconds = 1 day
+    let l:title = strftime('%Y-%m-%d', localtime() + l:offset)
+    let l:dir = join([l:dir, 'diary', l:title[:3]], '/')
+    silent call mkdir(l:dir, 'p')
+  endif
+  call fn#OpenInSplitIfBufferDirty(fnameescape(l:dir.'/'.l:title.l:ext), 1)
+endfunction "}}}
+
+command! -bang -nargs=* Notes call s:Notes(<q-args>, <bang>0)
+function! s:Notes(query, ...) abort "{{{
+" Description: List notes that matches query.
+" To create a new note type the name of the note and press <S-Enter>
+
+  " Get all the filenames under notes directory
+  let l:source = 'ag -g .'
+  " Highlight code whenever possible, if it fails just cat
+  let l:preview = 'highlight -O ansi {} || cat {}'
+
+  if !empty(a:query)
+    let l:query = shellescape(a:query)
+    " Search for files that matches query in its name or content and remove
+    " duplicates
+    let l:source = '(ag -l '.l:query.'; ag -g . | ag '.l:query.';) '.
+          \ '| awk ''!seen[$0]++'''
+    " Print lines before and after matches when ag is successful, otherwise
+    " fallback with previous command
+    let l:preview = 'ag --color -C '.l:query.' {} || '.l:preview
+  endif
+
+  return fzf#run(fzf#wrap({
+  \ 'source':  l:source,
+  \ 'options': '--ansi --tac --prompt "Note> " '.
+  \            '--multi -1 --preview-window right:70% '.
+  \            '--preview "('.l:preview.') 2> /dev/null | head -'.&lines.'"',
+  \ 'down': '~50%',
+  \ 'dir': g:my_notes_dir
+  \ }, a:1))
+endfunction "}}}
+
+nnoremap <leader>ny :NoteYesterday<CR>
+nnoremap <leader>nt :NoteTomorrow<CR>
+nnoremap <leader>nd :Note<CR>
+nnoremap <leader>nn :Note<space>
+nnoremap <leader>ng :NotesGrep<space>
+nnoremap <leader>n<leader> :Notes<space>
+"}}}
+
+nnoremap <leader>fg :Ag<space>
 nnoremap <silent> <leader>fh :History<CR>
 nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>fc :BCommits<CR>
-nnoremap <silent> <leader>h<space> :Helptags<CR>
-nnoremap <silent> <leader>hm :Maps<CR>
-nnoremap <silent> <leader>; :Commands<CR>
-nnoremap <leader>gg :GGrep 
+nnoremap <silent> <leader>, :Commands<CR>
+nnoremap <silent> <leader>/ :Helptags<CR>
+nnoremap <leader>gg :GGrep<space>
 nnoremap <silent> <leader>gf :GFiles<CR>
 nnoremap <silent> <leader>gC :Commits<CR>
 nnoremap <silent> <leader>bf :Buffers<CR>
