@@ -23,6 +23,7 @@ function! fn#OpenInSplitIfBufferDirty(file, ...) abort "{{{
   " Inspired By:
   " http://stackoverflow.com/questions/11060984/vim-split-if-the-buffer-not-empty
 
+  " TODO: Do not open a new split if buffer exists, focus it instead
   if line('$') ==# 1 && getline(1) ==# ''
     exec 'e' a:file
   else
