@@ -9,7 +9,7 @@
 ;;; License: GPLv3
 
 (spacemacs/set-leader-keys
-  "."   'spacemacs/alternate-buffer
+  ";"   'eval-expression
   "wV"  'split-window-right
   "wv"  'split-window-right-and-focus
   "wS"  'split-window-below
