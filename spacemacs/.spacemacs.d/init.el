@@ -60,7 +60,6 @@ values."
      (syntax-checking :variables
                       syntax-checking-enable-tooltips nil)
      (deft :variables
-       deft-directory "~/Google Drive/notes/"
        deft-recursive t
        deft-auto-save-interval 0
        deft-use-filename-as-title nil

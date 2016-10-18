@@ -14,19 +14,23 @@
     deft))
 
 (defun notes/post-init-deft ()
+  (setq deft-directory notes-directory)
+
+  (spacemacs|add-toggle deft-toggle-recursive
+    :status deft-recursive
+    :on (setq deft-recursive t) (deft-refresh)
+    :off (setq deft-recursive nil) (deft-refresh)
+    :documentation "Toggle recursively search for files in subdirectories"
+    :evil-leader-for-mode (deft-mode . "t"))
+
   (spacemacs/set-leader-keys
-    "nd" 'notes-open-today-journal
-    "ny" 'notes-open-yesterday-journal
-    "nt" 'notes-open-tomorrow-journal
-    "nn" 'deft
-    "nl" 'deft-find-file
-    "nS" 'notes-open-darkest-secrets)
+    "nd" 'deft
+    "nn" 'deft-find-file)
 
   (with-eval-after-load 'deft
     (define-key deft-mode-map [(shift return)] 'deft-new-file)
     (spacemacs/set-leader-keys-for-major-mode "deft-mode"
       "a" 'deft-archive-file
-      "t" 'deft-toggle-recursive-search
       "c" 'deft-filter-clear
       "s" 'deft-toggle-sort-method)))
 
@@ -53,21 +57,21 @@
 
   (let ((templates
          '(("t" "Todo"
-            entry (file+headline (notes-journal-path) "Tasks")
+            entry (file+headline (notes/journal-path) "Tasks")
             "* TODO %?\n\n%i\n")
            ("r" "Reminder"
-            entry (file+headline (notes-journal-path) "Tasks")
+            entry (file+headline (notes/journal-path) "Tasks")
             "* TODO %?\n%^{prompt|SCHEDULED|DEADLINE}: %^t\n\n%i\n")
            ("j" "Journal"
-            entry (file (notes-journal-path))
+            entry (file (notes/journal-path))
             "* %? :journal:\n%T\n\n%i\n"
             :empty-lines 1))))
     (setq org-capture-templates (append templates org-capture-templates)))
 
-  (setq org-agenda-files (list deft-directory)
-        org-default-notes-file (notes-journal-path))
+  (setq org-agenda-files (list notes-directory)
+        org-default-notes-file (notes/journal-path))
 
   (require 'autoinsert)
   (setq auto-insert-query nil)  ;; don't want to be prompted before insertion
   (add-hook 'find-file-hook 'auto-insert)
-  (add-to-list 'auto-insert-alist '(".*/[0-9]*\.org$" . notes-journal-file-insert)))
+  (add-to-list 'auto-insert-alist '(".*/[0-9]*\.org$" . notes/journal-file-insert)))

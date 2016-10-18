@@ -8,40 +8,52 @@
 ;;
 ;;; License: GPLv3
 
-(cl-defun notes-journal-path (&optional (offset 0))
-  "Path to the note of the day"
-  (let* ((date (time-add (current-time) (* offset 60 60 24)))
-         (dir (concat deft-directory (format-time-string "journal/%Y/" date))))
-    (make-directory dir t)
-    (concat dir (format-time-string "%Y-%m-%d.org" date))))
+;; TODO add a proper title when journal is created
+;; TODO add a function to open last journal
 
-(defun notes-open-tomorrow-journal ()
+(defun notes//date-with-offset (offset)
+  (time-add (current-time) (* offset 60 60 24)))
+
+(cl-defun notes/journal-path (&optional (date (current-time)))
+  "Get path to journal from date"
+  (concat notes-directory
+          (format-time-string notes-journal-filepath-format date)
+          notes-journal-extension))
+
+(defun notes//open-journal (offset)
+  "Open or create journal. Create parent directory if not exists"
+  (let* ((date (notes//date-with-offset offset))
+         (filename (notes/journal-path date)))
+    (unless (file-exists-p filename)
+      (let ((dir (file-name-directory filename)))
+        (unless (file-exists-p dir)
+          (make-directory dir t))))
+    (with-current-buffer (find-file filename)
+      (when (= (buffer-size) 0)
+        (insert (format-time-string notes-journal-title-format date))))))
+
+(defun notes/open-tomorrow-journal ()
   "Open note of the day"
   (interactive)
-  (find-file (notes-journal-path 1)))
+  (notes//open-journal 1))
 
-(defun notes-open-yesterday-journal ()
+(defun notes/open-yesterday-journal ()
   "Open note of the day"
   (interactive)
-  (find-file (notes-journal-path -1)))
+  (notes//open-journal -1))
 
-(defun notes-open-today-journal ()
+(defun notes/open-today-journal ()
   "Open note of the day"
   (interactive)
-  (find-file (notes-journal-path)))
+  (notes//open-journal 0))
 
-(defun notes-open-darkest-secrets ()
+(defun notes/open-darkest-secrets ()
   "Open my secrets file"
   (interactive)
   (find-file notes-secrets-path))
 
-(defun deft-toggle-recursive-search ()
-  "Toggle recursive search for files in subdirectories"
-  (interactive)
-  (setq deft-recursive (if deft-recursive nil t))
-  (deft-refresh))
-
-(defun notes-journal-file-insert ()
+;; TODO Reconsider mantain this function
+(defun notes/journal-file-insert ()
   "Insert's the journal heading based on the file's name."
   (interactive)
   (when (string-match "\\(20[0-9][0-9]\\)\\([0-9][0-9]\\)\\([0-9][0-9]\\)"
