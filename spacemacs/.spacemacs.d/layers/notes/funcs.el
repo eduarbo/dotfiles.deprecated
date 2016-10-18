@@ -8,7 +8,6 @@
 ;;
 ;;; License: GPLv3
 
-;; TODO add a proper title when journal is created
 ;; TODO add a function to open last journal
 
 (defun notes//date-with-offset (offset)
@@ -51,18 +50,3 @@
   "Open my secrets file"
   (interactive)
   (find-file notes-secrets-path))
-
-;; TODO Reconsider mantain this function
-(defun notes/journal-file-insert ()
-  "Insert's the journal heading based on the file's name."
-  (interactive)
-  (when (string-match "\\(20[0-9][0-9]\\)\\([0-9][0-9]\\)\\([0-9][0-9]\\)"
-                      (buffer-name))
-    (let ((year  (string-to-number (match-string 1 (buffer-name))))
-          (month (string-to-number (match-string 2 (buffer-name))))
-          (day   (string-to-number (match-string 3 (buffer-name))))
-          (datim nil))
-      (setq datim (encode-time 0 0 0 day month year))
-      (insert (format-time-string
-               "#+TITLE: Journal - %A, %b %e, %Y\n" datim)
-              "#+PROPERTY: LOGGING lognoterepeat\n\n"))))

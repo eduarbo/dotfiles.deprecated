@@ -55,23 +55,5 @@
     (when (file-exists-p notes-secrets-path)
       (setq org-capture-templates (append templates))))
 
-  (let ((templates
-         '(("t" "Todo"
-            entry (file+headline (notes/journal-path) "Tasks")
-            "* TODO %?\n\n%i\n")
-           ("r" "Reminder"
-            entry (file+headline (notes/journal-path) "Tasks")
-            "* TODO %?\n%^{prompt|SCHEDULED|DEADLINE}: %^t\n\n%i\n")
-           ("j" "Journal"
-            entry (file (notes/journal-path))
-            "* %? :journal:\n%T\n\n%i\n"
-            :empty-lines 1))))
-    (setq org-capture-templates (append templates org-capture-templates)))
-
   (setq org-agenda-files (list notes-directory)
-        org-default-notes-file (notes/journal-path))
-
-  (require 'autoinsert)
-  (setq auto-insert-query nil)  ;; don't want to be prompted before insertion
-  (add-hook 'find-file-hook 'auto-insert)
-  (add-to-list 'auto-insert-alist '(".*/[0-9]*\.org$" . notes/journal-file-insert)))
+        org-default-notes-file (notes/journal-path)))
