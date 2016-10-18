@@ -61,7 +61,6 @@ values."
      (syntax-checking :variables
                       syntax-checking-enable-tooltips nil)
      deft
-     ;; colors
      osx
      ;; erc
 
@@ -89,6 +88,7 @@ values."
      ;; sql
      ;; typescript
      ;; vagrant
+     vimscript
      yaml
      )
    ;; List of additional packages that will be installed without being
