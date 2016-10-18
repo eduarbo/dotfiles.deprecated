@@ -21,6 +21,7 @@
     spaceline
     subatomic-theme
     web-mode
+    undo-tree
     ))
 
 (defun defaults/post-init-helm ()
@@ -70,6 +71,10 @@
                         '(powerline-utf-8-separator-right #xe0b2))
   ;; I need to compile spaceline to take the changes
   (spaceline-compile))
+
+(defun defaults/post-init-undo-tree ()
+  (setq undo-tree-auto-save-history t
+        undo-tree-history-directory-alist '(("." . "~/.emacs.d/.cache/undo"))))
 
 (when (configuration-layer/layer-usedp 'auto-completion)
   (defun defaults/init-company-flx ()

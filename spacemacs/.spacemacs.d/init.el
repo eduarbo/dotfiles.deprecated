@@ -36,7 +36,6 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     ivy
      themes-megapack
      better-defaults
      (auto-completion :variables
@@ -90,6 +89,13 @@ values."
      ;; vagrant
      vimscript
      yaml
+
+     ;; Private layers
+     (crypt :variables
+            crypt-gpg-key "eduarbo@gmail.com")
+     (notes :variables
+            notes-directory "~/Google Drive/notes/")
+     defaults
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -347,10 +353,6 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-
-  ;; Enable persistent undo
-  (setq undo-tree-auto-save-history t
-        undo-tree-history-directory-alist '(("." . "~/.emacs.d/.cache/undo")))
 
   ;; Hide minor mode area
   (spacemacs/toggle-mode-line-minor-modes-off)
