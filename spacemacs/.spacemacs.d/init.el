@@ -59,7 +59,15 @@ values."
                      spell-checking-enable-auto-dictionary t)
      (syntax-checking :variables
                       syntax-checking-enable-tooltips nil)
-     deft
+     (deft :variables
+       deft-directory "~/Google Drive/notes/"
+       deft-recursive t
+       deft-auto-save-interval 0
+       deft-use-filename-as-title nil
+       deft-use-filter-string-for-filename t
+       deft-file-naming-rules '((noslash . "-")
+                                (nospace . "-")
+                                (case-fn . downcase)))
      osx
      ;; erc
 
@@ -93,8 +101,7 @@ values."
      ;; Private layers
      (crypt :variables
             crypt-gpg-key "eduarbo@gmail.com")
-     (notes :variables
-            notes-directory "~/Google Drive/notes/")
+     notes
      defaults
      )
    ;; List of additional packages that will be installed without being

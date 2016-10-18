@@ -10,11 +10,8 @@
 
 ;; variables
 
-(defvar notes-directory nil
-  "Path to my notes directory")
-
-(defvar notes-secrets-filename "secrets.org"
+(defvar notes-secrets-filename "psst.org"
   "Secrets file name")
 
-(defvar notes-secrets-path (concat notes-directory notes-secrets-filename)
+(defvar notes-secrets-path (concat deft-directory notes-secrets-filename)
   "Path to my secrets file")

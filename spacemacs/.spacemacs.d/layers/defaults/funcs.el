@@ -21,3 +21,37 @@ to at least the fill column. Place the point after the comment box."
     (set-marker e nil)))
 
 (spacemacs/set-leader-keys "cb" 'my/comment-box)
+
+(defun my/narrow-and-set-normal ()
+  "Narrow to the region and, if in a visual mode, set normal mode."
+  (interactive)
+  (narrow-to-region (region-beginning) (region-end))
+  (if (string= evil-state "visual")
+      (progn (evil-normal-state nil)
+             (evil-goto-first-line))))
+
+;; Taken from http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html
+(defun my/narrow-or-widen-dwim (p)
+  "Widen if buffer is narrowed, narrow-dwim otherwise.
+Dwim means: region, org-src-block, org-subtree, or defun,
+whichever applies first. Narrowing to org-src-block actually
+calls `org-edit-src-code'.
+
+With prefix P, don't widen, just narrow even if buffer is
+already narrowed."
+  (interactive "P")
+  (declare (interactive-only))
+  (cond ((and (buffer-narrowed-p) (not p)) (widen))
+        ((region-active-p)
+         (my/narrow-and-set-normal))
+        ((and (boundp 'org-src-mode) org-src-mode (not p))
+         (org-edit-src-exit))
+        ((derived-mode-p 'org-mode)
+         (cond ((ignore-errors (org-edit-src-code)))
+               ((ignore-errors (org-narrow-to-block) t))
+               (t (org-narrow-to-subtree))))
+        ((derived-mode-p 'latex-mode)
+         (LaTeX-narrow-to-environment))
+        (t (narrow-to-defun))))
+
+(spacemacs/set-leader-keys "n TAB" 'my/narrow-or-widen-dwim)
