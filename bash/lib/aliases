@@ -30,12 +30,6 @@ alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dev='cd ~/dev'
 
-alias r='rails'
-alias rg='rails g'
-alias rn='rails new'
-alias rs='rails s'
-alias rc='rails c'
-
 alias v='vim'
 alias V='vim .'
 
@@ -53,7 +47,7 @@ alias em='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
 alias e='emacsclient -t'
 alias ec='emacsclient -c'
 
-alias tm="tmux -u2 new-session -s chell"
+alias tm="tmux -u2"
 alias tmkillall="tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs -n1 tmux kill-session -t"
 alias cl="clear"
 
