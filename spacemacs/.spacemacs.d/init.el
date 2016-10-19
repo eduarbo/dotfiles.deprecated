@@ -77,8 +77,8 @@ values."
      django
      docker
      (elm :variables
-          elm-reactor-port "3000"          ; default 8000
-          elm-reactor-address "0.0.0.0") ; default 127.0.0.1
+          elm-reactor-port "3000"           ; default 8000
+          elm-reactor-address "0.0.0.0")    ; default 127.0.0.1
      emacs-lisp
      html
      javascript
@@ -102,8 +102,7 @@ values."
      (crypt :variables
             crypt-gpg-key "eduarbo@gmail.com")
      notes
-     defaults
-     )
+     defaults)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
