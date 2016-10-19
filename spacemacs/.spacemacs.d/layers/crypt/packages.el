@@ -10,7 +10,8 @@
 
 (defconst crypt-packages
   '((org :location built-in)
-    (org-crypt :location built-in)))
+    (org-crypt :location built-in
+               :toggle (configuration-layer/package-usedp 'org))))
 
 (defun crypt/init-org-crypt ()
   (use-package org-crypt
