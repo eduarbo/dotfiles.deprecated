@@ -22,7 +22,8 @@
     spaceline
     subatomic-theme
     web-mode
-    undo-tree))
+    undo-tree
+    yasnippet))
 
 (defun defaults/post-init-evil ()
   (bind-map-set-keys evil-motion-state-map
@@ -115,11 +116,21 @@
 
 (defun defaults/init-company-flx ()
   (use-package company-flx
-    :if (configuration-layer/package-usedp 'company)
     :defer t
     :init
     (setq company-flx-limit 100)
     (with-eval-after-load 'company (company-flx-mode t))))
+
+(defun defaults/post-init-yasnippet ()
+  (with-eval-after-load "yasnippet"
+    ;; Now I can complete with TAB while snippet expansion is in progress
+    (setq yas-keymap
+          (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "C-n") 'yas-next-field-or-maybe-expand)
+            (define-key map (kbd "C-p") 'yas-prev-field)
+            (define-key map (kbd "C-g") 'yas-abort-snippet)
+            (define-key map (kbd "C-d") 'yas-skip-and-clear-or-delete-char)
+            map))))
 
 ;; disable jshint, jsonlist, and jscs since I prefer eslint checking
 (defun defaults/post-init-flycheck ()
