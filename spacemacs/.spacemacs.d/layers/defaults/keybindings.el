@@ -9,21 +9,26 @@
 ;;; License: GPLv3
 
 (spacemacs/set-leader-keys
-  ";"   'eval-expression
-  "wV"  'split-window-right
-  "wv"  'split-window-right-and-focus
-  "wS"  'split-window-below
-  "ws"  'split-window-below-and-focus)
+  "SPC"   'avy-goto-char-2
+  "n TAB" 'my/narrow-or-widen-dwim
+  "cb"    'my/comment-box
+  ";"     'eval-expression
+  "wV"    'split-window-right
+  "wv"    'split-window-right-and-focus
+  "wS"    'split-window-below
+  "ws"    'split-window-below-and-focus)
 
-(bind-map-set-keys evil-normal-state-map "Q" 'fill-paragraph)
+(bind-map-set-keys evil-motion-state-map
+  "L"   'evil-forward-arg
+  "H"   'evil-backward-arg
+  "C-h" 'evil-window-left
+  "C-j" 'evil-window-down
+  "C-k" 'evil-window-up
+  "C-l" 'evil-window-right)
 
-(define-key evil-motion-state-map (kbd "C-h") 'evil-window-left)
-(define-key evil-motion-state-map (kbd "C-j") 'evil-window-down)
-(define-key evil-motion-state-map (kbd "C-k") 'evil-window-up)
-(define-key evil-motion-state-map (kbd "C-l") 'evil-window-right)
-
-;; bind evil-forward/backward-args
-(define-key evil-normal-state-map "L" 'evil-forward-arg)
-(define-key evil-normal-state-map "H" 'evil-backward-arg)
-(define-key evil-motion-state-map "L" 'evil-forward-arg)
-(define-key evil-motion-state-map "H" 'evil-backward-arg)
+(bind-map-set-keys evil-normal-state-map
+  ":"       'evil-repeat-find-char-reverse
+  "<C-tab>" 'evil-jump-item
+  "L"       'evil-forward-arg
+  "H"       'evil-backward-arg
+  "Q"       'fill-paragraph)

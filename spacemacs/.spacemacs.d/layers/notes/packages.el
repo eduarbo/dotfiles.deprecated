@@ -28,7 +28,10 @@
     "nn" 'deft-find-file)
 
   (with-eval-after-load 'deft
-    (define-key deft-mode-map [(shift return)] 'deft-new-file)
+    (evil-define-key 'insert deft-mode-map
+      (kbd "S-RET") 'deft-new-file)
+    (evil-define-key 'normal deft-mode-map
+      "q" 'quit-window)
     (spacemacs/set-leader-keys-for-major-mode "deft-mode"
       "a" 'deft-archive-file
       "c" 'deft-filter-clear

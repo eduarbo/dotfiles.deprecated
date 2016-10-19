@@ -20,9 +20,7 @@ to at least the fill column. Place the point after the comment box."
     (goto-char e)
     (set-marker e nil)))
 
-(spacemacs/set-leader-keys "cb" 'my/comment-box)
-
-(defun my/narrow-and-set-normal ()
+(defun my//narrow-and-set-normal ()
   "Narrow to the region and, if in a visual mode, set normal mode."
   (interactive)
   (narrow-to-region (region-beginning) (region-end))
@@ -43,7 +41,7 @@ already narrowed."
   (declare (interactive-only))
   (cond ((and (buffer-narrowed-p) (not p)) (widen))
         ((region-active-p)
-         (my/narrow-and-set-normal))
+         (my//narrow-and-set-normal))
         ((and (boundp 'org-src-mode) org-src-mode (not p))
          (org-edit-src-exit))
         ((derived-mode-p 'org-mode)
@@ -53,5 +51,3 @@ already narrowed."
         ((derived-mode-p 'latex-mode)
          (LaTeX-narrow-to-environment))
         (t (narrow-to-defun))))
-
-(spacemacs/set-leader-keys "n TAB" 'my/narrow-or-widen-dwim)

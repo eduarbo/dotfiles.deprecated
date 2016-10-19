@@ -9,8 +9,7 @@
 ;;; License: GPLv3
 
 (defconst defaults-packages
-  '(
-    company
+  '(company
     company-flx
     evil-args
     flycheck
@@ -21,13 +20,9 @@
     spaceline
     subatomic-theme
     web-mode
-    undo-tree
-    ))
+    undo-tree))
 
 (defun defaults/post-init-helm ()
-  (spacemacs/set-leader-keys
-    "SPC" 'helm-mini)
-
   ;; Enable fuzzy matching for everything
   (setq helm-completion-in-region-fuzzy-match t
         helm-mode-fuzzy-match t))
