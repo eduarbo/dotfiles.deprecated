@@ -9,8 +9,10 @@
 ;;; License: GPLv3
 
 (defconst defaults-packages
-  '(company
-    company-flx
+  '(avy
+    company
+    (company-flx :toggle (configuration-layer/package-usedp 'company))
+    evil
     evil-args
     flycheck
     gruvbox
@@ -21,6 +23,29 @@
     subatomic-theme
     web-mode
     undo-tree))
+
+(defun defaults/post-init-evil ()
+  (bind-map-set-keys evil-motion-state-map
+    "C-h" 'evil-window-left
+    "C-j" 'evil-window-down
+    "C-k" 'evil-window-up
+    "C-l" 'evil-window-right)
+  (bind-map-set-keys evil-normal-state-map
+    ":"       'evil-repeat-find-char-reverse
+    "<C-tab>" 'evil-jump-item))
+
+(defun defaults/post-init-avy ()
+  (bind-map-set-keys evil-normal-state-map
+    "s" 'avy-goto-char-timer
+    "S" 'avy-goto-char-in-line))
+
+(defun defaults/post-init-evil-args ()
+  (bind-map-set-keys evil-normal-state-map
+    "L" 'evil-forward-arg
+    "H" 'evil-backward-arg)
+  (bind-map-set-keys evil-motion-state-map
+    "L" 'evil-forward-arg
+    "H" 'evil-backward-arg))
 
 (defun defaults/post-init-helm ()
   ;; Enable fuzzy matching for everything
@@ -88,14 +113,13 @@
     (define-key company-active-map (kbd "DEL") 'company-abort)
     (define-key evil-insert-state-map (kbd "TAB") 'complete-or-insert-tab)))
 
-(when (configuration-layer/package-usedp 'company)
-  (defun defaults/init-company-flx ()
-    (use-package company-flx
-      :if (configuration-layer/package-usedp 'company)
-      :defer t
-      :init
-      (setq company-flx-limit 100)
-      (with-eval-after-load 'company (company-flx-mode t)))))
+(defun defaults/init-company-flx ()
+  (use-package company-flx
+    :if (configuration-layer/package-usedp 'company)
+    :defer t
+    :init
+    (setq company-flx-limit 100)
+    (with-eval-after-load 'company (company-flx-mode t))))
 
 ;; disable jshint, jsonlist, and jscs since I prefer eslint checking
 (defun defaults/post-init-flycheck ()

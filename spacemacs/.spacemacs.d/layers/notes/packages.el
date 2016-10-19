@@ -10,7 +10,6 @@
 
 (defconst notes-packages
   '((org :location built-in)
-    (org-crypt :location built-in)
     deft))
 
 (defun notes/post-init-deft ()
