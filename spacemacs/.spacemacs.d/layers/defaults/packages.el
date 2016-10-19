@@ -72,27 +72,30 @@
         undo-tree-history-directory-alist '(("." . "~/.emacs.d/.cache/undo"))))
 
 (defun defaults/post-init-company ()
-  ;; Get rid of annoying completion-at-point
-  (setq tab-always-indent t)
+  (setq
+   ;; Get rid of annoying completion-at-point
+   tab-always-indent t
+   ;; Complete only when I command
+   company-idle-delay nil)
 
-  ;; Complete only when I command
-  (setq company-idle-delay nil)
-
-  (defun indent-or-complete ()
+  (defun complete-or-insert-tab ()
     (interactive)
     (if (looking-at "\\_>")
         (company-complete-common)
-      (indent-according-to-mode)))
+      (tab-to-tab-stop)))
 
   (with-eval-after-load "company"
-    (define-key evil-insert-state-map (kbd "TAB") 'indent-or-complete)))
+    (define-key company-active-map (kbd "DEL") 'company-abort)
+    (define-key evil-insert-state-map (kbd "TAB") 'complete-or-insert-tab)))
 
-(when (configuration-layer/layer-usedp 'auto-completion)
+(when (configuration-layer/package-usedp 'company)
   (defun defaults/init-company-flx ()
     (use-package company-flx
       :if (configuration-layer/package-usedp 'company)
       :defer t
-      :init (with-eval-after-load 'company (company-flx-mode t)))))
+      :init
+      (setq company-flx-limit 100)
+      (with-eval-after-load 'company (company-flx-mode t)))))
 
 ;; disable jshint, jsonlist, and jscs since I prefer eslint checking
 (defun defaults/post-init-flycheck ()
