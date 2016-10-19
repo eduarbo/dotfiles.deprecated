@@ -28,7 +28,7 @@
 
 (bind-map-set-keys evil-normal-state-map
   ":"       'evil-repeat-find-char-reverse
-  "<C-tab>" 'evil-jump-item
   "L"       'evil-forward-arg
   "H"       'evil-backward-arg
-  "Q"       'fill-paragraph)
+  "Q"       'fill-paragraph
+  "<C-tab>" 'evil-jump-item)

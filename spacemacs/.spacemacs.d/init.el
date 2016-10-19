@@ -75,6 +75,7 @@ values."
      ;; (clojure :variables
      ;;          clojure-enable-fancify-symbols t)
      django
+     docker
      (elm :variables
           elm-reactor-port "3000"          ; default 8000
           elm-reactor-address "0.0.0.0") ; default 127.0.0.1
