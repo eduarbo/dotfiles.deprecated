@@ -40,10 +40,10 @@ values."
      better-defaults
      (auto-completion :variables
                       ;; auto-completion-enable-sort-by-usage t ; It breaks spacemacs
+                      auto-completion-enable-help-tooltip nil
                       auto-completion-return-key-behavior nil
                       auto-completion-tab-key-behavior 'complete
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-enable-help-tooltip t)
+                      auto-completion-enable-snippets-in-popup t)
      (git :variables
           magit-repository-directories '("~/dev/"))
      (version-control :variables

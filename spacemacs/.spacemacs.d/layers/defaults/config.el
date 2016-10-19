@@ -8,8 +8,6 @@
 ;;
 ;;; License: GPLv3
 
-;; Workaround to get rid of annoying completion-at-point in empty strings
-(setq tab-always-indent t)
 ;; Follow symlinks
 (setq vc-follow-symlinks t)
 
@@ -28,11 +26,3 @@
 (add-hook 'python-mode-hook #'my//include-underscores-in-word-motions)
 (add-hook 'ruby-mode-hook #'my//include-underscores-in-word-motions)
 (add-hook 'js2-mode-hook #'my//include-underscores-in-word-motions)
-
-;; Threat the underscore char as a symbol constituent for everything except for
-;; the inner-word text object, so `ciw' will threat the _ as part of the word
-;; and `caw' will threat it as a symbol
-;; (defadvice evil-inner-word (around underscore-as-word activate)
-;;   (let ((table (copy-syntax-table (syntax-table))))
-;;     (modify-syntax-entry ?_ "w" table)
-;;     (with-syntax-table table ad-do-it)))

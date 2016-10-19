@@ -76,6 +76,12 @@
   (setq undo-tree-auto-save-history t
         undo-tree-history-directory-alist '(("." . "~/.emacs.d/.cache/undo"))))
 
+(defun defaults/post-init-company ()
+  ;; Complete only when I command
+  (setq company-idle-delay nil)
+  (with-eval-after-load "company"
+    (define-key evil-insert-state-map (kbd "TAB") 'company-complete)))
+
 (when (configuration-layer/layer-usedp 'auto-completion)
   (defun defaults/init-company-flx ()
     (use-package company-flx
