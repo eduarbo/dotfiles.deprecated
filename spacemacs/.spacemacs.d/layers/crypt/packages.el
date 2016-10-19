@@ -9,10 +9,9 @@
 ;;; License: GPLv3
 
 (defconst crypt-packages
-  '((org :location built-in)
-    (org-crypt :location built-in
-               :toggle (configuration-layer/package-usedp 'org))))
+  '((org-crypt :location built-in)))
 
+;; TODO improve approach to toggle between encryp/decrypt
 (defun crypt/init-org-crypt ()
   (use-package org-crypt
     :after org
