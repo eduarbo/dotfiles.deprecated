@@ -9,7 +9,6 @@
 ;;; License: GPLv3
 
 (spacemacs/set-leader-keys
-  "SPC"   'avy-goto-char-2
   "n TAB" 'my/narrow-or-widen-dwim
   "cb"    'my/comment-box
   ";"     'eval-expression
@@ -27,6 +26,8 @@
   "C-l" 'evil-window-right)
 
 (bind-map-set-keys evil-normal-state-map
+  "s"       'avy-goto-char-timer
+  "S"       'avy-goto-char-in-line
   ":"       'evil-repeat-find-char-reverse
   "L"       'evil-forward-arg
   "H"       'evil-backward-arg
