@@ -77,10 +77,20 @@
         undo-tree-history-directory-alist '(("." . "~/.emacs.d/.cache/undo"))))
 
 (defun defaults/post-init-company ()
+  ;; Get rid of annoying completion-at-point
+  (setq tab-always-indent t)
+
   ;; Complete only when I command
   (setq company-idle-delay nil)
+
+  (defun indent-or-complete ()
+    (interactive)
+    (if (looking-at "\\_>")
+        (company-complete-common)
+      (indent-according-to-mode)))
+
   (with-eval-after-load "company"
-    (define-key evil-insert-state-map (kbd "TAB") 'company-complete)))
+    (define-key evil-insert-state-map (kbd "TAB") 'indent-or-complete)))
 
 (when (configuration-layer/layer-usedp 'auto-completion)
   (defun defaults/init-company-flx ()
