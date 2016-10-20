@@ -51,3 +51,16 @@ already narrowed."
         ((derived-mode-p 'latex-mode)
          (LaTeX-narrow-to-environment))
         (t (narrow-to-defun))))
+
+(defun my/cycle-available-themes ()
+  "Cycle through themes available for loading"
+  (interactive)
+  (when spacemacs--cur-theme
+    (disable-theme spacemacs--cur-theme)
+    ;; if current theme isn't in cycleable themes, start over
+    (setq spacemacs--cycle-themes
+          (or (cdr (memq spacemacs--cur-theme (custom-available-themes)))
+              (custom-available-themes))))
+  (setq spacemacs--cur-theme (pop spacemacs--cycle-themes))
+  (message "Loading theme %s..." spacemacs--cur-theme)
+  (spacemacs/load-theme spacemacs--cur-theme))
