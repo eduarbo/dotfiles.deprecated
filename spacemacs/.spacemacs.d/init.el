@@ -39,7 +39,8 @@ values."
      themes-megapack
      better-defaults
      (auto-completion :variables
-                      ;; auto-completion-enable-sort-by-usage t ; It breaks spacemacs
+                      spacemacs-default-company-backends '(company-capf company-dabbrev-code)
+                      auto-completion-enable-sort-by-usage t
                       auto-completion-enable-help-tooltip nil
                       auto-completion-return-key-behavior nil
                       auto-completion-tab-key-behavior 'complete

@@ -27,7 +27,7 @@
 
 (defun defaults/post-init-evil ()
   (spacemacs/set-leader-keys
-    "TAB" 'evil-buffer)
+    "TAB" 'evil-switch-to-windows-last-buffer)
   (bind-map-set-keys evil-motion-state-map
     "C-h" 'evil-window-left
     "C-j" 'evil-window-down

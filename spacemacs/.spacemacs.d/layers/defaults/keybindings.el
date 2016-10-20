@@ -9,6 +9,7 @@
 ;;; License: GPLv3
 
 (spacemacs/set-leader-keys
+  "hd,"   'my/describe-foo-at-point
   "TN"    'my/cycle-available-themes
   "n TAB" 'my/narrow-or-widen-dwim
   "cb"    'my/comment-box
