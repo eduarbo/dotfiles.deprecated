@@ -13,7 +13,15 @@
     deft))
 
 (defun notes/post-init-deft ()
-  (setq deft-directory notes-directory)
+  (setq deft-recursive t
+        deft-directory notes-directory
+        deft-use-filename-as-title nil
+        deft-auto-save-interval 0
+        deft-org-mode-title-prefix t
+        deft-use-filter-string-for-filename t
+        deft-file-naming-rules '((noslash . "-")
+                                 (nospace . "-")
+                                 (case-fn . downcase)))
 
   (spacemacs|add-toggle deft-toggle-recursive
     :status deft-recursive
@@ -27,8 +35,8 @@
     "nn" 'deft-find-file)
 
   (with-eval-after-load 'deft
-    (evil-define-key 'insert deft-mode-map
-      (kbd "S-RET") 'deft-new-file)
+    (bind-map-set-keys deft-mode-map
+      "<S-return>" 'deft-new-file)
     (evil-define-key 'normal deft-mode-map
       "q" 'quit-window)
     (spacemacs/set-leader-keys-for-major-mode "deft-mode"

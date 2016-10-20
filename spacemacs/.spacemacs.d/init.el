@@ -60,14 +60,7 @@ values."
                      spell-checking-enable-auto-dictionary t)
      (syntax-checking :variables
                       syntax-checking-enable-tooltips nil)
-     (deft :variables
-       deft-recursive t
-       deft-auto-save-interval 0
-       deft-use-filename-as-title nil
-       deft-use-filter-string-for-filename t
-       deft-file-naming-rules '((noslash . "-")
-                                (nospace . "-")
-                                (case-fn . downcase)))
+     deft
      osx
      ;; erc
 
