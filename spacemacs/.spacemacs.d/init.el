@@ -50,11 +50,11 @@ values."
      (version-control :variables
                       version-control-diff-tool 'git-gutter
                       version-control-global-margin t)
-     ;; (shell :variables
-     ;;        shell-default-shell 'eshell
-     ;;        shell-enable-smart-eshell t
-     ;;        shell-default-position 'bottom
-     ;;        shell-default-height 30)
+     (shell :variables
+            shell-default-shell 'eshell
+            shell-enable-smart-eshell t
+            shell-default-position 'bottom
+            shell-default-height 30)
      (spell-checking :variables
                      spell-checking-enable-by-default nil
                      spell-checking-enable-auto-dictionary t)
