@@ -39,7 +39,8 @@ values."
      themes-megapack
      better-defaults
      (auto-completion :variables
-                      spacemacs-default-company-backends '(company-capf company-dabbrev-code)
+                      spacemacs-default-company-backends '(company-capf
+                                                           company-dabbrev-code)
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-help-tooltip nil
                       auto-completion-return-key-behavior nil
@@ -68,6 +69,7 @@ values."
      c-c++
      ;; (clojure :variables
      ;;          clojure-enable-fancify-symbols t)
+     dash
      django
      docker
      (elm :variables
@@ -79,14 +81,15 @@ values."
      lua
      markdown
      nginx
-     org
+     (org :variables org-enable-github-support t)
      pandoc
      (python :variables
              python-enable-yapf-format-on-save t)
      react
      ruby
      shell-scripts
-     ;; sql
+     sql
+     systemd
      ;; typescript
      ;; vagrant
      vimscript
@@ -105,7 +108,9 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(evil-escape)
+   dotspacemacs-excluded-packages '(evil-escape
+                                    company-flx
+                                    evil-search-highlight-persist)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
