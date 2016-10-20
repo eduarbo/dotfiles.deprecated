@@ -17,6 +17,7 @@
     flycheck
     gruvbox
     helm
+    helm-projectile
     js2-mode
     (sh-script :location built-in)
     spaceline
@@ -55,6 +56,10 @@
   (setq helm-completion-in-region-fuzzy-match t
         helm-mode-fuzzy-match t))
 
+(defun defaults/post-init-helm-projectile ()
+  (spacemacs/set-leader-keys
+    "/" 'spacemacs/helm-project-do-grep))
+
 (defun defaults/post-init-web-mode ()
   (setq css-indent-offset tab-width
         web-mode-markup-indent-offset tab-width
@@ -78,7 +83,8 @@
 
 (defun defaults/post-init-gruvbox ()
   ;; Darker vertical-border for gruvbox
-  (set-face-attribute 'vertical-border nil :foreground "#1d2021" :background nil))
+  (set-face-attribute 'vertical-border nil
+                      :foreground "#1d2021" :background nil))
 
 (defun defaults/post-init-subatomic-theme ()
   (set-face-attribute 'vertical-border nil
