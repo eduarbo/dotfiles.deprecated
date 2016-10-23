@@ -109,6 +109,7 @@ values."
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(evil-escape
+                                    vi-tilde-fringe
                                     company-flx
                                     evil-search-highlight-persist)
    ;; Defines the behaviour of Spacemacs when installing packages.
