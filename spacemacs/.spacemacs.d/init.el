@@ -363,6 +363,21 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  ;; Hide minor mode area
+  ;; Distinguish wrapped lines with curly arrows
+  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+  ;; show minimalist fringes to the right
+  (fringe-mode '(nil . 1))
+
+  ;; Default toggles
   (spacemacs/toggle-mode-line-minor-modes-off)
+  (spacemacs/toggle-centered-point-globally-on)
+  ;; Enable automatic line breaking
+  (spacemacs/add-to-hooks 'spacemacs/toggle-auto-fill-mode-on
+                          '(prog-mode-hook
+                            text-mode-hook))
+  ;; Enable Word wrapping and visual line navigation.
+  (spacemacs/add-to-hooks 'spacemacs/toggle-visual-line-navigation-on
+                          '(prog-mode-hook
+                            text-mode-hook
+                            magit-status-mode-hook))
   )

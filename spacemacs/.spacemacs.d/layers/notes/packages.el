@@ -46,15 +46,6 @@
 
 (defun notes/post-init-org ()
   (setq org-capture-templates nil)
-  ;; Wrap lines
-  (spacemacs/add-to-hooks 'spacemacs/toggle-auto-fill-mode-on
-                          '(org-mode-hook))
-  ;; Break lines automatically
-  (spacemacs/add-to-hooks 'spacemacs/toggle-visual-line-navigation-on
-                          '(org-mode-hook))
-  ;; Distinguish wrapped lines with curly arrows
-  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
-
   (let ((templates
          '(("s" "Secret"
             entry (file notes-secrets-path)
