@@ -17,6 +17,7 @@
     flycheck
     gruvbox
     helm
+    helm-dash
     helm-projectile
     js2-mode
     (sh-script :location built-in)
@@ -55,6 +56,9 @@
   ;; Enable fuzzy matching for everything
   (setq helm-completion-in-region-fuzzy-match t
         helm-mode-fuzzy-match t))
+
+(defun defaults/post-init-helm-dash ()
+  (setq helm-dash-browser-func 'eww))
 
 (defun defaults/post-init-helm-projectile ()
   (spacemacs/set-leader-keys
@@ -116,7 +120,7 @@
     (interactive)
     (if (looking-at "\\_>")
         (company-complete-common)
-      (tab-to-tab-stop)))
+      (indent-according-to-mode)))
 
   (with-eval-after-load "company"
     (define-key company-active-map (kbd "DEL") 'company-abort)
