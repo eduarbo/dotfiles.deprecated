@@ -1,0 +1,77 @@
+let mapleader = i"<Space>"
+
+" Settings
+set nohud
+set nosmoothscroll
+set noautofocus
+set typelinkhints
+set nodimhintcharacters
+set defaultnewtabpage
+let searchlimit = 40
+let typelinkhintsdelay = 0
+let hintcharacters = "fdsajkl;weruiogh"
+let searchlimit = 30
+let scrollstep = 70
+let barposition = "top"
+
+" alias ':g' to ':tabnew google'
+command g tabnew google
+
+let blacklists = ["https://mail.google.com/*", "*://mail.google.com/*", "@https://mail.google.com/mail/*"]
+let searchengine twitter = "https://twitter.com/search?q=%s"
+let completionengines = ["google", "amazon", "imdb", "duckduckgo", "wikipedia", "youtube", "google-image", "twitter"]
+
+" Create a shortcut for search engines. For example, typing ':tabnew g example'
+" would act the same way as ':tabnew google example'
+let searchalias a = "amazon"
+let searchalias d = "duckduckgo"
+let searchalias g = "google"
+let searchalias i = "imdb"
+let searchalias p = "google-image"
+let searchalias t = "twitter"
+let searchalias u = "urbandictionary"
+let searchalias w = "wikipedia"
+let searchalias y = "youtube"
+" Mappings
+map , openCommandBar
+map h previousTab
+map l nextTab
+map m* setMark
+map u lastClosedTab
+map xx closeTab
+map gq :restore<space>
+map ? openLinkSearchBar
+map B :Bookmarks!
+map B :Buffer
+
+map <Leader>r reloadTabUncached
+map <Leader>x :restore<Space>
+
+map <C-.> rootFrame
+map <C-d> scrollPageDown
+map <C-u> scrollPageUp
+imap <C-w> deleteWord
+
+map <Leader>s :source<CR>
+
+map <Leader>f :open! http://www.facebook.com<CR>
+map <Leader>F :open http://www.facebook.com<CR>
+map <Leader>n :open! http://news.google.com<CR>
+map <Leader>cl :open! chrome://chrome/settings/clearBrowserData<CR>
+map <Leader>ce :chrome! extensions<CR>
+map <Leader>cd :chrome! downloads<CR>
+map <Leader>ch :chrome! history<CR>
+map <Leader>cf :chrome! flags<CR>
+
+" Script hints
+echo(link) -> {{
+  alert(link.href);
+}}
+map <C-f> createScriptHint(echo)
+
+site '*://web.whatsapp.com/*' {
+    call :pintab
+}
+
+let configpath = "/Users/eduarbo/.cvimrc"
+set localconfig
