@@ -11,10 +11,10 @@
 ;; This works when using emacs --daemon + emacsclient
 (add-hook 'after-make-frame-functions
           (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f)
-                                            "Fira Code Retina")))
+                                            "Fira Code Symbol")))
 
 ;; This works when using emacs without server/client
-(set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Retina")
+(set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")
 ;; I haven't found one statement that makes both of the above situations work,
 ;; so I use both for now
 
@@ -94,8 +94,8 @@
                         ("\\(\\+\\+\\+\\)"             #Xe139)
                         ("\\(\\+>\\)"                  #Xe13a)
                         ("\\(=:=\\)"                   #Xe13b)
-                        ("[^!/]\\(==\\)[^>]"           #Xe13c)
-                        ("\\(===\\)"                   #Xe13d)
+                        ("[^!/=]\\(==\\)[^=>]"         #Xe13c)
+                        ("[^=]\\(===\\)[^=]"           #Xe13d)
                         ("\\(==>\\)"                   #Xe13e)
                         ("[^=]\\(=>\\)"                #Xe13f)
                         ("\\(=>>\\)"                   #Xe140)
@@ -141,7 +141,7 @@
                         ("[^<]\\(~~\\)"                #Xe168)
                         ("\\(~~>\\)"                   #Xe169)
                         ("\\(%%\\)"                    #Xe16a)
-                        ("\\(\\*\\)"                     #Xe16b)
+                        ;; ("\\(\\*\\)"                   #Xe16b)
                         ("[^:=]\\(:\\)[^:=]"           #Xe16c)
                         ("[^\\+<>]\\(\\+\\)[^\\+<>]"   #Xe16d)
                         ("[^\\*/<>]\\(\\*\\)[^\\*/<>]" #Xe16f)))))
