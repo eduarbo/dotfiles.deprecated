@@ -123,7 +123,26 @@
         helm-mode-fuzzy-match t))
 
 (defun defaults/post-init-helm-dash ()
-  (setq helm-dash-browser-func 'eww))
+  (defun set-docsets-per-mode (hook docsets)
+    (lexical-let ((docsets docsets))
+      (add-hook hook (lambda () (setq-local helm-dash-docsets docsets)))))
+
+  (set-docsets-per-mode 'web-mode-hook '("HTML"))
+  (set-docsets-per-mode 'css-mode-hook '("CSS"))
+  (set-docsets-per-mode 'nginx-mode-hook '("Nginx"))
+  (set-docsets-per-mode 'elm-mode-hook '("Elm"))
+  (set-docsets-per-mode 'shell-mode-hook '("Bash"))
+  (set-docsets-per-mode 'dockerfile-mode-hook '("Docker"))
+  (set-docsets-per-mode 'markdown-mode-hook '("Markdown"))
+  (set-docsets-per-mode 'emacs-lisp-mode-hook '("Emacs Lisp"))
+  (set-docsets-per-mode 'react-mode-hook '("React"))
+  (set-docsets-per-mode 'js2-mode-hook
+                        '("Javascript" "jQuery" "NodeJS" "MomentJS" "EmberJS"))
+  (set-docsets-per-mode 'python-mode-hook
+                        '("Python 2" "Python 3" "Django" "Flask"))
+
+  (setq helm-dash-common-docsets nil
+        helm-dash-browser-func 'eww))
 
 (defun defaults/post-init-helm-projectile ()
   (spacemacs/set-leader-keys
