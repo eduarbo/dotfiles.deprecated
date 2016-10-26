@@ -15,6 +15,7 @@
     evil
     evil-args
     flycheck
+    google-translate
     gruvbox
     helm
     helm-dash
@@ -102,6 +103,14 @@
           flycheck-disabled-checkers
           (append flycheck-disabled-checkers
                   '(javascript-jshint javascript-jscs json-jsonlist)))))
+
+(defun defaults/post-init-google-translate ()
+  (setq max-mini-window-height 0.5
+        google-translate-default-source-language "en"
+        google-translate-default-target-language "es"
+        google-translate-pop-up-buffer-set-focus t
+        google-translate-translation-directions-alist
+        '(("es" . "en") ("en" . "es"))))
 
 (defun defaults/post-init-gruvbox ()
   ;; Darker vertical-border for gruvbox

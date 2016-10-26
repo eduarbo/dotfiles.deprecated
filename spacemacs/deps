@@ -10,6 +10,8 @@ postgresql
 cppcheck
 shellcheck
 checkbashisms
+# For google-translate package
+mplayer
 
 gem:sqlint
 gem:pry
