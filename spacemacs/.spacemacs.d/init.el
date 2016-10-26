@@ -382,4 +382,8 @@ you should place your code here."
                           '(prog-mode-hook
                             text-mode-hook
                             magit-status-mode-hook))
+
+  ;; Set default languages for google-translate package
+  (setq google-translate-default-source-language "en")
+  (setq google-translate-default-target-language "es")
   )
