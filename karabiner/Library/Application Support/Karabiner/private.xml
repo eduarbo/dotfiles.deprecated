@@ -118,23 +118,23 @@
   </item>
 
   <item>
-    <name>Command keys to Brackets ({})</name>
-    <appendix>(+ When you type Command_R only, send Bracket_Right)</appendix>
-    <appendix>(+ When you type Command_L only, send Bracket_Left)</appendix>
+    <name>Command keys to Escape</name>
+    <appendix>(+ When you type Command_R only, send Escape)</appendix>
+    <appendix>(+ When you type Command_L only, send Escape)</appendix>
 
-    <identifier>remap.command_to_command_brackets</identifier>
+    <identifier>remap.command_to_command_escape</identifier>
 
     <autogen>
       __KeyOverlaidModifier__
       KeyCode::COMMAND_L,
       KeyCode::COMMAND_L,
-      KeyCode::BRACKET_LEFT
+      KeyCode::ESCAPE
     </autogen>
     <autogen>
       __KeyOverlaidModifier__
       KeyCode::COMMAND_R,
       KeyCode::COMMAND_R,
-      KeyCode::BRACKET_RIGHT
+      KeyCode::ESCAPE
     </autogen>
   </item>
 
@@ -183,7 +183,7 @@
 
     <item>
       <name>Option_L to Hyper</name>
-      <appendix>(+ When you type Option_L only, send Escape)</appendix>
+      <appendix>(+ When you type Option_L only, send Bracket_Left)</appendix>
       <identifier>private.option_l_to_hyper</identifier>
 
       <!-- I took this helpful mapping from Steve Losh's post
@@ -191,20 +191,20 @@
 
       <autogen>
         __KeyOverlaidModifier__
-        KeyCode::OPTION_L, {{ HYPER_KEY }}, KeyCode::ESCAPE
+        KeyCode::OPTION_L, {{ HYPER_KEY }}, KeyCode::BRACKET_LEFT
       </autogen>
     </item>
 
     <item>
-      <name>Option_R to Escape</name>
+      <name>Option_R to Bracket_Right</name>
       <appendix>(+ When you type Option_R only, send Escape)</appendix>
-      <identifier>private.option_r_to_escape</identifier>
+      <identifier>private.option_r_to_bracket_r</identifier>
 
       <autogen>
         __KeyOverlaidModifier__
         KeyCode::OPTION_R,
         KeyCode::OPTION_R,
-        KeyCode::ESCAPE
+        KeyCode::BRACKET_RIGHT
       </autogen>
     </item>
   </item>
@@ -258,6 +258,28 @@
     <item>
       <name>Control + Inverted T {I,J,K,L} to {UP,LEFT,DOWN,RIGHT}</name>
       <identifier>private.control_ijkl_to_up_left_down_right</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::I, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::CURSOR_LEFT
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::K, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::L, ModifierFlag::CONTROL_L, KeyCode::CURSOR_RIGHT
+      </autogen>
+    </item>
+
+    <item>
+      <name>Control + ; to kill to end of line</name>
+      <identifier>private.control_comma_to_kill</identifier>
 
       <autogen>
         __KeyToKey__
