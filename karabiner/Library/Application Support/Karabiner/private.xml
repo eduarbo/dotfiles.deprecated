@@ -4,18 +4,8 @@
   <modifierdef>SPACE_TO_CONTROL</modifierdef>
 
   <vkopenurldef>
-    <name>KeyCode::VK_OPEN_URL_APP_Skype</name>
-    <url type="file">/Applications/Skype.app</url>
-  </vkopenurldef>
-
-  <vkopenurldef>
-    <name>KeyCode::VK_OPEN_URL_APP_iTerm</name>
-    <url type="file">/Applications/iTerm.app</url>
-  </vkopenurldef>
-
-  <vkopenurldef>
-    <name>KeyCode::VK_OPEN_URL_APP_Chrome</name>
-    <url type="file">/Applications/Google Chrome.app</url>
+    <name>KeyCode::VK_OPEN_URL_APP_Atom</name>
+    <url type="file">/Applications/Atom.app</url>
   </vkopenurldef>
 
   <vkopenurldef>
@@ -24,8 +14,33 @@
   </vkopenurldef>
 
   <vkopenurldef>
+    <name>KeyCode::VK_OPEN_URL_APP_Chrome</name>
+    <url type="file">/Applications/Google Chrome.app</url>
+  </vkopenurldef>
+
+  <vkopenurldef>
     <name>KeyCode::VK_OPEN_URL_APP_Emacs</name>
     <url type="file">/usr/local/Cellar/emacs-plus/25.1/Emacs.app</url>
+  </vkopenurldef>
+
+  <vkopenurldef>
+    <name>KeyCode::VK_OPEN_URL_APP_FFD</name>
+    <url type="file">/Applications/FirefoxDeveloperEdition.app</url>
+  </vkopenurldef>
+
+  <vkopenurldef>
+    <name>KeyCode::VK_OPEN_URL_APP_Hipchat</name>
+    <url type="file">/Applications/HipChat.app</url>
+  </vkopenurldef>
+
+  <vkopenurldef>
+    <name>KeyCode::VK_OPEN_URL_APP_iTerm</name>
+    <url type="file">/Applications/iTerm.app</url>
+  </vkopenurldef>
+
+  <vkopenurldef>
+    <name>KeyCode::VK_OPEN_URL_APP_Skype</name>
+    <url type="file">/Applications/Skype.app</url>
   </vkopenurldef>
 
   <vkopenurldef>
@@ -39,11 +54,6 @@
   </vkopenurldef>
 
   <vkopenurldef>
-    <name>KeyCode::VK_OPEN_URL_APP_Hipchat</name>
-    <url type="file">/Applications/HipChat.app</url>
-  </vkopenurldef>
-
-  <vkopenurldef>
     <name>KeyCode::VK_OPEN_URL_APP_VLC</name>
     <url type="file">/Applications/VLC.app</url>
   </vkopenurldef>
@@ -53,31 +63,14 @@
     <url type="file">/Applications/System Preferences.app</url>
   </vkopenurldef>
 
-  <vkopenurldef>
-    <name>KeyCode::VK_OPEN_URL_APP_FFD</name>
-    <url type="file">/Applications/FirefoxDeveloperEdition.app</url>
-  </vkopenurldef>
-
   <replacementdef>
     <replacementname>LAUNCHER_MODE_V2_EXTRA</replacementname>
     <replacementvalue>
       <![CDATA[
         <autogen>
           __KeyDownUpToKey__
-          KeyCode::S,
-          KeyCode::VK_OPEN_URL_APP_Skype,
-        </autogen>
-
-        <autogen>
-          __KeyDownUpToKey__
-          KeyCode::I,
-          KeyCode::VK_OPEN_URL_APP_iTerm,
-        </autogen>
-
-        <autogen>
-          __KeyDownUpToKey__
-          KeyCode::C,
-          KeyCode::VK_OPEN_URL_APP_Chrome,
+          KeyCode::A,
+          KeyCode::VK_OPEN_URL_APP_Atom,
         </autogen>
 
         <autogen>
@@ -88,8 +81,38 @@
 
         <autogen>
           __KeyDownUpToKey__
+          KeyCode::C,
+          KeyCode::VK_OPEN_URL_APP_Chrome,
+        </autogen>
+
+        <autogen>
+          __KeyDownUpToKey__
           KeyCode::E,
           KeyCode::VK_OPEN_URL_APP_Emacs,
+        </autogen>
+
+        <autogen>
+          __KeyDownUpToKey__
+          KeyCode::B,
+          KeyCode::VK_OPEN_URL_APP_FFD,
+        </autogen>
+
+        <autogen>
+          __KeyDownUpToKey__
+          KeyCode::H,
+          KeyCode::VK_OPEN_URL_APP_Hipchat,
+        </autogen>
+
+        <autogen>
+          __KeyDownUpToKey__
+          KeyCode::I,
+          KeyCode::VK_OPEN_URL_APP_iTerm,
+        </autogen>
+
+        <autogen>
+          __KeyDownUpToKey__
+          KeyCode::S,
+          KeyCode::VK_OPEN_URL_APP_Skype,
         </autogen>
 
         <autogen>
@@ -108,12 +131,6 @@
           __KeyDownUpToKey__
           KeyCode::V,
           KeyCode::VK_OPEN_URL_APP_VLC,
-        </autogen>
-
-        <autogen>
-          __KeyDownUpToKey__
-          KeyCode::B,
-          KeyCode::VK_OPEN_URL_APP_FFD,
         </autogen>
 
         <autogen>
