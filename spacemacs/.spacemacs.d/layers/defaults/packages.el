@@ -61,10 +61,10 @@
   (spacemacs/set-leader-keys
     "TAB" 'evil-switch-to-windows-last-buffer)
   (bind-map-set-keys evil-motion-state-map
-    "C-h" 'evil-window-left
-    "C-j" 'evil-window-down
-    "C-k" 'evil-window-up
-    "C-l" 'evil-window-right)
+    "S-<left>" 'evil-window-left
+    "S-<down>" 'evil-window-down
+    "S-<up>" 'evil-window-up
+    "S-<right>" 'evil-window-right)
   (bind-map-set-keys evil-normal-state-map
     ":"       'evil-repeat-find-char-reverse
     "<C-tab>" 'evil-jump-item))
