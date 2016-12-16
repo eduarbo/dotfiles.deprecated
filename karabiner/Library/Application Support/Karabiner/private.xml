@@ -2,17 +2,16 @@
 <root>
   <!-- For "space_to_control" -->
   <modifierdef>SPACE_TO_CONTROL</modifierdef>
-  <modifierdef>HYPER</modifierdef>
 
   <replacementdef>
-    <replacementname>MEGA_KEY</replacementname>
+    <replacementname>HYPER_KEY</replacementname>
     <replacementvalue>
       KeyCode::COMMAND_L, ModifierFlag::CONTROL_L | ModifierFlag::OPTION_L | ModifierFlag::NONE
     </replacementvalue>
   </replacementdef>
 
   <replacementdef>
-    <replacementname>MEGA_MOD</replacementname>
+    <replacementname>HYPER_MOD</replacementname>
     <replacementvalue>
       ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L | ModifierFlag::OPTION_L | ModifierFlag::NONE
     </replacementvalue>
@@ -183,131 +182,139 @@
     <name>Change Option keys</name>
 
     <item>
-      <name>Option_L to Mega</name>
+      <name>Option_L to Hyper</name>
       <appendix>(+ When you type Option_L only, send Escape)</appendix>
-      <identifier>private.option_L_to_mega</identifier>
+      <identifier>private.option_l_to_hyper</identifier>
 
       <!-- I took this helpful mapping from Steve Losh's post
            http://stevelosh.com/blog/2012/10/a-modern-space-cadet -->
 
       <autogen>
         __KeyOverlaidModifier__
-        KeyCode::OPTION_L, {{ MEGA_KEY }}, KeyCode::ESCAPE
+        KeyCode::OPTION_L, {{ HYPER_KEY }}, KeyCode::ESCAPE
       </autogen>
     </item>
 
     <item>
-      <name>Option_R to Mega</name>
-      <identifier>private.option_R_to_mega</identifier>
+      <name>Option_R to Escape</name>
+      <appendix>(+ When you type Option_R only, send Escape)</appendix>
+      <identifier>private.option_r_to_escape</identifier>
 
       <autogen>
         __KeyOverlaidModifier__
-        KeyCode::OPTION_R, {{ MEGA_KEY }}, KeyCode::FORWARD_DELETE
+        KeyCode::OPTION_R,
+        KeyCode::OPTION_R,
+        KeyCode::ESCAPE
       </autogen>
     </item>
   </item>
 
-  <item>
-    <name>Hyper Shortcuts</name>
+ <item>
+    <name>Right Command Shortcuts</name>
 
     <item>
       <name>Home Row Numbers Overlay</name>
       <appendix>Overlay 1234567890 onto the home row (ASDFGHJKL;)</appendix>
-      <identifier>private.hyper_to_homerow_numbers</identifier>
+      <identifier>private.command_r_to_homerow_numbers</identifier>
 
-      <autogen>__KeyToKey__ KeyCode::A, ModifierFlag::HYPER, KeyCode::KEY_1</autogen>
-      <autogen>__KeyToKey__ KeyCode::S, ModifierFlag::HYPER, KeyCode::KEY_2</autogen>
-      <autogen>__KeyToKey__ KeyCode::D, ModifierFlag::HYPER, KeyCode::KEY_3</autogen>
-      <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::HYPER, KeyCode::KEY_4</autogen>
-      <autogen>__KeyToKey__ KeyCode::G, ModifierFlag::HYPER, KeyCode::KEY_5</autogen>
-      <autogen>__KeyToKey__ KeyCode::H, ModifierFlag::HYPER, KeyCode::KEY_6</autogen>
-      <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::HYPER, KeyCode::KEY_7</autogen>
-      <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::HYPER, KeyCode::KEY_8</autogen>
-      <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::HYPER, KeyCode::KEY_9</autogen>
-      <autogen>__KeyToKey__ KeyCode::SEMICOLON, ModifierFlag::HYPER, KeyCode::KEY_0</autogen>
+      <autogen>__KeyToKey__ KeyCode::A, ModifierFlag::COMMAND_R, KeyCode::KEY_1</autogen>
+      <autogen>__KeyToKey__ KeyCode::S, ModifierFlag::COMMAND_R, KeyCode::KEY_2</autogen>
+      <autogen>__KeyToKey__ KeyCode::D, ModifierFlag::COMMAND_R, KeyCode::KEY_3</autogen>
+      <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::COMMAND_R, KeyCode::KEY_4</autogen>
+      <autogen>__KeyToKey__ KeyCode::G, ModifierFlag::COMMAND_R, KeyCode::KEY_5</autogen>
+      <autogen>__KeyToKey__ KeyCode::H, ModifierFlag::COMMAND_R, KeyCode::KEY_6</autogen>
+      <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::COMMAND_R, KeyCode::KEY_7</autogen>
+      <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::COMMAND_R, KeyCode::KEY_8</autogen>
+      <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::COMMAND_R, KeyCode::KEY_9</autogen>
+      <autogen>__KeyToKey__ KeyCode::SEMICOLON, ModifierFlag::COMMAND_R, KeyCode::KEY_0</autogen>
     </item>
   </item>
 
   <item>
-    <name>Mega shortcuts</name>
+    <name>Control shortcuts</name>
 
     <item>
-      <name>Mega + {H,J,K,L} to LEFT,DOWN,UP,RIGHT (à la Vim)</name>
-      <identifier>private.mega_hjkl_to_left_down_up_right</identifier>
+      <name>Control + {H,J,K,L} to LEFT,DOWN,UP,RIGHT (à la Vim)</name>
+      <identifier>private.ctrl_hjkl_to_left_down_up_right</identifier>
 
       <autogen>
         __KeyToKey__
-        KeyCode::J, {{ MEGA_MOD }}, KeyCode::CURSOR_DOWN
+        KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::K, {{ MEGA_MOD }}, KeyCode::CURSOR_UP
+        KeyCode::K, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::H, {{ MEGA_MOD }}, KeyCode::CURSOR_LEFT
+        KeyCode::H, ModifierFlag::CONTROL_L, KeyCode::CURSOR_LEFT
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::L, {{ MEGA_MOD }}, KeyCode::CURSOR_RIGHT
+        KeyCode::L, ModifierFlag::CONTROL_L, KeyCode::CURSOR_RIGHT
       </autogen>
     </item>
 
     <item>
-      <name>Mega + Inverted T {I,J,K,L} to {UP,LEFT,DOWN,RIGHT}</name>
-      <identifier>private.mega_ijkl_to_up_left_down_right</identifier>
+      <name>Control + Inverted T {I,J,K,L} to {UP,LEFT,DOWN,RIGHT}</name>
+      <identifier>private.control_ijkl_to_up_left_down_right</identifier>
+
       <autogen>
         __KeyToKey__
-        KeyCode::I, {{ MEGA_MOD }}, KeyCode::CURSOR_UP
+        KeyCode::I, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::J, {{ MEGA_MOD }}, KeyCode::CURSOR_LEFT
+        KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::CURSOR_LEFT
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::K, {{ MEGA_MOD }}, KeyCode::CURSOR_DOWN
+        KeyCode::K, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::L, {{ MEGA_MOD }}, KeyCode::CURSOR_RIGHT
+        KeyCode::L, ModifierFlag::CONTROL_L, KeyCode::CURSOR_RIGHT
+      </autogen>
+    </item>
+  </item>
+
+  <item>
+    <name>Hyper shortcuts</name>
+
+    <item>
+      <name>Hyper + Semicolon to add tilde</name>
+      <identifier>private.hyper_semicolon_add_tilde</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::SEMICOLON, {{ HYPER_MOD }}, KeyCode::E, ModifierFlag::OPTION_L
       </autogen>
     </item>
 
     <item>
-      <name>Mega + Semicolon to add tilde</name>
-      <identifier>private.mega_semicolon_add_tilde</identifier>
+      <name>Hyper + N to add n tilde (~)</name>
+      <identifier>private.hyper_n_add_tilde</identifier>
 
       <autogen>
         __KeyToKey__
-        KeyCode::SEMICOLON, {{ MEGA_MOD }}, KeyCode::E, ModifierFlag::OPTION_L
-      </autogen>
-    </item>
-
-    <item>
-      <name>Mega + N to add n tilde (~)</name>
-      <identifier>private.mega_n_add_tilde</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::N, {{ MEGA_MOD }}, KeyCode::N, ModifierFlag::OPTION_L
+        KeyCode::N, {{ HYPER_MOD }}, KeyCode::N, ModifierFlag::OPTION_L
       </autogen>
     </item>
 
     <item>
       <name>
-        Mega + brackets to move focus to previous/next tab in application
+        Hyper + brackets to move focus to previous/next tab in application
       </name>
-      <identifier>private.mega_to_command_shift_brackets</identifier>
+      <identifier>private.hyper_to_command_shift_brackets</identifier>
 
       <autogen>
         __KeyToKey__
-        KeyCode::BRACKET_LEFT, {{ MEGA_MOD }},
+        KeyCode::BRACKET_LEFT, {{ HYPER_MOD }},
         KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::BRACKET_RIGHT, {{ MEGA_MOD }},
+        KeyCode::BRACKET_RIGHT, {{ HYPER_MOD }},
         KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_R | ModifierFlag::SHIFT_R
       </autogen>
     </item>
