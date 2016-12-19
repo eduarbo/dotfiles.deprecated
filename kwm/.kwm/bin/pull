@@ -1,0 +1,16 @@
+# move window to space,
+# change to that space,
+# focus moved window
+kwmc=/usr/local/bin/kwmc
+current=$($kwmc query window focused id)
+dir=$1
+if [ "$dir" = "previous" ]
+then
+    dir=$(kwmc query space previous)
+    $kwmc window -m space previous
+else
+    $kwmc window -m space $dir
+fi
+sleep 0.5
+$kwmc space -f $dir
+$kwmc window -f "$current"

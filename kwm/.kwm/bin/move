@@ -1,0 +1,14 @@
+# swap or detach and reinsert window
+# depending on relationship
+# eg. "move north"
+kwmc=/usr/local/bin/kwmc
+DIR=$1
+CURRENT=$($kwmc query window focused id)
+WINDOW=$($kwmc query window focused "$DIR")
+SAME_PARENT=$($kwmc query window parent "$CURRENT" "$WINDOW")
+if [ "$SAME_PARENT" = "true" ]
+then
+    $kwmc window -s "$DIR"
+else
+    $kwmc window -m "$DIR"
+fi

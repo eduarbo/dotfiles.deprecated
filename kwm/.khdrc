@@ -1,0 +1,99 @@
+# Enable kwm compatibility
+khd kwm on
+
+# set border color for different modes
+khd mode default color 0xddd5c4a1
+# khd mode prefix color 0xddbdd322
+khd mode swap color 0xdd458588
+khd mode tree color 0xddfabd2f
+khd mode space color 0xddb16286
+khd mode info color 0xddcd950c
+
+# Enable the prefix mode
+khd mode prefix prefix on
+khd mode prefix timeout 0.75
+khd mode prefix restore default
+khd mode prefix color 0xFF458588
+
+# toggle between modes
+ctrl - s                :   khd -e "mode activate prefix"
+prefix + ctrl - f       :   khd -e "mode activate default"
+swap + ctrl - f         :   khd -e "mode activate default"
+space + ctrl - f        :   khd -e "mode activate default"
+tree + ctrl - f         :   khd -e "mode activate default"
+
+prefix - a            :   khd -e "mode activate swap"
+prefix - s            :   khd -e "mode activate space"
+prefix - d            :   khd -e "mode activate tree"
+prefix - q            :   khd -e "mode activate info"
+
+# Reload config
+lalt + shift - return : khd -e "reload"
+
+# Manage kwm
+lalt + shift - r : kwmc config reload
+lalt + shift - q : kwmc quit
+
+# Tiling mode
+lalt - b : kwmc space -t bsp
+lalt - f : kwmc space -t monocle
+lalt - d : kwmc space -t float
+
+# Set Temporary Window Container
+lalt - x : kwmc window -z fullscreen
+lalt - p : kwmc window -z parent
+lalt - w : kwmc window -t focused
+
+# Rotate Window-Tree By 90* (Clockwise)
+lalt - r : kwmc tree rotate 90
+
+# Change split-mode
+lalt - s : kwmc window -c split-mode toggle
+
+# Give Focus To Window
+lalt - h         :    kwmc window -f west
+lalt - l         :    kwmc window -f east
+lalt - j         :    kwmc window -f south
+lalt - k         :    kwmc window -f north
+
+# Swap position
+lalt + shift - h   :   kwmc window -s west
+lalt + shift - l   :   kwmc window -s east
+lalt + shift - j   :   kwmc window -s south
+lalt + shift - k   :   kwmc window -s north
+
+# Mark Window
+lalt - m : kwmc window -mk focused
+
+# Detach Marked Window And Reinsert At Focused Window
+lalt + shift - m : kwmc window -m mark
+
+# Resize
+prefix - h          :   kwmc window -c expand 0.05 west
+prefix - j          :   kwmc window -c expand 0.05 south
+prefix - k          :   kwmc window -c expand 0.05 north
+prefix - l          :   kwmc window -c expand 0.05 east
+
+prefix + shift - h  :   kwmc window -c reduce 0.05 west
+prefix + shift - j  :   kwmc window -c reduce 0.05 south
+prefix + shift - k  :   kwmc window -c reduce 0.05 north
+prefix + shift - l  :   kwmc window -c reduce 0.05 east
+
+# Move Focused window between spaces (follow)
+lalt + shift - p	: /Users/eduarbo/.kwm/bin/pull left
+lalt + shift - n 	: /Users/eduarbo/.kwm/bin/pull right
+lalt + shift - tab 	: /Users/eduarbo/.kwm/bin/pull previous
+lalt + shift - 1 		: /Users/eduarbo/.kwm/bin/pull 1
+lalt + shift - 2 		: /Users/eduarbo/.kwm/bin/pull 2
+lalt + shift - 3 		: /Users/eduarbo/.kwm/bin/pull 3
+lalt + shift - 4 		: /Users/eduarbo/.kwm/bin/pull 4
+lalt + shift - 5 		: /Users/eduarbo/.kwm/bin/pull 5
+lalt + shift - 6 		: /Users/eduarbo/.kwm/bin/pull 6
+lalt + shift - 7 		: /Users/eduarbo/.kwm/bin/pull 7
+lalt + shift - 8 		: /Users/eduarbo/.kwm/bin/pull 8
+lalt + shift - 9 		: /Users/eduarbo/.kwm/bin/pull 9
+lalt + shift - 0 		: /Users/eduarbo/.kwm/bin/pull 0
+
+# -----------------------------------------------------
+# Toggle node mode
+lalt - v : kwmc window -c type toggle
