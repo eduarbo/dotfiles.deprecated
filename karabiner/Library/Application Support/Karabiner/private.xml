@@ -58,11 +58,6 @@
     <url type="file">/Applications/VLC.app</url>
   </vkopenurldef>
 
-  <vkopenurldef>
-    <name>KeyCode::VK_OPEN_URL_APP_Prefs</name>
-    <url type="file">/Applications/System Preferences.app</url>
-  </vkopenurldef>
-
   <replacementdef>
     <replacementname>LAUNCHER_MODE_V2_EXTRA</replacementname>
     <replacementvalue>
@@ -75,7 +70,7 @@
 
         <autogen>
           __KeyDownUpToKey__
-          KeyCode::K,
+          KeyCode::R,
           KeyCode::VK_OPEN_URL_APP_Calendar,
         </autogen>
 
@@ -117,7 +112,7 @@
 
         <autogen>
           __KeyDownUpToKey__
-          KeyCode::D,
+          KeyCode::K,
           KeyCode::VK_OPEN_URL_APP_Slack,
         </autogen>
 
@@ -131,12 +126,6 @@
           __KeyDownUpToKey__
           KeyCode::V,
           KeyCode::VK_OPEN_URL_APP_VLC,
-        </autogen>
-
-        <autogen>
-          __KeyDownUpToKey__
-          KeyCode::R,
-          KeyCode::VK_OPEN_URL_APP_Prefs,
         </autogen>
       ]]>
     </replacementvalue>
