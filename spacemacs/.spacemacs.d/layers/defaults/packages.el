@@ -22,7 +22,6 @@
     helm-projectile
     js2-mode
     (sh-script :location built-in)
-    spaceline
     subatomic-theme
     web-mode
     undo-tree
@@ -93,16 +92,12 @@
       (when (and eslint (file-executable-p eslint))
         (setq-local flycheck-javascript-eslint-executable eslint))))
 
-  ;; FIXME getting errors when visting js files
-  ;; (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
-  ;; (add-hook 'js2-mode-hook #'my/use-eslint-from-node-modules)
-  ;; (add-hook 'react-mode-hook #'my/use-eslint-from-node-modules)
+  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
-  (with-eval-after-load 'flycheck
-    (setq flycheck-check-syntax-automatically '(mode-enabled save)
-          flycheck-disabled-checkers
-          (append flycheck-disabled-checkers
-                  '(javascript-jshint javascript-jscs json-jsonlist)))))
+  ;; (with-eval-after-load 'flycheck
+  (setq flycheck-check-syntax-automatically '(mode-enabled save)
+        flycheck-standard-error-navigation t)
+  )
 
 (defun defaults/post-init-google-translate ()
   (setq max-mini-window-height 0.5
@@ -139,7 +134,7 @@
   (set-docsets-per-mode 'js2-mode-hook
                         '("Javascript" "jQuery" "NodeJS" "MomentJS" "EmberJS"))
   (set-docsets-per-mode 'python-mode-hook
-                        '("Python 2" "Python 3" "Django" "Flask"))
+                        '("Python 2" "Python 3" "Django" "Flask" "django-rest-framework-3.3"))
 
   (setq helm-dash-common-docsets nil
         helm-dash-browser-func 'eww))
@@ -161,13 +156,6 @@
   ;; Use same indentation spaces than 'tab-width
   (setq sh-indentation tab-width
         sh-basic-offset tab-width))
-
-(defun defaults/post-init-spaceline ()
-  (setq powerline-default-separator 'utf-8)
-  (custom-set-variables '(powerline-utf-8-separator-left #xe0b0)
-                        '(powerline-utf-8-separator-right #xe0b2))
-  ;; I need to compile spaceline to take the changes
-  (spaceline-compile))
 
 (defun defaults/post-init-subatomic-theme ()
   (set-face-attribute 'vertical-border nil

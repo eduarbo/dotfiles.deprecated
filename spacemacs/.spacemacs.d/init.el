@@ -69,6 +69,7 @@ values."
      c-c++
      ;; (clojure :variables
      ;;          clojure-enable-fancify-symbols t)
+     csv
      dash
      django
      docker
@@ -113,6 +114,7 @@ values."
    dotspacemacs-excluded-packages '(evil-escape
                                     vi-tilde-fringe
                                     company-flx
+                                    emmet-mode
                                     evil-search-highlight-persist)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -371,7 +373,6 @@ you should place your code here."
   (fringe-mode '(nil . 1))
 
   ;; Default toggles
-  (spacemacs/toggle-mode-line-minor-modes-off)
   (spacemacs/toggle-centered-point-globally-on)
   ;; Enable automatic line breaking
   (spacemacs/add-to-hooks 'spacemacs/toggle-auto-fill-mode-on
@@ -382,4 +383,23 @@ you should place your code here."
                           '(prog-mode-hook
                             text-mode-hook
                             magit-status-mode-hook))
+  ;; Customize spaceline
+  (setq powerline-default-separator 'utf-8)
+  (custom-set-variables '(powerline-utf-8-separator-left #xe0b0)
+                        '(powerline-utf-8-separator-right #xe0b2))
+  (spaceline-toggle-minor-modes-off)
+
+  (add-to-list 'auto-mode-alist
+               (cons
+                (concat "\\."
+                        (regexp-opt
+                         '("xml" "xsd" "sch" "rng" "xslt" "svg" "rss") t)
+                        "\\'")
+                'xml-mode))
   )
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+)
