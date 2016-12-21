@@ -53,6 +53,7 @@ shopt -s cdspell
 # Check the window size after each command and, if necessary, update the values
 # of LINES and COLUMNS.
 shopt -s checkwinsize
+shopt -s extglob
 
 # append to the history file, don't overwrite it
 shopt -s histappend >/dev/null 2>&1
