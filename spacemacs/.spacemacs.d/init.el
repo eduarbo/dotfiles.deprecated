@@ -41,7 +41,7 @@ values."
      (auto-completion :variables
                       spacemacs-default-company-backends '(company-capf
                                                            company-dabbrev-code)
-                      auto-completion-enable-sort-by-usage t
+                      auto-completion-enable-sort-by-usage nil
                       auto-completion-enable-help-tooltip nil
                       auto-completion-return-key-behavior nil
                       auto-completion-tab-key-behavior 'complete
