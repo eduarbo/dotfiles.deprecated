@@ -146,42 +146,6 @@
   </replacementdef>
 
   <item>
-    <name>Use the correct shift keys.</name>
-    <identifier>private.correct_shift_keys</identifier>
-
-    <autogen>--KeyToKey-- KeyCode::Q, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::W, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::E, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::R, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::T, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::A, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::S, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::G, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::Z, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::X, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::C, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::V, ModifierFlag::SHIFT_L, KeyCode::VK_NONE</autogen>
-
-    <autogen>--KeyToKey-- KeyCode::Y,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::U,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::I,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::O,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::P,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::H,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::J,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::K,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::L,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::SEMICOLON, ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::N,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::M,         ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::COMMA,     ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::DOT,       ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-    <autogen>--KeyToKey-- KeyCode::QUOTE,     ModifierFlag::SHIFT_R, KeyCode::VK_NONE</autogen>
-  </item>
-
-  <item>
     <name>Shifts to Parentheses</name>
     <appendix>Shifts, when pressed alone, type parentheses.  When used with other keys they're normal shifts.</appendix>
 
@@ -189,7 +153,7 @@
 
     <!-- This is the basic mapping. -->
     <autogen>
-      --KeyOverlaidModifier--
+      __KeyOverlaidModifier__
       KeyCode::SHIFT_R,
       ModifierFlag::SHIFT_R | ModifierFlag::NONE,
       KeyCode::SHIFT_R,
@@ -197,7 +161,7 @@
       ModifierFlag::SHIFT_L
     </autogen>
     <autogen>
-      --KeyOverlaidModifier--
+      __KeyOverlaidModifier__
       KeyCode::SHIFT_L,
       ModifierFlag::SHIFT_L | ModifierFlag::NONE,
       KeyCode::SHIFT_L,
@@ -211,13 +175,13 @@
         pressing both shift keys at once anyway
     -->
     <autogen>
-      --KeyToKey--
+      __KeyToKey__
       KeyCode::SHIFT_L, ModifierFlag::SHIFT_R,
       KeyCode::KEY_0, ModifierFlag::SHIFT_L,
       KeyCode::KEY_9, ModifierFlag::SHIFT_L
     </autogen>
     <autogen>
-      --KeyToKey--
+      __KeyToKey__
       KeyCode::SHIFT_R, ModifierFlag::SHIFT_L,
       KeyCode::KEY_9, ModifierFlag::SHIFT_L,
       KeyCode::KEY_0, ModifierFlag::SHIFT_L
@@ -303,62 +267,56 @@
   </item>
 
   <item>
-    <name>Remap Caps Lock to Delete</name>
-    <appendix>OS X doesn't have a Delete. This maps Caps lock (F19) to Delete.</appendix>
-    <appendix>You can use this key in your own custom keyboard shortcuts you create in apps.</appendix>
-
-    <identifier>private.f19_to_delete</identifier>
-
-    <autogen>
-      --KeyToKey--
-      KeyCode::F19,
-      KeyCode::DELETE
-    </autogen>
-  </item>
-
-  <item>
     <name>Change Option keys</name>
 
     <item>
-      <name>Option_R to Hyper</name>
-      <appendix>(+ When you type Option_R only, send Bracket_Right)</appendix>
-      <identifier>private.option_r_to_hyper</identifier>
-
-      <!-- I took this helpful mapping from Steve Losh's post
-           http://stevelosh.com/blog/2012/10/a-modern-space-cadet -->
+      <name>Option_R to Fn</name>
+      <identifier>private.option_r_to_fn</identifier>
 
       <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::OPTION_R, {{ HYPER_KEY }}, KeyCode::BRACKET_RIGHT
+        __KeyToKey__
+        KeyCode::OPTION_R,
+        KeyCode::FN
       </autogen>
     </item>
 
     <item>
       <name>Option_L to Hyper</name>
-      <appendix>(+ When you type Option_L only, send Bracket_Left)</appendix>
       <identifier>private.option_l_to_hyper</identifier>
 
-      <!-- I took this helpful mapping from Steve Losh's post
-           http://stevelosh.com/blog/2012/10/a-modern-space-cadet -->
-
       <autogen>
-        __KeyOverlaidModifier__
+        __KeyToKey__
         KeyCode::OPTION_L,
-        {{ HYPER_KEY }},
-        KeyCode::BRACKET_LEFT
+        {{ HYPER_KEY }}
       </autogen>
     </item>
 
     <item>
       <name>Option_R to Fn</name>
-      <appendix>(+ When you type Option_R only, send Bracket Right)</appendix>
-      <identifier>private.option_r_to_fn</identifier>
+      <appendix>(+ When you type Option_R only, send Bracket_Right)</appendix>
+      <identifier>private.option_r_to_fn_bracket_r</identifier>
+
+      <!-- I took this helpful mapping from Steve Losh's post
+           http://stevelosh.com/blog/2012/10/a-modern-space-cadet -->
 
       <autogen>
         __KeyOverlaidModifier__
         KeyCode::OPTION_R,
         KeyCode::FN,
         KeyCode::BRACKET_RIGHT
+      </autogen>
+    </item>
+
+    <item>
+      <name>Option_L to Hyper</name>
+      <appendix>(+ When you type Option_L only, send Bracket_Left)</appendix>
+      <identifier>private.option_l_to_hyper_bracket_l</identifier>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::OPTION_L,
+        {{ HYPER_KEY }},
+        KeyCode::BRACKET_LEFT
       </autogen>
     </item>
 
@@ -390,23 +348,26 @@
   </item>
 
  <item>
-    <name>Right Command Shortcuts</name>
+    <name>Fn Shortcuts</name>
 
     <item>
       <name>Home Row Numbers Overlay</name>
       <appendix>Overlay 1234567890 onto the home row (ASDFGHJKL;)</appendix>
-      <identifier>private.command_r_to_homerow_numbers</identifier>
+      <identifier>private.fn_to_homerow_numbers</identifier>
 
-      <autogen>__KeyToKey__ KeyCode::A, ModifierFlag::COMMAND_R, KeyCode::KEY_1</autogen>
-      <autogen>__KeyToKey__ KeyCode::S, ModifierFlag::COMMAND_R, KeyCode::KEY_2</autogen>
-      <autogen>__KeyToKey__ KeyCode::D, ModifierFlag::COMMAND_R, KeyCode::KEY_3</autogen>
-      <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::COMMAND_R, KeyCode::KEY_4</autogen>
-      <autogen>__KeyToKey__ KeyCode::G, ModifierFlag::COMMAND_R, KeyCode::KEY_5</autogen>
-      <autogen>__KeyToKey__ KeyCode::H, ModifierFlag::COMMAND_R, KeyCode::KEY_6</autogen>
-      <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::COMMAND_R, KeyCode::KEY_7</autogen>
-      <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::COMMAND_R, KeyCode::KEY_8</autogen>
-      <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::COMMAND_R, KeyCode::KEY_9</autogen>
-      <autogen>__KeyToKey__ KeyCode::SEMICOLON, ModifierFlag::COMMAND_R, KeyCode::KEY_0</autogen>
+      <autogen>__KeyToKey__ KeyCode::A, ModifierFlag::FN, KeyCode::KEY_1</autogen>
+      <autogen>__KeyToKey__ KeyCode::S, ModifierFlag::FN, KeyCode::KEY_2</autogen>
+      <autogen>__KeyToKey__ KeyCode::D, ModifierFlag::FN, KeyCode::KEY_3</autogen>
+      <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::FN, KeyCode::KEY_4</autogen>
+      <autogen>__KeyToKey__ KeyCode::G, ModifierFlag::FN, KeyCode::KEY_5</autogen>
+      <autogen>__KeyToKey__ KeyCode::H, ModifierFlag::FN, KeyCode::KEY_6</autogen>
+      <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::FN, KeyCode::KEY_7</autogen>
+      <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::FN, KeyCode::KEY_8</autogen>
+      <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::FN, KeyCode::KEY_9</autogen>
+      <autogen>__KeyToKey__ KeyCode::SEMICOLON, ModifierFlag::FN, KeyCode::KEY_0</autogen>
+      <autogen>__KeyToKey__ KeyCode::QUOTE, ModifierFlag::FN, KeyCode::MINUS</autogen>
+      <autogen>__KeyToKey__ KeyCode::RETURN, ModifierFlag::FN, KeyCode::EQUAL, ModifierFlag::SHIFT_L</autogen>
+      <autogen>__KeyToKey__ KeyCode::F19, ModifierFlag::FN, KeyCode::EQUAL</autogen>
     </item>
   </item>
 
@@ -458,25 +419,9 @@
     </item>
 
     <item>
+      <!-- TODO -->
       <name>Control + ; to kill to end of line</name>
       <identifier>private.control_comma_to_kill</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::I, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::CURSOR_LEFT
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::K, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::L, ModifierFlag::CONTROL_L, KeyCode::CURSOR_RIGHT
-      </autogen>
     </item>
   </item>
 
@@ -518,6 +463,44 @@
         __KeyToKey__
         KeyCode::BRACKET_RIGHT, {{ HYPER_MOD }},
         KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_R | ModifierFlag::SHIFT_R
+      </autogen>
+    </item>
+  </item>
+
+  <item>
+    <name>Remap main Keys</name>
+
+    <item>
+      <name>Return to Parentheses</name>
+      <identifier>private.return_to_parentheses</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::RETURN,
+        ModifierFlag::SHIFT_L | ModifierFlag::NONE,
+        KeyCode::KEY_0,
+        ModifierFlag::SHIFT_L
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::RETURN,
+        ModifierFlag::NONE,
+        KeyCode::KEY_9,
+        ModifierFlag::SHIFT_L
+      </autogen>
+    </item>
+
+    <item>
+      <name>Caps Lock to Delete</name>
+      <appendix>OS X doesn't have a Delete. This maps Caps lock (F19) to Delete.</appendix>
+      <appendix>You can use this key in your own custom keyboard shortcuts you create in apps.</appendix>
+
+      <identifier>private.f19_to_delete</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::F19,
+        KeyCode::DELETE
       </autogen>
     </item>
   </item>
