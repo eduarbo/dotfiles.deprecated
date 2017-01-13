@@ -246,24 +246,34 @@
   </item>
 
   <item>
-    <name>Command keys to Escape</name>
-    <appendix>(+ When you type Command_R only, send Escape)</appendix>
-    <appendix>(+ When you type Command_L only, send Escape)</appendix>
+    <name>Change Command keys</name>
 
-    <identifier>remap.command_to_command_escape</identifier>
+    <item>
+      <name>Command_R to Option_R</name>
+      <appendix>(+ When you type Option_R only, send Return)</appendix>
+      <identifier>private.command_r_to_option_r</identifier>
 
-    <autogen>
-      __KeyOverlaidModifier__
-      KeyCode::COMMAND_L,
-      KeyCode::COMMAND_L,
-      KeyCode::ESCAPE
-    </autogen>
-    <autogen>
-      __KeyOverlaidModifier__
-      KeyCode::COMMAND_R,
-      KeyCode::COMMAND_R,
-      KeyCode::ESCAPE
-    </autogen>
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::COMMAND_R,
+        KeyCode::OPTION_R,
+        KeyCode::RETURN
+      </autogen>
+    </item>
+
+    <item>
+      <name>Command_L to Escape</name>
+      <appendix>(+ When you type Command_L only, send Escape)</appendix>
+
+      <identifier>remap.command_l_to_command_escape</identifier>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::COMMAND_L,
+        KeyCode::COMMAND_L,
+        KeyCode::ESCAPE
+      </autogen>
+    </item>
   </item>
 
   <item>
@@ -333,7 +343,22 @@
 
       <autogen>
         __KeyOverlaidModifier__
-        KeyCode::OPTION_L, {{ HYPER_KEY }}, KeyCode::BRACKET_LEFT
+        KeyCode::OPTION_L,
+        {{ HYPER_KEY }},
+        KeyCode::BRACKET_LEFT
+      </autogen>
+    </item>
+
+    <item>
+      <name>Option_R to Fn</name>
+      <appendix>(+ When you type Option_R only, send Bracket Right)</appendix>
+      <identifier>private.option_r_to_fn</identifier>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::OPTION_R,
+        KeyCode::FN,
+        KeyCode::BRACKET_RIGHT
       </autogen>
     </item>
 
