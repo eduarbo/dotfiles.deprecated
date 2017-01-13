@@ -310,15 +310,30 @@
     <name>Change Option keys</name>
 
     <item>
-      <name>Option_R to Bracket_Left</name>
-      <appendix>(+ When you type Option_L only, send Bracket Left)</appendix>
-      <identifier>private.option_l_to_bracket_l</identifier>
+      <name>Option_R to Hyper</name>
+      <appendix>(+ When you type Option_R only, send Bracket_Right)</appendix>
+      <identifier>private.option_r_to_hyper</identifier>
+
+      <!-- I took this helpful mapping from Steve Losh's post
+           http://stevelosh.com/blog/2012/10/a-modern-space-cadet -->
 
       <autogen>
         __KeyOverlaidModifier__
-        KeyCode::OPTION_L,
-        KeyCode::OPTION_L,
-        KeyCode::BRACKET_LEFT
+        KeyCode::OPTION_R, {{ HYPER_KEY }}, KeyCode::BRACKET_RIGHT
+      </autogen>
+    </item>
+
+    <item>
+      <name>Option_L to Hyper</name>
+      <appendix>(+ When you type Option_L only, send Bracket_Left)</appendix>
+      <identifier>private.option_l_to_hyper</identifier>
+
+      <!-- I took this helpful mapping from Steve Losh's post
+           http://stevelosh.com/blog/2012/10/a-modern-space-cadet -->
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::OPTION_L, {{ HYPER_KEY }}, KeyCode::BRACKET_LEFT
       </autogen>
     </item>
 
@@ -332,6 +347,19 @@
         KeyCode::OPTION_R,
         KeyCode::OPTION_R,
         KeyCode::BRACKET_RIGHT
+      </autogen>
+    </item>
+
+    <item>
+      <name>Option_L to Bracket_Left</name>
+      <appendix>(+ When you type Option_L only, send Bracket Left)</appendix>
+      <identifier>private.option_l_to_bracket_l</identifier>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::OPTION_L,
+        KeyCode::OPTION_L,
+        KeyCode::BRACKET_LEFT
       </autogen>
     </item>
   </item>
@@ -427,4 +455,45 @@
     </item>
   </item>
 
+  <item>
+    <name>Hyper shortcuts</name>
+
+    <item>
+      <name>Hyper + Semicolon to add tilde</name>
+      <identifier>private.hyper_semicolon_add_tilde</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::SEMICOLON, {{ HYPER_MOD }}, KeyCode::E, ModifierFlag::OPTION_L
+      </autogen>
+    </item>
+
+    <item>
+      <name>Hyper + N to add n tilde (~)</name>
+      <identifier>private.hyper_n_add_tilde</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::N, {{ HYPER_MOD }}, KeyCode::N, ModifierFlag::OPTION_L
+      </autogen>
+    </item>
+
+    <item>
+      <name>
+        Hyper + brackets to move focus to previous/next tab in application
+      </name>
+      <identifier>private.hyper_to_command_shift_brackets</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::BRACKET_LEFT, {{ HYPER_MOD }},
+        KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::BRACKET_RIGHT, {{ HYPER_MOD }},
+        KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_R | ModifierFlag::SHIFT_R
+      </autogen>
+    </item>
+  </item>
 </root>
