@@ -18,19 +18,18 @@
     google-translate
     gruvbox
     helm
-    helm-dash
     helm-projectile
     js2-mode
     (sh-script :location built-in)
     subatomic-theme
     web-mode
-    undo-tree
     yasnippet))
 
 (defun defaults/post-init-avy ()
-  (bind-map-set-keys evil-normal-state-map
-    "s" 'avy-goto-char-timer
-    "S" 'avy-goto-char-in-line))
+  ;; (bind-map-set-keys evil-normal-state-map
+  ;;   "s" 'avy-goto-char-timer
+  ;;   "S" 'avy-goto-char-in-line)
+  )
 
 (defun defaults/post-init-company ()
   (setq
@@ -53,19 +52,13 @@
   (use-package company-flx
     :defer t
     :init
-    (setq company-flx-limit 100)
+    (setq company-flx-limit 2000)
     (with-eval-after-load 'company (company-flx-mode t))))
 
 (defun defaults/post-init-evil ()
-  (spacemacs/set-leader-keys
-    "TAB" 'evil-switch-to-windows-last-buffer)
-  (bind-map-set-keys evil-motion-state-map
-    "S-<left>" 'evil-window-left
-    "S-<down>" 'evil-window-down
-    "S-<up>" 'evil-window-up
-    "S-<right>" 'evil-window-right)
+  ;; (spacemacs/set-leader-keys
+  ;;   "TAB" 'evil-switch-to-windows-last-buffer)
   (bind-map-set-keys evil-normal-state-map
-    ":"       'evil-repeat-find-char-reverse
     "<C-tab>" 'evil-jump-item))
 
 (defun defaults/post-init-evil-args ()
@@ -114,34 +107,14 @@
 
 (defun defaults/post-init-helm ()
   ;; Enable fuzzy matching for everything
+  ;; WARNING: this will slow down completion and modify sorting
   (setq helm-completion-in-region-fuzzy-match t
         helm-mode-fuzzy-match t))
 
-(defun defaults/post-init-helm-dash ()
-  (defun set-docsets-per-mode (hook docsets)
-    (lexical-let ((docsets docsets))
-      (add-hook hook (lambda () (setq-local helm-dash-docsets docsets)))))
-
-  (set-docsets-per-mode 'web-mode-hook '("HTML"))
-  (set-docsets-per-mode 'css-mode-hook '("CSS"))
-  (set-docsets-per-mode 'nginx-mode-hook '("Nginx"))
-  (set-docsets-per-mode 'elm-mode-hook '("Elm"))
-  (set-docsets-per-mode 'shell-mode-hook '("Bash"))
-  (set-docsets-per-mode 'dockerfile-mode-hook '("Docker"))
-  (set-docsets-per-mode 'markdown-mode-hook '("Markdown"))
-  (set-docsets-per-mode 'emacs-lisp-mode-hook '("Emacs Lisp"))
-  (set-docsets-per-mode 'react-mode-hook '("React"))
-  (set-docsets-per-mode 'js2-mode-hook
-                        '("Javascript" "jQuery" "NodeJS" "MomentJS" "EmberJS"))
-  (set-docsets-per-mode 'python-mode-hook
-                        '("Python 2" "Python 3" "Django" "Flask" "django-rest-framework-3.3"))
-
-  (setq helm-dash-common-docsets nil
-        helm-dash-browser-func 'eww))
-
 (defun defaults/post-init-helm-projectile ()
-  (spacemacs/set-leader-keys
-    "/" 'spacemacs/helm-project-do-grep))
+  ;; (spacemacs/set-leader-keys
+  ;;   "/" 'spacemacs/helm-project-do-grep)
+  )
 
 (defun defaults/post-init-js2-mode ()
   ;; Let flycheck handle parse errors
@@ -164,10 +137,6 @@
                       :box '(:line-width 1 :color "#232533"))
   (set-face-attribute 'modeline-inactive nil
                       :box '(:line-width 1 :color "#2a2c3e")))
-
-(defun defaults/post-init-undo-tree ()
-  (setq undo-tree-auto-save-history t
-        undo-tree-history-directory-alist '(("." . "~/.emacs.d/.cache/undo"))))
 
 (defun defaults/post-init-web-mode ()
   (setq css-indent-offset tab-width

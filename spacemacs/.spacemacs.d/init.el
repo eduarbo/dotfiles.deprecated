@@ -27,7 +27,7 @@ values."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '("~/.spacemacs.d/layers/")
+   dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
@@ -96,7 +96,7 @@ values."
      ;; (crypt :variables
      ;;        crypt-gpg-key "eduarbo@gmail.com")
      ;; notes
-     ;; defaults
+     defaults
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -108,7 +108,6 @@ values."
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(evil-escape
                                     vi-tilde-fringe
-                                    company-flx
                                     emmet-mode
                                     evil-search-highlight-persist)
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -358,4 +357,37 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
+  ;; Distinguish wrapped lines with curly arrows
+  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+  ;; show minimalist fringes to the right
+  (fringe-mode '(nil . 2))
+
+  ;; Default toggles
+  (spacemacs/toggle-centered-point-globally-on)
+  ;; Enable automatic line breaking
+  (spacemacs/add-to-hooks 'spacemacs/toggle-auto-fill-mode-on
+                          '(prog-mode-hook
+                            text-mode-hook))
+  ;; Enable Word wrapping and visual line navigation.
+  (spacemacs/add-to-hooks 'spacemacs/toggle-visual-line-navigation-on
+                          '(prog-mode-hook
+                            text-mode-hook
+                            magit-status-mode-hook))
+  ;; Customize spaceline
+  (setq powerline-default-separator 'utf-8)
+  (custom-set-variables '(powerline-utf-8-separator-left #xe0b0)
+                        '(powerline-utf-8-separator-right #xe0b2))
+  (spaceline-toggle-minor-modes-off)
+
+  (add-to-list 'auto-mode-alist
+               (cons
+                (concat "\\."
+                        (regexp-opt
+                         '("xml" "xsd" "sch" "rng" "xslt" "svg" "rss") t)
+                        "\\'")
+                'xml-mode))
+
+  ;; better identation for js
+  (push '("\\.js\\'" . react-mode) auto-mode-alist)
   )
