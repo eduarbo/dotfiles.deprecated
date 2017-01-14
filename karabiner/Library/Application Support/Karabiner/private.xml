@@ -491,6 +491,17 @@
     </item>
 
     <item>
+      <name>Control_L to Left Click</name>
+      <identifier>private.control_l_to_left_click</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::CONTROL_L,
+        PointingButton::LEFT
+      </autogen>
+    </item>
+
+    <item>
       <name>Caps Lock to Delete</name>
       <appendix>OS X doesn't have a Delete. This maps Caps lock (F19) to Delete.</appendix>
       <appendix>You can use this key in your own custom keyboard shortcuts you create in apps.</appendix>
