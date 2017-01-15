@@ -358,6 +358,8 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; Enable accents
+  (setq ns-alternate-modifier 'none)
   ;; Distinguish wrapped lines with curly arrows
   (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
   ;; show minimalist fringes to the right
