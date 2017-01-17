@@ -194,23 +194,23 @@
         </autogen>
         <autogen>
           __KeyToKey__
+          KeyCode::TAB, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_1, ModifierFlag::OPTION_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
           KeyCode::BRACKET_LEFT, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          KeyCode::MINUS, ModifierFlag::SHIFT_L
+          ConsumerKeyCode::BRIGHTNESS_UP
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::BRACKET_RIGHT, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          KeyCode::EQUAL, ModifierFlag::SHIFT_L
+          ConsumerKeyCode::MUSIC_PREV
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::BACKSLASH, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          KeyCode::EQUAL, ModifierFlag::SHIFT_L
-        </autogen>
-        <autogen>
-          __KeyToKey__
-          KeyCode::TAB, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          KeyCode::BACKQUOTE
+          ConsumerKeyCode::MUSIC_NEXT
         </autogen>
       </item>
 
@@ -277,12 +277,12 @@
         <autogen>
           __KeyToKey__
           KeyCode::QUOTE, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          KeyCode::MINUS
+          ConsumerKeyCode::BRIGHTNESS_DOWN
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::RETURN, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          KeyCode::EQUAL
+          ConsumerKeyCode::MUSIC_PLAY
         </autogen>
       </item>
 
@@ -293,47 +293,27 @@
         <autogen>
           __KeyToKey__
           KeyCode::Z, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          ConsumerKeyCode::BRIGHTNESS_DOWN
-        </autogen>
-        <autogen>
-          __KeyToKey__
-          KeyCode::X, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          ConsumerKeyCode::BRIGHTNESS_UP
-        </autogen>
-        <autogen>
-          __KeyToKey__
-          KeyCode::C, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          ConsumerKeyCode::MUSIC_PREV
-        </autogen>
-        <autogen>
-          __KeyToKey__
-          KeyCode::V, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          ConsumerKeyCode::MUSIC_PLAY
-        </autogen>
-        <autogen>
-          __KeyToKey__
-          KeyCode::B, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          ConsumerKeyCode::MUSIC_NEXT
-        </autogen>
-        <autogen>
-          __KeyToKey__
-          KeyCode::N, ModifierFlag::OPTION_L | ModifierFlag::NONE,
           ConsumerKeyCode::VOLUME_MUTE
         </autogen>
         <autogen>
           __KeyToKey__
+          KeyCode::N, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::N, ModifierFlag::OPTION_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
           KeyCode::M, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          ConsumerKeyCode::VOLUME_DOWN
+          KeyCode::E, ModifierFlag::OPTION_L
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::COMMA, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          ConsumerKeyCode::VOLUME_UP
+          KeyCode::BACKQUOTE
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::DOT, ModifierFlag::OPTION_L | ModifierFlag::NONE,
-          KeyCode::KEY_1, ModifierFlag::OPTION_L
+          KeyCode::BACKQUOTE, ModifierFlag::SHIFT_L
         </autogen>
         <autogen>
           __KeyToKey__
@@ -414,18 +394,18 @@
       </item>
 
       <item>
-        <name>Shifts to Curly brackets</name>
-        <identifier>private.shifts_to_curly_brackets</identifier>
+        <name>Shifts to Volume</name>
+        <identifier>private.shifts_to_volume</identifier>
 
         <autogen>
           __KeyToKey__
           KeyCode::SHIFT_L, ModifierFlag::OPTION_L,
-          KeyCode::KEY_9, ModifierFlag::SHIFT_L
+          ConsumerKeyCode::VOLUME_DOWN
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::SHIFT_R, ModifierFlag::OPTION_L,
-          KeyCode::KEY_0, ModifierFlag::SHIFT_L
+          ConsumerKeyCode::VOLUME_UP
         </autogen>
       </item>
   </item>
@@ -447,72 +427,52 @@
       </autogen>
     </item>
 
-    <!-- Right Bracket to Backslash -->
+    <!-- Left Bracket to Minus -->
     <item>
-      <name>Right Bracket to Backslash</name>
-      <appendix>Increase typing area for the farest symbol in the row</appendix>
-      <identifier>private.right_bracket_to_backslash</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::BRACKET_RIGHT,
-        ModifierFlag::NONE,
-        KeyCode::BACKSLASH
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::BRACKET_RIGHT,
-        ModifierFlag::SHIFT_L | ModifierFlag::NONE,
-        KeyCode::BACKSLASH,
-        ModifierFlag::SHIFT_L
-      </autogen>
-    </item>
-
-    <!-- Left Bracket to Accent and Dieresis -->
-    <item>
-      <name>Left Bracket to Accent and Dieresis</name>
-      <identifier>private.left_bracket_to_accent_and_dieresis</identifier>
+      <name>Left Bracket to Minus</name>
+      <identifier>private.left_bracket_to_minus</identifier>
 
       <autogen>
         __KeyToKey__
         KeyCode::BRACKET_LEFT,
-        ModifierFlag::NONE,
-        KeyCode::E,
-        ModifierFlag::OPTION_L
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::BRACKET_LEFT,
-        ModifierFlag::SHIFT_L | ModifierFlag::NONE,
-        KeyCode::U,
-        ModifierFlag::OPTION_L
+        KeyCode::MINUS
       </autogen>
     </item>
 
-    <!-- Return to ñ -->
+    <!-- Right Bracket to Equal -->
     <item>
-      <name>Return to ñ</name>
-      <identifier>private.return_to_tilde_n</identifier>
+      <name>Right Bracket to Equal</name>
+      <identifier>private.right_bracket_to_equal</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::BRACKET_RIGHT,
+        KeyCode::EQUAL
+      </autogen>
+    </item>
+
+    <!-- Return to parentheses -->
+    <item>
+      <name>Return to Parentheses</name>
+      <identifier>private.return_to_parentheses</identifier>
 
       <autogen>
         __KeyToKey__
         KeyCode::RETURN,
         ModifierFlag::NONE,
-        KeyCode::N,
-        ModifierFlag::OPTION_L,
-        KeyCode::N
+        KeyCode::KEY_9,
+        ModifierFlag::SHIFT_L
       </autogen>
       <autogen>
         __KeyToKey__
         KeyCode::RETURN,
-        ModifierFlag::SHIFT_L | ModifierFlag::NONE,
-        KeyCode::N,
-        ModifierFlag::OPTION_L,
-        KeyCode::N,
+        ModifierFlag::SHIFT_L,
+        KeyCode::KEY_0,
         ModifierFlag::SHIFT_L
       </autogen>
     </item>
 
+    <!-- Command_R to Command_L. When you type Command_R only, send Space -->
     <item>
       <name>Use the Command_R key as Control_L key when you press keys while holding Control_L key.</name>
       <appendix></appendix>
@@ -558,7 +518,7 @@
 
     <!-- Space to Shift_L -->
     <item>
-      <name>Space to Shift_L</name>
+      <name>Space to Shift_L, and use it as sticky modifier with lock</name>
       <identifier>private.space_to_shift_l</identifier>
 
       <include path="/Applications/Karabiner.app/Contents/Resources/include/checkbox/commons/sticky_modifiers/WITH_LOCK.xml">
@@ -588,14 +548,14 @@
       </autogen>
     </item>
 
-    <!-- Option_L to Option_L -->
+    <!-- Option_L to Option_L. When you type Option_L only send Escape -->
     <item>
       <name>Option_L to Option_L</name>
       <appendix>(+ When you type Option_L only, send Escape and force off all locks)</appendix>
       <identifier>private.option_l_to_option_l</identifier>
 
       <autogen>
-        __KeyToKey__
+        __KeyOverlaidModifier__
         KeyCode::OPTION_L,
         KeyCode::OPTION_L,
         KeyCode::ESCAPE,
@@ -603,9 +563,9 @@
       </autogen>
     </item>
 
-    <!-- Option_R to Option_L -->
+    <!-- Option_R to Option_L and use it as sticky modifier with lock -->
     <item>
-      <name>Option_R to Option_L</name>
+      <name>Option_R to Option_L and use it as sticky modifier with lock</name>
       <identifier>private.option_r_to_option_l</identifier>
 
       <include path="/Applications/Karabiner.app/Contents/Resources/include/checkbox/commons/sticky_modifiers/WITH_LOCK.xml">
