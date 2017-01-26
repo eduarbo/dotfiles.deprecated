@@ -18,7 +18,6 @@
     google-translate
     gruvbox
     helm
-    helm-projectile
     js2-mode
     (sh-script :location built-in)
     subatomic-theme
@@ -26,9 +25,9 @@
     yasnippet))
 
 (defun defaults/post-init-avy ()
-  ;; (bind-map-set-keys evil-normal-state-map
-  ;;   "s" 'avy-goto-char-timer
-  ;;   "S" 'avy-goto-char-in-line)
+  (bind-map-set-keys evil-normal-state-map
+    "s" 'avy-goto-char-timer
+    "S" 'avy-goto-char-in-line)
   )
 
 (defun defaults/post-init-company ()
@@ -56,9 +55,13 @@
     (with-eval-after-load 'company (company-flx-mode t))))
 
 (defun defaults/post-init-evil ()
-  ;; (spacemacs/set-leader-keys
-  ;;   "TAB" 'evil-switch-to-windows-last-buffer)
+  (bind-map-set-keys evil-motion-state-map
+    "S-<left>" 'evil-window-left
+    "S-<down>" 'evil-window-down
+    "S-<up>" 'evil-window-up
+    "S-<right>" 'evil-window-right)
   (bind-map-set-keys evil-normal-state-map
+    ":"       'evil-repeat-find-char-reverse
     "<C-tab>" 'evil-jump-item))
 
 (defun defaults/post-init-evil-args ()
@@ -109,12 +112,10 @@
   ;; Enable fuzzy matching for everything
   ;; WARNING: this will slow down completion and modify sorting
   (setq helm-completion-in-region-fuzzy-match t
+        ;; helm-M-x-fuzzy-match t
+        ;; helm-imenu-fuzzy-match t
+        ;; helm-semantic-fuzzy-match t
         helm-mode-fuzzy-match t))
-
-(defun defaults/post-init-helm-projectile ()
-  ;; (spacemacs/set-leader-keys
-  ;;   "/" 'spacemacs/helm-project-do-grep)
-  )
 
 (defun defaults/post-init-js2-mode ()
   ;; Let flycheck handle parse errors
