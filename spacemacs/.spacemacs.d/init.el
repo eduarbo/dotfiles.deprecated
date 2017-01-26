@@ -389,7 +389,4 @@ you should place your code here."
                          '("xml" "xsd" "sch" "rng" "xslt" "svg" "rss") t)
                         "\\'")
                 'xml-mode))
-
-  ;; better identation for js
-  (push '("\\.js\\'" . react-mode) auto-mode-alist)
   )
