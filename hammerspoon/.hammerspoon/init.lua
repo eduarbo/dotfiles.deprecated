@@ -2,7 +2,7 @@
 -- Set up
 -----------------------------------------------
 
-local MEGA = {"cmd", "alt", "ctrl"}
+local MEGA = {"alt", "shift"}
 local HYPER = {"cmd", "alt", "ctrl", "shift"}
 hs.window.animationDuration = 0
 
@@ -14,6 +14,8 @@ require("hs.caffeinate")
 -----------------------------------------------
 -- Reload config on write
 -----------------------------------------------
+
+hs.hotkey.bind(MEGA, 'delete', hs.reload)
 
 hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", hs.reload):start()
 hs.alert("Config loaded")
