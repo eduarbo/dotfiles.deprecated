@@ -57,7 +57,7 @@ local winmod = {
 }
 
 for _,item in ipairs(winmod) do
-  hs.hotkey.bind(HYPER, item[1], focusedWindow(function(win)
+  hs.hotkey.bind(MEGA, item[1], focusedWindow(function(win)
                      win:move(item[2])
   end))
 end
@@ -66,18 +66,15 @@ end
 -- fullscreen
 -----------------------------------------------
 local frameCache = {}
-local function fullscreenFocusedWindow()
-  focusedWindow(function(win)
-      if frameCache[win:id()] then
-        win:setFrame(frameCache[win:id()])
-        frameCache[win:id()] = nil
-      else
-        frameCache[win:id()] = win:frame()
-        win:move(hs.layout.maximized)
-      end
-  end)
-end
-hs.hotkey.bind(HYPER, 'f', fullscreenFocusedWindow)
+hs.hotkey.bind(MEGA, 'f', focusedWindow(function(win)
+                   if frameCache[win:id()] then
+                     win:setFrame(frameCache[win:id()])
+                     frameCache[win:id()] = nil
+                   else
+                     frameCache[win:id()] = win:frame()
+                     win:move(hs.layout.maximized)
+                   end
+end))
 
 -----------------------------------------------
 -- Launcher with mega modifier
@@ -103,14 +100,14 @@ local apps = {
 }
 
 for _,item in ipairs(apps) do
-  hs.hotkey.bind(MEGA, item[1], function()
+  hs.hotkey.bind(HYPER, item[1], function()
                    local app = hs.application.open(item[2])
                    if app then app:activate(true) end
   end)
 end
 
 -- Open Hammerspoon Console
-hs.hotkey.bind(MEGA, 'o', hs.openConsole)
+hs.hotkey.bind(MEGA, ',', hs.openConsole)
 
 -- Launch Screensaver
 hs.hotkey.bind(MEGA, '`', hs.caffeinate.startScreensaver)
