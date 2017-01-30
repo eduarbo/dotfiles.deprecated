@@ -56,3 +56,10 @@ source_file $BREW_LOCATION/opt/chruby/share/chruby/auto.sh
 if type_exists 'thefuck'; then
   eval "$(thefuck --alias)"
 fi
+
+####################################################################################
+# Pyenv                                                                            #
+####################################################################################
+if type_exists 'pyenv'; then
+  eval "$(pyenv init -)";
+fi
