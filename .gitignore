@@ -45,3 +45,6 @@ spacemacs/.spacemacs.d/custom.el
 !.gitkeep
 !*/
 .macosdefaultsinstalled
+
+# lua
+.luacheckcache
