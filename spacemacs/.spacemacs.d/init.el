@@ -27,7 +27,7 @@ values."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '("~/.spacemacs.d/layers/")
+   dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
@@ -36,8 +36,9 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     themes-megapack
+     helm
      better-defaults
+     themes-megapack
      (auto-completion :variables
                       spacemacs-default-company-backends '(company-capf
                                                            company-dabbrev-code)
@@ -56,21 +57,18 @@ values."
             shell-enable-smart-eshell t
             shell-default-position 'bottom
             shell-default-height 30)
-     (spell-checking :variables
-                     spell-checking-enable-by-default nil
-                     spell-checking-enable-auto-dictionary t)
+     ;; (spell-checking :variables
+     ;;                 spell-checking-enable-by-default nil
+     ;;                 spell-checking-enable-auto-dictionary t)
      (syntax-checking :variables
                       syntax-checking-enable-tooltips nil)
-     deft
-     osx
-     ;; erc
 
-     ;; command-log
+     deft
+     ;; osx
+
      c-c++
-     ;; (clojure :variables
-     ;;          clojure-enable-fancify-symbols t)
      csv
-     dash
+     ;; dash
      django
      docker
      (elm :variables
@@ -81,18 +79,16 @@ values."
      javascript
      lua
      markdown
-     nginx
      (org :variables org-enable-github-support t)
+     nginx
      pandoc
      (python :variables
              python-enable-yapf-format-on-save t)
      react
      ruby
      shell-scripts
-     sql
-     systemd
-     ;; typescript
-     ;; vagrant
+     ;; sql
+     ;; systemd
      vimscript
      yaml
 
@@ -112,7 +108,6 @@ values."
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(evil-escape
                                     vi-tilde-fringe
-                                    company-flx
                                     emmet-mode
                                     evil-search-highlight-persist)
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -157,7 +152,7 @@ values."
    ;; with `:variables' keyword (similar to layers). Check the editing styles
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
-   dotspacemacs-editing-style 'vim
+   dotspacemacs-editing-style 'hybrid
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -171,11 +166,10 @@ values."
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
-   ;; Example for 5 recent files and 7 projects: '((recents . 5) (projects . 7))
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   ;; (default nil)
-   dotspacemacs-startup-lists '((projects . 3) (recents . 5))
+   dotspacemacs-startup-lists '((recents . 5)
+                                (projects . 7))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
@@ -211,7 +205,7 @@ values."
    ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
    dotspacemacs-major-mode-leader-key "DEL"
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
-   ;; (default "C-M-m)
+   ;; (default "C-M-m")
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
    ;; These variables control whether separate commands are bound in the GUI to
    ;; the key pairs C-i, TAB and C-m, RET.
@@ -351,8 +345,6 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
-  ;; (toggle-debug-on-error)
-
   ;; keep customize settings in their own file
   (setq custom-file (concat dotspacemacs-directory "custom.el"))
   (when (file-exists-p custom-file) (load custom-file))
@@ -366,6 +358,8 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; Enable accents
+  (setq ns-alternate-modifier 'none)
   ;; Distinguish wrapped lines with curly arrows
   (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
   ;; show minimalist fringes to the right
@@ -397,9 +391,3 @@ you should place your code here."
                 'xml-mode))
 
   )
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-)

@@ -1,12 +1,8 @@
 <?xml version="1.0"?>
 <root>
   <!-- For "space_to_control" -->
-  <modifierdef>SPACE_TO_CONTROL</modifierdef>
-
-  <vkopenurldef>
-    <name>KeyCode::VK_OPEN_URL_APP_Atom</name>
-    <url type="file">/Applications/Atom.app</url>
-  </vkopenurldef>
+  <modifierdef>COMMAND_R_TO_CONTROL_L</modifierdef>
+  <modifierdef>PARENTHESES</modifierdef>
 
   <vkopenurldef>
     <name>KeyCode::VK_OPEN_URL_APP_Calendar</name>
@@ -20,7 +16,7 @@
 
   <vkopenurldef>
     <name>KeyCode::VK_OPEN_URL_APP_Emacs</name>
-    <url type="file">/usr/local/Cellar/emacs-plus/25.1/Emacs.app</url>
+    <url type="file">/usr/local/Cellar/emacs/25.1/Emacs.app</url>
   </vkopenurldef>
 
   <vkopenurldef>
@@ -65,12 +61,6 @@
         <autogen>
           __KeyDownUpToKey__
           KeyCode::A,
-          KeyCode::VK_OPEN_URL_APP_Atom,
-        </autogen>
-
-        <autogen>
-          __KeyDownUpToKey__
-          KeyCode::R,
           KeyCode::VK_OPEN_URL_APP_Calendar,
         </autogen>
 
@@ -146,228 +136,460 @@
   </replacementdef>
 
   <item>
-    <name>Shifts to Parentheses</name>
-    <appendix>Shifts, when pressed alone, type parentheses.  When used with other keys they're normal shifts.</appendix>
+    <name>Option layout</name>
 
-    <identifier>private.shifts_to_parens</identifier>
+      <item>
+        <name>Overlay Symbols above the Home Row</name>
+        <identifier>private.symbols_above_home_row</identifier>
 
-    <!-- This is the basic mapping. -->
-    <autogen>
-      __KeyOverlaidModifier__
-      KeyCode::SHIFT_R,
-      ModifierFlag::SHIFT_R | ModifierFlag::NONE,
-      KeyCode::SHIFT_R,
-      KeyCode::KEY_0,
-      ModifierFlag::SHIFT_L
-    </autogen>
-    <autogen>
-      __KeyOverlaidModifier__
-      KeyCode::SHIFT_L,
-      ModifierFlag::SHIFT_L | ModifierFlag::NONE,
-      KeyCode::SHIFT_L,
-      KeyCode::KEY_9,
-      ModifierFlag::SHIFT_R
-    </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::Q, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_1, ModifierFlag::SHIFT_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::W, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_2, ModifierFlag::SHIFT_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::E, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_3, ModifierFlag::SHIFT_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::R, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_4, ModifierFlag::SHIFT_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::T, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_5, ModifierFlag::SHIFT_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::Y, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_6, ModifierFlag::SHIFT_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::U, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_7, ModifierFlag::SHIFT_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::I, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_8, ModifierFlag::SHIFT_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::O, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::BACKSLASH, ModifierFlag::OPTION_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::P, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::BACKSLASH, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::TAB, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_1, ModifierFlag::OPTION_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::BRACKET_LEFT, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          ConsumerKeyCode::BRIGHTNESS_UP
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::BRACKET_RIGHT, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          ConsumerKeyCode::MUSIC_PREV
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::BACKSLASH, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          ConsumerKeyCode::MUSIC_NEXT
+        </autogen>
+      </item>
 
-    <!--
-        Remap the "rolls" of () and )( because it's too easy to hit one
-        before finishing the other, and there's no other reason to be
-        pressing both shift keys at once anyway
-    -->
-    <autogen>
-      __KeyToKey__
-      KeyCode::SHIFT_L, ModifierFlag::SHIFT_R,
-      KeyCode::KEY_0, ModifierFlag::SHIFT_L,
-      KeyCode::KEY_9, ModifierFlag::SHIFT_L
-    </autogen>
-    <autogen>
-      __KeyToKey__
-      KeyCode::SHIFT_R, ModifierFlag::SHIFT_L,
-      KeyCode::KEY_9, ModifierFlag::SHIFT_L,
-      KeyCode::KEY_0, ModifierFlag::SHIFT_L
-    </autogen>
+      <item>
+        <name>Overlay Numbers Row onto the Home Row</name>
+        <appendix>Overlay 1234567890-= onto the home row</appendix>
+        <identifier>private.numbers_row_onto_home_row</identifier>
+
+        <autogen>
+          __KeyToKey__
+          KeyCode::D, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_3
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::A, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_1
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::S, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_2
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::D, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_3
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::F, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_4
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::G, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_5
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::H, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_6
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::J, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_7
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::K, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_8
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::L, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_9
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::SEMICOLON, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::KEY_0
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::QUOTE, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          ConsumerKeyCode::BRIGHTNESS_DOWN
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::RETURN, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          ConsumerKeyCode::MUSIC_PLAY
+        </autogen>
+      </item>
+
+      <item>
+        <name>Overlay Functional keys below the Home Row</name>
+        <identifier>private.functional_keys_below_home_row</identifier>
+
+        <autogen>
+          __KeyToKey__
+          KeyCode::Z, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          ConsumerKeyCode::VOLUME_MUTE
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::N, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::N, ModifierFlag::OPTION_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::M, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::E, ModifierFlag::OPTION_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::COMMA, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::BACKQUOTE
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::DOT, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::BACKQUOTE, ModifierFlag::SHIFT_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::SLASH, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::SLASH, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L
+        </autogen>
+      </item>
+
+      <item>
+        <name>Overlay Function keys to the Numbers Row</name>
+        <identifier>private.function_keys_to_numbers_row</identifier>
+
+        <autogen>
+          __KeyToKey__
+          KeyCode::BACKQUOTE, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::BACKQUOTE, ModifierFlag::SHIFT_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_1, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::F1
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_2, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::F2
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_3, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::F3
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_4, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::F4
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_5, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::F5
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_6, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::F6
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_7, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::F7
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_8, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::F8
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_9, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::F9
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_0, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::F10
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::MINUS, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::F11
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::EQUAL, ModifierFlag::OPTION_L | ModifierFlag::NONE,
+          KeyCode::F12
+        </autogen>
+      </item>
+
+      <item>
+        <name>Shifts to Volume</name>
+        <identifier>private.shifts_to_volume</identifier>
+
+        <autogen>
+          __KeyToKey__
+          KeyCode::SHIFT_L, ModifierFlag::OPTION_L,
+          ConsumerKeyCode::VOLUME_DOWN
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::SHIFT_R, ModifierFlag::OPTION_L,
+          ConsumerKeyCode::VOLUME_UP
+        </autogen>
+      </item>
   </item>
 
   <item>
-    <name>Switch Profile (FN + Number Keys)</name>
-    <identifier>private.switch_profile</identifier>
-
-    <autogen>
-      __KeyToKey__
-      KeyCode::KEY_1, ModifierFlag::FN,
-      KeyCode::VK_OPEN_URL_APP_KeyRemap4MacBook_Profile0
-    </autogen>
-    <autogen>
-      __KeyToKey__
-      KeyCode::KEY_2, ModifierFlag::FN,
-      KeyCode::VK_OPEN_URL_APP_KeyRemap4MacBook_Profile1
-    </autogen>
-    <autogen>
-      __KeyToKey__
-      KeyCode::KEY_3, ModifierFlag::FN,
-      KeyCode::VK_OPEN_URL_APP_KeyRemap4MacBook_Profile2
-    </autogen>
-  </item>
-
-  <item>
-    <name>Change Command keys</name>
+    <name>Main layout</name>
 
     <item>
-      <name>Command_R to Option_R</name>
-      <appendix>(+ When you type Option_R only, send Return)</appendix>
-      <identifier>private.command_r_to_option_r</identifier>
+      <name>Caps Lock to Delete</name>
+      <appendix>OS X doesn't have a Delete. This maps Caps lock (F19) to Delete.</appendix>
+      <appendix>You can use this key in your own custom keyboard shortcuts you create in apps.</appendix>
+
+      <identifier>private.f19_to_delete</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::F19,
+        KeyCode::DELETE
+      </autogen>
+    </item>
+
+    <!-- Left Bracket to Minus -->
+    <item>
+      <name>Left Bracket to Minus</name>
+      <identifier>private.left_bracket_to_minus</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::BRACKET_LEFT,
+        KeyCode::MINUS
+      </autogen>
+    </item>
+
+    <!-- Right Bracket to Equal -->
+    <item>
+      <name>Right Bracket to Equal</name>
+      <identifier>private.right_bracket_to_equal</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::BRACKET_RIGHT,
+        KeyCode::EQUAL
+      </autogen>
+    </item>
+
+    <!-- Return to parentheses -->
+    <item>
+      <name>Return to Parentheses</name>
+      <identifier>private.return_to_parentheses</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::RETURN,
+        ModifierFlag::NONE,
+        KeyCode::KEY_9,
+        ModifierFlag::SHIFT_L
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::RETURN,
+        ModifierFlag::SHIFT_L,
+        KeyCode::KEY_0,
+        ModifierFlag::SHIFT_L
+      </autogen>
+    </item>
+
+    <!-- Command_R to Command_L. When you type Command_R only, send Space -->
+    <item>
+      <name>Use the Command_R key as Control_L key when you press keys while holding Control_L key.</name>
+      <appendix></appendix>
+      <appendix>For example:</appendix>
+      <appendix><![CDATA[  Command_R down -> T down -> T up => Control-T  ]]></appendix>
+      <appendix><![CDATA[  Command_R down -> T down -> Space up => Space,T  ]]></appendix>
+      <identifier>private.command_r_to_control_l</identifier>
 
       <autogen>
         __KeyOverlaidModifier__
         KeyCode::COMMAND_R,
-        KeyCode::OPTION_R,
+
+        KeyCode::VK_LAZY_CONTROL_L, ModifierFlag::COMMAND_R_TO_CONTROL_L,
+        KeyCode::SPACE
+      </autogen>
+
+      <block>
+        <modifier_only>ModifierFlag::COMMAND_R_TO_CONTROL_L</modifier_only>
+
+        <autogen>
+          __BlockUntilKeyUp__
+          KeyCode::SPACE
+        </autogen>
+      </block>
+    </item>
+
+    <!-- Shifts to Parentheses and brackets -->
+    <item>
+      <name>Shifts to Parentheses and brackets</name>
+      <identifier>private.shifts_to_parentheses_and_brackets</identifier>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::SHIFT_R,
+        KeyCode::BRACKET_RIGHT
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::SHIFT_L,
+        KeyCode::BRACKET_LEFT
+      </autogen>
+    </item>
+
+    <!-- Space to Shift_L -->
+    <item>
+      <name>Space to Shift_L, and use it as sticky modifier with lock</name>
+      <identifier>private.space_to_shift_l</identifier>
+
+      <include path="/Applications/Karabiner.app/Contents/Resources/include/checkbox/commons/sticky_modifiers/WITH_LOCK.xml">
+        <replacementdef>
+          <replacementname>FROM_MODIFIER</replacementname>
+          <replacementvalue>SPACE</replacementvalue>
+        </replacementdef>
+        <replacementdef>
+          <replacementname>TO_MODIFIER</replacementname>
+          <replacementvalue>SHIFT_L</replacementvalue>
+        </replacementdef>
+      </include>
+    </item>
+
+    <!-- Command_L to Command_L. When you type Command_L only, send Return -->
+    <item>
+      <name>Command_L to Command_L</name>
+      <appendix>(+ When you type Command_L only, send Return)</appendix>
+
+      <identifier>private.command_l_to_command_l</identifier>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::COMMAND_L,
+        KeyCode::COMMAND_L,
         KeyCode::RETURN
       </autogen>
     </item>
 
+    <!-- Option_L to Option_L. When you type Option_L only send Escape -->
     <item>
-      <name>Command_L to Escape</name>
-      <appendix>(+ When you type Command_L only, send Escape)</appendix>
-
-      <identifier>remap.command_l_to_command_escape</identifier>
+      <name>Option_L to Option_L</name>
+      <appendix>(+ When you type Option_L only, send Escape and force off all locks)</appendix>
+      <identifier>private.option_l_to_option_l</identifier>
 
       <autogen>
         __KeyOverlaidModifier__
-        KeyCode::COMMAND_L,
-        KeyCode::COMMAND_L,
-        KeyCode::ESCAPE
+        KeyCode::OPTION_L,
+        KeyCode::OPTION_L,
+        KeyCode::ESCAPE,
+        KeyCode::VK_LOCK_ALL_FORCE_OFF
       </autogen>
     </item>
-  </item>
 
-  <item>
-    <name>Use the space key as left control key when you press keys while holding space key.</name>
-    <appendix></appendix>
-    <appendix>For example:</appendix>
-    <appendix><![CDATA[  Space down -> T down -> T up => Control-T  ]]></appendix>
-    <appendix><![CDATA[  Space down -> T down -> Space up => Space,T  ]]></appendix>
-    <identifier>remap.space_to_control</identifier>
-
-    <autogen>
-      __KeyOverlaidModifier__
-      KeyCode::SPACE,
-
-      KeyCode::VK_LAZY_CONTROL_L, ModifierFlag::SPACE_TO_CONTROL,
-      KeyCode::SPACE
-    </autogen>
-
-    <block>
-      <modifier_only>ModifierFlag::SPACE_TO_CONTROL</modifier_only>
-
-      <autogen>
-        __BlockUntilKeyUp__
-        KeyCode::SPACE
-      </autogen>
-    </block>
-  </item>
-
-  <item>
-    <name>Change Option keys</name>
-
+    <!-- Option_R to Option_L and use it as sticky modifier with lock -->
     <item>
-      <name>Option_R to Fn</name>
-      <identifier>private.option_r_to_fn</identifier>
+      <name>Option_R to Option_L and use it as sticky modifier with lock</name>
+      <identifier>private.option_r_to_option_l</identifier>
+
+      <include path="/Applications/Karabiner.app/Contents/Resources/include/checkbox/commons/sticky_modifiers/WITH_LOCK.xml">
+        <replacementdef>
+          <replacementname>FROM_MODIFIER</replacementname>
+          <replacementvalue>OPTION_R</replacementvalue>
+        </replacementdef>
+        <replacementdef>
+          <replacementname>TO_MODIFIER</replacementname>
+          <replacementvalue>OPTION_L</replacementvalue>
+        </replacementdef>
+      </include>
+    </item>
+
+    <!-- Control_L to Left Click -->
+    <item>
+      <name>Control_L to Left Click</name>
+      <identifier>private.control_l_to_left_click</identifier>
 
       <autogen>
         __KeyToKey__
-        KeyCode::OPTION_R,
-        KeyCode::FN
+        KeyCode::CONTROL_L,
+        PointingButton::LEFT
       </autogen>
-    </item>
-
-    <item>
-      <name>Option_L to Hyper</name>
-      <identifier>private.option_l_to_hyper</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::OPTION_L,
-        {{ HYPER_KEY }}
-      </autogen>
-    </item>
-
-    <item>
-      <name>Option_R to Fn</name>
-      <appendix>(+ When you type Option_R only, send Bracket_Right)</appendix>
-      <identifier>private.option_r_to_fn_bracket_r</identifier>
-
-      <!-- I took this helpful mapping from Steve Losh's post
-           http://stevelosh.com/blog/2012/10/a-modern-space-cadet -->
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::OPTION_R,
-        KeyCode::FN,
-        KeyCode::BRACKET_RIGHT
-      </autogen>
-    </item>
-
-    <item>
-      <name>Option_L to Hyper</name>
-      <appendix>(+ When you type Option_L only, send Bracket_Left)</appendix>
-      <identifier>private.option_l_to_hyper_bracket_l</identifier>
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::OPTION_L,
-        {{ HYPER_KEY }},
-        KeyCode::BRACKET_LEFT
-      </autogen>
-    </item>
-
-    <item>
-      <name>Option_R to Bracket_Right</name>
-      <appendix>(+ When you type Option_R only, send Bracket Right)</appendix>
-      <identifier>private.option_r_to_bracket_r</identifier>
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::OPTION_R,
-        KeyCode::OPTION_R,
-        KeyCode::BRACKET_RIGHT
-      </autogen>
-    </item>
-
-    <item>
-      <name>Option_L to Bracket_Left</name>
-      <appendix>(+ When you type Option_L only, send Bracket Left)</appendix>
-      <identifier>private.option_l_to_bracket_l</identifier>
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::OPTION_L,
-        KeyCode::OPTION_L,
-        KeyCode::BRACKET_LEFT
-      </autogen>
-    </item>
-  </item>
-
- <item>
-    <name>Fn Shortcuts</name>
-
-    <item>
-      <name>Home Row Numbers Overlay</name>
-      <appendix>Overlay 1234567890 onto the home row (ASDFGHJKL;)</appendix>
-      <identifier>private.fn_to_homerow_numbers</identifier>
-
-      <autogen>__KeyToKey__ KeyCode::A, ModifierFlag::FN, KeyCode::KEY_1</autogen>
-      <autogen>__KeyToKey__ KeyCode::S, ModifierFlag::FN, KeyCode::KEY_2</autogen>
-      <autogen>__KeyToKey__ KeyCode::D, ModifierFlag::FN, KeyCode::KEY_3</autogen>
-      <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::FN, KeyCode::KEY_4</autogen>
-      <autogen>__KeyToKey__ KeyCode::G, ModifierFlag::FN, KeyCode::KEY_5</autogen>
-      <autogen>__KeyToKey__ KeyCode::H, ModifierFlag::FN, KeyCode::KEY_6</autogen>
-      <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::FN, KeyCode::KEY_7</autogen>
-      <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::FN, KeyCode::KEY_8</autogen>
-      <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::FN, KeyCode::KEY_9</autogen>
-      <autogen>__KeyToKey__ KeyCode::SEMICOLON, ModifierFlag::FN, KeyCode::KEY_0</autogen>
-      <autogen>__KeyToKey__ KeyCode::QUOTE, ModifierFlag::FN, KeyCode::MINUS</autogen>
-      <autogen>__KeyToKey__ KeyCode::RETURN, ModifierFlag::FN, KeyCode::EQUAL, ModifierFlag::SHIFT_L</autogen>
-      <autogen>__KeyToKey__ KeyCode::F19, ModifierFlag::FN, KeyCode::EQUAL</autogen>
     </item>
   </item>
 
@@ -425,83 +647,4 @@
     </item>
   </item>
 
-  <item>
-    <name>Hyper shortcuts</name>
-
-    <item>
-      <name>Hyper + Semicolon to add tilde</name>
-      <identifier>private.hyper_semicolon_add_tilde</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::SEMICOLON, {{ HYPER_MOD }}, KeyCode::E, ModifierFlag::OPTION_L
-      </autogen>
-    </item>
-
-    <item>
-      <name>Hyper + N to add n tilde (~)</name>
-      <identifier>private.hyper_n_add_tilde</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::N, {{ HYPER_MOD }}, KeyCode::N, ModifierFlag::OPTION_L
-      </autogen>
-    </item>
-
-    <item>
-      <name>
-        Hyper + brackets to move focus to previous/next tab in application
-      </name>
-      <identifier>private.hyper_to_command_shift_brackets</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::BRACKET_LEFT, {{ HYPER_MOD }},
-        KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::BRACKET_RIGHT, {{ HYPER_MOD }},
-        KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_R | ModifierFlag::SHIFT_R
-      </autogen>
-    </item>
-  </item>
-
-  <item>
-    <name>Remap main Keys</name>
-
-    <item>
-      <name>Return to Parentheses</name>
-      <identifier>private.return_to_parentheses</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::RETURN,
-        ModifierFlag::SHIFT_L | ModifierFlag::NONE,
-        KeyCode::KEY_0,
-        ModifierFlag::SHIFT_L
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::RETURN,
-        ModifierFlag::NONE,
-        KeyCode::KEY_9,
-        ModifierFlag::SHIFT_L
-      </autogen>
-    </item>
-
-    <item>
-      <name>Caps Lock to Delete</name>
-      <appendix>OS X doesn't have a Delete. This maps Caps lock (F19) to Delete.</appendix>
-      <appendix>You can use this key in your own custom keyboard shortcuts you create in apps.</appendix>
-
-      <identifier>private.f19_to_delete</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::F19,
-        KeyCode::DELETE
-      </autogen>
-    </item>
-  </item>
 </root>
