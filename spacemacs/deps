@@ -37,3 +37,5 @@ pip:virtualenv
 pip:flake8
 pip:ipython
 pip:yapf
+
+luarocks:luacheck

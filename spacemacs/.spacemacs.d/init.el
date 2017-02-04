@@ -369,7 +369,7 @@ you should place your code here."
   ;; Distinguish wrapped lines with curly arrows
   (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
   ;; show minimalist fringes to the right
-  (fringe-mode '(nil . 1))
+  (fringe-mode '(nil . 3))
 
   ;; Default toggles
   (spacemacs/toggle-centered-point-globally-on)
@@ -395,6 +395,7 @@ you should place your code here."
                          '("xml" "xsd" "sch" "rng" "xslt" "svg" "rss") t)
                         "\\'")
                 'xml-mode))
+
   )
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
