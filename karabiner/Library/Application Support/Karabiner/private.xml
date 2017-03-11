@@ -169,154 +169,9 @@
     <name>My settings</name>
 
     <item>
-      <name>Caps Lock to Delete</name>
-      <appendix>OS X doesn't have a Delete. This maps Caps lock (F19) to Delete.</appendix>
-      <appendix>You can use this key in your own custom keyboard shortcuts you create in apps.</appendix>
-      <identifier>private.f19_to_delete</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::F19,
-        KeyCode::DELETE
-      </autogen>
-    </item>
-
-    <!-- Option_L to Control_L. When you type Option_L only send Return -->
-    <item>
-      <name>Option_L to Control_L</name>
-      <appendix>(+ When you type Option_L only, send Return</appendix>
-      <identifier>private.option_l_to_control_l</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::OPTION_L,
-        KeyCode::CONTROL_L,
-        KeyCode::RETURN
-      </autogen>
-    </item>
-
-    <!-- Option_R to Option_R. When you type Option_R only, send Escape -->
-    <item>
-      <name>Option_R to Option_R</name>
-      <appendix>(+ When you type Option_R only, send Escape)</appendix>
-      <identifier>private.option_r_to_option_r_send_escape</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::OPTION_R,
-        KeyCode::VK_LAZY_OPTION_R,
-        KeyCode::ESCAPE,
-        KeyCode::VK_LOCK_ALL_FORCE_OFF
-      </autogen>
-    </item>
-
-    <!-- Command_L to SYMBOLS. When you type Command_L only, send Space -->
-    <item>
-      <name>Use the Command_L key as SYMBOLS key.</name>
-      <appendix>* Send a space key event when the Command_L is pressed alone.</appendix>
-      <identifier>private.command_l_to_symbols</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::COMMAND_L,
-        KeyCode::VK_MODIFIER_SYMBOLS,
-        KeyCode::SPACE
-      </autogen>
-    </item>
-
-    <!-- Command_L to SYMBOLS. When you type Command_L only, send Space -->
-    <item>
-      <name>Use the Command_L key as SYMBOLS key (another version)</name>
-      <appendix>This version keeps the space key behavior while fast typing.</appendix>
-      <appendix></appendix>
-      <appendix>* Send a space key event when the Command_L is released before another key is released.</appendix>
-      <appendix>For example:</appendix>
-      <appendix><![CDATA[  Command_L down -> T down -> T up => SYMBOLS+T  ]]></appendix>
-      <appendix><![CDATA[  Command_L down -> T down -> Command_L => Space,T  ]]></appendix>
-      <identifier>private.fast_command_l_to_symbols</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::COMMAND_L,
-
-        KeyCode::VK_MODIFIER_SYMBOLS, ModifierFlag::COMMAND_L_TO_SYMBOLS,
-        KeyCode::SPACE
-      </autogen>
-
-      <block>
-        <modifier_only>ModifierFlag::COMMAND_L_TO_SYMBOLS</modifier_only>
-
-        <autogen>
-          __BlockUntilKeyUp__
-          KeyCode::COMMAND_L
-        </autogen>
-      </block>
-    </item>
-
-    <!-- Command_R to Shift_R. When you type Command_R only, send Space -->
-    <item>
-      <name>Use the Command_R key as Shift_R key.</name>
-      <appendix>* Send a space key event when the Command_R is pressed alone.</appendix>
-      <identifier>private.command_r_to_shift_r</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::COMMAND_R,
-        KeyCode::SHIFT_R,
-        KeyCode::SPACE
-      </autogen>
-    </item>
-
-    <!-- Command_R to Shift_R. When you type Command_R only, send Space -->
-    <item>
-      <name>Use the Command_R key as Shift_R key (another version)</name>
-      <appendix>This version keeps the space key behavior while fast typing.</appendix>
-      <appendix></appendix>
-      <appendix>* Send a space key event when the Command_R is released before another key is released.</appendix>
-      <appendix>For example:</appendix>
-      <appendix><![CDATA[  Command_R down -> T down -> T up => Shift+T  ]]></appendix>
-      <appendix><![CDATA[  Command_R down -> T down -> Command_R => Space,T  ]]></appendix>
-      <identifier>private.fast_command_r_to_shift_r</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::COMMAND_R,
-
-        KeyCode::SHIFT_R, ModifierFlag::COMMAND_R_TO_SHIFT_R,
-        KeyCode::SPACE
-      </autogen>
-
-      <block>
-        <modifier_only>ModifierFlag::COMMAND_R_TO_SHIFT_R</modifier_only>
-
-        <autogen>
-          __BlockUntilKeyUp__
-          KeyCode::COMMAND_R
-        </autogen>
-      </block>
-    </item>
-
-    <!-- Space to Command_L -->
-    <item>
-      <name>Space to Command_L</name>
-      <identifier>remap.space_to_command_l</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::SPACE,
-        KeyCode::VK_LAZY_COMMAND_L
-      </autogen>
-    </item>
-
-    <item>
       <name>Symbols layer</name>
+       <!-- ============= -->
+
       <appendix>* Overlay Numbers Row above the Home Row</appendix>
       <appendix>* Overlay Symbols onto the Home Row</appendix>
       <appendix>* Overlay Extra Symbols below the Home Row</appendix>
@@ -436,51 +291,293 @@
       <autogen>
         __KeyToKey__
         KeyCode::X, ModifierFlag::SYMBOLS,
-        KeyCode::KEY_2, ModifierFlag::OPTION_L
+        KeyCode::EQUAL
       </autogen>
-      <!-- <autogen> -->
-      <!--   __KeyToKey__ -->
-      <!--   KeyCode::D, ModifierFlag::SYMBOLS, -->
-      <!--   KeyCode::KEY_3, ModifierFlag::SHIFT_L -->
-      <!-- </autogen> -->
-      <!-- <autogen> -->
-      <!--   __KeyToKey__ -->
-      <!--   KeyCode::F, ModifierFlag::SYMBOLS, -->
-      <!--   KeyCode::KEY_4, ModifierFlag::SHIFT_L -->
-      <!-- </autogen> -->
-      <!-- <autogen> -->
-      <!--   __KeyToKey__ -->
-      <!--   KeyCode::G, ModifierFlag::SYMBOLS, -->
-      <!--   KeyCode::KEY_5, ModifierFlag::SHIFT_L -->
-      <!-- </autogen> -->
-      <!-- <autogen> -->
-      <!--   __KeyToKey__ -->
-      <!--   KeyCode::H, ModifierFlag::SYMBOLS, -->
-      <!--   KeyCode::KEY_6, ModifierFlag::SHIFT_L -->
-      <!-- </autogen> -->
-      <!-- <autogen> -->
-      <!--   __KeyToKey__ -->
-      <!--   KeyCode::J, ModifierFlag::SYMBOLS, -->
-      <!--   KeyCode::KEY_7, ModifierFlag::SHIFT_L -->
-      <!-- </autogen> -->
-      <!-- <autogen> -->
-      <!--   __KeyToKey__ -->
-      <!--   KeyCode::K, ModifierFlag::SYMBOLS, -->
-      <!--   KeyCode::KEY_8, ModifierFlag::SHIFT_L -->
-      <!-- </autogen> -->
-      <!-- <autogen> -->
-      <!--   __KeyToKey__ -->
-      <!--   KeyCode::L, ModifierFlag::SYMBOLS, -->
-      <!--   KeyCode::KEY_9, ModifierFlag::SHIFT_L -->
-      <!-- </autogen> -->
-      <!-- <autogen> -->
-      <!--   __KeyToKey__ -->
-      <!--   KeyCode::SEMICOLON, ModifierFlag::SYMBOLS, -->
-      <!--   KeyCode::KEY_0, ModifierFlag::SHIFT_L -->
-      <!-- </autogen> -->
+      <autogen>
+        __KeyToKey__
+        KeyCode::C, ModifierFlag::SYMBOLS,
+        KeyCode::MINUS
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::V, ModifierFlag::SYMBOLS,
+        KeyCode::EQUAL, ModifierFlag::SHIFT_L
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::B, ModifierFlag::SYMBOLS,
+        KeyCode::MINUS, ModifierFlag::SHIFT_L
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::N, ModifierFlag::SYMBOLS,
+        KeyCode::N, ModifierFlag::OPTION_L
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::M, ModifierFlag::SYMBOLS,
+        KeyCode::E, ModifierFlag::OPTION_L
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::SLASH, ModifierFlag::SYMBOLS,
+        KeyCode::SLASH, ModifierFlag::SHIFT_L | ModifierFlag::OPTION_L
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::SHIFT_L, ModifierFlag::SYMBOLS,
+        KeyCode::BACKSLASH, ModifierFlag::OPTION_L
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::SHIFT_R, ModifierFlag::SYMBOLS,
+        KeyCode::BACKSLASH, ModifierFlag::SHIFT_L | ModifierFlag::OPTION_L
+      </autogen>
+    </item> <!-- End Symbols layer -->
 
-      <!-- Overlay Functional keys below the Home Row -->
-    </item>
+
+    <item>
+      <name>Main layer</name>
+
+      <item>
+        <name>Caps Lock to Delete</name>
+        <!--  =================== -->
+
+        <appendix>OS X doesn't have a Delete. This maps Caps lock (F19) to Delete.</appendix>
+        <appendix>You can use this key in your own custom keyboard shortcuts you create in apps.</appendix>
+        <identifier>private.f19_to_delete</identifier>
+        <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+        <autogen>
+          __KeyToKey__
+          KeyCode::F19,
+          KeyCode::DELETE
+        </autogen>
+      </item>
+
+      <item>
+        <name>Left Bracket to Backquote</name>
+        <!--  ========================= -->
+
+        <identifier>private.left_bracket_to_backquote</identifier>
+
+        <autogen>
+          __KeyToKey__
+          KeyCode::BRACKET_LEFT,
+          KeyCode::BACKQUOTE
+        </autogen>
+      </item>
+
+      <item>
+        <name>Right Bracket to Backslash</name>
+        <!--  ========================== -->
+
+        <identifier>private.right_bracket_to_backslash</identifier>
+
+        <autogen>
+          __KeyToKey__
+          KeyCode::BRACKET_RIGHT,
+          KeyCode::BACKSLASH
+        </autogen>
+      </item>
+
+      <item>
+        <name>Return to Parentheses</name>
+        <!--  ===================== -->
+
+        <identifier>private.return_to_parentheses</identifier>
+
+        <autogen>
+          __KeyToKey__
+          KeyCode::RETURN,
+          ModifierFlag::SHIFT_R,
+          KeyCode::KEY_0,
+          ModifierFlag::SHIFT_L
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::RETURN,
+          KeyCode::KEY_9,
+          ModifierFlag::SHIFT_L
+        </autogen>
+      </item>
+
+      <item>
+        <name>Shifts to Parentheses and brackets</name>
+         <!-- ================================== -->
+
+        <identifier>private.shifts_to_parentheses_and_brackets</identifier>
+
+        <autogen>
+          __KeyToKey__
+          KeyCode::SHIFT_R,
+          KeyCode::BRACKET_RIGHT
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::SHIFT_L,
+          KeyCode::BRACKET_LEFT
+        </autogen>
+      </item>
+
+      <item>
+        <name>Control_L to Left Click</name>
+         <!-- ======================= -->
+
+        <identifier>private.control_l_to_left_click</identifier>
+
+        <autogen>
+          __KeyToKey__
+          KeyCode::CONTROL_L,
+          PointingButton::LEFT
+        </autogen>
+      </item>
+    </item> <!-- End Main layer -->
+
+
+    <item>
+      <name>Thumb modifiers</name>
+
+      <item>
+        <name>Option_L to Control_L</name>
+         <!-- ===================== -->
+
+        <appendix>(+ When you type Option_L only, send Return</appendix>
+        <identifier>private.option_l_to_control_l</identifier>
+        <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+        <autogen>
+          __KeyOverlaidModifier__
+          KeyCode::OPTION_L,
+          KeyCode::CONTROL_L,
+          KeyCode::RETURN
+        </autogen>
+      </item>
+
+      <item>
+        <name>Option_R to Option_R</name>
+         <!-- ==================== -->
+
+        <appendix>(+ When you type Option_R only, send Escape)</appendix>
+        <identifier>private.option_r_to_option_r_send_escape</identifier>
+        <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+        <autogen>
+          __KeyOverlaidModifier__
+          KeyCode::OPTION_R,
+          KeyCode::VK_LAZY_OPTION_R,
+          KeyCode::ESCAPE,
+          KeyCode::VK_LOCK_ALL_FORCE_OFF
+        </autogen>
+      </item>
+
+      <item>
+        <name>Use the Command_L key as SYMBOLS key.</name>
+         <!-- ===================================== -->
+
+        <appendix>* Send a space key event when the Command_L is pressed alone.</appendix>
+        <identifier>private.command_l_to_symbols</identifier>
+        <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+        <autogen>
+          __KeyOverlaidModifier__
+          KeyCode::COMMAND_L,
+          KeyCode::VK_MODIFIER_SYMBOLS,
+          KeyCode::SPACE
+        </autogen>
+      </item>
+
+      <item>
+        <name>Use the Command_L key as SYMBOLS key (another version)</name>
+         <!-- ====================================================== -->
+
+        <appendix>This version keeps the space key behavior while fast typing.</appendix>
+        <appendix></appendix>
+        <appendix>* Send a space key event when the Command_L is released before another key is released.</appendix>
+        <appendix>For example:</appendix>
+        <appendix><![CDATA[  Command_L down -> T down -> T up => SYMBOLS+T  ]]></appendix>
+        <appendix><![CDATA[  Command_L down -> T down -> Command_L => Space,T  ]]></appendix>
+        <identifier>private.fast_command_l_to_symbols</identifier>
+        <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+        <autogen>
+          __KeyOverlaidModifier__
+          KeyCode::COMMAND_L,
+
+          KeyCode::VK_MODIFIER_SYMBOLS, ModifierFlag::COMMAND_L_TO_SYMBOLS,
+          KeyCode::SPACE
+        </autogen>
+
+        <block>
+          <modifier_only>ModifierFlag::COMMAND_L_TO_SYMBOLS</modifier_only>
+
+          <autogen>
+            __BlockUntilKeyUp__
+            KeyCode::COMMAND_L
+          </autogen>
+        </block>
+      </item>
+
+      <item>
+        <name>Use the Command_R key as Shift_R key.</name>
+         <!-- ===================================== -->
+
+        <appendix>* Send a space key event when the Command_R is pressed alone.</appendix>
+        <identifier>private.command_r_to_shift_r</identifier>
+        <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+        <autogen>
+          __KeyOverlaidModifier__
+          KeyCode::COMMAND_R,
+          KeyCode::SHIFT_R,
+          KeyCode::SPACE
+        </autogen>
+      </item>
+
+      <item>
+        <name>Use the Command_R key as Shift_R key (another version)</name>
+         <!-- ====================================================== -->
+
+        <appendix>This version keeps the space key behavior while fast typing.</appendix>
+        <appendix></appendix>
+        <appendix>* Send a space key event when the Command_R is released before another key is released.</appendix>
+        <appendix>For example:</appendix>
+        <appendix><![CDATA[  Command_R down -> T down -> T up => Shift+T  ]]></appendix>
+        <appendix><![CDATA[  Command_R down -> T down -> Command_R => Space,T  ]]></appendix>
+        <identifier>private.fast_command_r_to_shift_r</identifier>
+        <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+        <autogen>
+          __KeyOverlaidModifier__
+          KeyCode::COMMAND_R,
+
+          KeyCode::SHIFT_R, ModifierFlag::COMMAND_R_TO_SHIFT_R,
+          KeyCode::SPACE
+        </autogen>
+
+        <block>
+          <modifier_only>ModifierFlag::COMMAND_R_TO_SHIFT_R</modifier_only>
+
+          <autogen>
+            __BlockUntilKeyUp__
+            KeyCode::COMMAND_R
+          </autogen>
+        </block>
+      </item>
+
+      <item>
+        <name>Space to Command_L</name>
+         <!-- ================== -->
+
+        <identifier>remap.space_to_command_l</identifier>
+        <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+        <autogen>
+          __KeyToKey__
+          KeyCode::SPACE,
+          KeyCode::VK_LAZY_COMMAND_L
+        </autogen>
+      </item>
+    </item> <!-- End Thumb modifiers -->
 
     <item>
       <name>Shifts to Volume</name>
@@ -496,118 +593,6 @@
         __KeyToKey__
         KeyCode::SHIFT_R, ModifierFlag::OPTION_L,
         ConsumerKeyCode::VOLUME_UP
-      </autogen>
-    </item>
-  </item>
-
-  <item>
-    <name>Main layout</name>
-
-    <!-- Left Bracket to Minus -->
-    <item>
-      <name>Left Bracket to Minus</name>
-      <identifier>private.left_bracket_to_minus</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::BRACKET_LEFT,
-        KeyCode::MINUS
-      </autogen>
-    </item>
-
-    <!-- Right Bracket to Equal -->
-    <item>
-      <name>Right Bracket to Equal</name>
-      <identifier>private.right_bracket_to_equal</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::BRACKET_RIGHT,
-        KeyCode::EQUAL
-      </autogen>
-    </item>
-
-    <!-- Return to parentheses -->
-    <item>
-      <name>Return to Parentheses</name>
-      <identifier>private.return_to_parentheses</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::RETURN,
-        ModifierFlag::NONE,
-        KeyCode::KEY_9,
-        ModifierFlag::SHIFT_L
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::RETURN,
-        ModifierFlag::SHIFT_L,
-        KeyCode::KEY_0,
-        ModifierFlag::SHIFT_L
-      </autogen>
-    </item>
-
-    <!-- Shifts to Parentheses and brackets -->
-    <item>
-      <name>Shifts to Parentheses and brackets</name>
-      <identifier>private.shifts_to_parentheses_and_brackets</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::SHIFT_R,
-        KeyCode::BRACKET_RIGHT
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::SHIFT_L,
-        KeyCode::BRACKET_LEFT
-      </autogen>
-    </item>
-
-    <!-- Space to Shift_L -->
-    <item>
-      <name>Space to Shift_L, and use it as sticky modifier with lock</name>
-      <identifier>private.space_to_shift_l</identifier>
-
-      <include path="/Applications/Karabiner.app/Contents/Resources/include/checkbox/commons/sticky_modifiers/WITH_LOCK.xml">
-        <replacementdef>
-          <replacementname>FROM_MODIFIER</replacementname>
-          <replacementvalue>SPACE</replacementvalue>
-        </replacementdef>
-        <replacementdef>
-          <replacementname>TO_MODIFIER</replacementname>
-          <replacementvalue>SHIFT_L</replacementvalue>
-        </replacementdef>
-      </include>
-    </item>
-
-    <!-- Option_R to Option_L and use it as sticky modifier with lock -->
-    <item>
-      <name>Option_R to Option_L and use it as sticky modifier with lock</name>
-      <identifier>private.option_r_to_option_l</identifier>
-
-      <include path="/Applications/Karabiner.app/Contents/Resources/include/checkbox/commons/sticky_modifiers/WITH_LOCK.xml">
-        <replacementdef>
-          <replacementname>FROM_MODIFIER</replacementname>
-          <replacementvalue>OPTION_R</replacementvalue>
-        </replacementdef>
-        <replacementdef>
-          <replacementname>TO_MODIFIER</replacementname>
-          <replacementvalue>OPTION_L</replacementvalue>
-        </replacementdef>
-      </include>
-    </item>
-
-    <!-- Control_L to Left Click -->
-    <item>
-      <name>Control_L to Left Click</name>
-      <identifier>private.control_l_to_left_click</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::CONTROL_L,
-        PointingButton::LEFT
       </autogen>
     </item>
   </item>
@@ -635,34 +620,6 @@
         __KeyToKey__
         KeyCode::L, ModifierFlag::CONTROL_L, KeyCode::CURSOR_RIGHT
       </autogen>
-    </item>
-
-    <item>
-      <name>Control + Inverted T {I,J,K,L} to {UP,LEFT,DOWN,RIGHT}</name>
-      <identifier>private.control_ijkl_to_up_left_down_right</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::I, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::CURSOR_LEFT
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::K, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::L, ModifierFlag::CONTROL_L, KeyCode::CURSOR_RIGHT
-      </autogen>
-    </item>
-
-    <item>
-      <!-- TODO -->
-      <name>Control + ; to kill to end of line</name>
-      <identifier>private.control_comma_to_kill</identifier>
     </item>
   </item>
 
