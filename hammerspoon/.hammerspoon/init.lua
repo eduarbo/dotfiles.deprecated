@@ -3,8 +3,8 @@
 -- Set up
 -----------------------------------------------
 
-local MEGA = {"alt", "shift"}
-local HYPER = {"cmd", "alt", "ctrl", "shift"}
+local MEGA = {"ctrl", "alt"}
+local HYPER = {"cmd", "alt", "ctrl"}
 
 -- adjust hotkey logging... info as the default is too much.
 hs.hotkey.setLogLevel("warning")
@@ -121,7 +121,7 @@ local function showDateTime()
   local time = os.date('%I:%M%p'):gsub('^0',''):lower()
   hs.alert(time..' - '..date, 2.5)
 end
-hs.hotkey.bind(MEGA, '\\', showDateTime)
+hs.hotkey.bind(MEGA, 'z', showDateTime)
 
 -----------------------------------------------
 -- Toggle screen for focused window
