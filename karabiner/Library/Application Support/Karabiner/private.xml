@@ -10,33 +10,11 @@
     <productid>0x8036</productid>
   </deviceproductdef>
 
-  <replacementdef>
-    <replacementname>UPPER_KEY</replacementname>
-    <replacementvalue>
-      ModifierFlag::OPTION_L | ModifierFlag::CONTROL_R | ModifierFlag::NONE
-    </replacementvalue>
-  </replacementdef>
-
-  <replacementdef>
-    <replacementname>HYPER_KEY</replacementname>
-    <replacementvalue>
-      KeyCode::COMMAND_L, ModifierFlag::CONTROL_L | ModifierFlag::OPTION_L | ModifierFlag::NONE
-    </replacementvalue>
-  </replacementdef>
-
-  <replacementdef>
-    <replacementname>HYPER_MOD</replacementname>
-    <replacementvalue>
-      ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L | ModifierFlag::OPTION_L | ModifierFlag::NONE
-    </replacementvalue>
-  </replacementdef>
-
   <modifierdef>COMMAND_L_TO_SYMBOLS</modifierdef>
   <modifierdef>COMMAND_R_TO_SHIFT_R</modifierdef>
-  <modifierdef>SPACE_TO_COMMAND_L</modifierdef>
   <modifierdef>SYMBOLS</modifierdef>
-  <modifierdef>PARENTHESES</modifierdef>
 
+<!-- ──────────────────────────────────────────────────────────── -->
 
   <vkopenurldef>
     <name>KeyCode::VK_OPEN_URL_APP_Calendar</name>
@@ -59,11 +37,6 @@
   </vkopenurldef>
 
   <vkopenurldef>
-    <name>KeyCode::VK_OPEN_URL_APP_FFD</name>
-    <url type="file">/Applications/FirefoxDeveloperEdition.app</url>
-  </vkopenurldef>
-
-  <vkopenurldef>
     <name>KeyCode::VK_OPEN_URL_APP_Hipchat</name>
     <url type="file">/Applications/HipChat.app</url>
   </vkopenurldef>
@@ -79,8 +52,8 @@
   </vkopenurldef>
 
   <vkopenurldef>
-    <name>KeyCode::VK_OPEN_URL_APP_Slack</name>
-    <url type="file">/Applications/Slack.app</url>
+    <name>KeyCode::VK_OPEN_URL_APP_Karabiner</name>
+    <url type="file">/Applications/Karabiner.app</url>
   </vkopenurldef>
 
   <vkopenurldef>
@@ -123,12 +96,6 @@
 
         <autogen>
           __KeyDownUpToKey__
-          KeyCode::B,
-          KeyCode::VK_OPEN_URL_APP_FFD,
-        </autogen>
-
-        <autogen>
-          __KeyDownUpToKey__
           KeyCode::H,
           KeyCode::VK_OPEN_URL_APP_Hipchat,
         </autogen>
@@ -148,7 +115,7 @@
         <autogen>
           __KeyDownUpToKey__
           KeyCode::K,
-          KeyCode::VK_OPEN_URL_APP_Slack,
+          KeyCode::VK_OPEN_URL_APP_Karabiner,
         </autogen>
 
         <autogen>
@@ -166,6 +133,7 @@
     </replacementvalue>
   </replacementdef>
 
+<!-- ──────────────────────────────────────────────────────────── -->
 
   <item>
     <name style="important">
@@ -173,15 +141,18 @@
     </name>
   </item>
 
+<!-- ──────────────────────────────────────────────────────────── -->
 
   <item>
+    <!--  ======== -->
     <name>Fn layer</name>
     <!--  ======== -->
+
+    <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
     <appendix>* Overlay Arrow and Function Keys on the right side of the keyboard</appendix>
     <appendix>* Overlay movement and media keys on the left side of the keyboard</appendix>
     <identifier>private.fn_layer</identifier>
-    <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
     <!-- Volume controls -->
     <autogen>
@@ -244,7 +215,6 @@
       KeyCode::F, ModifierFlag::FN,
       KeyCode::CURSOR_RIGHT
     </autogen>
-
     <autogen>
       __KeyToKey__
       KeyCode::H, ModifierFlag::FN,
@@ -346,16 +316,19 @@
     </autogen>
   </item> <!-- End Fn layer -->
 
+<!-- ──────────────────────────────────────────────────────────── -->
 
   <item>
+    <!--  ============= -->
     <name>Symbols layer</name>
     <!--  ============= -->
+
+    <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
     <appendix>* Overlay Numbers Row above the Home Row</appendix>
     <appendix>* Overlay Symbols onto the Home Row</appendix>
     <appendix>* Overlay Extra Symbols below the Home Row</appendix>
     <identifier>private.symbols_layer</identifier>
-    <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
     <!-- Overlay Numbers above the Home Row -->
     <autogen>
@@ -453,12 +426,12 @@
     <autogen>
       __KeyToKey__
       KeyCode::L, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_9, ModifierFlag::SHIFT_L
+      KeyCode::BACKSLASH
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::SEMICOLON, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_0, ModifierFlag::SHIFT_L
+      KeyCode::BACKSLASH, ModifierFlag::SHIFT_L
     </autogen>
 
     <!-- Overlay Extra Symbols below the Home Row -->
@@ -505,18 +478,23 @@
     <autogen>
       __KeyToKey__
       KeyCode::SHIFT_L, ModifierFlag::SYMBOLS,
-      KeyCode::BACKSLASH, ModifierFlag::OPTION_L
+      KeyCode::KEY_9, ModifierFlag::SHIFT_L
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::SHIFT_R, ModifierFlag::SYMBOLS,
-      KeyCode::BACKSLASH, ModifierFlag::SHIFT_L | ModifierFlag::OPTION_L
+      KeyCode::KEY_0, ModifierFlag::SHIFT_L
     </autogen>
   </item> <!-- End Symbols layer -->
 
+<!-- ──────────────────────────────────────────────────────────── -->
 
   <item>
+    <!--  ========== -->
     <name>Main layer</name>
+    <!--  ========== -->
+
+    <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
     <item>
       <name>Caps Lock to Delete</name>
@@ -525,7 +503,6 @@
       <appendix>OS X doesn't have a Delete. This maps Caps lock (F19) to Delete.</appendix>
       <appendix>You can use this key in your own custom keyboard shortcuts you create in apps.</appendix>
       <identifier>private.f19_to_delete</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
       <autogen>
         __KeyToKey__
@@ -583,7 +560,7 @@
 
     <item>
       <name>Shifts to Parentheses and brackets</name>
-      <!-- ================================== -->
+      <!--  ================================== -->
 
       <identifier>private.shifts_to_parentheses_and_brackets</identifier>
 
@@ -601,7 +578,7 @@
 
     <item>
       <name>Control_L to Left Click</name>
-      <!-- ======================= -->
+      <!--  ======================= -->
 
       <identifier>private.control_l_to_left_click</identifier>
 
@@ -613,31 +590,21 @@
     </item>
   </item> <!-- End Main layer -->
 
+<!-- ──────────────────────────────────────────────────────────── -->
 
   <item>
+    <!--  =============== -->
     <name>Thumb modifiers</name>
+    <!--  =============== -->
 
-    <item>
-      <name>Command_L + Command_R to Fn</name>
-      <!-- ===================== -->
-
-      <identifier>private.command_l_command_r_to_fn</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::COMMAND_L, ModifierFlag::COMMAND_R,
-        KeyCode::FN,
-      </autogen>
-    </item>
+    <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
     <item>
       <name>Option_L to Control_L</name>
-      <!-- ===================== -->
+      <!--  ===================== -->
 
       <appendix>(+ When you type Option_L only, send Return</appendix>
       <identifier>private.option_l_to_control_l</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
       <autogen>
         __KeyOverlaidModifier__
@@ -648,56 +615,39 @@
     </item>
 
     <item>
-      <name>Option_R to Option_R</name>
-      <!-- ==================== -->
+      <name>Command_L to SYMBOLS key</name>
+      <!--  ===================================== -->
 
-      <appendix>(+ When you type Option_R only, send Escape)</appendix>
-      <identifier>private.option_r_to_option_r_send_escape</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+      <appendix>* Send Escape key event when the Command_L is pressed alone.</appendix>
+      <identifier>private.command_l_to_symbols</identifier>
+
       <autogen>
         __KeyOverlaidModifier__
-        KeyCode::OPTION_R,
-        KeyCode::VK_LAZY_OPTION_R,
+        KeyCode::COMMAND_L,
+        KeyCode::VK_MODIFIER_SYMBOLS,
         KeyCode::ESCAPE,
         KeyCode::VK_LOCK_ALL_FORCE_OFF
       </autogen>
     </item>
 
     <item>
-      <name>Use the Command_L key as SYMBOLS key.</name>
-      <!-- ===================================== -->
-
-      <appendix>* Send a space key event when the Command_L is pressed alone.</appendix>
-      <identifier>private.command_l_to_symbols</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::COMMAND_L,
-        KeyCode::VK_MODIFIER_SYMBOLS,
-        KeyCode::SPACE
-      </autogen>
-    </item>
-
-    <item>
-      <name>Use the Command_L key as SYMBOLS key (another version)</name>
-      <!-- ====================================================== -->
+      <name>Command_L to SYMBOLS key (another version)</name>
+      <!--  ====================================================== -->
 
       <appendix>This version keeps the space key behavior while fast typing.</appendix>
       <appendix></appendix>
-      <appendix>* Send a space key event when the Command_L is released before another key is released.</appendix>
+      <appendix>* Send Escape key event when the Command_L is released before another key is released.</appendix>
       <appendix>For example:</appendix>
       <appendix><![CDATA[  Command_L down -> T down -> T up => SYMBOLS+T  ]]></appendix>
-      <appendix><![CDATA[  Command_L down -> T down -> Command_L => Space,T  ]]></appendix>
+      <appendix><![CDATA[  Command_L down -> T down -> Command_L => Escape,T  ]]></appendix>
       <identifier>private.fast_command_l_to_symbols</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
       <autogen>
         __KeyOverlaidModifier__
         KeyCode::COMMAND_L,
 
         KeyCode::VK_MODIFIER_SYMBOLS, ModifierFlag::COMMAND_L_TO_SYMBOLS,
-        KeyCode::SPACE
+        KeyCode::ESCAPE
       </autogen>
 
       <block>
@@ -712,11 +662,10 @@
 
     <item>
       <name>Use the Command_R key as Shift_R key.</name>
-      <!-- ===================================== -->
+      <!--  ===================================== -->
 
       <appendix>* Send a space key event when the Command_R is pressed alone.</appendix>
       <identifier>private.command_r_to_shift_r</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
       <autogen>
         __KeyOverlaidModifier__
@@ -728,7 +677,7 @@
 
     <item>
       <name>Use the Command_R key as Shift_R key (another version)</name>
-      <!-- ====================================================== -->
+      <!--  ====================================================== -->
 
       <appendix>This version keeps the space key behavior while fast typing.</appendix>
       <appendix></appendix>
@@ -737,7 +686,6 @@
       <appendix><![CDATA[  Command_R down -> T down -> T up => Shift+T  ]]></appendix>
       <appendix><![CDATA[  Command_R down -> T down -> Command_R => Space,T  ]]></appendix>
       <identifier>private.fast_command_r_to_shift_r</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
       <autogen>
         __KeyOverlaidModifier__
@@ -759,22 +707,24 @@
 
     <item>
       <name>Space to Command_L</name>
-      <!-- ================== -->
+      <!--  ================== -->
 
       <identifier>remap.space_to_command_l</identifier>
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
       <autogen>
         __KeyToKey__
         KeyCode::SPACE,
-        KeyCode::VK_LAZY_COMMAND_L
+        KeyCode::COMMAND_L
       </autogen>
     </item>
   </item> <!-- End Thumb modifiers -->
 
+<!-- ──────────────────────────────────────────────────────────── -->
 
   <item>
+    <!--  ================= -->
     <name>Control shortcuts</name>
+    <!--  ================= -->
 
     <item>
       <name>Control + {H,J,K,L} to LEFT,DOWN,UP,RIGHT (à la Vim)</name>
@@ -800,6 +750,6 @@
   </item>
 
   <item>
-    <name>–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––</name>
+    <name>──────────────────────────────</name>
   </item>
 </root>
