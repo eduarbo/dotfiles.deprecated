@@ -625,6 +625,23 @@
     </item>
 
     <item>
+      <name>Option_R to Option_R</name>
+      <!--  ===================== -->
+
+      <appendix>(+ When you type Option_R only, send Return</appendix>
+      <identifier>private.option_l_to_option_l</identifier>
+
+      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::OPTION_R,
+        KeyCode::VK_LAZY_CONTROL_L,
+        KeyCode::RETURN
+      </autogen>
+    </item>
+
+    <item>
       <name>Command_L to SYMBOLS key</name>
       <!--  ===================================== -->
 
@@ -675,7 +692,7 @@
     </item>
 
     <item>
-      <name>Use the Command_R key as Shift_R key.</name>
+      <name>Command_R to Shift_R</name>
       <!--  ===================================== -->
 
       <appendix>* Send a space key event when the Command_R is pressed alone.</appendix>
@@ -692,7 +709,7 @@
     </item>
 
     <item>
-      <name>Use the Command_R key as Shift_R key (another version)</name>
+      <name>Command_R to Shift_R (another version)</name>
       <!--  ====================================================== -->
 
       <appendix>This version keeps the space key behavior while fast typing.</appendix>
