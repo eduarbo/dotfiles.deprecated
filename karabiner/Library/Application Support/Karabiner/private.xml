@@ -636,7 +636,7 @@
       <autogen>
         __KeyOverlaidModifier__
         KeyCode::OPTION_R,
-        KeyCode::VK_LAZY_CONTROL_L,
+        KeyCode::VK_LAZY_OPTION_L,
         KeyCode::RETURN
       </autogen>
     </item>
