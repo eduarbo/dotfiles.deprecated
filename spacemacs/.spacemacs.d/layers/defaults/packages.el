@@ -90,6 +90,19 @@
 
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
+  (defun my/use-standard-js-from-node-modules ()
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (standard (and
+                    root
+                    (expand-file-name "node_modules/standard/bin/cmd.js"
+                                      root))))
+      (when (and standard (file-executable-p standard))
+        (setq-local flycheck-javascript-standard-executable standard))))
+
+  (add-hook 'flycheck-mode-hook #'my/use-standard-js-from-node-modules)
+
   ;; (with-eval-after-load 'flycheck
   (setq flycheck-check-syntax-automatically '(mode-enabled save)
         flycheck-standard-error-navigation t)
