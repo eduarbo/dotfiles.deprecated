@@ -32,20 +32,15 @@
 
 (defun defaults/post-init-company ()
   (setq
-   ;; Get rid of annoying completion-at-point
-   tab-always-indent t
+   ;; completion-ignore-case t
    ;; Complete only when I command
    company-idle-delay nil)
 
-  (defun complete-or-insert-tab ()
-    (interactive)
-    (if (looking-at "\\_>")
-        (company-complete-common)
-      (indent-according-to-mode)))
-
   (with-eval-after-load "company"
-    (define-key company-active-map (kbd "DEL") 'company-abort)
-    (define-key evil-insert-state-map (kbd "TAB") 'complete-or-insert-tab)))
+    (define-key company-active-map (kbd "DEL") 'company-abort))
+
+  (global-set-key (kbd "TAB") #'company-indent-or-complete-common)
+  )
 
 (defun defaults/init-company-flx ()
   (use-package company-flx
