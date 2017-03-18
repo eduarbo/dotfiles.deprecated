@@ -41,7 +41,8 @@
   (with-eval-after-load "company"
     (define-key company-active-map (kbd "DEL") 'company-abort))
 
-  (global-set-key (kbd "TAB") #'company-indent-or-complete-common)
+  (bind-map-set-keys evil-insert-state-map
+    "TAB"   #'company-indent-or-complete-common)
   )
 
 (defun defaults/init-company-flx ()
@@ -56,10 +57,7 @@
     "S-<left>" 'evil-window-left
     "S-<down>" 'evil-window-down
     "S-<up>" 'evil-window-up
-    "S-<right>" 'evil-window-right)
-  (bind-map-set-keys evil-normal-state-map
-    ":"       'evil-repeat-find-char-reverse
-    "<C-tab>" 'evil-jump-item))
+    "S-<right>" 'evil-window-right))
 
 (defun defaults/post-init-evil-args ()
   (bind-map-set-keys evil-normal-state-map
@@ -158,7 +156,7 @@
 
 (defun defaults/post-init-yasnippet ()
   (with-eval-after-load "yasnippet"
-    (define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
+    (define-key yas-minor-mode-map (kbd "<backtab>") 'yas-expand)
 
     ;; Now I can complete with TAB while snippet expansion is in progress
     (setq yas-keymap
