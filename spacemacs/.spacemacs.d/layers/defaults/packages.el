@@ -32,7 +32,7 @@
 
 (defun defaults/post-init-company ()
   (setq
-   ;; completion-ignore-case t
+   completion-ignore-case t
    company-dabbrev-code-ignore-case t
    ;; Complete only when I command
    company-idle-delay nil
