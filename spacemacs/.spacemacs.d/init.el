@@ -40,12 +40,11 @@ values."
      better-defaults
      themes-megapack
      (auto-completion :variables
-                      auto-completion-enable-sort-by-usage t
+                      auto-completion-enable-sort-by-usage nil
                       auto-completion-enable-help-tooltip nil
                       auto-completion-return-key-behavior nil
                       auto-completion-tab-key-behavior 'complete
-                      auto-completion-complete-with-key-sequence "jk"
-                      auto-completion-enable-snippets-in-popup t)
+                      auto-completion-enable-snippets-in-popup nil)
      (git :variables
           magit-repository-directories '("~/dev/"))
      (version-control :variables
@@ -63,7 +62,7 @@ values."
                       syntax-checking-enable-tooltips nil)
 
      deft
-     ;; osx
+     osx
 
      c-c++
      csv
@@ -375,6 +374,13 @@ you should place your code here."
                           '(prog-mode-hook
                             text-mode-hook
                             magit-status-mode-hook))
+
+  (custom-set-faces
+   '(company-tooltip-common
+     ((t (:inherit company-tooltip :weight bold :underline nil))))
+   '(company-tooltip-common-selection
+     ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+
   ;; Customize spaceline
   (setq powerline-default-separator 'utf-8)
   (custom-set-variables '(powerline-utf-8-separator-left #xe0b0)

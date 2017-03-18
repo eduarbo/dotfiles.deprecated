@@ -33,8 +33,10 @@
 (defun defaults/post-init-company ()
   (setq
    ;; completion-ignore-case t
+   company-dabbrev-code-ignore-case t
    ;; Complete only when I command
-   company-idle-delay nil)
+   company-idle-delay nil
+   )
 
   (with-eval-after-load "company"
     (define-key company-active-map (kbd "DEL") 'company-abort))
@@ -156,6 +158,8 @@
 
 (defun defaults/post-init-yasnippet ()
   (with-eval-after-load "yasnippet"
+    (define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
+
     ;; Now I can complete with TAB while snippet expansion is in progress
     (setq yas-keymap
           (let ((map (make-sparse-keymap)))
