@@ -10,8 +10,8 @@
     <productid>0x8036</productid>
   </deviceproductdef>
 
-  <modifierdef>COMMAND_L_TO_SYMBOLS</modifierdef>
-  <modifierdef>COMMAND_R_TO_SHIFT_R</modifierdef>
+  <modifierdef>OPTION_L_TO_CONTROL_L</modifierdef>
+  <modifierdef>OPTION_R_TO_OPTION_R</modifierdef>
   <modifierdef>SYMBOLS</modifierdef>
 
 <!-- ──────────────────────────────────────────────────────────── -->
@@ -47,8 +47,8 @@
   </vkopenurldef>
 
   <vkopenurldef>
-    <name>KeyCode::VK_OPEN_URL_APP_Skype</name>
-    <url type="file">/Applications/Skype.app</url>
+    <name>KeyCode::VK_OPEN_URL_APP_Slack</name>
+    <url type="file">/Applications/Slack.app</url>
   </vkopenurldef>
 
   <vkopenurldef>
@@ -109,7 +109,7 @@
         <autogen>
           __KeyDownUpToKey__
           KeyCode::S,
-          KeyCode::VK_OPEN_URL_APP_Skype,
+          KeyCode::VK_OPEN_URL_APP_Slack,
         </autogen>
 
         <autogen>
@@ -158,161 +158,161 @@
     <autogen>
       __KeyToKey__
       KeyCode::SHIFT_L, ModifierFlag::FN,
-      ConsumerKeyCode::VOLUME_DOWN
+      ConsumerKeyCode::VOLUME_DOWN,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::SHIFT_R, ModifierFlag::FN,
-      ConsumerKeyCode::VOLUME_UP
+      ConsumerKeyCode::VOLUME_UP,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::F19, ModifierFlag::FN,
-      ConsumerKeyCode::VOLUME_MUTE
+      ConsumerKeyCode::VOLUME_MUTE,
     </autogen>
 
     <!-- Brightness controls -->
     <autogen>
       __KeyToKey__
       KeyCode::W, ModifierFlag::FN,
-      ConsumerKeyCode::BRIGHTNESS_DOWN
+      ConsumerKeyCode::BRIGHTNESS_DOWN,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::R, ModifierFlag::FN,
-      ConsumerKeyCode::BRIGHTNESS_UP
+      ConsumerKeyCode::BRIGHTNESS_UP,
     </autogen>
 
     <!-- Movement -->
     <autogen>
       __KeyToKey__
       KeyCode::A, ModifierFlag::FN,
-      KeyCode::HOME
+      KeyCode::HOME,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::G, ModifierFlag::FN,
-      KeyCode::END
+      KeyCode::END,
     </autogen>
 
     <autogen>
       __KeyToKey__
       KeyCode::E, ModifierFlag::FN,
-      KeyCode::CURSOR_UP
+      KeyCode::CURSOR_UP,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::S, ModifierFlag::FN,
-      KeyCode::CURSOR_LEFT
+      KeyCode::CURSOR_LEFT,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::D, ModifierFlag::FN,
-      KeyCode::CURSOR_DOWN
+      KeyCode::CURSOR_DOWN,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::F, ModifierFlag::FN,
-      KeyCode::CURSOR_RIGHT
+      KeyCode::CURSOR_RIGHT,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::H, ModifierFlag::FN,
-      KeyCode::CURSOR_LEFT
+      KeyCode::CURSOR_LEFT,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::J, ModifierFlag::FN,
-      KeyCode::CURSOR_DOWN
+      KeyCode::CURSOR_DOWN,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::K, ModifierFlag::FN,
-      KeyCode::CURSOR_UP
+      KeyCode::CURSOR_UP,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::L, ModifierFlag::FN,
-      KeyCode::CURSOR_RIGHT
+      KeyCode::CURSOR_RIGHT,
     </autogen>
 
     <!-- music -->
     <autogen>
       __KeyToKey__
       KeyCode::X, ModifierFlag::FN,
-      ConsumerKeyCode::MUSIC_PREV
+      ConsumerKeyCode::MUSIC_PREV,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::C, ModifierFlag::FN,
-      ConsumerKeyCode::MUSIC_PLAY
+      ConsumerKeyCode::MUSIC_PLAY,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::V, ModifierFlag::FN,
-      ConsumerKeyCode::MUSIC_NEXT
+      ConsumerKeyCode::MUSIC_NEXT,
     </autogen>
 
     <!-- function keys -->
     <autogen>
       __KeyToKey__
       KeyCode::Y, ModifierFlag::FN,
-      KeyCode::F1
+      KeyCode::F1,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::U, ModifierFlag::FN,
-      KeyCode::F2
+      KeyCode::F2,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::I, ModifierFlag::FN,
-      KeyCode::F3
+      KeyCode::F3,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::O, ModifierFlag::FN,
-      KeyCode::F4
+      KeyCode::F4,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::P, ModifierFlag::FN,
-      KeyCode::F5
+      KeyCode::F5,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::N, ModifierFlag::FN,
-      KeyCode::F6
+      KeyCode::F6,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::M, ModifierFlag::FN,
-      KeyCode::F7
+      KeyCode::F7,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::COMMA, ModifierFlag::FN,
-      KeyCode::F8
+      KeyCode::F8,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::DOT, ModifierFlag::FN,
-      KeyCode::F9
+      KeyCode::F9,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::SLASH, ModifierFlag::FN,
-      KeyCode::F10
+      KeyCode::F10,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::SEMICOLON, ModifierFlag::FN,
-      KeyCode::F11
+      KeyCode::F11,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::QUOTE, ModifierFlag::FN,
-      KeyCode::F12
+      KeyCode::F12,
     </autogen>
   </item> <!-- End Fn layer -->
 
@@ -334,156 +334,156 @@
     <autogen>
       __KeyToKey__
       KeyCode::Q, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_1
+      KeyCode::KEY_1,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::W, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_2
+      KeyCode::KEY_2,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::E, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_3
+      KeyCode::KEY_3,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::R, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_4
+      KeyCode::KEY_4,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::T, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_5
+      KeyCode::KEY_5,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::Y, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_6
+      KeyCode::KEY_6,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::U, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_7
+      KeyCode::KEY_7,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::I, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_8
+      KeyCode::KEY_8,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::O, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_9
+      KeyCode::KEY_9,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::P, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_0
+      KeyCode::KEY_0,
     </autogen>
 
     <!-- Overlay Symbols onto the Home Row -->
     <autogen>
       __KeyToKey__
       KeyCode::A, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_1, ModifierFlag::SHIFT_L
+      KeyCode::KEY_1, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::S, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_2, ModifierFlag::SHIFT_L
+      KeyCode::KEY_2, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::D, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_3, ModifierFlag::SHIFT_L
+      KeyCode::KEY_3, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::F, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_4, ModifierFlag::SHIFT_L
+      KeyCode::KEY_4, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::G, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_5, ModifierFlag::SHIFT_L
+      KeyCode::KEY_5, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::H, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_6, ModifierFlag::SHIFT_L
+      KeyCode::KEY_6, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::J, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_7, ModifierFlag::SHIFT_L
+      KeyCode::KEY_7, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::K, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_8, ModifierFlag::SHIFT_L
+      KeyCode::KEY_8, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::L, ModifierFlag::SYMBOLS,
-      KeyCode::BACKSLASH
+      KeyCode::BACKSLASH,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::SEMICOLON, ModifierFlag::SYMBOLS,
-      KeyCode::BACKSLASH, ModifierFlag::SHIFT_L
+      KeyCode::BACKSLASH, ModifierFlag::SHIFT_L,
     </autogen>
 
     <!-- Overlay Extra Symbols below the Home Row -->
     <autogen>
       __KeyToKey__
       KeyCode::Z, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_1, ModifierFlag::OPTION_R
+      KeyCode::KEY_1, ModifierFlag::OPTION_R,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::X, ModifierFlag::SYMBOLS,
-      KeyCode::EQUAL
+      KeyCode::EQUAL,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::C, ModifierFlag::SYMBOLS,
-      KeyCode::MINUS
+      KeyCode::MINUS,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::V, ModifierFlag::SYMBOLS,
-      KeyCode::EQUAL, ModifierFlag::SHIFT_L
+      KeyCode::EQUAL, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::B, ModifierFlag::SYMBOLS,
-      KeyCode::MINUS, ModifierFlag::SHIFT_L
+      KeyCode::MINUS, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::N, ModifierFlag::SYMBOLS,
-      KeyCode::N, ModifierFlag::OPTION_L
+      KeyCode::N, ModifierFlag::OPTION_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::M, ModifierFlag::SYMBOLS,
-      KeyCode::E, ModifierFlag::OPTION_L
+      KeyCode::E, ModifierFlag::OPTION_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::SLASH, ModifierFlag::SYMBOLS,
-      KeyCode::SLASH, ModifierFlag::SHIFT_L | ModifierFlag::OPTION_L
+      KeyCode::SLASH, ModifierFlag::SHIFT_L | ModifierFlag::OPTION_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::SHIFT_L, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_9, ModifierFlag::SHIFT_L
+      KeyCode::KEY_9, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
       KeyCode::SHIFT_R, ModifierFlag::SYMBOLS,
-      KeyCode::KEY_0, ModifierFlag::SHIFT_L
+      KeyCode::KEY_0, ModifierFlag::SHIFT_L,
     </autogen>
   </item> <!-- End Symbols layer -->
 
@@ -507,7 +507,7 @@
       <autogen>
         __KeyToKey__
         KeyCode::F19,
-        KeyCode::DELETE
+        KeyCode::DELETE,
       </autogen>
     </item>
 
@@ -522,7 +522,7 @@
       <autogen>
         __KeyToKey__
         KeyCode::BRACKET_LEFT,
-        KeyCode::BACKQUOTE
+        KeyCode::BACKQUOTE,
       </autogen>
     </item>
 
@@ -537,7 +537,7 @@
       <autogen>
         __KeyToKey__
         KeyCode::BRACKET_RIGHT,
-        KeyCode::BACKSLASH
+        KeyCode::BACKSLASH,
       </autogen>
     </item>
 
@@ -554,13 +554,13 @@
         KeyCode::RETURN,
         ModifierFlag::SHIFT_R,
         KeyCode::KEY_0,
-        ModifierFlag::SHIFT_L
+        ModifierFlag::SHIFT_L,
       </autogen>
       <autogen>
         __KeyToKey__
         KeyCode::RETURN,
         KeyCode::KEY_9,
-        ModifierFlag::SHIFT_L
+        ModifierFlag::SHIFT_L,
       </autogen>
     </item>
 
@@ -575,12 +575,12 @@
       <autogen>
         __KeyToKey__
         KeyCode::SHIFT_R,
-        KeyCode::BRACKET_RIGHT
+        KeyCode::BRACKET_RIGHT,
       </autogen>
       <autogen>
         __KeyToKey__
         KeyCode::SHIFT_L,
-        KeyCode::BRACKET_LEFT
+        KeyCode::BRACKET_LEFT,
       </autogen>
     </item>
 
@@ -595,7 +595,7 @@
       <autogen>
         __KeyToKey__
         KeyCode::CONTROL_L,
-        PointingButton::LEFT
+        PointingButton::LEFT,
       </autogen>
     </item>
   </item> <!-- End Main layer -->
@@ -611,8 +611,8 @@
       <name>Option_L to Control_L</name>
       <!--  ===================== -->
 
-      <appendix>(+ When you type Option_L only, send Return</appendix>
-      <identifier>private.option_l_to_control_l</identifier>
+      <appendix>(+ When you type Option_L only, send Space</appendix>
+      <identifier>private.option_l_to_control_l_send_space</identifier>
 
       <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
@@ -620,8 +620,40 @@
         __KeyOverlaidModifier__
         KeyCode::OPTION_L,
         KeyCode::VK_LAZY_CONTROL_L,
-        KeyCode::RETURN
+        KeyCode::SPACE,
       </autogen>
+    </item>
+
+    <item>
+      <name>Option_L to Control_L (another version)</name>
+      <!--  ====================================================== -->
+
+      <appendix>This version keeps the space key behavior while fast typing.</appendix>
+      <appendix></appendix>
+      <appendix>* Send Space key event when Option_L is released before another key is released.</appendix>
+      <appendix>For example:</appendix>
+      <appendix><![CDATA[  Option_L down -> T down -> T up => Control+T  ]]></appendix>
+      <appendix><![CDATA[  Option_L down -> T down -> Control_L up => Space,T  ]]></appendix>
+      <identifier>private.fast_space_to_control_l_send_space</identifier>
+
+      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::OPTION_L,
+
+        KeyCode::VK_LAZY_CONTROL_L, ModifierFlag::OPTION_L_TO_CONTROL_L,
+        KeyCode::SPACE,
+      </autogen>
+
+      <block>
+        <modifier_only>ModifierFlag::OPTION_L_TO_CONTROL_L</modifier_only>
+
+        <autogen>
+          __BlockUntilKeyUp__
+          KeyCode::SPACE,
+        </autogen>
+      </block>
     </item>
 
     <item>
@@ -636,16 +668,47 @@
       <autogen>
         __KeyOverlaidModifier__
         KeyCode::OPTION_R,
-        KeyCode::VK_LAZY_OPTION_L,
-        KeyCode::RETURN
+        KeyCode::VK_LAZY_OPTION_R,
+        KeyCode::RETURN,
       </autogen>
+    </item>
+
+    <item>
+      <name>Option_R to Option_R (another version)</name>
+      <!--  ====================================================== -->
+
+      <appendix>This version keeps the Return behavior while fast typing.</appendix>
+      <appendix></appendix>
+      <appendix>* Send a Return key event when the Option_R is released before another key is released.</appendix>
+      <appendix>For example:</appendix>
+      <appendix><![CDATA[  Option_R down -> T down -> T up => Option+T  ]]></appendix>
+      <appendix><![CDATA[  Option_R down -> T down -> Option_R up => Return,T  ]]></appendix>
+      <identifier>private.fast_option_r_to_option_r</identifier>
+
+      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::OPTION_R,
+
+        KeyCode::VK_LAZY_OPTION_R, ModifierFlag::OPTION_R_TO_OPTION_R,
+        KeyCode::RETURN,
+      </autogen>
+
+      <block>
+        <modifier_only>ModifierFlag::OPTION_R_TO_OPTION_R</modifier_only>
+
+        <autogen>
+          __BlockUntilKeyUp__
+          KeyCode::OPTION_R,
+        </autogen>
+      </block>
     </item>
 
     <item>
       <name>Command_L to SYMBOLS key</name>
       <!--  ===================================== -->
 
-      <appendix>* Send Escape key event when the Command_L is pressed alone.</appendix>
       <identifier>private.command_l_to_symbols</identifier>
 
       <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
@@ -654,48 +717,15 @@
         __KeyOverlaidModifier__
         KeyCode::COMMAND_L,
         KeyCode::VK_MODIFIER_SYMBOLS,
-        KeyCode::ESCAPE,
-        KeyCode::VK_LOCK_ALL_FORCE_OFF
+        KeyCode::VK_STICKY_ACTIVE_MODIFIERS_FORCE_ON,
+        KeyCode::VK_STICKY_SYMBOLS,
       </autogen>
-    </item>
-
-    <item>
-      <name>Command_L to SYMBOLS key (another version)</name>
-      <!--  ====================================================== -->
-
-      <appendix>This version keeps the space key behavior while fast typing.</appendix>
-      <appendix></appendix>
-      <appendix>* Send Escape key event when the Command_L is released before another key is released.</appendix>
-      <appendix>For example:</appendix>
-      <appendix><![CDATA[  Command_L down -> T down -> T up => SYMBOLS+T  ]]></appendix>
-      <appendix><![CDATA[  Command_L down -> T down -> Command_L => Escape,T  ]]></appendix>
-      <identifier>private.fast_command_l_to_symbols</identifier>
-
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::COMMAND_L,
-
-        KeyCode::VK_MODIFIER_SYMBOLS, ModifierFlag::COMMAND_L_TO_SYMBOLS,
-        KeyCode::ESCAPE
-      </autogen>
-
-      <block>
-        <modifier_only>ModifierFlag::COMMAND_L_TO_SYMBOLS</modifier_only>
-
-        <autogen>
-          __BlockUntilKeyUp__
-          KeyCode::COMMAND_L
-        </autogen>
-      </block>
     </item>
 
     <item>
       <name>Command_R to Shift_R</name>
       <!--  ===================================== -->
 
-      <appendix>* Send a space key event when the Command_R is pressed alone.</appendix>
       <identifier>private.command_r_to_shift_r</identifier>
 
       <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
@@ -704,56 +734,77 @@
         __KeyOverlaidModifier__
         KeyCode::COMMAND_R,
         KeyCode::SHIFT_R,
-        KeyCode::SPACE
+        KeyCode::VK_STICKY_ACTIVE_MODIFIERS_FORCE_ON,
+        KeyCode::VK_STICKY_SHIFT_R,
       </autogen>
-    </item>
-
-    <item>
-      <name>Command_R to Shift_R (another version)</name>
-      <!--  ====================================================== -->
-
-      <appendix>This version keeps the space key behavior while fast typing.</appendix>
-      <appendix></appendix>
-      <appendix>* Send a space key event when the Command_R is released before another key is released.</appendix>
-      <appendix>For example:</appendix>
-      <appendix><![CDATA[  Command_R down -> T down -> T up => Shift+T  ]]></appendix>
-      <appendix><![CDATA[  Command_R down -> T down -> Command_R => Space,T  ]]></appendix>
-      <identifier>private.fast_command_r_to_shift_r</identifier>
-
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::COMMAND_R,
-
-        KeyCode::SHIFT_R, ModifierFlag::COMMAND_R_TO_SHIFT_R,
-        KeyCode::SPACE
-      </autogen>
-
-      <block>
-        <modifier_only>ModifierFlag::COMMAND_R_TO_SHIFT_R</modifier_only>
-
-        <autogen>
-          __BlockUntilKeyUp__
-          KeyCode::COMMAND_R
-        </autogen>
-      </block>
     </item>
 
     <item>
       <name>Space to Command_L</name>
       <!--  ================== -->
 
-      <identifier>remap.space_to_command_l</identifier>
+      <identifier>remap.space_2_command_l</identifier>
 
       <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
       <autogen>
         __KeyToKey__
         KeyCode::SPACE,
-        KeyCode::COMMAND_L
+        KeyCode::COMMAND_L,
       </autogen>
     </item>
+
+    <item>
+      <name>Space to Command_L</name>
+      <!--  ================== -->
+
+      <appendix>* Send a Escape key event when the Space bar is pressed alone.</appendix>
+      <identifier>remap.space_to_command_l</identifier>
+
+      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::SPACE,
+        KeyCode::VK_LAZY_COMMAND_L,
+        KeyCode::ESCAPE,
+        KeyCode::VK_LOCK_ALL_FORCE_OFF,
+      </autogen>
+    </item>
+
+    <item>
+      <name>Space to Command_L (another version)</name>
+      <!--  ====================================================== -->
+
+      <appendix>This version keeps the space key behavior while fast typing.</appendix>
+      <appendix></appendix>
+      <appendix>* Send Escape key event when the Spacebar is released before another key is released.</appendix>
+      <appendix>For example:</appendix>
+      <appendix><![CDATA[  Spacebar down -> T down -> T up => Command+T  ]]></appendix>
+      <appendix><![CDATA[  Spacebar down -> T down -> Spacebar up => Escape,T  ]]></appendix>
+      <identifier>private.fast_space_to_command_l</identifier>
+
+      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::SPACE,
+
+        KeyCode::VK_LAZY_COMMAND_L, ModifierFlag::SPACE_TO_COMMAND,
+        KeyCode::ESCAPE,
+        KeyCode::VK_LOCK_ALL_FORCE_OFF,
+      </autogen>
+
+      <block>
+        <modifier_only>ModifierFlag::SPACE_TO_COMMAND</modifier_only>
+
+        <autogen>
+          __BlockUntilKeyUp__
+          KeyCode::SPACE,
+        </autogen>
+      </block>
+    </item>
+
   </item> <!-- End Thumb modifiers -->
 
 <!-- ──────────────────────────────────────────────────────────── -->
@@ -769,19 +820,19 @@
 
       <autogen>
         __KeyToKey__
-        KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN
+        KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN,
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::K, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP
+        KeyCode::K, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP,
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::H, ModifierFlag::CONTROL_L, KeyCode::CURSOR_LEFT
+        KeyCode::H, ModifierFlag::CONTROL_L, KeyCode::CURSOR_LEFT,
       </autogen>
       <autogen>
         __KeyToKey__
-        KeyCode::L, ModifierFlag::CONTROL_L, KeyCode::CURSOR_RIGHT
+        KeyCode::L, ModifierFlag::CONTROL_L, KeyCode::CURSOR_RIGHT,
       </autogen>
     </item>
   </item>
