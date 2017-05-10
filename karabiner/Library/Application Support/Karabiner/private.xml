@@ -152,166 +152,193 @@
     <appendix>* Overlay movement and media keys on the left side of the keyboard</appendix>
     <identifier>private.fn_layer</identifier>
 
-    <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+    <modifier_only>
+      ModifierFlag::FN,
+    </modifier_only>
 
     <!-- Volume controls -->
     <autogen>
       __KeyToKey__
-      KeyCode::SHIFT_L, ModifierFlag::FN,
+      KeyCode::BRACKET_LEFT,
       ConsumerKeyCode::VOLUME_DOWN,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::SHIFT_R, ModifierFlag::FN,
+      KeyCode::SHIFT_L,
+      ConsumerKeyCode::VOLUME_DOWN,
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::BRACKET_RIGHT,
       ConsumerKeyCode::VOLUME_UP,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::F19, ModifierFlag::FN,
+      KeyCode::SHIFT_R,
+      ConsumerKeyCode::VOLUME_UP,
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::DELETE,
+      ConsumerKeyCode::VOLUME_MUTE,
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::F19,
       ConsumerKeyCode::VOLUME_MUTE,
     </autogen>
 
     <!-- Brightness controls -->
     <autogen>
       __KeyToKey__
-      KeyCode::W, ModifierFlag::FN,
+      KeyCode::W,
       ConsumerKeyCode::BRIGHTNESS_DOWN,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::R, ModifierFlag::FN,
+      KeyCode::R,
       ConsumerKeyCode::BRIGHTNESS_UP,
     </autogen>
 
     <!-- Movement -->
     <autogen>
       __KeyToKey__
-      KeyCode::A, ModifierFlag::FN,
+      KeyCode::A,
+      ModifierFlag::FN,
       KeyCode::HOME,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::G, ModifierFlag::FN,
+      KeyCode::G,
+      ModifierFlag::FN,
       KeyCode::END,
     </autogen>
 
     <autogen>
       __KeyToKey__
-      KeyCode::E, ModifierFlag::FN,
+      KeyCode::E,
+      ModifierFlag::FN,
       KeyCode::CURSOR_UP,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::S, ModifierFlag::FN,
+      KeyCode::S,
+      ModifierFlag::FN,
       KeyCode::CURSOR_LEFT,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::D, ModifierFlag::FN,
+      KeyCode::D,
+      ModifierFlag::FN,
       KeyCode::CURSOR_DOWN,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::F, ModifierFlag::FN,
+      KeyCode::F,
+      ModifierFlag::FN,
       KeyCode::CURSOR_RIGHT,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::H, ModifierFlag::FN,
+      KeyCode::H,
+      ModifierFlag::FN,
       KeyCode::CURSOR_LEFT,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::J, ModifierFlag::FN,
+      KeyCode::J,
+      ModifierFlag::FN,
       KeyCode::CURSOR_DOWN,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::K, ModifierFlag::FN,
+      KeyCode::K,
+      ModifierFlag::FN,
       KeyCode::CURSOR_UP,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::L, ModifierFlag::FN,
+      KeyCode::L,
+      ModifierFlag::FN,
       KeyCode::CURSOR_RIGHT,
     </autogen>
 
     <!-- music -->
     <autogen>
       __KeyToKey__
-      KeyCode::X, ModifierFlag::FN,
+      KeyCode::X,
       ConsumerKeyCode::MUSIC_PREV,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::C, ModifierFlag::FN,
+      KeyCode::C,
       ConsumerKeyCode::MUSIC_PLAY,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::V, ModifierFlag::FN,
+      KeyCode::V,
       ConsumerKeyCode::MUSIC_NEXT,
     </autogen>
 
     <!-- function keys -->
     <autogen>
       __KeyToKey__
-      KeyCode::Y, ModifierFlag::FN,
+      KeyCode::Y,
       KeyCode::F1,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::U, ModifierFlag::FN,
+      KeyCode::U,
       KeyCode::F2,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::I, ModifierFlag::FN,
+      KeyCode::I,
       KeyCode::F3,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::O, ModifierFlag::FN,
+      KeyCode::O,
       KeyCode::F4,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::P, ModifierFlag::FN,
+      KeyCode::P,
       KeyCode::F5,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::N, ModifierFlag::FN,
+      KeyCode::N,
       KeyCode::F6,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::M, ModifierFlag::FN,
+      KeyCode::M,
       KeyCode::F7,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::COMMA, ModifierFlag::FN,
+      KeyCode::COMMA,
       KeyCode::F8,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::DOT, ModifierFlag::FN,
+      KeyCode::DOT,
       KeyCode::F9,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::SLASH, ModifierFlag::FN,
+      KeyCode::SLASH,
       KeyCode::F10,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::SEMICOLON, ModifierFlag::FN,
+      KeyCode::SEMICOLON,
       KeyCode::F11,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::QUOTE, ModifierFlag::FN,
+      KeyCode::QUOTE,
       KeyCode::F12,
     </autogen>
   </item> <!-- End Fn layer -->
@@ -328,161 +355,163 @@
     <appendix>* Overlay Extra Symbols below the Home Row</appendix>
     <identifier>private.symbols_layer</identifier>
 
-    <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+    <modifier_only>
+      ModifierFlag::SYMBOLS,
+    </modifier_only>
 
     <!-- Overlay Numbers above the Home Row -->
     <autogen>
       __KeyToKey__
-      KeyCode::Q, ModifierFlag::SYMBOLS,
+      KeyCode::Q,
       KeyCode::KEY_1,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::W, ModifierFlag::SYMBOLS,
+      KeyCode::W,
       KeyCode::KEY_2,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::E, ModifierFlag::SYMBOLS,
+      KeyCode::E,
       KeyCode::KEY_3,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::R, ModifierFlag::SYMBOLS,
+      KeyCode::R,
       KeyCode::KEY_4,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::T, ModifierFlag::SYMBOLS,
+      KeyCode::T,
       KeyCode::KEY_5,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::Y, ModifierFlag::SYMBOLS,
+      KeyCode::Y,
       KeyCode::KEY_6,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::U, ModifierFlag::SYMBOLS,
+      KeyCode::U,
       KeyCode::KEY_7,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::I, ModifierFlag::SYMBOLS,
+      KeyCode::I,
       KeyCode::KEY_8,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::O, ModifierFlag::SYMBOLS,
+      KeyCode::O,
       KeyCode::KEY_9,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::P, ModifierFlag::SYMBOLS,
+      KeyCode::P,
       KeyCode::KEY_0,
     </autogen>
 
     <!-- Overlay Symbols onto the Home Row -->
     <autogen>
       __KeyToKey__
-      KeyCode::A, ModifierFlag::SYMBOLS,
+      KeyCode::A,
       KeyCode::KEY_1, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::S, ModifierFlag::SYMBOLS,
+      KeyCode::S,
       KeyCode::KEY_2, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::D, ModifierFlag::SYMBOLS,
+      KeyCode::D,
       KeyCode::KEY_3, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::F, ModifierFlag::SYMBOLS,
+      KeyCode::F,
       KeyCode::KEY_4, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::G, ModifierFlag::SYMBOLS,
+      KeyCode::G,
       KeyCode::KEY_5, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::H, ModifierFlag::SYMBOLS,
+      KeyCode::H,
       KeyCode::KEY_6, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::J, ModifierFlag::SYMBOLS,
+      KeyCode::J,
       KeyCode::KEY_7, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::K, ModifierFlag::SYMBOLS,
+      KeyCode::K,
       KeyCode::KEY_8, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::L, ModifierFlag::SYMBOLS,
+      KeyCode::L,
       KeyCode::BACKSLASH,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::SEMICOLON, ModifierFlag::SYMBOLS,
+      KeyCode::SEMICOLON,
       KeyCode::BACKSLASH, ModifierFlag::SHIFT_L,
     </autogen>
 
     <!-- Overlay Extra Symbols below the Home Row -->
     <autogen>
       __KeyToKey__
-      KeyCode::Z, ModifierFlag::SYMBOLS,
+      KeyCode::Z,
       KeyCode::KEY_1, ModifierFlag::OPTION_R,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::X, ModifierFlag::SYMBOLS,
+      KeyCode::X,
       KeyCode::EQUAL,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::C, ModifierFlag::SYMBOLS,
+      KeyCode::C,
       KeyCode::MINUS,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::V, ModifierFlag::SYMBOLS,
+      KeyCode::V,
       KeyCode::EQUAL, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::B, ModifierFlag::SYMBOLS,
+      KeyCode::B,
       KeyCode::MINUS, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::N, ModifierFlag::SYMBOLS,
+      KeyCode::N,
       KeyCode::N, ModifierFlag::OPTION_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::M, ModifierFlag::SYMBOLS,
+      KeyCode::M,
       KeyCode::E, ModifierFlag::OPTION_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::SLASH, ModifierFlag::SYMBOLS,
+      KeyCode::SLASH,
       KeyCode::SLASH, ModifierFlag::SHIFT_L | ModifierFlag::OPTION_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::SHIFT_L, ModifierFlag::SYMBOLS,
+      KeyCode::SHIFT_L,
       KeyCode::KEY_9, ModifierFlag::SHIFT_L,
     </autogen>
     <autogen>
       __KeyToKey__
-      KeyCode::SHIFT_R, ModifierFlag::SYMBOLS,
+      KeyCode::SHIFT_R,
       KeyCode::KEY_0, ModifierFlag::SHIFT_L,
     </autogen>
   </item> <!-- End Symbols layer -->
@@ -542,29 +571,6 @@
     </item>
 
     <item>
-      <name>Return to Parentheses</name>
-      <!--  ===================== -->
-
-      <identifier>private.return_to_parentheses</identifier>
-
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::RETURN,
-        ModifierFlag::SHIFT_R,
-        KeyCode::KEY_0,
-        ModifierFlag::SHIFT_L,
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::RETURN,
-        KeyCode::KEY_9,
-        ModifierFlag::SHIFT_L,
-      </autogen>
-    </item>
-
-    <item>
       <name>Shifts to Parentheses and brackets</name>
       <!--  ================================== -->
 
@@ -585,20 +591,131 @@
     </item>
 
     <item>
-      <name>Control_L to Left Click</name>
-      <!--  ======================= -->
-
-      <identifier>private.control_l_to_left_click</identifier>
-
-      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+      <name>V or M to FN</name>
+      <identifier>remap.engelbart_fn</identifier>
 
       <autogen>
-        __KeyToKey__
-        KeyCode::CONTROL_L,
-        PointingButton::LEFT,
+        __KeyOverlaidModifier__
+        KeyCode::V,
+        KeyCode::FN,
+        KeyCode::V,
       </autogen>
+      <block>
+        <modifier_only>ModifierFlag::FN</modifier_only>
+        <autogen>__BlockUntilKeyUp__ KeyCode::V</autogen>
+      </block>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::M,
+        KeyCode::FN,
+        KeyCode::M,
+      </autogen>
+      <block>
+        <modifier_only>ModifierFlag::FN</modifier_only>
+        <autogen>__BlockUntilKeyUp__ KeyCode::M</autogen>
+      </block>
     </item>
   </item> <!-- End Main layer -->
+
+<!-- ──────────────────────────────────────────────────────────── -->
+
+  <item>
+    <!--  ================== -->
+    <name>Diverge 3 mappings</name>
+    <!--  ================== -->
+
+    <item>
+      <name>Command to Command for Diverge 3</name>
+      <!--  ================== -->
+
+      <appendix>* Send a Escape key event when any Command key is pressed alone.</appendix>
+      <identifier>remap.command_to_command</identifier>
+      <device_only>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_only>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::COMMAND_L,
+        KeyCode::VK_LAZY_COMMAND_L,
+        KeyCode::ESCAPE,
+        KeyCode::VK_LOCK_ALL_FORCE_OFF,
+      </autogen>
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::COMMAND_R,
+        KeyCode::VK_LAZY_COMMAND_R,
+        KeyCode::ESCAPE,
+        KeyCode::VK_LOCK_ALL_FORCE_OFF,
+      </autogen>
+    </item>
+
+    <item>
+      <name>Sticky Shift</name>
+      <!--  ===================================== -->
+
+      <identifier>private.sticky_shift</identifier>
+      <device_only>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_only>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::SHIFT_R,
+        KeyCode::SHIFT_R,
+        KeyCode::VK_STICKY_ACTIVE_MODIFIERS_FORCE_ON,
+        KeyCode::VK_STICKY_SHIFT_R,
+      </autogen>
+    </item>
+
+    <item>
+      <name>Mouse Keys Mode v2</name>
+      <appendix>You can move mouse pointer by d+hjkl keys, and scroll by d+s+hjkl keys.</appendix>
+      <appendix></appendix>
+      <appendix>Usage:</appendix>
+      <appendix></appendix>
+      <appendix>Move pointer by:</appendix>
+      <appendix><![CDATA[  * Left: D down -> H down -> H up  ]]></appendix>
+      <appendix><![CDATA[  * Down: D down -> J down -> J up  ]]></appendix>
+      <appendix><![CDATA[  * Up: D down -> K down -> K up  ]]></appendix>
+      <appendix><![CDATA[  * Right: D down -> L down -> L up  ]]></appendix>
+      <appendix></appendix>
+      <appendix>The hjkl keys also act as mouse keys when you hold d+hjkl keys down.</appendix>
+      <appendix>(You can adjust timeout by "__BlockUntilKeyUp__ Timeout" in Parameters tab.</appendix>
+      <appendix></appendix>
+      <appendix>Use S key to enable scroll. ("S"croll)</appendix>
+      <appendix>* D+S+HJKL: Scroll wheel.</appendix>
+      <appendix></appendix>
+      <appendix>Use F key to increase speed. ("F"ast)</appendix>
+      <appendix>* D+F+HJKL: High-speed movement.</appendix>
+      <appendix>* D+F+S+HJKL: High-speed scroll wheel.</appendix>
+      <appendix></appendix>
+      <appendix>Click by:</appendix>
+      <appendix>* D+V: Left click.</appendix>
+      <appendix>* D+B: Middle click.</appendix>
+      <appendix>* D+N: Right click.</appendix>
+      <appendix></appendix>
+      <appendix>Warp cursor position:</appendix>
+      <appendix>* D+I: Move mouse cursor to the center of the frontmost app's window.</appendix>
+      <identifier>private.mouse_keys_mode_2</identifier>
+      <device_only>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_only>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::D,
+
+        <!--
+            Use notsave.mouse_keys_mode_2 in order to be higher priority.
+            Use ModifierFlag::MOUSE_KEYS_MODE_2 for __DropAllKeys__.
+        -->
+        @begin
+        KeyCode::VK_CONFIG_FORCE_ON_notsave_mouse_keys_mode_2,
+        KeyCode::VK_MODIFIER_MOUSE_KEYS_MODE_2,
+        @end
+
+        @begin
+        KeyCode::D,
+        @end
+      </autogen>
+    </item>
+  </item> <!-- End Diverge 3 mappings -->
 
 <!-- ──────────────────────────────────────────────────────────── -->
 
@@ -606,6 +723,21 @@
     <!--  =============== -->
     <name>Thumb modifiers</name>
     <!--  =============== -->
+
+    <item>
+      <name>Control_L to Fn</name>
+      <!--  ======================= -->
+
+      <identifier>private.control_l_to_fn</identifier>
+
+      <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
+
+      <autogen>
+        __KeyToKey__
+        KeyCode::CONTROL_L,
+        KeyCode::FN,
+      </autogen>
+    </item>
 
     <item>
       <name>Option_L to Control_L</name>
@@ -661,7 +793,7 @@
       <!--  ===================== -->
 
       <appendix>(+ When you type Option_R only, send Return</appendix>
-      <identifier>private.option_l_to_option_l</identifier>
+      <identifier>private.option_r_to_option_r</identifier>
 
       <device_not>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_not>
 
@@ -804,38 +936,9 @@
         </autogen>
       </block>
     </item>
-
   </item> <!-- End Thumb modifiers -->
 
 <!-- ──────────────────────────────────────────────────────────── -->
-
-  <item>
-    <!--  ================= -->
-    <name>Control shortcuts</name>
-    <!--  ================= -->
-
-    <item>
-      <name>Control + {H,J,K,L} to LEFT,DOWN,UP,RIGHT (à la Vim)</name>
-      <identifier>private.ctrl_hjkl_to_left_down_up_right</identifier>
-
-      <autogen>
-        __KeyToKey__
-        KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN,
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::K, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP,
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::H, ModifierFlag::CONTROL_L, KeyCode::CURSOR_LEFT,
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::L, ModifierFlag::CONTROL_L, KeyCode::CURSOR_RIGHT,
-      </autogen>
-    </item>
-  </item>
 
   <item>
     <name>──────────────────────────────</name>
