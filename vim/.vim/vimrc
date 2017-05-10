@@ -21,8 +21,8 @@ let s:diff_modified_removed_sign = ' '
 " Preamble:                                                                 {{{1
 filetype off
 
-let g:mapleader = ' '
-let g:maplocalleader = '\'
+let g:mapleader = ','
+let g:maplocalleader = 'Del'
 
 let s:ag = executable('ag')
 "}}}1
@@ -1033,8 +1033,8 @@ inoremap # X<BS>#
 nnoremap <leader>S vip:!sort<cr>
 vnoremap <leader>S :!sort<cr>
 
-noremap , :
-noremap : ,
+noremap ; :
+noremap : ;
 
 " Use c-\ to do c-] but open it in a new split.
 nnoremap <c-\> <c-w>v<c-]>zvzz
