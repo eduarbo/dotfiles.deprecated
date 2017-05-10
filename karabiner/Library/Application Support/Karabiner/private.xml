@@ -599,11 +599,11 @@
     <!--  ================== -->
 
     <item>
-      <name>Command to Command for Diverge 3</name>
+      <name>Command to Command</name>
       <!--  ================================ -->
 
       <appendix>* Send a Escape key event when any Command key is pressed alone.</appendix>
-      <identifier>remap.command_to_command</identifier>
+      <identifier>remap.diverge3_command_to_command</identifier>
       <device_only>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_only>
 
       <autogen>
@@ -626,7 +626,7 @@
       <name>Sticky Shift</name>
       <!--  ============ -->
 
-      <identifier>private.sticky_shift</identifier>
+      <identifier>private.diverge3_sticky_shift</identifier>
       <device_only>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_only>
 
       <autogen>
@@ -635,6 +635,22 @@
         KeyCode::SHIFT_R,
         KeyCode::VK_STICKY_ACTIVE_MODIFIERS_FORCE_ON,
         KeyCode::VK_STICKY_SHIFT_R,
+      </autogen>
+    </item>
+
+    <item>
+      <name>Sticky SYMBOLS</name>
+      <!--  ============== -->
+
+      <identifier>private.diverge3_sticky_symbols</identifier>
+      <device_only>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_only>
+
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::OPTION_L,
+        KeyCode::VK_MODIFIER_SYMBOLS,
+        KeyCode::VK_STICKY_ACTIVE_MODIFIERS_FORCE_ON,
+        KeyCode::VK_STICKY_SYMBOLS,
       </autogen>
     </item>
 
@@ -669,7 +685,8 @@
       <appendix></appendix>
       <appendix>Warp cursor position:</appendix>
       <appendix>* D+I: Move mouse cursor to the center of the frontmost app's window.</appendix>
-      <identifier>private.mouse_keys_mode_2</identifier>
+
+      <identifier>private.diverge3_mouse_keys_mode_2</identifier>
       <device_only>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_only>
 
       <autogen>
@@ -690,23 +707,6 @@
         @end
       </autogen>
     </item>
-
-    <item>
-      <name>Sticky SYMBOLS</name>
-      <!--  ============== -->
-
-      <identifier>private.diverge3_sticky_symbols</identifier>
-      <device_only>DeviceVendor::ARDUINO_LLC, DeviceProduct::DIVERGE3</device_only>
-
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::OPTION_L,
-        KeyCode::VK_MODIFIER_SYMBOLS,
-        KeyCode::VK_STICKY_ACTIVE_MODIFIERS_FORCE_ON,
-        KeyCode::VK_STICKY_SYMBOLS,
-      </autogen>
-    </item>
-
   </item> <!-- End Diverge 3 mappings -->
 
 <!-- ──────────────────────────────────────────────────────────── -->
