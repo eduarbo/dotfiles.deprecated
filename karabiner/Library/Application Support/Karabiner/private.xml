@@ -647,7 +647,7 @@
 
       <autogen>
         __KeyOverlaidModifier__
-        KeyCode::OPTION_L,
+        KeyCode::F16,
         KeyCode::VK_MODIFIER_SYMBOLS,
         KeyCode::VK_STICKY_ACTIVE_MODIFIERS_FORCE_ON,
         KeyCode::VK_STICKY_SYMBOLS,
