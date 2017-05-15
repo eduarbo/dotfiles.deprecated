@@ -81,6 +81,7 @@ Supports both Emacs and Evil cursor conventions."
 
   ;; (set-face-attribute 'mode-line nil :box nil)
   (spaceline-toggle-window-number-off)
+  (spaceline-toggle-persp-name-off)
 
   ;; change highlight color when buffer is modified
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-modified)
@@ -97,8 +98,7 @@ Supports both Emacs and Evil cursor conventions."
                        (flycheck-error flycheck-warning flycheck-info)
 
                        (anzu
-                        region-info
-                        (position-icon point-position line-column))
+                        region-info)
 
                        auto-compile
                        (process :when active)
@@ -108,14 +108,15 @@ Supports both Emacs and Evil cursor conventions."
                        (org-pomodoro :when active)
                        (org-clock :when active))
 
-                     `(which-function
+                     `((buffer-position
+                        (hud :tight nil))
+                       ((position-icon point-position line-column) :when active)
+                       which-function
                        (python-pyvenv :fallback python-pyenv)
-                       purpose
-                       input-method
                        buffer-encoding-abbrev
                        buffer-size
-                       (global :when active)
-                       buffer-position
-                       (hud :skip-alternate t)))
+                       purpose
+                       input-method
+                       (global :when active)))
 
   (setq mode-line-format '("%e" (:eval (spaceline-ml-main)))))
