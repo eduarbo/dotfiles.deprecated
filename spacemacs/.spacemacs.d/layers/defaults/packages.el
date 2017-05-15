@@ -142,10 +142,11 @@
 (defun defaults/post-init-subatomic-theme ()
   (set-face-attribute 'vertical-border nil
                       :foreground "#232533")
-  (set-face-attribute 'mode-line nil
-                      :box '(:line-width 1 :color "#232533"))
-  (set-face-attribute 'modeline-inactive nil
-                      :box '(:line-width 1 :color "#2a2c3e")))
+  ;; (set-face-attribute 'mode-line nil
+  ;;                     :box '(:line-width 1 :color "#232533"))
+  ;; (set-face-attribute 'modeline-inactive nil
+  ;;                     :box '(:line-width 1 :color "#2a2c3e"))
+  )
 
 (defun defaults/post-init-web-mode ()
   (setq css-indent-offset tab-width
