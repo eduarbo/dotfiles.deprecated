@@ -33,14 +33,15 @@ Requires anzu to be enabled."
     (when (and active (bound-and-true-p anzu--state))
       (concat
       (propertize (format "%s" (all-the-icons-octicon "search"))
-                  'face `(:family ,(all-the-icons-octicon-family) :inherit)
+                  'face `(:height 1 :family ,(all-the-icons-octicon-family) :inherit)
                   'display '(raise 0))
       (anzu--update-mode-line))))
 
   (spaceline-define-segment position-icon
     ;; (propertize (format "%s" (all-the-icons-faicon "rocket"))
     (propertize (format "%s" (all-the-icons-octicon "location"))
-                'face `(:family ,(all-the-icons-octicon-family) :inherit) 'display '(raise 0)))
+                'face `(:height 1 :family ,(all-the-icons-octicon-family) :inherit)
+                'display '(raise 0)))
 
   (spaceline-define-segment mode-icon
     "A segment indicating the current buffer's mode with an icon"
