@@ -12,7 +12,16 @@ source $DOT/zsh/lib/plugins
 source_file $HOME/.secrets
 source_file $HOME/.zshrc.local
 
-# zsh-syntax-highlighting.zsh needs to be sourced at the end
-if [ "$HAS_BREW" ]; then
-  source_file ${BREW_LOCATION}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+### Added by Zplugin's installer
+source '/Users/eduarbo/.zplugin/bin/zplugin.zsh'
+autoload -Uz _zplugin
+(( ${+_comps} )) && _comps[zplugin]=_zplugin
+### End of Zplugin's installer chunk
+
+zplugin load psprint zsh-navigation-tools
+zplugin ice from"notabug" atload"echo loaded zui"
+zplugin load zdharma/zui
+zplugin load zsh-users/zsh-completions
+zplugin load zsh-users/zsh-autosuggestions
+zplugin load psprint/history-search-multi-word
+zplugin load zdharma/fast-syntax-highlighting

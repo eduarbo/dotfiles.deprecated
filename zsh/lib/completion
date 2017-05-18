@@ -12,11 +12,6 @@ if [[ "$TERM" == 'dumb' ]]; then
   return 1
 fi
 
-if [ $HAS_BREW ]; then
-  # Add zsh-completions to $fpath
-  fpath=($BREW_LOCATION/share/zsh-completions $fpath)
-fi
-
 #
 # Options
 #
