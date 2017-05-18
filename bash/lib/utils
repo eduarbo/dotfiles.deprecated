@@ -4,9 +4,7 @@ export DOT="$HOME/.dotfiles"
 # Test whether a command exists
 # $1 - cmd to test
 type_exists() {
-  # hash caches results but not works for all commands
-  # hash $1 2>/dev/null
-  command -v $1 >/dev/null 2>&1
+  command -v "$1" >/dev/null 2>&1
 }
 
 lazy_source () {
@@ -51,7 +49,7 @@ e_warning() {
 seek_confirmation() {
   printf "\n"
   e_warning "$@"
-  read -p "Continue? (y/n) " -n 1
+  read -rp "Continue? (y/n) " -n 1
   printf "\n"
 }
 
@@ -64,7 +62,7 @@ is_confirmed() {
 # Test whether a Homebrew formula is already installed
 # $1 - formula name (may include options)
 formula_exists() {
-  test "$(brew list $1 2&>/dev/null)" && return 0
+  test "$(brew list "$1" 2&>/dev/null)" && return 0
   return 1
 }
 
@@ -75,14 +73,14 @@ if [[ -x "$(which brew)" ]]; then
 fi
 
 if [[ -n $ZSH_VERSION ]]; then
-  IS_ZSH=1
-  SHELL_NAME="zsh"
+  export IS_ZSH=1
+  export SHELL_NAME="zsh"
 elif [[ -n $BASH_VERSION ]]; then
-  IS_BASH=1
-  SHELL_NAME="bash"
+  export IS_BASH=1
+  export SHELL_NAME="bash"
 fi
 
 case "$OSTYPE" in
-  darwin*)  IS_MACOS=1 ;;
-  linux*)   IS_LINUX=1 ;;
+  darwin*)  export IS_MACOS=1 ;;
+  linux*)   export IS_LINUX=1 ;;
 esac

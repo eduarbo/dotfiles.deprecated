@@ -13,7 +13,14 @@ source_file $HOME/.secrets
 source_file $HOME/.zshrc.local
 
 ### Added by Zplugin's installer
-source '/Users/eduarbo/.zplugin/bin/zplugin.zsh'
+source_file '/Users/eduarbo/.zplugin/bin/zplugin.zsh'
+
+if ! type_exists 'zplugin'; then
+  # Install zplugin when missing
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/psprint/zplugin/master/doc/install.sh)"
+  source_file '/Users/eduarbo/.zplugin/bin/zplugin.zsh'
+fi
+
 autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
 ### End of Zplugin's installer chunk
