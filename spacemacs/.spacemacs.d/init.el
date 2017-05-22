@@ -37,7 +37,11 @@ values."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     better-defaults
+
+     (better-defaults :variables
+                      better-defaults-move-to-end-of-code-first t
+                      better-defaults-move-to-beginning-of-code-first t)
+
      themes-megapack
      (auto-completion :variables
                       auto-completion-enable-sort-by-usage nil
