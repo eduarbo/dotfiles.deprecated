@@ -44,11 +44,11 @@ values."
 
      themes-megapack
      (auto-completion :variables
-                      auto-completion-enable-sort-by-usage nil
+                      auto-completion-enable-sort-by-usage t
                       auto-completion-enable-help-tooltip nil
                       auto-completion-return-key-behavior nil
                       auto-completion-tab-key-behavior 'complete
-                      auto-completion-enable-snippets-in-popup nil)
+                      auto-completion-enable-snippets-in-popup t)
      (git :variables
           magit-repository-directories '("~/dev/"))
      (version-control :variables
