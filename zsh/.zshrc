@@ -26,7 +26,6 @@ autoload -Uz _zplugin
 ### End of Zplugin's installer chunk
 
 zplugin load psprint zsh-navigation-tools
-zplugin ice from"notabug" atload"echo loaded zui"
 zplugin load zdharma/zui
 zplugin load zsh-users/zsh-completions
 zplugin load zsh-users/zsh-autosuggestions
