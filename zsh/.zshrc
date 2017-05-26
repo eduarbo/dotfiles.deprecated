@@ -4,7 +4,6 @@ source $DOT/zsh/lib/colors
 source $DOT/zsh/lib/history
 source $DOT/zsh/lib/options
 source $DOT/zsh/lib/bindings
-source $DOT/zsh/lib/prompt
 source $DOT/zsh/lib/title
 source $DOT/zsh/lib/completion
 source $DOT/zsh/lib/plugins
@@ -31,3 +30,5 @@ zplugin load zsh-users/zsh-completions
 zplugin load zsh-users/zsh-autosuggestions
 zplugin load psprint/history-search-multi-word
 zplugin load zdharma/fast-syntax-highlighting
+zplugin snippet "https://github.com/mafredri/zsh-async/blob/master/async.zsh"
+zplugin load eduarbo/simpl
