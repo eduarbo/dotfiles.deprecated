@@ -30,5 +30,17 @@ zplugin load zsh-users/zsh-completions
 zplugin load zsh-users/zsh-autosuggestions
 zplugin load psprint/history-search-multi-word
 zplugin load zdharma/fast-syntax-highlighting
-zplugin snippet "https://github.com/mafredri/zsh-async/blob/master/async.zsh"
+zplugin load mafredri/zsh-async
 zplugin load eduarbo/simpl
+
+# Load and initialize the completion system with a cache time of 20 hours, so it
+# should almost always regenerate the first time a shell is opened each day.
+autoload -Uz compinit
+compfiles=(${ZDOTDIR:-$HOME}/.zcompdump(Nm-20))
+if [[ $#compfiles > 0 ]]; then
+  compinit -C
+else
+  compinit
+fi
+
+zplugin cdreplay -q # -q is for quiet
