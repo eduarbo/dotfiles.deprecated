@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
-autoload colors; colors
+autoload colors
+colors
 
 # The variables are wrapped in \%\{\%\}. This should be the case for every
 # variable that does not contain space.
@@ -17,7 +18,7 @@ export PR_BOLD_WHITE PR_BOLD_BLACK
 unset LSCOLORS
 
 # Main change, you can see directories on a dark background
-#expor tLSCOLORS=gxfxcxdxbxegedabagacad
+export tLSCOLORS=gxfxcxdxbxegedabagacad
 
 export CLICOLOR=1
 export LS_COLORS=exfxcxdxbxegedabagacad
