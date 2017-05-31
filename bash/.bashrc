@@ -1,13 +1,8 @@
 #!/usr/bin/env bash
-source "$HOME/.bash_profile"
-
-####################################################################################
-# Source                                                                           #
-####################################################################################
+source $HOME/.bash_profile
+source $DOT/bash/lib/utils
 source $DOT/bash/lib/aliases
-
 source_file $BREW_LOCATION/etc/bash_completion
-
 
 ####################################################################################
 # Prompt                                                                           #

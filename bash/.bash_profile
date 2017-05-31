@@ -17,3 +17,29 @@ export MANPAGER="less -X"
 # Make new shells get the history lines from all previous
 # shells instead of the default "last window closed" history
 export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+#
+# Paths
+#
+
+_P=(
+  /usr/local/share/man
+  /usr/share/man
+  $MANPATH
+)
+
+MANPATH=$(IFS=:; echo "${_P[*]}")
+export MANPATH
+unset _P
+
+_P=(
+  /usr/local/{bin,sbin}
+  /usr/{bin,sbin}
+  /{bin,sbin}
+  $HOME/bin
+  $path
+)
+
+PATH=$(IFS=:; echo "${_P[*]}")
+export PATH
+unset _P

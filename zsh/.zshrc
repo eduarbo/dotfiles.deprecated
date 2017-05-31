@@ -1,14 +1,33 @@
 #!/usr/bin/env zsh
+source $DOT/bash/lib/utils
 source $DOT/bash/lib/aliases
-source $DOT/zsh/lib/colors
 source $DOT/zsh/lib/options
+# source $DOT/zsh/lib/colors
 source $DOT/zsh/lib/bindings
 source $DOT/zsh/lib/title
 source $DOT/zsh/lib/completion
-source $DOT/zsh/lib/plugins
+source $DOT/zsh/lib/init-gpg-agent
 
 source_file $HOME/.secrets
 source_file $HOME/.zshrc.local
+
+# FASD
+fasd_cache=$HOME/.fasd-init-$SHELL_NAME
+if type_exists 'fasd'; then
+  if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+    if [[ -n $IS_ZSH ]]; then
+      fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
+    elif [[ -n $IS_BASH ]]; then
+      fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
+    fi
+  fi
+fi
+source_file "$fasd_cache"
+unset fasd_cache
+
+#
+# Plugins
+#
 
 # I went for zplugin as plugin manager for being the fastest between antibody,
 # antigen and zplug in my tests. Zplug is the worst! forget to include it in
@@ -36,8 +55,8 @@ if ! type_exists 'zplugin'; then
   source "$ZPLG_HOME/bin/zplugin.zsh"
 fi
 
-zplugin ice blockf
-zplugin light zdharma/zui
+# zplugin ice blockf
+# zplugin light zdharma/zui
 zplugin ice blockf
 zplugin light zsh-users/zsh-completions
 zplugin light zsh-users/zsh-autosuggestions
@@ -62,5 +81,14 @@ fi
 
 # execute compdefs provided by rest of plugins
 zplugin cdreplay -q # -q is for quiet
+
+# Execute code that does not affect the current session in the background.
+{
+  # Compile the completion dump to increase startup speed.
+  zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+  if [[ "$zcompdump" -nt "${zcompdump}.zwc" || ! -s "${zcompdump}.zwc" ]]; then
+    zcompile "$zcompdump"
+  fi
+} &!
 
 _stop_startup_timer
