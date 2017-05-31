@@ -30,6 +30,8 @@ setopt auto_menu         # show completion menu on succesive tab press
 setopt complete_in_word
 setopt always_to_end
 setopt interactivecomments # enable the bash-style comments
+setopt PUSHD_IGNORE_DUPS  # Don’t push multiple copies of the same directory onto the directory stack
+setopt AUTO_PUSHD         # Make cd push the old directory onto the directory stack
 
 zmodload -i zsh/complist
 
