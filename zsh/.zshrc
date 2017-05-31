@@ -62,8 +62,10 @@ zplugin light zsh-users/zsh-completions
 zplugin light zsh-users/zsh-autosuggestions
 zplugin light zdharma/history-search-multi-word
 zplugin light zdharma/fast-syntax-highlighting
+zplugin light b4b4r07/enhancd
 zplugin light mafredri/zsh-async
 zplugin light eduarbo/simpl
+zplugin light djui/alias-tips
 
 export NVM_NO_USE=true
 export NVM_LAZY_LOAD=true
