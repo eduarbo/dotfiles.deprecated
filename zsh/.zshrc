@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 source $DOT/bash/lib/aliases
 source $DOT/zsh/lib/colors
-source $DOT/zsh/lib/history
 source $DOT/zsh/lib/options
 source $DOT/zsh/lib/bindings
 source $DOT/zsh/lib/title
