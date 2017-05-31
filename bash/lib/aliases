@@ -169,7 +169,7 @@ function loadtime() {
   export DISABLE_LOAD_TIME=1
   local times=${1:-1}
   for i in $(seq 1 "$times"); do
-    /usr/bin/time "$SHELL" -i -c exit;
+    /usr/bin/time $SHELL -lic exit;
   done
   unset DISABLE_LOAD_TIME
 }
