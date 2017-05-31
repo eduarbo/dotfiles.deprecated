@@ -2,7 +2,7 @@
 source $DOT/bash/lib/utils
 source $DOT/bash/lib/aliases
 source $DOT/zsh/lib/options
-# source $DOT/zsh/lib/colors
+source $DOT/zsh/lib/colors
 source $DOT/zsh/lib/bindings
 source $DOT/zsh/lib/title
 source $DOT/zsh/lib/completion
