@@ -1,67 +1,18 @@
 #!/usr/bin/env bash
 
-source "$DOT/zsh/lib/init-gpg-agent"
-
-# # force 256-color gruvbox palette
-# # https://github.com/morhetz/gruvbox-generalized/tree/master/iterm2
-# source_file "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh"
+source_file "$DOT/zsh/lib/init-gpg-agent"
 
 
-####################################################################################
-# Node version manager                                                             #
-####################################################################################
-export NVM_DIR=~/.nvm
-source_file "$NVM_DIR/nvm.sh" --no-use
-
-# # Lazy load nvm for faster shell start
-# # source: https://www.reddit.com/r/node/comments/4tg5jg/lazy_load_nvm_for_faster_shell_start/d5ib9fs/
-# declare -a NODE_GLOBALS=(`find ~/.nvm/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
-
-# NODE_GLOBALS+=("node")
-# NODE_GLOBALS+=("nvm")
-
-# load_nvm () {
-#   export NVM_DIR=~/.nvm
-#   source_file "$NVM_DIR/nvm.sh"
-# }
-
-# for cmd in "${NODE_GLOBALS[@]}"; do
-#   eval "${cmd}(){ unset -f ${NODE_GLOBALS}; load_nvm; ${cmd} \$@ }"
-# done
-
-
-####################################################################################
-# FASD                                                                             #
-####################################################################################
+# FASD
 fasd_cache=$HOME/.fasd-init-$SHELL_NAME
 if type_exists 'fasd'; then
   if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-    if [ $IS_ZSH ]; then
+    if [[ -n $IS_ZSH ]]; then
       fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
-    elif [ $IS_BASH ]; then
+    elif [[ -n $IS_BASH ]]; then
       fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
     fi
   fi
 fi
 source_file "$fasd_cache"
 unset fasd_cache
-
-
-####################################################################################
-# FZF                                                                              #
-####################################################################################
-
-# Auto-completion
-[[ $- == *i* ]] && source_file ${BREW_LOCATION}/opt/fzf/shell/completion.${SHELL_NAME}
-
-# Key bindings
-source_file ${BREW_LOCATION}/opt/fzf/shell/key-bindings.${SHELL_NAME}
-
-
-####################################################################################
-# Chruby                                                                           #
-####################################################################################
-source_file $BREW_LOCATION/opt/chruby/share/chruby/chruby.sh
-
-# Enable auto-switching of Rubies specified by .ruby-version files
-source_file $BREW_LOCATION/opt/chruby/share/chruby/auto.sh
