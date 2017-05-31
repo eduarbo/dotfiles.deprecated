@@ -84,3 +84,13 @@ case "$OSTYPE" in
   darwin*)  export IS_MACOS=1 ;;
   linux*)   export IS_LINUX=1 ;;
 esac
+
+function _stop_startup_timer {
+  [[ -n "$DISABLE_LOAD_TIME" ]] && return 1
+  local end
+  # Stop shell startup timer
+  end=$(/usr/local/bin/gdate +%s%N 2> /dev/null || date +%s%N)
+  local total=$(((end - LOAD_TIME_START) / 1000000))
+
+  printf "Load time: %0.2fs\n" "$(bc <<< scale=2\;$total/1000)"
+}
