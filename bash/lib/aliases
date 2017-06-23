@@ -49,6 +49,7 @@ alias ec='emacsclient -c'
 
 alias tm="tmux -u2"
 alias tmkillall="tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs -n1 tmux kill-session -t"
+alias mux="tmuxinator"
 alias cl="clear"
 
 alias fa='fasd -a'        # any
