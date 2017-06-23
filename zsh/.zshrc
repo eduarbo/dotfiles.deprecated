@@ -67,7 +67,7 @@ zplugin light mafredri/zsh-async
 zplugin light eduarbo/simpl
 zplugin light djui/alias-tips
 
-export NVM_NO_USE=true
+export NVM_NO_USE=false
 export NVM_LAZY_LOAD=true
 zplugin light lukechilds/zsh-nvm
 
