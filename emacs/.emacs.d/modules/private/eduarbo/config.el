@@ -76,9 +76,7 @@
 ;; Enable accents
 (setq ns-alternate-modifier 'none)
 
-;; Set my notes directory
-(setq +org-dir (expand-file-name "~/Google Drive/notes/"))
-
+;; JavaScript
 (setq js2-bounce-indent-p t
       ;; Let flycheck handle parse errors
       js2-mode-show-parse-errors nil

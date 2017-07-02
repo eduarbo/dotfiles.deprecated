@@ -13,4 +13,7 @@
       doom-unicode-font (font-spec :family "Hack" :size 12)
       doom-line-number-lpad 3)
 
+;; Set my notes directory
+(setq +org-dir (expand-file-name "~/Google Drive/org/"))
+
 (doom/toggle-fullscreen)

@@ -72,17 +72,18 @@
 
  ;; --- <leader> -------------------------------------
  (:leader
-   :desc "Ex command"  :nv ";"   #'eval-expression
-   :desc "M-x"         :nv ","   #'execute-extended-command
    :desc "Pop up scratch buffer"   :nv "x"  #'+doom:scratch-buffer
    :desc "Org Capture"             :nv "X"  #'+org/capture
 
    ;; Most commonly used
+   :desc "Swtich to last buffer"   :nv "TAB" #'evil-switch-to-windows-last-buffer
+   :desc "Ex command"              :nv ";"  #'eval-expression
+   :desc "M-x"                     :nv ","  #'execute-extended-command
    :desc "Find file in project"    :n "SPC" #'projectile-find-file
    :desc "Switch workspace buffer" :n "."   #'persp-switch-to-buffer
    :desc "Switch buffer"           :n "<"   #'switch-to-buffer
    :desc "Toggle last popup"       :n "~"   #'doom/popup-toggle
-   :desc "Eval expression"         :n "`"   #'eval-expression
+   :desc "Eval expression"         :n "`"   #'+doom:scratch-buffer
    :desc "Blink cursor line"       :n "DEL" #'+doom/blink-cursor
    :desc "Jump to bookmark"        :n "RET" #'bookmark-jump
 
@@ -117,7 +118,7 @@
      :desc "Imenu"                 :nv "i" #'imenu
      :desc "Imenu across buffers"  :nv "I" #'imenu-anywhere)
 
-   (:desc "workspace" :prefix "TAB"
+   (:desc "layout" :prefix "l"
      :desc "Display tab bar"          :n "TAB" #'+workspace/display
      :desc "New workspace"            :n "n"   #'+workspace/new
      :desc "Load workspace from file" :n "l"   #'+workspace/load
@@ -143,6 +144,7 @@
      :desc "Switch to last workspace" :n "0"   #'+workspace/switch-to-last)
 
    (:desc "buffer" :prefix "b"
+     :desc "Swtich to last buffer"   :nv "TAB" #'evil-switch-to-windows-last-buffer
      :desc "New empty buffer"        :n "n" #'evil-buffer-new
      :desc "Switch buffer"           :n "b" #'switch-to-buffer
      :desc "Switch workspace buffer" :n "B" #'persp-switch-to-buffer
@@ -163,6 +165,7 @@
      :desc "Build tasks"               :nv "b" #'+eval/build
      :desc "Jump to definition"        :n  "d" #'+jump/definition
      :desc "Jump to references"        :n  "D" #'+jump/references
+     :desc "Comment line"              :n  "l" #'evil-commentary-line
      :desc "Open REPL"                 :n  "r" #'+eval/repl
                                        :v  "r" #'+eval:repl)
 
@@ -179,7 +182,11 @@
      :desc "Browse emacs.d"            :n "E" #'+hlissner/browse-emacsd
      :desc "Find file"                 :n "f" #'find-file
      :desc "Recent files"              :n "r" #'recentf
-     :desc "Recent project files"      :n "R" #'projectile-recentf
+     ;; TODO: fix copy and rename methods
+    ;:desc "Rename file"               :n "R" #'+evil:move-this-file
+    ;:desc "Copy file"                 :n "C" #'+evil:copy-this-file
+     :desc "Kill file"                 :n "K" #'+evil:delete-this-file
+     :desc "Save file"                 :n "s" #'save-buffer
      :desc "Yank filename"             :n "y" #'+hlissner/yank-buffer-filename)
 
    (:desc "git" :prefix "g"
@@ -237,7 +244,6 @@
      ;; applications
      :desc "APP: elfeed"  :n "E" #'=rss
      :desc "APP: email"   :n "M" #'=email
-     :desc "APP: twitter" :n "T" #'=twitter
      :desc "APP: regex"   :n "X" #'=regex
 
      ;; macos
@@ -344,6 +350,7 @@
  :nv [C-tab] #'aya-create
 
  ;; company-mode (vim-like omnicompletion)
+ ;; TODO: Use tab to complete
  :i "C-,"  #'+company/complete
  ;; :i "C-,"  #'+company/complete
  (:prefix "C-x"
@@ -385,7 +392,7 @@
      "C-o"      #'ivy-dispatching-done)
    (:map counsel-ag-map
      [backtab]  #'+ivy/wgrep-occur  ; search/replace on results
-     "C-SPC"    #'counsel-git-grep-recenter   ; preview
+     "C-,"      #'counsel-git-grep-recenter   ; preview
      "M-RET"    (+ivy-do-action! #'+ivy-git-grep-other-window-action)))
 
  ;; evil-commentary
@@ -446,7 +453,10 @@
  ;; evil-surround
  :v  "s"  #'evil-surround-region
  :o  "s"  #'evil-surround-edit
- :o  "S"  #'evil-Surround-edit
+
+ ;; jump to char/line
+ :n  "s"  #'avy-goto-char-timer
+ :n  "S"  #'avy-goto-line
 
  ;; expand-region
  :v  "v"  #'er/expand-region

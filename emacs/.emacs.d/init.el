@@ -63,7 +63,7 @@
        electric-indent ; smarter, keyword-based electric-indent
        eshell          ; a consistent, cross-platform shell (WIP)
        gist            ; interacting with github gists
-      ;macos           ; MacOS-specific commands
+       macos           ; MacOS-specific commands
        neotree         ; a project drawer, like NERDTree for vim
       ;password-store  ; password manager for nerds
        rotate-text     ; cycle region at point between text candidates
