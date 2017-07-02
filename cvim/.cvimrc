@@ -1,4 +1,4 @@
-let mapleader = i"<Space>"
+let mapleader = ","
 
 " Settings
 set nohud
@@ -33,7 +33,7 @@ let searchalias u = "urbandictionary"
 let searchalias w = "wikipedia"
 let searchalias y = "youtube"
 " Mappings
-map , openCommandBar
+map ; openCommandBar
 map h previousTab
 map l nextTab
 map m* setMark
