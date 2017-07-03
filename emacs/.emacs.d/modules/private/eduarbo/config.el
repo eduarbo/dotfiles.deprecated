@@ -43,6 +43,15 @@
 
   (advice-add #'projectile-switch-project-by-name :around #'fix-projectile-project-name))
 
+(after! magit
+  (setq magit-repository-directories '("~/dev" "~/Documents/archive/nearsoft/atlassian" "~/.emacs.d" "~/.dotfiles"))
+  (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")))
+
+(def-package! evil-magit
+  :when (featurep! :feature evil)
+  :after magit
+  :init (setq evil-magit-want-horizontal-movement t))
+
 ;; app/irc
 (setq +irc-notifications-watch-strings '("eduarbo"))
 

@@ -164,7 +164,7 @@
      :desc "Build tasks"               :nv "b" #'+eval/build
      :desc "Jump to definition"        :n  "d" #'+jump/definition
      :desc "Jump to references"        :n  "D" #'+jump/references
-     :desc "Comment line"              :n  "l" #'evil-commentary-line
+     :desc "Comment line"              :nv "l" #'evil-commentary-line
      :desc "Open REPL"                 :n  "r" #'+eval/repl
                                        :v  "r" #'+eval:repl)
 
@@ -402,7 +402,7 @@
      "M-RET"    (+ivy-do-action! #'+ivy-git-grep-other-window-action)))
 
  ;; evil-commentary
- :n  "gc"  #'evil-commentary
+ :n  "gc"  #'evil-commentary-line
 
  ;; evil-exchange
  :n  "gx"  #'evil-exchange
@@ -461,8 +461,8 @@
  :o  "s"  #'evil-surround-edit
 
  ;; jump to char/line
- :n  "s"  #'avy-goto-char-timer
- :n  "S"  #'avy-goto-line
+ :nv  "gs"  #'avy-goto-char-timer
+ :nv  "gl"  #'avy-goto-line
 
  ;; expand-region
  :v  "v"  #'er/expand-region
@@ -676,8 +676,8 @@
   (let ((fn-sym (intern (format "+evil*repeat-%s" command))))
     `(progn
        (defun ,fn-sym (&rest _)
-         (define-key evil-motion-state-map (kbd ":") ',next-func)
-         (define-key evil-motion-state-map (kbd "SPC") ',prev-func))
+         (define-key evil-motion-state-map (kbd ";") ',next-func)
+         (define-key evil-motion-state-map (kbd ",") ',prev-func))
        (advice-add #',command :before #',fn-sym))))
 
 ;; n/N

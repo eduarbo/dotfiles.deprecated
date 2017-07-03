@@ -15,5 +15,6 @@
 
 ;; Set my notes directory
 (setq +org-dir (expand-file-name "~/Google Drive/org/"))
+(setq +present--original-font doom-font)
 
 (doom/toggle-fullscreen)
