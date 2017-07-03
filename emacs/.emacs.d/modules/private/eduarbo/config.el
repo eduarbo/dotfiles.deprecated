@@ -44,8 +44,17 @@
   (advice-add #'projectile-switch-project-by-name :around #'fix-projectile-project-name))
 
 (after! magit
+  ;; Prevent magit windows to be handled by shackle
+  (setq shackle-rules (remove '("^\\*magit" :regexp t :size 0.5 :noesc t :autokill t) shackle-rules))
+  (setq magit-display-buffer-function 'magit-display-buffer-fullcolumn-most-v1
+        magit-bury-buffer-function 'magit-restore-window-configuration)
   (setq magit-repository-directories '("~/dev" "~/Documents/archive/nearsoft/atlassian" "~/.emacs.d" "~/.dotfiles"))
   (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")))
+
+(after! shackle
+  ;; Prevent magit windows to be handled by shackle
+  (add-to-list 'shackle-rules '("^\\*(?!magit).*" :regexp t :same t))
+  (setq shackle-rules (remove '("^\\*"  :regexp t :noselect t :autokill t) shackle-rules)))
 
 (def-package! evil-magit
   :when (featurep! :feature evil)
