@@ -1,4 +1,4 @@
-;;; private/hlissner/+bindings.el -*- lexical-binding: t; -*-
+;;; private/eduarbo/+bindings.el -*- lexical-binding: t; -*-
 
 (defmacro find-file-in! (path &optional project-p)
   "Returns an interactive function for searching files."
@@ -19,12 +19,15 @@
 
 (map!
  ;; --- Global keybindings ---------------------------
+ ;; Search
+ :nv "?"  #'+eduarbo/swiper-region
  ;; Defaults
  :nv ";"  #'evil-ex
  :nv "Q"  #'fill-paragraph
  ;; Make M-x available everywhere
  :nvime "M-x" #'execute-extended-command
  :nvime "A-x" #'execute-extended-command
+
  ;; Emacs debug utilities
  "M-;"    #'eval-expression
  "A-;"    #'eval-expression
@@ -66,16 +69,17 @@
  "M-v"    #'clipboard-yank
  "M-f"    #'swiper
  "C-M-f"  #'doom/toggle-fullscreen
- :m "A-j" #'+hlissner:multi-next-line
- :m "A-k" #'+hlissner:multi-previous-line
+ :m "A-j" #'+eduarbo:multi-next-line
+ :m "A-k" #'+eduarbo:multi-previous-line
 
 
  ;; --- <leader> -------------------------------------
  (:leader
-   :desc "Pop up scratch buffer"   :nv "x"  #'+doom:scratch-buffer
+   :desc "Pop up scratch buffer"   :nv "x"  #'doom/scratch-buffer
    :desc "Org Capture"             :nv "X"  #'+org/capture
 
    ;; Most commonly used
+   :desc "Projectile Ag"           :nv "/"  (λ! (counsel-projectile-ag "--hidden"))
    :desc "Swtich to last buffer"   :nv "TAB" #'evil-switch-to-windows-last-buffer
    :desc "Ex command"              :nv ";"  #'eval-expression
    :desc "M-x"                     :nv ","  #'execute-extended-command
@@ -83,7 +87,7 @@
    :desc "Switch workspace buffer" :n "."   #'persp-switch-to-buffer
    :desc "Switch buffer"           :n "<"   #'switch-to-buffer
    :desc "Toggle last popup"       :n "~"   #'doom/popup-toggle
-   :desc "Eval expression"         :n "`"   #'+doom:scratch-buffer
+   :desc "Eval expression"         :n "`"   #'doom/scratch-buffer
    :desc "Blink cursor line"       :n "DEL" #'+doom/blink-cursor
    :desc "Jump to bookmark"        :n "RET" #'bookmark-jump
 
@@ -112,11 +116,6 @@
      :desc "Smart jump"          :nv "l" #'smart-forward
      :desc "Spelling error"      :nv "s" #'evil-next-flyspell-error
      :desc "Spelling correction" :n  "S" #'flyspell-correct-word-generic)
-
-   (:desc "search" :prefix "/"
-     :desc "Swiper"                :nv "/" #'swiper
-     :desc "Imenu"                 :nv "i" #'imenu
-     :desc "Imenu across buffers"  :nv "I" #'imenu-anywhere)
 
    (:desc "layout" :prefix "l"
      :desc "Display tab bar"          :n "TAB" #'+workspace/display
@@ -170,31 +169,30 @@
                                        :v  "r" #'+eval:repl)
 
    (:desc "file" :prefix "f"
-     :desc "File file"                 :n "." #'find-file
      :desc "Sudo find file"            :n ">" #'doom/sudo-find-file
-     :desc "Find file in project"      :n "/" #'projectile-find-file
-     :desc "Find file from here"       :n "?" #'counsel-file-jump
+     :desc "Find file in project"      :n "p" #'projectile-find-file
+     :desc "Find file from here"       :n "." #'counsel-file-jump
      :desc "Find other file"           :n "a" #'projectile-find-other-file
      :desc "Open project editorconfig" :n "c" #'editorconfig-find-current-editorconfig
-     :desc "Find file in dotfiles"     :n "d" #'+hlissner/find-in-dotfiles
-     :desc "Browse dotfiles"           :n "D" #'+hlissner/browse-dotfiles
-     :desc "Find file in emacs.d"      :n "e" #'+hlissner/find-in-emacsd
-     :desc "Browse emacs.d"            :n "E" #'+hlissner/browse-emacsd
+     :desc "Find file in dotfiles"     :n "d" #'+eduarbo/find-in-dotfiles
+     :desc "Browse dotfiles"           :n "D" #'+eduarbo/browse-dotfiles
+     :desc "Find file in emacs.d"      :n "e" #'+eduarbo/find-in-emacsd
+     :desc "Browse emacs.d"            :n "E" #'+eduarbo/browse-emacsd
      :desc "Find file"                 :n "f" #'find-file
      :desc "Recent files"              :n "r" #'recentf
-     ;; TODO: fix copy and rename methods
-    ;:desc "Rename file"               :n "R" #'+evil:move-this-file
-    ;:desc "Copy file"                 :n "C" #'+evil:copy-this-file
+     :desc "Rename file"               :n "R" #'+eduarbo/rename-this-file
+     :desc "Copy file"                 :n "C" #'write-file
      :desc "Kill file"                 :n "K" #'+evil:delete-this-file
      :desc "Save file"                 :n "s" #'save-buffer
-     :desc "Yank filename"             :n "y" #'+hlissner/yank-buffer-filename)
+     :desc "Yank filename"             :n "y" #'+eduarbo/yank-buffer-filename)
 
    (:desc "git" :prefix "g"
      :desc "Git status"        :n  "s" #'magit-status
      :desc "Git blame"         :n  "b" #'magit-blame
      :desc "Git time machine"  :n  "t" #'git-timemachine-toggle
      :desc "Git revert hunk"   :n  "r" #'git-gutter:revert-hunk
-     :desc "List gists"        :n  "g" #'+gist:list
+     :desc "List gists"        :n  "l" #'+gist:list
+     :desc "Git grep"          :nv "g" #'+eduarbo/counsel-git-grep-region
      :desc "Next hunk"         :nv "]" #'git-gutter:next-hunk
      :desc "Previous hunk"     :nv "[" #'git-gutter:previous-hunk)
 
@@ -226,8 +224,8 @@
      :desc "From snippet"   :nv "s" #'yas-insert-snippet)
 
    (:desc "notes" :prefix "n"
-     :desc "Find file in notes"    :n "n" #'+hlissner/find-in-notes
-     :desc "Browse notes"          :n "N" #'+hlissner/browse-notes
+     :desc "Find file in notes"    :n "n" #'+eduarbo/find-in-notes
+     :desc "Browse notes"          :n "N" #'+eduarbo/browse-notes
      :desc "Org capture"           :n "x" #'+org/capture
      :desc "Browse mode notes"     :n "m" #'+org/browse-notes-for-major-mode
      :desc "Browse project notes"  :n "p" #'+org/browse-notes-for-project)
@@ -257,7 +255,8 @@
 
    (:desc "project" :prefix "p"
      :desc "Browse project"          :n  "." (find-file-in! (doom-project-root))
-     :desc "Find file in project"    :n  "/" #'projectile-find-file
+     :desc "Projectile Ag"           :n  "/" (λ! (counsel-projectile-ag "--hidden"))
+     :desc "Find file in project"    :n  "f" #'projectile-find-file
      :desc "Run cmd in project root" :nv "!" #'projectile-run-shell-command-in-root
      :desc "Discover projects"       :n  "d" #'projectile-discover-projects-in-directory
      :desc "Switch project"          :n  "p" #'projectile-switch-project
@@ -278,11 +277,18 @@
      :desc "Browse remote files"    :n "." #'+upload/browse
      :desc "Detect remote changes"  :n ">" #'+upload/check-remote)
 
-   (:desc "snippets" :prefix "s"
+   (:desc "search/snippets" :prefix "s"
+     ;; Search
+     :desc "Swiper"                :nv "w" #'+eduarbo/swiper-region
+     :desc "Git grep"              :nv "g" #'+eduarbo/counsel-git-grep-region
+     :desc "Projectile Ag"         :nv "/" (λ! (counsel-projectile-ag "--hidden"))
+     :desc "Imenu"                 :nv "i" #'imenu
+     :desc "Imenu across buffers"  :nv "I" #'imenu-anywhere
+     ;; Snippets
      :desc "New snippet"           :n  "n" #'yas-new-snippet
-     :desc "Insert snippet"        :nv "i" #'yas-insert-snippet
+     :desc "Add snippet"           :nv "a" #'yas-insert-snippet
      :desc "Find snippet for mode" :n  "s" #'yas-visit-snippet-file
-     :desc "Find snippet"          :n  "S" #'+hlissner/find-in-snippets)
+     :desc "Find snippet"          :n  "S" #'+eduarbo/find-in-snippets)
 
    (:desc "toggle" :prefix "t"
      :desc "Flyspell"               :n "s" #'flyspell-mode

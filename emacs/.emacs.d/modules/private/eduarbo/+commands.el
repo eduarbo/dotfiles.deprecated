@@ -1,4 +1,4 @@
-;;; private/hlissner/+commands.el -*- lexical-binding: t; -*-
+;;; private/eduarbo/+commands.el -*- lexical-binding: t; -*-
 
 (defalias 'ex! 'evil-ex-define-cmd)
 
@@ -8,7 +8,7 @@
 
 ;;; Custom commands
 ;; Emacs utilities
-(ex! "bc[omp]"      #'+hlissner:byte-compile)
+(ex! "bc[omp]"      #'+eduarbo:byte-compile)
 (ex! "re[load]"     #'doom/reload)
 (ex! "re[load]au"   #'doom/reload-autoloads)
 
@@ -50,8 +50,8 @@
 
 (ex! "clean[up]"   #'+workspace/cleanup)
 (ex! "k[ill]"      #'doom/kill-this-buffer)
-(ex! "k[ill]all"   #'+hlissner:kill-all-buffers)
-(ex! "k[ill]m"     #'+hlissner:kill-matching-buffers)
+(ex! "k[ill]all"   #'+eduarbo:kill-all-buffers)
+(ex! "k[ill]m"     #'+eduarbo:kill-matching-buffers)
 (ex! "k[ill]o"     #'doom/kill-other-buffers)
 (ex! "l[ast]"      #'doom/popup-restore)
 (ex! "m[sg]"       #'view-echo-area-messages)
@@ -59,7 +59,7 @@
 
 ;; Project navigation
 (ex! "a"           #'projectile-find-other-file)
-(ex! "cd"          #'+hlissner:cd)
+(ex! "cd"          #'+eduarbo:cd)
 (cond ((featurep! :completion ivy)
        (ex! "ag"       #'+ivy:ag)
        (ex! "agc[wd]"  #'+ivy:ag-cwd)

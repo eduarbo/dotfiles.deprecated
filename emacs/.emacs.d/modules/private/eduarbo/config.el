@@ -4,14 +4,14 @@
   (load! +bindings)  ; my key bindings
   (load! +commands)) ; my custom ex commands
 
-(defvar +hlissner-dir
+(defvar +eduarbo-dir
   (file-name-directory load-file-name))
 
-(defvar +hlissner-snippets-dir
-  (expand-file-name "snippets/" +hlissner-dir))
+(defvar +eduarbo-snippets-dir
+  (expand-file-name "snippets/" +eduarbo-dir))
 
 (setq epa-file-encrypt-to user-mail-address
-      auth-sources (list (expand-file-name ".authinfo.gpg" +hlissner-dir)))
+      auth-sources (list (expand-file-name ".authinfo.gpg" +eduarbo-dir)))
 
 (defun +hlissner*no-authinfo-for-tramp (orig-fn &rest args)
   "Don't look into .authinfo for local sudo TRAMP buffers."
@@ -31,13 +31,20 @@
 ;; Don't use default snippets, use mine.
 (after! yasnippet
   (setq yas-snippet-dirs
-        (append (list '+hlissner-snippets-dir)
+        (append (list '+eduarbo-snippets-dir)
                 (delete 'yas-installed-snippets-dir
                         yas-snippet-dirs))))
 
+(after! projectile
+  ;; Workaround to make the new project name available when hooks are called
+  (defun fix-projectile-project-name (projectile-switch-project-by-name &rest args)
+    (let* ((projectile-project-name (car args)))
+      (apply projectile-switch-project-by-name args)))
+
+  (advice-add #'projectile-switch-project-by-name :around #'fix-projectile-project-name))
 
 ;; app/irc
-(setq +irc-notifications-watch-strings '("v0" "vnought" "hlissner"))
+(setq +irc-notifications-watch-strings '("eduarbo"))
 
 (set! :irc "irc.snoonet.org"
   `(:tls t
