@@ -22,6 +22,11 @@
   </vkopenurldef>
 
   <vkopenurldef>
+    <name>KeyCode::VK_OPEN_URL_APP_Opera</name>
+    <url type="file">/Applications/Opera.app</url>
+  </vkopenurldef>
+
+  <vkopenurldef>
     <name>KeyCode::VK_OPEN_URL_APP_Chrome</name>
     <url type="file">/Applications/Google Chrome.app</url>
   </vkopenurldef>
@@ -74,6 +79,12 @@
           __KeyDownUpToKey__
           KeyCode::A,
           KeyCode::VK_OPEN_URL_APP_Calendar,
+        </autogen>
+
+        <autogen>
+          __KeyDownUpToKey__
+          KeyCode::B,
+          KeyCode::VK_OPEN_URL_APP_Opera,
         </autogen>
 
         <autogen>
