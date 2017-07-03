@@ -11,6 +11,7 @@ vim/.vim/bundle/**
 vim/.vim/plugged/**
 vim/.vim/session
 vim/.vim/sessions
+vim/.vim/view
 vim/.vim/autoload/plug.vim
 
 tmux/.tmux/plugins/**
