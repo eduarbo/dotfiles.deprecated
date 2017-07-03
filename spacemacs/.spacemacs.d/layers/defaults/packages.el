@@ -18,6 +18,7 @@
     google-translate
     gruvbox
     helm
+    tide
     js2-mode
     (sh-script :location built-in)
     subatomic-theme
@@ -43,6 +44,23 @@
   (bind-map-set-keys evil-insert-state-map
     "TAB"   #'company-indent-or-complete-common)
   )
+
+(defun defaults/init-tide ()
+  (use-package tide
+    :disabled
+    :defer t
+    :init
+    (defun setup-tide-mode ()
+      (interactive)
+      (tide-setup)
+      ;; (setq flycheck-check-syntax-automatically '(save mode-enabled))
+      ;; (eldoc-mode +1)
+      ;; (tide-hl-identifier-mode +1)
+      (company-mode +1))
+
+    (add-hook 'js2-mode-hook #'setup-tide-mode)
+    ;; configure javascript-tide checker to run after your default javascript checker
+   ))
 
 (defun defaults/init-company-flx ()
   (use-package company-flx

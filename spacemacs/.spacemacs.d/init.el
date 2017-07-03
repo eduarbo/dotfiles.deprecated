@@ -423,6 +423,8 @@ you should place your code here."
    '(company-tooltip-common-selection
      ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
 
+  ;; Change port for skewer as 8080 is pretty common in my projects
+  (setq httpd-port 8901)
 
   (add-to-list 'auto-mode-alist
                (cons
@@ -432,6 +434,8 @@ you should place your code here."
                         "\\'")
                 'xml-mode))
 
+  (put 'projectile-project-test-cmd 'safe-local-variable #'stringp)
+  (put 'projectile-project-run-cmd 'safe-local-variable #'stringp)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
