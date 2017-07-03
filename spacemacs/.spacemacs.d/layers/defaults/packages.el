@@ -35,8 +35,7 @@
    completion-ignore-case t
    company-dabbrev-code-ignore-case t
    ;; Complete only when I command
-   company-idle-delay nil
-   )
+   company-idle-delay nil)
 
   (with-eval-after-load "company"
     (define-key company-active-map (kbd "DEL") 'company-abort))
@@ -126,12 +125,12 @@
         helm-mode-fuzzy-match t))
 
 (defun defaults/post-init-js2-mode ()
-  ;; Let flycheck handle parse errors
-  (setq js2-mode-show-parse-errors nil
-        js2-mode-show-strict-warnings nil)
-
-  ;; Force js to indent 2 levels
-  (setq js-indent-level tab-width
+  (setq js2-bounce-indent-p t
+        ;; Let flycheck handle parse errors
+        js2-mode-show-parse-errors nil
+        js2-mode-show-strict-warnings nil
+        ;; Force js to indent 2 levels
+        js-indent-level tab-width
         js2-basic-offset tab-width))
 
 (defun defaults/post-init-sh-script ()
@@ -157,13 +156,15 @@
 
 (defun defaults/post-init-yasnippet ()
   (with-eval-after-load "yasnippet"
-    (define-key yas-minor-mode-map (kbd "<backtab>") 'yas-expand)
+    (define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
 
     ;; Now I can complete with TAB while snippet expansion is in progress
     (setq yas-keymap
           (let ((map (make-sparse-keymap)))
             (define-key map (kbd "C-n") 'yas-next-field-or-maybe-expand)
+            (define-key map (kbd "C-j") 'yas-next-field-or-maybe-expand)
             (define-key map (kbd "C-p") 'yas-prev-field)
+            (define-key map (kbd "C-k") 'yas-prev-field)
             (define-key map (kbd "C-g") 'yas-abort-snippet)
             (define-key map (kbd "C-d") 'yas-skip-and-clear-or-delete-char)
             map))))
