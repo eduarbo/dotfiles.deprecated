@@ -71,6 +71,11 @@ private/eduarbo/snippets."
     (error "There is no last perspective"))
   (+workspace-switch +workspace--last))
 
+;;;###autoload
+(defun +eduarbo/ag-notes (&optional initial-input)
+  (interactive)
+  (counsel-ag initial-input +org-notes-dir "--hidden" "Find in notes"))
+
 (defmacro +eduarbo-def-finder! (name dir)
   "Define a pair of find-file and browse functions."
   `(progn

@@ -62,6 +62,7 @@
 (ex! "cd"          #'+eduarbo:cd)
 (cond ((featurep! :completion ivy)
        (ex! "ag"       #'+ivy:ag)
+       (ex! "note[s]"  #'+eduarbo:ag-notes)
        (ex! "agc[wd]"  #'+ivy:ag-cwd)
        (ex! "rg"       #'+ivy:rg)
        (ex! "rgc[wd]"  #'+ivy:rg-cwd)

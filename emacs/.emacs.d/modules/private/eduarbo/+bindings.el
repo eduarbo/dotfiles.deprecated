@@ -225,8 +225,9 @@
      :desc "Switch to last workspace" :n "0"   #'+workspace/switch-to-last)
 
    (:desc "notes" :prefix "n"
-     :desc "Find file in notes"    :n "n" #'+eduarbo/find-in-notes
-     :desc "Browse notes"          :n "N" #'+eduarbo/browse-notes
+     :desc "Browse notes"          :n "n" #'+eduarbo/find-in-notes
+     :desc "Browse org dir"        :n "N" #'+eduarbo/browse-notes
+     :desc "Find in notes"         :n "f" #'+eduarbo/ag-notes
      :desc "Org capture"           :n "x" #'+org/capture
      :desc "Browse mode notes"     :n "m" #'+org/browse-notes-for-major-mode
      :desc "Browse project notes"  :n "p" #'+org/browse-notes-for-project)
@@ -399,8 +400,8 @@
      "C-o"      #'ivy-dispatching-done)
    (:map counsel-ag-map
      [backtab]  #'+ivy/wgrep-occur  ; search/replace on results
-     "C-,"      #'counsel-git-grep-recenter   ; preview
-     "M-RET"    (+ivy-do-action! #'+ivy-git-grep-other-window-action)))
+     "C-p"      #'counsel-git-grep-recenter   ; preview
+     "C-s"      (+ivy-do-action! #'+ivy-git-grep-other-window-action)))
 
  ;; evil-commentary
  :n  "gc"  #'evil-commentary-line

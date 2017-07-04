@@ -34,3 +34,10 @@
 buffers."
   (interactive "<a>")
   (doom/kill-matching-buffers pattern bang))
+
+;;;###autoload (autoload '+eduarbo:ag-notes "private/eduarbo/autoload/evil" nil t)
+(evil-define-command +eduarbo:ag-notes (beg end query)
+  "The same as :ag, but searches in the notes directory."
+  (interactive "<r><a>")
+  (let ((+ivy--file-search-recursion-p t))
+    (+ivy:ag beg end query t +org-notes-dir)))
