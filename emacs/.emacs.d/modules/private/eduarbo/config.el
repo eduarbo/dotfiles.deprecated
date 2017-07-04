@@ -61,6 +61,12 @@
   (add-to-list 'shackle-rules '("^\\*(?!magit).*" :regexp t :same t))
   (setq shackle-rules (remove '("^\\*"  :regexp t :noselect t :autokill t) shackle-rules)))
 
+(after! company
+  (setq completion-ignore-case t
+        company-dabbrev-code-ignore-case t
+        ;; Complete only when I command
+        company-idle-delay nil))
+
 (after! ivy
   ;; TODO: Use space to narrow results.
   ;; Issue: https://github.com/abo-abo/swiper/issues/360
@@ -70,9 +76,18 @@
 
 
 (def-package! evil-magit
-  :when (featurep! :feature evil)
+  :when (and (featurep! :feature evil)
+             (featurep! :feature version-control))
   :after magit
   :init (setq evil-magit-want-horizontal-movement t))
+
+(def-package! company-flx
+  :when (featurep! :completion company)
+  :after company
+  :config
+  (setq company-flx-limit 2000)
+  (with-eval-after-load 'company (company-flx-mode t)))
+
 
 ;; app/irc
 (setq +irc-notifications-watch-strings '("eduarbo"))
