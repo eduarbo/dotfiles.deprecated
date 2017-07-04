@@ -26,4 +26,7 @@
       js2-mode-show-parse-errors nil
       js2-mode-show-strict-warnings nil)
 
+;; Get some context
+(setq scroll-margin 10)
+
 (doom/toggle-fullscreen)
