@@ -8,6 +8,7 @@
 (when (featurep 'persp-mode)
   (add-hook 'persp-before-switch-functions '+eduarbo/set-workspace--last))
 
+
 (defvar +eduarbo-dir
   (file-name-directory load-file-name))
 
@@ -16,6 +17,7 @@
 
 (setq epa-file-encrypt-to user-mail-address
       auth-sources (list (expand-file-name ".authinfo.gpg" +eduarbo-dir)))
+
 
 (defun +hlissner*no-authinfo-for-tramp (orig-fn &rest args)
   "Don't look into .authinfo for local sudo TRAMP buffers."
@@ -30,7 +32,6 @@
     (add-hook 'evil-insert-state-entry-hook #'evil-mc-resume-cursors nil t))
   (add-hook! 'evil-mc-after-cursors-deleted
     (remove-hook 'evil-insert-state-entry-hook #'evil-mc-resume-cursors t)))
-
 
 ;; Don't use default snippets, use mine.
 (after! yasnippet
@@ -59,6 +60,14 @@
   ;; Prevent magit windows to be handled by shackle
   (add-to-list 'shackle-rules '("^\\*(?!magit).*" :regexp t :same t))
   (setq shackle-rules (remove '("^\\*"  :regexp t :noselect t :autokill t) shackle-rules)))
+
+(after! ivy
+  ;; TODO: Use space to narrow results.
+  ;; Issue: https://github.com/abo-abo/swiper/issues/360
+  (setq ivy-initial-inputs-alist nil
+        ivy-re-builders-alist '((ivy-switch-buffer . ivy--regex-plus)
+                                (t . ivy--regex-fuzzy))))
+
 
 (def-package! evil-magit
   :when (featurep! :feature evil)
