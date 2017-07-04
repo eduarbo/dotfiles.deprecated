@@ -79,7 +79,7 @@
    :desc "Org Capture"             :nv "X"  #'+org/capture
 
    ;; Most commonly used
-   :desc "Swtich to last buffer"   :nv "TAB" #'evil-switch-to-windows-last-buffer
+   :desc "Swtich to last buffer"   :nv "TAB" #'+eduarbo/alternate-buffer-in-persp
    :desc "Toggle last popup"       :nv "DEL" #'doom/popup-toggle
    :desc "Projectile Ag"           :nv "/"   (λ! (counsel-projectile-ag "--hidden"))
    :desc "Eval expression"         :nv ";"   #'eval-expression
@@ -87,7 +87,7 @@
    :desc "Find file in project"    :n "SPC"  #'projectile-find-file
    :desc "Switch workspace buffer" :n "."    #'persp-switch-to-buffer
    :desc "Switch buffer"           :n "<"    #'switch-to-buffer
-   :desc "Switch workspace"        :nv "'"   #'persp-switch
+   :desc "Switch workspace"        :nv "'"   #'persp-frame-switch
    :desc "Blink cursor line"       :n "`"    #'+doom/blink-cursor
    :desc "Jump to bookmark"        :n "RET"  #'bookmark-jump
 
@@ -206,7 +206,7 @@
      :desc "Load last session"        :n "L"   (λ! (+workspace/load-session))
      :desc "Save workspace to file"   :n "s"   #'+workspace/save
      :desc "Autosave current session" :n "S"   #'+workspace/save-session
-     :desc "Switch workspace"         :n "."   #'+workspace/switch-to
+     :desc "Switch workspace"         :n "."   #'persp-frame-switch
      :desc "Kill all buffers"         :n "x"   #'doom/kill-all-buffers
      :desc "Delete session"           :n "X"   #'+workspace/kill-session
      :desc "Delete this workspace"    :n "d"   #'+workspace/delete

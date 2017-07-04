@@ -4,6 +4,10 @@
   (load! +bindings)  ; my key bindings
   (load! +commands)) ; my custom ex commands
 
+;; Track last visited workspace when persp-frame-switch is used
+(when (featurep 'persp-mode)
+  (add-hook 'persp-before-switch-functions '+eduarbo/set-workspace--last))
+
 (defvar +eduarbo-dir
   (file-name-directory load-file-name))
 
