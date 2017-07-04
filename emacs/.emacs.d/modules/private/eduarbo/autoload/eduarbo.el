@@ -63,6 +63,13 @@ private/eduarbo/snippets."
                  (call-interactively #'projectile-invalidate-cache))
                (message "File '%s' successfully renamed to '%s'" name (file-name-nondirectory new-name))))))))
 
+;;;###autoload
+(defun +eduarbo/workspace-switch-last ()
+  "Switch to the perspective accessed before the current one."
+  (interactive)
+  (unless +workspace--last
+    (error "There is no last perspective"))
+  (+workspace-switch +workspace--last))
 
 (defmacro +eduarbo-def-finder! (name dir)
   "Define a pair of find-file and browse functions."

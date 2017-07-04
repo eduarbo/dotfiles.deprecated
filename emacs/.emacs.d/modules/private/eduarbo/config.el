@@ -38,7 +38,7 @@
 (after! projectile
   ;; Workaround to make the new project name available when hooks are called
   (defun fix-projectile-project-name (projectile-switch-project-by-name &rest args)
-    (let* ((projectile-project-name (car args)))
+    (let* ((projectile-project-name (funcall projectile-project-name-function (car args))))
       (apply projectile-switch-project-by-name args)))
 
   (advice-add #'projectile-switch-project-by-name :around #'fix-projectile-project-name))
@@ -97,12 +97,3 @@
     (user-mail-address      . "henrik@lissner.net")
     (mu4e-compose-signature . "---\nHenrik Lissner"))
   t)
-
-;; Enable accents
-(setq ns-alternate-modifier 'none)
-
-;; JavaScript
-(setq js2-bounce-indent-p t
-      ;; Let flycheck handle parse errors
-      js2-mode-show-parse-errors nil
-      js2-mode-show-strict-warnings nil)

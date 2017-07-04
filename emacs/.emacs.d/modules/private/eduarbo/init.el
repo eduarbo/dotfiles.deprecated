@@ -17,4 +17,13 @@
 (setq +org-dir (expand-file-name "~/Google Drive/org/"))
 (setq +present--original-font doom-font)
 
+;; Enable accents
+(setq ns-alternate-modifier 'none)
+
+;; JavaScript
+(setq js2-bounce-indent-p t
+      ;; Let flycheck handle parse errors
+      js2-mode-show-parse-errors nil
+      js2-mode-show-strict-warnings nil)
+
 (doom/toggle-fullscreen)
