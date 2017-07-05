@@ -19,6 +19,11 @@
       auth-sources (list (expand-file-name ".authinfo.gpg" +eduarbo-dir)))
 
 
+;; Set space as a delimiter arguments for lisp-family languages
+(add-hook! 'lisp-mode-hook (setq-local evil-args-delimiters '(" ")))
+(add-hook! 'emacs-lisp-mode-hook (setq-local evil-args-delimiters '(" ")))
+
+
 (defun +hlissner*no-authinfo-for-tramp (orig-fn &rest args)
   "Don't look into .authinfo for local sudo TRAMP buffers."
   (let ((auth-sources (if (equal tramp-current-method "sudo") nil auth-sources)))
