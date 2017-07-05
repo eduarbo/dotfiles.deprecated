@@ -358,19 +358,18 @@
  :nv [C-tab] #'aya-create
 
  ;; company-mode (vim-like omnicompletion)
- ;; TODO: Use tab to complete
- :i "C-,"  #'+company/complete
- ;; :i "C-,"  #'+company/complete
+ ;; :i [tab]    #'+eduarbo/company-indent-or-complete-common
+ :i [tab]    #'company-indent-or-complete-common
  (:prefix "C-x"
-   :i "C-l"   #'+company/whole-lines
-   :i "C-k"   #'+company/dict-or-keywords
-   :i "C-f"   #'company-files
-   :i "C-]"   #'company-etags
-   :i "s"     #'company-ispell
-   :i "C-s"   #'company-yasnippet
-   :i "C-o"   #'company-capf
-   :i "C-n"   #'company-dabbrev-code
-   :i "C-p"   #'+company/dabbrev-code-previous)
+   :i "C-l"  #'+company/whole-lines
+   :i "C-k"  #'+company/dict-or-keywords
+   :i "C-f"  #'company-files
+   :i "C-]"  #'company-etags
+   :i "s"    #'company-ispell
+   :i "C-s"  #'company-yasnippet
+   :i "C-o"  #'company-capf
+   :i "C-n"  #'company-dabbrev-code
+   :i "C-p"  #'+company/dabbrev-code-previous)
  (:after company
    (:map company-active-map
      ;; Don't interfere with `evil-delete-backward-word' in insert mode
@@ -382,10 +381,10 @@
      "C-S-h"      #'company-show-doc-buffer
      "C-S-s"      #'company-search-candidates
      "C-s"        #'company-filter-candidates
-     "C-SPC"      #'company-complete-common
      "C-h"        #'company-quickhelp-manual-begin
-     [tab]        #'company-complete-common-or-cycle
-     [backtab]    #'company-select-previous
+     [13]         nil
+     [return]     nil
+     [tab]        #'company-complete-selection
      [escape]     (λ! (company-abort) (evil-normal-state 1)))
    ;; Automatically applies to `company-filter-map'
    (:map company-search-map
@@ -727,7 +726,6 @@
                    :bind ((evil-snipe-scope 'buffer)
                           (evil-snipe-enable-highlight)
                           (evil-snipe-enable-incremental-highlight)))))
-
 
 ;;
 ;; Keybinding fixes

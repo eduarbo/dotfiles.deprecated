@@ -63,6 +63,7 @@
 
 (after! company
   (setq completion-ignore-case t
+        company-abort-manual-when-too-short t
         company-dabbrev-code-ignore-case t
         ;; Complete only when I command
         company-idle-delay nil))
