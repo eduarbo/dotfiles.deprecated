@@ -26,6 +26,20 @@
       js2-mode-show-parse-errors nil
       js2-mode-show-strict-warnings nil)
 
+;; Force everything to indent 2 spaces
+(setq-default tab-width 2)
+(setq js-indent-level tab-width
+      js2-basic-offset tab-width
+
+      css-indent-offset tab-width
+      web-mode-markup-indent-offset tab-width
+      web-mode-css-indent-offset tab-width
+      web-mode-code-indent-offset tab-width
+      web-mode-attr-indent-offset tab-width
+
+      sh-indentation tab-width
+      sh-basic-offset tab-width)
+
 ;; Get some context
 (setq scroll-margin 10)
 
