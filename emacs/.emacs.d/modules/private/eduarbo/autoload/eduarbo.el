@@ -10,14 +10,6 @@
       (setq +workspace--last old-name))))
 
 ;;;###autoload
-(defun +eduarbo/install-snippets ()
-  "Install my snippets from https://github.com/hlissner/emacs-snippets into
-private/eduarbo/snippets."
-  (interactive)
-  (doom-fetch :github "hlissner/emacs-snippets"
-              (expand-file-name "snippets" (doom-module-path :private 'eduarbo))))
-
-;;;###autoload
 (defun +eduarbo/yank-buffer-filename ()
   "Copy the current buffer's path to the kill ring."
   (interactive)
