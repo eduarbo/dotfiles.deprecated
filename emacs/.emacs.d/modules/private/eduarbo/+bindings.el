@@ -615,6 +615,11 @@
      "<M-right>"     #'+snippets/goto-end-of-field
      "<M-left>"      #'+snippets/goto-start-of-field
      "<M-backspace>" #'+snippets/delete-to-start-of-field
+     "C-d"           #'yas-skip-and-clear-or-delete-char
+     "C-n"           #'yas-next-field
+     "C-p"           #'yas-prev-field
+     [tab]           nil
+     [backtab]       nil
      [escape]        #'evil-normal-state
      [backspace]     #'+snippets/delete-backward-char
      [delete]        #'+snippets/delete-forward-char-or-field)
