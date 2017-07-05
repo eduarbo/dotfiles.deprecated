@@ -89,40 +89,39 @@
   (setq company-flx-limit 2000)
   (with-eval-after-load 'company (company-flx-mode t)))
 
+;; ;; app/irc
+;; (setq +irc-notifications-watch-strings '("eduarbo"))
 
-;; app/irc
-(setq +irc-notifications-watch-strings '("eduarbo"))
-
-(set! :irc "irc.snoonet.org"
-  `(:tls t
-    :nick "v0"
-    :port 6697
-    :sasl-username ,(+pass-get-user "irc/snoonet.org")
-    :sasl-password ,(+pass-get-secret "irc/snoonet.org")
-    :channels (:after-auth "#ynought")))
+;; (set! :irc "irc.snoonet.org"
+;;   `(:tls t
+;;     :nick "v0"
+;;     :port 6697
+;;     :sasl-username ,(+pass-get-user "irc/snoonet.org")
+;;     :sasl-password ,(+pass-get-secret "irc/snoonet.org")
+;;     :channels (:after-auth "#ynought")))
 
 
-;; app/email
-(setq smtpmail-stream-type 'starttls
-      smtpmail-default-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-service 587)
+;; ;; app/email
+;; (setq smtpmail-stream-type 'starttls
+;;       smtpmail-default-smtp-server "smtp.gmail.com"
+;;       smtpmail-smtp-server "smtp.gmail.com"
+;;       smtpmail-smtp-service 587)
 
-(set! :email "gmail.com"
-  '((mu4e-sent-folder       . "/gmail.com/Sent Mail")
-    (mu4e-drafts-folder     . "/gmail.com/Drafts")
-    (mu4e-trash-folder      . "/gmail.com/Trash")
-    (mu4e-refile-folder     . "/gmail.com/All Mail")
-    (smtpmail-smtp-user     . "eduarbo")
-    (user-mail-address      . "eduarbo@gmail.com")
-    (mu4e-compose-signature . "---\nEduardo Ruiz")))
+;; (set! :email "gmail.com"
+;;   '((mu4e-sent-folder       . "/gmail.com/Sent Mail")
+;;     (mu4e-drafts-folder     . "/gmail.com/Drafts")
+;;     (mu4e-trash-folder      . "/gmail.com/Trash")
+;;     (mu4e-refile-folder     . "/gmail.com/All Mail")
+;;     (smtpmail-smtp-user     . "eduarbo")
+;;     (user-mail-address      . "eduarbo@gmail.com")
+;;     (mu4e-compose-signature . "---\nEduardo Ruiz")))
 
-(set! :email "lissner.net"
-  '((mu4e-sent-folder       . "/lissner.net/Sent Mail")
-    (mu4e-drafts-folder     . "/lissner.net/Drafts")
-    (mu4e-trash-folder      . "/lissner.net/Trash")
-    (mu4e-refile-folder     . "/lissner.net/All Mail")
-    (smtpmail-smtp-user     . "henrik@lissner.net")
-    (user-mail-address      . "henrik@lissner.net")
-    (mu4e-compose-signature . "---\nHenrik Lissner"))
-  t)
+;; (set! :email "lissner.net"
+;;   '((mu4e-sent-folder       . "/lissner.net/Sent Mail")
+;;     (mu4e-drafts-folder     . "/lissner.net/Drafts")
+;;     (mu4e-trash-folder      . "/lissner.net/Trash")
+;;     (mu4e-refile-folder     . "/lissner.net/All Mail")
+;;     (smtpmail-smtp-user     . "henrik@lissner.net")
+;;     (user-mail-address      . "henrik@lissner.net")
+;;     (mu4e-compose-signature . "---\nHenrik Lissner"))
+;;   t)
