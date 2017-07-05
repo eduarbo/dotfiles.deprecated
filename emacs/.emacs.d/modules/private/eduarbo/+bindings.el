@@ -25,8 +25,8 @@
  :nv ";"  #'evil-ex
  :nv "Q"  #'fill-paragraph
  ;; Make M-x available everywhere
- :nvime "M-x" #'execute-extended-command
- :nvime "A-x" #'execute-extended-command
+ :nvime "M-," #'execute-extended-command
+ :nvime "A-," #'execute-extended-command
 
  ;; Emacs debug utilities
  "M-;"    #'eval-expression
@@ -36,7 +36,7 @@
  "M-="    #'text-scale-increase
  "M--"    #'text-scale-decrease
  ;; Simple window navigation/manipulation
- "C-`"    #'doom/popup-toggle
+ "C-'"    #'doom/popup-toggle
  "M-t"    #'+workspace/new
  "M-T"    #'+workspace/display
  "M-w"    #'delete-window
@@ -58,6 +58,7 @@
  "C-j"    #'evil-window-down
  "C-k"    #'evil-window-up
  "C-l"    #'evil-window-right
+ "C-i"    #'evil-jump-forward
  ;; Other sensible, textmate-esque global bindings
  "M-r"    #'+eval/buffer
  "M-R"    #'+eval/region-and-replace
@@ -80,14 +81,14 @@
 
    ;; Most commonly used
    :desc "Swtich to last buffer"   :nv "TAB" #'+eduarbo/alternate-buffer-in-persp
-   :desc "Toggle last popup"       :nv "DEL" #'doom/popup-toggle
+   :desc "Toggle last popup"       :nv "'"   #'doom/popup-toggle
    :desc "Projectile Ag"           :nv "/"   (λ! (counsel-projectile-ag "--hidden"))
    :desc "Eval expression"         :nv ";"   #'eval-expression
    :desc "M-x"                     :nv ","   #'execute-extended-command
    :desc "Find file in project"    :n "SPC"  #'projectile-find-file
    :desc "Switch workspace buffer" :n "."    #'persp-switch-to-buffer
    :desc "Switch buffer"           :n "<"    #'switch-to-buffer
-   :desc "Switch workspace"        :nv "'"   #'persp-frame-switch
+   :desc "Switch workspace"        :nv "DEL" #'persp-frame-switch
    :desc "Blink cursor line"       :n "`"    #'+doom/blink-cursor
    :desc "Jump to bookmark"        :n "RET"  #'bookmark-jump
 

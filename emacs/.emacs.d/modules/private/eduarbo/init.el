@@ -4,7 +4,7 @@
       user-full-name    "Eduardo Ruiz Macias")
 
 (setq doom-leader-key ","
-      doom-localleader-key ", m")
+      doom-localleader-key ",m")
 
 (setq +doom-modeline-height 25
       +present-big-font (font-spec :family "Hack" :size 18)
