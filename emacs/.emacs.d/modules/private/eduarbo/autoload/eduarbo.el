@@ -89,8 +89,7 @@ private/eduarbo/snippets."
 (defun +eduarbo/alternate-buffer-in-persp ()
   "Switch back and forth between current and last buffer in the current perspective."
   (interactive)
-  (with-persp-buffer-list ()
-                          (switch-to-buffer (other-buffer (current-buffer) t))))
+  (with-persp-buffer-list () (switch-to-buffer (other-buffer (current-buffer) t))))
 
 (defmacro +eduarbo-def-finder! (name dir)
   "Define a pair of find-file and browse functions."
