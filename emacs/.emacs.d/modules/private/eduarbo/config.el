@@ -19,16 +19,32 @@
       auth-sources (list (expand-file-name ".authinfo.gpg" +eduarbo-dir)))
 
 
-;; Set space as a delimiter arguments for lisp-family languages
-(add-hook! 'lisp-mode-hook (setq-local evil-args-delimiters '(" ")))
-(add-hook! 'emacs-lisp-mode-hook (setq-local evil-args-delimiters '(" ")))
-
-
-(defun +hlissner*no-authinfo-for-tramp (orig-fn &rest args)
+(defun +eduarbo*no-authinfo-for-tramp (orig-fn &rest args)
   "Don't look into .authinfo for local sudo TRAMP buffers."
   (let ((auth-sources (if (equal tramp-current-method "sudo") nil auth-sources)))
     (apply orig-fn args)))
-(advice-add #'tramp-read-passwd :around #'+hlissner*no-authinfo-for-tramp)
+(advice-add #'tramp-read-passwd :around #'+eduarbo*no-authinfo-for-tramp)
+
+
+(def-package! evil-magit
+  :when (and (featurep! :feature evil)
+             (featurep! :feature version-control))
+  :after magit
+  :init (setq evil-magit-want-horizontal-movement t))
+
+
+(def-package! company-flx
+  :when (featurep! :completion company)
+  :after company
+  :config
+  (setq company-flx-limit 2000)
+  (with-eval-after-load 'company (company-flx-mode t)))
+
+
+(after! evil-args
+  ;; Set space as a delimiter arguments for lisp-family languages
+  (add-hook! 'lisp-mode-hook (setq-local evil-args-delimiters '(" ")))
+  (add-hook! 'emacs-lisp-mode-hook (setq-local evil-args-delimiters '(" "))))
 
 
 (after! evil-mc
@@ -38,12 +54,13 @@
   (add-hook! 'evil-mc-after-cursors-deleted
     (remove-hook 'evil-insert-state-entry-hook #'evil-mc-resume-cursors t)))
 
+
 ;; Don't use default snippets, use mine.
 (after! yasnippet
   (setq yas-snippet-dirs
         (append (list '+eduarbo-snippets-dir)
-                (delete 'yas-installed-snippets-dir
-                        yas-snippet-dirs))))
+                (delete 'yas-installed-snippets-dir yas-snippet-dirs))))
+
 
 (after! projectile
   ;; Workaround to make the new project name available when hooks are called
@@ -53,6 +70,7 @@
 
   (advice-add #'projectile-switch-project-by-name :around #'fix-projectile-project-name))
 
+
 (after! magit
   ;; Prevent magit windows to be handled by shackle
   (setq shackle-rules (remove '("^\\*magit" :regexp t :size 0.5 :noesc t :autokill t) shackle-rules))
@@ -61,10 +79,12 @@
   (setq magit-repository-directories '("~/dev" "~/Documents/archive/nearsoft/atlassian" "~/.emacs.d" "~/.dotfiles"))
   (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")))
 
+
 (after! shackle
   ;; Prevent magit windows to be handled by shackle
   (add-to-list 'shackle-rules '("^\\*(?!magit).*" :regexp t :same t))
   (setq shackle-rules (remove '("^\\*"  :regexp t :noselect t :autokill t) shackle-rules)))
+
 
 (after! company
   (setq completion-ignore-case t
@@ -73,6 +93,7 @@
         ;; Complete only when I command
         company-idle-delay nil))
 
+
 (after! ivy
   ;; TODO: Use space to narrow results.
   ;; Issue: https://github.com/abo-abo/swiper/issues/360
@@ -80,19 +101,6 @@
         ivy-re-builders-alist '((ivy-switch-buffer . ivy--regex-plus)
                                 (t . ivy--regex-fuzzy))))
 
-
-(def-package! evil-magit
-  :when (and (featurep! :feature evil)
-             (featurep! :feature version-control))
-  :after magit
-  :init (setq evil-magit-want-horizontal-movement t))
-
-(def-package! company-flx
-  :when (featurep! :completion company)
-  :after company
-  :config
-  (setq company-flx-limit 2000)
-  (with-eval-after-load 'company (company-flx-mode t)))
 
 ;; ;; app/irc
 ;; (setq +irc-notifications-watch-strings '("eduarbo"))

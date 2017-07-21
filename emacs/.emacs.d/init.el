@@ -34,6 +34,7 @@
        jump            ; helping you get around
        snippets        ; my elves. They type so I don't have to
        file-templates  ; auto-snippets for empty files
+       hydra           ; keybindings that stick around
        spellcheck      ; tasing you for misspelling mispelling
        syntax-checker  ; tasing you for every semicolon you forget
        version-control ; remember, remember that commit in November
@@ -42,7 +43,7 @@
       ;debug           ; FIXME stepping through code, to help you add bugs
 
        :completion
-       company         ; code completion backend
+       company         ; the ultimate code completion backend
        ivy             ; a search engine for love and life
       ;helm            ; the *other* search engine for love and life
       ;ido             ; the other *other* search engine...
@@ -63,9 +64,11 @@
        electric-indent ; smarter, keyword-based electric-indent
        eshell          ; a consistent, cross-platform shell (WIP)
        gist            ; interacting with github gists
+       impatient-mode  ; show off code over HTTP
        macos           ; MacOS-specific commands
        neotree         ; a project drawer, like NERDTree for vim
       ;password-store  ; password manager for nerds
+       prodigy         ; manage external services from within emacs
        rotate-text     ; cycle region at point between text candidates
        term            ; terminals in Emacs
        tmux            ; an API for interacting with tmux
@@ -90,8 +93,9 @@
        lua             ; one-based indices? one-based indices
        markdown        ; writing docs for people to ignore
        ocaml           ; an objective camel
-       org             ; for organized fearless leader (WIP)
+       perl            ; write code no one else can comprehend
        php             ; make php less awful to work with
+       plantuml        ; diagrams for confusing people more
        purescript      ; javascript, but functional
        python          ; beautiful is better than ugly
        rest            ; Emacs as a REST client
@@ -103,14 +107,25 @@
        typescript      ; javascript, but better
        web             ; the tubes
 
+       :org
+       org             ; organize your plain life in plain text
+       org-babel       ; executable code snippets in org-mode
+      ;org-attach      ; FIXME my own, simpler attachment system
+       org-capture     ; a better org-capture, in or outside of Emacs
+       org-export      ; a custom, centralized export system
+       org-notebook    ; org-mode as a notebook
+       org-present     ; using org-mode for presentations
+      ;org-sync        ; TODO sync with mobile
+      ;org-publish     ; TODO org + blogs
+
        ;; Applications are complex and opinionated modules that transform Emacs
-       ;; toward a specific purpose. They should be loaded last.
+       ;; toward a specific purpose. They may have additional dependencies and
+       ;; should be loaded last.
        :app
-       email           ; Emacs as an email client
+      ;email           ; emacs as an email client
        irc             ; how neckbeards socialize
-       present         ; showing off presentations in emacs
        rss             ; emacs as an RSS reader
-       ; twitter         ; twitter client https://twitter.com/vnought
+      ;twitter         ; twitter client https://twitter.com/vnought
        write           ; emacs as a word processor (latex + org + markdown)
 
        ;; Private modules named after your username are loaded automatically.

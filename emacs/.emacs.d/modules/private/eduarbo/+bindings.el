@@ -24,6 +24,7 @@
  ;; Defaults
  :nv ";"  #'evil-ex
  :nv "Q"  #'fill-paragraph
+ :m "C-S-o" #'evil-jump-forward
  ;; Make M-x available everywhere
  :nvime "M-," #'execute-extended-command
  :nvime "A-," #'execute-extended-command
@@ -58,7 +59,6 @@
  "C-j"    #'evil-window-down
  "C-k"    #'evil-window-up
  "C-l"    #'evil-window-right
- "C-i"    #'evil-jump-forward
  ;; Other sensible, textmate-esque global bindings
  "M-r"    #'+eval/buffer
  "M-R"    #'+eval/region-and-replace
@@ -72,6 +72,9 @@
  "C-M-f"  #'doom/toggle-fullscreen
  :m "A-j" #'+eduarbo:multi-next-line
  :m "A-k" #'+eduarbo:multi-previous-line
+
+ (:prefix "C-x"
+   "p" #'doom/other-popup)
 
 
  ;; --- <leader> -------------------------------------
@@ -126,7 +129,7 @@
      :desc "Kill buffer"             :n "k" #'doom/kill-this-buffer
      :desc "Kill other buffers"      :n "o" #'doom/kill-other-buffers
      :desc "Save buffer"             :n "s" #'save-buffer
-     :desc "Pop scratch buffer"      :n "x" #'+doom:scratch-buffer
+     :desc "Pop scratch buffer"      :n "x" #'doom/scratch-buffer
      :desc "Bury buffer"             :n "z" #'bury-buffer
      :desc "Next buffer"             :n "]" #'doom/next-buffer
      :desc "Previous buffer"         :n "[" #'doom/previous-buffer
@@ -228,7 +231,7 @@
    (:desc "notes" :prefix "n"
      :desc "Browse notes"          :n "n" #'+eduarbo/find-in-notes
      :desc "Browse org dir"        :n "N" #'+eduarbo/browse-notes
-     :desc "Find in notes"         :n "f" #'+eduarbo/ag-notes
+     :desc "Find in notes"         :n "/" #'+eduarbo/ag-notes
      :desc "Org capture"           :n "x" #'+org/capture
      :desc "Browse mode notes"     :n "m" #'+org/browse-notes-for-major-mode
      :desc "Browse project notes"  :n "p" #'+org/browse-notes-for-project)
@@ -299,8 +302,8 @@
      :desc "Line numbers"           :n "l" #'doom/toggle-line-numbers
      :desc "Indent guides"          :n "i" #'highlight-indentation-mode
      :desc "Indent guides (column)" :n "I" #'highlight-indentation-current-column-mode
-     :desc "Impatient mode"         :n "h" #'+present/impatient-mode
-     :desc "Big mode"               :n "b" #'+present/big-mode
+     :desc "Impatient mode"         :n "h" #'+impatient-mode/toggle
+     :desc "Big mode"               :n "b" #'+doom-big-font-mode
      :desc "Evil goggles"           :n "g" #'+evil-goggles/toggle))
 
 
@@ -401,7 +404,8 @@
    (:map counsel-ag-map
      [backtab]  #'+ivy/wgrep-occur  ; search/replace on results
      "C-p"      #'counsel-git-grep-recenter   ; preview
-     "C-s"      (+ivy-do-action! #'+ivy-git-grep-other-window-action)))
+    ;"C-s"      (+ivy-do-action! #'+ivy-git-grep-other-window-action)
+    ))
 
  ;; evil-commentary
  :n  "gc"  #'evil-commentary-line
@@ -456,7 +460,11 @@
    ;; Binding to switch to evil-easymotion/avy after a snipe
    :map evil-snipe-parent-transient-map
    "C-;" (λ! (require 'evil-easymotion)
-             (call-interactively +evil--snipe-repeat-fn)))
+             (call-interactively
+              (evilem-create #'evil-snipe-repeat
+                             :bind ((evil-snipe-scope 'whole-buffer)
+                                    (evil-snipe-enable-highlight)
+                                    (evil-snipe-enable-incremental-highlight))))))
 
  ;; evil-surround
  :v  "s"  #'evil-surround-region
@@ -655,6 +663,7 @@
    ;; For elisp debugging
    :map debugger-mode-map
    :n "RET" #'debug-help-follow
+   :n "e"   #'debugger-eval-expression
    :n "n"   #'debugger-step-through
    :n "c"   #'debugger-continue)
 
@@ -722,7 +731,7 @@
     (evilem-default-keybindings prefix)
     (evilem-define (kbd (concat prefix " n")) #'evil-ex-search-next)
     (evilem-define (kbd (concat prefix " N")) #'evil-ex-search-previous)
-    (evilem-define (kbd (concat prefix " s")) 'evil-snipe-repeat
+    (evilem-define (kbd (concat prefix " s")) #'evil-snipe-repeat
                    :pre-hook (save-excursion (call-interactively #'evil-snipe-s))
                    :bind ((evil-snipe-scope 'buffer)
                           (evil-snipe-enable-highlight)
@@ -774,7 +783,9 @@
 
       (:after org-mode
         (:map org-mode-map
-          :i [remap doom/inflate-space-maybe] #'org-self-insert-command))
+          :i [remap doom/inflate-space-maybe] #'org-self-insert-command
+          :i "C-e" #'org-end-of-line
+          :i "C-a" #'org-beginning-of-line))
 
       ;; Make ESC quit all the things
       (:map (minibuffer-local-map
