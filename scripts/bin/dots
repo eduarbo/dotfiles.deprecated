@@ -323,7 +323,7 @@ EOL
     fi
 
     linkpath="${ENABLED_DIR}/${module}"
-    modulepath="$CWD/$module"
+    modulepath="$DOTFILES/$module"
 
     # Register module as 'enabled'
     [[ $link && $register && ! -L $linkpath ]] && _run ln -svf "$modulepath" "$linkpath"
