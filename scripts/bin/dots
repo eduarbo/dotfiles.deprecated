@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-shopt -s nullglob
+### HELPERS
 
 blue="\033[34m"
 magenta="\033[35m"
@@ -30,6 +30,11 @@ _run() {
 _areuthere() {
   command -v "$1" >/dev/null;
 }
+
+
+### PREAMBLE
+
+shopt -s nullglob
 
 # determine if sudo necessary
 if [[ $(id -u) -gt 0 ]]; then
@@ -64,6 +69,7 @@ source "$commonpath"
 
 progname=$(basename "$0")
 ENABLED_DIR="$DOTFILES/.enabled.d"
+
 
 ### COMMANDS
 
