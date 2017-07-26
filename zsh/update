@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+if [[ -e ~/.zplugin/bin/zplugin.zsh ]] then
+    source ~/.zplugin/bin/zplugin.zsh
+    zplugin self-update
+    zplugin update --all
+    zplugin compile --all
+    zcompile ~/.zplugin/bin/zplugin.zsh
+fi
