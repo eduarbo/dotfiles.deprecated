@@ -50,3 +50,6 @@ spacemacs/.spacemacs.d/custom.el
 # lua
 .luacheckcache
 /GPATH
+
+# setup
+.enabled.d/*
