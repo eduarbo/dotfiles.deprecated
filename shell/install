@@ -3,6 +3,7 @@
 deps=(
   zsh
   fasd
+  git
 )
 
 # set default shell if it's not already done
@@ -25,7 +26,6 @@ else
       if [[ -f /etc/arch-release ]]; then
         sudo pacman --needed --noconfirm -S "${deps[@]}"
       elif [[ -f /etc/fedora-release ]]; then
-        sudo dnf update
         sudo dnf install -y "${deps[@]}"
       elif [[ -f /etc/debian_version ]]; then
         sudo add-apt-repository ppa:aacebedo/fasd

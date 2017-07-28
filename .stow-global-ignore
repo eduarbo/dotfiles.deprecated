@@ -13,4 +13,10 @@
 
 ^/deps
 ^/setup
+^/install
+^/update
+^/env.zsh
+^/aliases.sh
+^/plugins.zsh
+^/bin
 ^/lib

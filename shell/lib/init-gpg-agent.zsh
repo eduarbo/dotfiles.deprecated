@@ -1,4 +1,3 @@
-#!/bin/bash
 # Script to run `gpg-agent` only once
 
 export GPG_TTY=$(tty)

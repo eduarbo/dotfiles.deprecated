@@ -37,7 +37,6 @@ function set-tab-title {
 # Sets the tab and window titles with a given command.
 function _terminal-set-titles-with-command {
   emulate -L zsh
-  setopt EXTENDED_GLOB
 
   # Get the command name that is under job control.
   if [[ "${2[(w)1]}" == (fg|%*)(\;|) ]]; then
@@ -67,7 +66,6 @@ function _terminal-set-titles-with-command {
 # Sets the tab and window titles with a given path.
 function _terminal-set-titles-with-path {
   emulate -L zsh
-  setopt EXTENDED_GLOB
 
   local absolute_path="${${1:a}:-$PWD}"
   local abbreviated_path="${absolute_path/#$HOME/~}"
