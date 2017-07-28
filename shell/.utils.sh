@@ -1,4 +1,17 @@
-DOTFILES="$(cd "$(dirname "$(dirname "$(dirname "$(greadlink -f "$0")")")")" && pwd)"
+case "$OSTYPE" in
+  # Get the real path no matter where the dotfiles have been cloned
+  darwin*)
+    SOURCE="${BASH_SOURCE[0]:-$0}"
+    while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+      DOTFILES="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+      SOURCE="$(readlink "$SOURCE")"
+      [[ $SOURCE != /* ]] && SOURCE="$DOTFILES/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+    done
+    DOTFILES="$( cd -P "$(dirname "$(dirname "$SOURCE")")" && pwd )"
+    ;;
+  linux*) DOTFILES="$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]:-$0}")")")" ;;
+esac
+
 CACHE_DIR="$HOME/.cache/${SHELL##*/}"
 ENABLED_DIR="$DOTFILES/.enabled.d"
 
@@ -6,10 +19,6 @@ is_callable()    { command -v "$1" >/dev/null; }
 is_interactive() { [[ $- == *i* ]]; }
 is_root()        { [[ "$UID" -eq 0 ]]; }
 is_ssh()         { [[ $SSH_CONNECTION ]]; }
-
-info()    { printf "\r[ \033[00;34m..\033[0m ] %s\n" "$1"; }
-success() { printf "\r\033[2K[ \033[00;32mOK\033[0m ] %s\n" "$1"; }
-fail()    { printf "\r\033[2K[\033[0;31mFAIL\033[0m] %s\n" "$1"; echo; exit; }
 
 load() { source "$DOTFILES/$1"; }
 
@@ -34,6 +43,10 @@ e_error() { printf "$(tput setaf 9)x %s$(tput sgr0)\n" "$@"; }
 
 # Warning logging
 e_warning() { printf "$(tput setaf 11)! %s$(tput sgr0)\n" "$@"; }
+
+_info()    { printf "\r[ \033[00;34m..\033[0m ] %s\n" "$1"; }
+_success() { printf "\r\033[2K[ \033[00;32mOK\033[0m ] %s\n" "$1"; }
+_fail()    { printf "\r\033[2K[\033[0;31mFAIL\033[0m] %s\n" "$1"; echo; exit; }
 
 # Ask for confirmation before proceeding
 seek_confirmation() {
@@ -80,4 +93,27 @@ _stop_startup_timer() {
   printf "Load time: %0.2fs\n" "$(bc <<< scale=2\;$total/1000)"
 }
 
-load shell/lib/env.sh
+addpath() {
+  for bin in "$@"; do
+    case ":$PATH:" in
+      *:"$bin":*) ;; # already there
+      *) export PATH="$bin:$PATH";;
+    esac
+  done
+}
+
+cleanpath() {
+  if [ -n "$PATH" ]; then
+    OLDPATH=$PATH:; PATH=
+    while [ -n "$OLDPATH" ]; do
+      x=${OLDPATH%%:*}       # the first remaining entry
+      case $PATH: in
+        *:"$x":*) ;;        # already there
+        *) PATH=$PATH:$x;;  # not there yet
+      esac
+      OLDPATH=${OLDPATH#*:}
+    done
+    PATH=${PATH#:}
+    unset OLDPATH x
+  fi
+}

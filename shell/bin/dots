@@ -51,7 +51,7 @@ case "$OSTYPE" in
     _areuthere brew || PREFIX=$dep_prefix _run ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     _areuthere stow || PREFIX=$dep_prefix _run brew install stow
     _areuthere greadlink || PREFIX=$dep_prefix _run brew install coreutils
-    commonpath="$(dirname "$(dirname "$(greadlink -f "$0")")")/lib/common.sh"
+    utilspath="$(dirname "$(dirname "$(greadlink -f "$0")")")/.utils.sh"
     ;;
   linux*)
     if ! _areuthere stow; then
@@ -62,14 +62,13 @@ case "$OSTYPE" in
       fi
     fi
 
-    commonpath="$(dirname "$(dirname "$(readlink -f "$0")")")/lib/common.sh"
+    utilspath="$(dirname "$(dirname "$(readlink -f "$0")")")/.utils.sh"
     ;;
 esac
 
-source "$commonpath"
+source "$utilspath"
 
 progname=$(basename "$0")
-ENABLED_DIR="$DOTFILES/.enabled.d"
 
 
 ### COMMANDS
