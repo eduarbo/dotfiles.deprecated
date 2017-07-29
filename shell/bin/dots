@@ -242,7 +242,10 @@ EOL
 
     updatepath="${DOTFILES}/${module}/update"
     [[ $link ]] && _run stow -R -t "$HOME" "$module" # Restow
-    [[ $update && -x $updatepath ]] && _run "$updatepath" # Run update script
+
+    # run update script in a subshell, inherits everything from the current
+    # script but do not transmit any change back
+    [[ $update && -x $updatepath ]] && (eval "_run source $updatepath")
   done
   popd >/dev/null
 }
@@ -338,8 +341,9 @@ EOL
     # Register module as 'enabled'
     [[ $link && $register && ! -L $linkpath ]] && _run ln -svf "$modulepath" "$linkpath"
 
-    # Run install script
-    [[ $install && -x ${modulepath}/install ]] && _run "$modulepath/install"
+    # run install script in a subshell, inherits everything from the current
+    # script but do not transmit any change back
+    [[ $install && -x ${modulepath}/install ]] && (eval "_run source $modulepath/install")
   done
   popd >/dev/null
 }
