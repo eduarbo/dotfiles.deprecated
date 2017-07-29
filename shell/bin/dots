@@ -68,7 +68,7 @@ esac
 
 source "$utilspath"
 
-[[ -L "$DOTFILES"/.stow-global-ignore ]] || ln -s "$DOTFILES"/.stow-global-ignore "$HOME"/.stow-global-ignore
+[[ -L "$HOME"/.stow-global-ignore ]] || ln -s "$DOTFILES"/.stow-global-ignore "$HOME"/.stow-global-ignore
 
 progname=$(basename "$0")
 
