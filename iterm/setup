@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-# Enable italics
-tic ../xterm-256color-italic.terminfo
-
-# Set path for custom preferences
-defaults write com.googlecode.iterm2 PrefsCustomFolder ~/Library/Preferences
-defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder 1

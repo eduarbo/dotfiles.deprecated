@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+case $OSTYPE in
+  darwin*)
+    brew tap caskroom/cask
+    brew cask install iterm2
+
+    # Enable italics
+    tic xterm-256color-italic.terminfo
+
+    # Set path for custom preferences
+    defaults write com.googlecode.iterm2 PrefsCustomFolder ~/Library/Preferences
+    defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder 1
+    ;;
+  linux*)
+    # TODO: Look for a nice terminal
+    ;;
+esac
