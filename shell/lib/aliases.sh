@@ -50,14 +50,10 @@ alias ed='v ~/.vim/custom-dictionary.utf-8.add'
 alias ef='v ~/.config/fish/config.fish'
 alias eg='v ~/.gitconfig'
 alias ej='v ~/.jshintrc'
-alias et='v ~/.tmux.conf'
 alias ev='v ~/.vim/vimrc'
 alias todo="v ~/todo.md"
 alias etp="v ~/tp.md"
 
-alias tm="tmux -u2"
-alias tmkillall="tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs -n1 tmux kill-session -t"
-alias mux="tmuxinator"
 alias cl="clear"
 
 alias fa='fasd -a'        # any

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-# Enable italics
-tic ../xterm-256color-italic.terminfo
-
-# Install Tmux Plugin Manager and plugins
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-$HOME/.tmux/plugins/tpm/bin/install_plugins

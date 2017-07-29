@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+deps=(
+  tmux
+)
+
+case $OSTYPE in
+  darwin*)
+    brew install ${deps[@]}
+    ;;
+  linux*)
+    if [[ -f /etc/arch-release ]]; then
+      sudo pacman --needed --noconfirm -S ${deps[@]}
+    elif [[ -f /etc/fedora-release ]]; then
+      sudo dnf install -y ${deps[@]}
+    elif [[ -f /etc/debian_version ]]; then
+      sudo apt-get install -y ${deps[@]}
+    fi
+    ;;
+esac
