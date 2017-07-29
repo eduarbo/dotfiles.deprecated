@@ -12,11 +12,11 @@ case "$OSTYPE" in
   linux*)
     deps=(git emacs)
     if [[ -f /etc/arch-release ]]; then
-      sudo pacman --needed --noconfirm -S "${deps[@]}"
+      sudo pacman --needed --noconfirm -S ${deps[@]}
     elif [[ -f /etc/fedora-release ]]; then
-      sudo dnf install -y "${deps[@]}"
+      sudo dnf install -y ${deps[@]}
     elif [[ -f /etc/debian_version ]]; then
-      sudo apt-get install -y "${deps[@]}"
+      sudo apt-get install -y ${deps[@]}
     fi
     ;;
 esac
