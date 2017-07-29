@@ -2,6 +2,14 @@
 # These aliases are common to Bash and Zsh shells
 #
 
+# Load OS-specific aliases
+case "$OSTYPE" in
+  darwin*)
+    load shell/lib/aliases.macos.sh ;;
+  linux*)
+    load shell/lib/aliases.linux.sh ;;
+esac
+
 alias q='exit'
 alias clr='clear'
 # Allow aliases to be with sudo
@@ -90,8 +98,8 @@ alias -- -='cd -'
 alias ln="${aliases[ln]:-ln} -v"  # verbose ln
 
 alias l='ls -1'
-alias ll="ls -l" # List all files in long format
-alias la="ls -lA" # List all files in long format, including dot files
+alias ll='ls -l' # List all files in long format
+alias la='ls -lA' # List all files in long format, including dot files
 alias lsd='ls -l | grep "^d"' # List only directories
 alias lt='ls -ltr'
 
@@ -182,12 +190,3 @@ loadtime() {
   unset DISABLE_LOAD_TIME
 }
 # }}}
-
-
-# Load OS-specific aliases
-case "$OSTYPE" in
-  darwin*)
-    load shell/lib/aliases.macos.sh ;;
-  linux*)
-    load shell/lib/aliases.linux.sh ;;
-esac

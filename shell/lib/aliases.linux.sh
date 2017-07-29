@@ -15,3 +15,5 @@ fi
 
 alias reboot="systemctl reboot"
 alias shutdown="systemctl poweroff"
+
+alias ls='ls -Fh --color --group-directories-first'

@@ -26,3 +26,9 @@ alias localip="ipconfig getifaddr en1"
 is_callable md5sum || alias md5sum="md5"
 # macOS has no `sha1sum`, so use `shasum` as a fallback
 is_callable sha1sum || alias sha1sum="shasum"
+
+if is_callable gls; then
+  alias ls='gls -Fh --color --group-directories-first'
+else
+  alias ls='ls -Fh --color'
+fi
