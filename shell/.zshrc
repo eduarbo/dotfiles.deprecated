@@ -66,10 +66,6 @@ if is_interactive; then
 fi
 
 loadall plugins.zsh
-# TODO: move it to plugins.zsh under js module
-export NVM_NO_USE=false
-export NVM_LAZY_LOAD=true
-zplugin light lukechilds/zsh-nvm
 
 # Load and initialize the completion system with a cache time of 20 hours, so it
 # should almost always regenerate the first time a shell is opened each day.

@@ -22,9 +22,6 @@ is_ssh()         { [[ $SSH_CONNECTION ]]; }
 
 load() { source "$DOTFILES/$1"; }
 
-# source and evaluate a command if it is passed as second argument
-source_file() { [[ -s "$1" ]] && source "$1"; }
-
 loadall() {
   local files=( "$ENABLED_DIR"/*/"${1:-*.*sh}" )
   for file in "${files[@]}"; do
@@ -32,16 +29,32 @@ loadall() {
   done
 }
 
-# Header logging
+# source and evaluate a command if it is passed as second argument
+source_file() { [[ -s "$1" ]] && source "$1"; }
+
+source_and_eval () {
+  if [[ -s "$1" ]]; then
+    source "$1"
+    test "$2" && type_exists "$2" && eval "$2"
+  fi
+}
+
+lazy_source () {
+  eval "$1 () { [ -f $2 ] && source $2 && $1 \$@ }"
+}
+
+# Test whether a Homebrew formula is already installed
+# $1 - formula name (may include options)
+formula_exists() {
+  test "$(brew list "$1" 2&>/dev/null)" && return 0
+  return 1
+}
+
+# Logging
+
 e_header() { printf "\n$(tput setaf 5)%s$(tput sgr0)\n" "$@"; }
-
-# Success logging
 e_success() { printf "$(tput setaf 10)✓ %s$(tput sgr0)\n" "$@"; }
-
-# Error logging
 e_error() { printf "$(tput setaf 9)x %s$(tput sgr0)\n" "$@"; }
-
-# Warning logging
 e_warning() { printf "$(tput setaf 11)! %s$(tput sgr0)\n" "$@"; }
 
 _info()    { printf "\r[ \033[00;34m..\033[0m ] %s\n" "$1"; }
@@ -117,3 +130,9 @@ cleanpath() {
     unset OLDPATH x
   fi
 }
+
+if [[ -x "$(which brew)" ]]; then
+  export HAS_BREW=1
+  # BREW_LOCATION=`brew --prefix`
+  export BREW_LOCATION="/usr/local"
+fi

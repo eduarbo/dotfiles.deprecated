@@ -1,40 +1,44 @@
 #!/usr/bin/env bash
 
 deps=(
+  bash
+  bash-completion
   zsh
   fasd
   git
 )
 
+case "$OSTYPE" in
+  darwin*)
+    brew install "${deps[@]}"
+
+    # Add homebrewed zsh to /etc/shells
+    if ! grep '/usr/local/bin/zsh' /etc/shells >/dev/null; then
+      sudo tee -a /etc/shells <<< "/usr/local/bin/zsh"
+    fi
+
+    # Don't mess with my PATH!
+    echo "Disable /etc/zprofile and /etc/profile as they mess with my PATH!"
+    [[ -f /etc/zprofile ]] && sudo mv /etc/zprofile /etc/zprofile.disabled
+    [[ -f /etc/profile ]] && sudo mv /etc/profile /etc/profile.disabled
+    ;;
+  linux*)
+    if [[ -f /etc/arch-release ]]; then
+      sudo pacman --needed --noconfirm -S "${deps[@]}"
+    elif [[ -f /etc/fedora-release ]]; then
+      sudo dnf install -y "${deps[@]}"
+    elif [[ -f /etc/debian_version ]]; then
+      sudo add-apt-repository ppa:aacebedo/fasd
+      sudo apt-get update
+      sudo apt-get install -y "${deps[@]}"
+    fi
+    ;;
+esac
+
 # set default shell if it's not already done
 if [[ $SHELL =~ zsh ]]; then
   echo "You are already running a zsh shell, Good for you!"
 else
-  case "$OSTYPE" in
-    darwin*)
-      brew install "${deps[@]}"
-
-      # Add homebrewed zsh to /etc/shells
-      if ! grep '/usr/local/bin/zsh' /etc/shells >/dev/null; then
-        sudo tee -a /etc/shells <<< "/usr/local/bin/zsh"
-      fi
-
-      # Don't mess with my PATH!
-      sudo mv /etc/zprofile /etc/zprofile.disabled
-      ;;
-    linux*)
-      if [[ -f /etc/arch-release ]]; then
-        sudo pacman --needed --noconfirm -S "${deps[@]}"
-      elif [[ -f /etc/fedora-release ]]; then
-        sudo dnf install -y "${deps[@]}"
-      elif [[ -f /etc/debian_version ]]; then
-        sudo add-apt-repository ppa:aacebedo/fasd
-        sudo apt-get update
-        sudo apt-get install -y "${deps[@]}"
-      fi
-      ;;
-  esac
-
   _zsh_path="$(command -v zsh)"
 
   echo "It's time to change your default shell to ZSH..."

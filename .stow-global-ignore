@@ -11,11 +11,11 @@
 ^/COPYING
 ^/TODO
 
-^/deps
-^/setup
 ^/install
 ^/update
 ^/env.zsh
+^/env.sh
+^/env.bash
 ^/aliases.sh
 ^/plugins.zsh
 ^/bin

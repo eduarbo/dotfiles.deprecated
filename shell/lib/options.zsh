@@ -13,10 +13,6 @@ set -o emacs
 # History
 #
 
-HISTFILE="$HOME/.zhistory"       # The path to the history file.
-HISTSIZE=10000                   # The maximum number of events to save in the internal history.
-SAVEHIST=10000                   # The maximum number of events to save in the history file.
-
 setopt BANG_HIST                 # Don't treat '!' specially during expansion.
 # setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
 # setopt APPEND_HISTORY            # Appends history to history file on exit
