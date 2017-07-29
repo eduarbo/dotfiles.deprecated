@@ -1,0 +1,41 @@
+linux:emacs
+macos:d12frosted/emacs-plus/emacs-plus --with-cocoa --with-gnutls --with-librsvg --with-imagemagick --with-spacemacs-icon
+macos:trash
+pandoc
+ispell
+ctags
+go
+lua
+postgresql
+cppcheck
+shellcheck
+checkbashisms
+# For google-translate package
+mplayer
+
+gem:sqlint
+gem:pry
+gem:pry-doc
+gem:ruby_parser
+gem:rubocop
+
+# Use the official installer for now as there are issues with elm-reactor in
+# macOS. See: https://github.com/kevva/elm-bin/issues/28
+# npm:elm-orace
+
+npm:eslint
+npm:babel-eslint
+npm:eslint-config-airbnb-base
+npm:eslint-config-react
+npm:eslint-plugin-react
+npm:eslint-plugin-import
+npm:tern
+npm:js-beautify
+npm:jsonlint
+
+pip:virtualenv
+pip:flake8
+pip:ipython
+pip:yapf
+
+luarocks:luacheck
