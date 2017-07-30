@@ -1,25 +1,10 @@
 #!/usr/bin/env bash
 
-case "$OSTYPE" in
-  darwin*)
-    deps=(
-      git
-      "emacs --with-modules --with-librsvg --with-imagemagick@6 --with-gnutls --with-cocoa"
-    )
+basedeps=(git)
+deps=(emacs)
+brew_deps=("emacs --with-modules --with-librsvg --with-imagemagick@6 --with-gnutls --with-cocoa")
 
-    brew install ${deps[@]}
-    ;;
-  linux*)
-    deps=(git emacs)
-    if [[ -f /etc/arch-release ]]; then
-      sudo pacman --needed --noconfirm -S ${deps[@]}
-    elif [[ -f /etc/fedora-release ]]; then
-      sudo dnf install -y ${deps[@]}
-    elif [[ -f /etc/debian_version ]]; then
-      sudo apt-get install -y ${deps[@]}
-    fi
-    ;;
-esac
+install-deps
 
 if [[ ! -d "$HOME/.emacs.d" ]]; then
   git clone --recursive "https://github.com/hlissner/.emacs.d" "$HOME/.emacs.d"
