@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+SUPPORTED_PACKAGE_MANAGERS="brew dnf apt pacman"
+
 ### HELPERS
 
 blue="\033[34m"

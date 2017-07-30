@@ -7,13 +7,13 @@ case "$OSTYPE" in
       SOURCE="$(readlink "$SOURCE")"
       [[ $SOURCE != /* ]] && SOURCE="$DOTFILES/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
     done
-    DOTFILES="$( cd -P "$(dirname "$(dirname "$SOURCE")")" && pwd )"
+    export DOTFILES="$( cd -P "$(dirname "$(dirname "$SOURCE")")" && pwd )"
     ;;
-  linux*) DOTFILES="$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]:-$0}")")")" ;;
+  linux*) export DOTFILES="$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]:-$0}")")")" ;;
 esac
 
-CACHE_DIR="$HOME/.cache/${SHELL##*/}"
-ENABLED_DIR="$DOTFILES/.enabled.d"
+export CACHE_DIR="$HOME/.cache/${SHELL##*/}"
+export ENABLED_DIR="$DOTFILES/.enabled.d"
 
 is_callable()    { command -v "$1" >/dev/null; }
 is_interactive() { [[ $- == *i* ]]; }
@@ -131,8 +131,70 @@ cleanpath() {
   fi
 }
 
+install-deps() {
+  local osdepsvar="${PACKAGE_MANAGER}_deps"
+  local osdeps="${osdepsvar}[@]"
+
+  # prevent install deps in unsupported package managers
+  [[ ${SUPPORTED_PACKAGE_MANAGERS[@]} =~ ${PACKAGE_MANAGER} ]] || return 1
+
+  [[ -n $basedeps ]] && $installcmd "${basedeps[@]}"
+
+  if [[ -n ${!osdepsvar} ]]; then
+    $installcmd "${!osdeps}"
+  elif [[ -n $deps ]]; then
+    $installcmd "${deps[@]}"
+  fi
+}
+
+pop-and-missing() {
+  local pkg=$1
+  local pm=$2
+  local depsclone=$deps
+  # fail if the available PM is not the same as the passed one
+  [[ $# -eq 2 && $pm != ${PACKAGE_MANAGER} ]] && return 1
+  # fail when deps is empty
+  [[ $deps ]] || return 1
+  # Pop pkg from array
+  deps=( ${deps[@]#$pkg} )
+  # Compare arrays and fail if no pkg was popped
+  [[ ${depsclone[@]} == ${deps[@]} ]] && return 1
+  ! is_callable "$pkg"
+}
+
 if [[ -x "$(which brew)" ]]; then
-  export HAS_BREW=1
   # BREW_LOCATION=`brew --prefix`
   export BREW_LOCATION="/usr/local"
 fi
+
+case "$OSTYPE" in
+  darwin*)
+    export PACKAGE_MANAGER=brew
+    installcmd="brew install"
+    ;;
+  linux*)
+    if [[ -f /etc/arch-release ]]; then
+      export PACKAGE_MANAGER=pacman
+      installcmd="sudo pacman --needed --noconfirm -S"
+    elif [[ -f /etc/fedora-release ]]; then
+      if is_callable dnf; then
+        export PACKAGE_MANAGER=dnf
+        installcmd="sudo dnf install -y"
+      else
+        export PACKAGE_MANAGER=yum
+        installcmd="sudo yum -y install"
+      fi
+    elif [[ -f /etc/debian-version ]]; then
+      if is_callable apt; then
+        export PACKAGE_MANAGER=apt
+        installcmd="apt install -y"
+      else
+        export PACKAGE_MANAGER=apt-get
+        installcmd="apt-get install -y"
+      fi
+    elif [[ -f /etc/SuSE-release ]]; then
+      export PACKAGE_MANAGER=zypper
+      installcmd="zypper install -y"
+    fi
+    ;;
+esac
