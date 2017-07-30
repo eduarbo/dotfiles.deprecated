@@ -131,6 +131,10 @@ cleanpath() {
   fi
 }
 
+installcmd() {
+  $installcmd "$1"
+}
+
 install-deps() {
   local osdepsvar="${PACKAGE_MANAGER}_deps"
   local osdeps="${osdepsvar}[@]"
@@ -141,9 +145,9 @@ install-deps() {
   [[ -n $basedeps ]] && $installcmd "${basedeps[@]}"
 
   if [[ -n ${!osdepsvar} ]]; then
-    $installcmd "${!osdeps}"
+    installcmd "${!osdeps}"
   elif [[ -n $deps ]]; then
-    $installcmd "${deps[@]}"
+    installcmd "${deps[@]}"
   fi
 }
 
