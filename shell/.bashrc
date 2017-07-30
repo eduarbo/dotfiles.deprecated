@@ -7,6 +7,8 @@ export LOAD_TIME_START
 # cache fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install
 
 load shell/lib/aliases.sh
+loadall aliases.sh
+
 load shell/lib/prompt.bash
 # load shell/lib/prompt.hlissner.bash
 load shell/lib/completion.bash
