@@ -56,7 +56,7 @@ zplugin light mafredri/zsh-async
 
 if is_interactive; then
   # zplugin light zdharma/zui
-  zplugin ice blockf
+  zplugin ice blockf # Disallow zsh-ompletions to modify fpath
   zplugin light zsh-users/zsh-completions
   zplugin light zsh-users/zsh-autosuggestions
   zplugin light zdharma/history-search-multi-word
@@ -86,7 +86,7 @@ zplugin cdreplay -q # -q is for quiet
 
 # Execute code that does not affect the current session in the background.
 {
-  # Compile the completion dump to increase startup speed.
+  # Compile the completion dump to increase startup speed
   if [[ "$zcompdump" -nt "${zcompdump}.zwc" || ! -s "${zcompdump}.zwc" ]]; then
     zcompile "$zcompdump"
   fi
