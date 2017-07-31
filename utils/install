@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 brew_deps=(
+  borgbackup
   'findutils --with-default-names'
   'gnu-sed --with-default-names'
   'grep --with-default-names'
@@ -23,6 +24,9 @@ brew_deps=(
   android-platform-tools
 )
 
-cask_deps=(borgbackup)
+if pop-and-missing borgbackup brew; then
+  brew tap caskroom/cask
+  brew cask install borgbackup
+fi
 
 install-deps
