@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+brew_deps=(
+  'findutils --with-default-names'
+  'gnu-sed --with-default-names'
+  'grep --with-default-names'
+  openssh
+  rsync
+  openssl
+  mvtools
+  ffms2
+  subliminal
+  highlight
+  htop
+  gtypist
+  pgcli
+  'wget --with-iri'
+  p7zip
+  unzip
+  unrar
+  tree
+  screenfetch
+  android-platform-tools
+)
+
+cask_deps=(borgbackup)
+
+install-deps
