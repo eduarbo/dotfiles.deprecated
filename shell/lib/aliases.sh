@@ -42,14 +42,9 @@ alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dev='cd ~/dev'
 
-alias v='vim'
-alias V='vim .'
-
 alias ec='v ~/.editorconfig'
-alias ed='v ~/.vim/custom-dictionary.utf-8.add'
 alias ef='v ~/.config/fish/config.fish'
 alias ej='v ~/.jshintrc'
-alias ev='v ~/.vim/vimrc'
 alias todo="v ~/todo.md"
 alias etp="v ~/tp.md"
 
