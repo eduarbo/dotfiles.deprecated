@@ -1,86 +1,124 @@
 # set your user tokens as enivornment variables, such as ~/.secrets
 # See the README for examples.
-[color]
-  ui = true
-  branch = auto
-  diff = auto
-  interactive = auto
-  status = auto
-[color "branch"]
-  current = yellow reverse
-  local = yellow
-  remote = green
-[color "diff"]
-  meta = yellow bold
-  frag = magenta bold
-  old = red bold
-  new = green bold
 [user]
-	name = eduarbo
+	name = Eduardo Ruiz
 	email = eduarbo@gmail.com
 	useconfigonly = true
-[alias]
-  # add
-  chunkyadd = add --patch           # stage commits chunk by chunk
 
-  # commit
-  amend = commit --amend            # ammend your last commit
-  ammend = commit --amend           # ammend your last commit
+[github]
+	user = eduarbo
 
-  # diff
-  last = diff HEAD^                 # diff last committed change
-  wdiff = diff --word-diff=plain
-
-  # log
-  changes = log --pretty=format:\"%C(auto)%h %Cgreen%cr %Cblue[%cn] %C(bold white)%s%Creset\" --name-status
-  changelog = log --pretty=format:\" * %s\"
-
-  # reset
-  unstage = reset HEAD              # remove files from index (tracking)
-  uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
-
-  root = !pwd
-  panic = !tar cvf ../git_panic.tar *
-	dt = difftool
-[format]
-  pretty = format:%C(green)%ad%Creset %C(auto)%h%C(auto)%d%Creset %C(reset)%s %Cblue [%an]%Creset
-[merge]
-  summary = true
-  verbosity = 1
-[apply]
-  whitespace = nowarn
-[branch]
-  autosetuprebase = always
-	autosetupmerge = true
-[push]
-  # 'git push' will push the current branch to its tracking branch
-  # the usual default is to push all branches
-  default = current
 [core]
-  autocrlf = false
-  editor = vim
-  excludesfile = ~/.yadr/gitignore_global
-  pager = less -+S
-[advice]
-  statusHints = false
+	autocrlf = false
+	editor = vim
+	excludesfile = ~/.gitignore
+	pager = less -+S
+
+[color]
+	ui = true
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+
 [diff]
-  # Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
-  # instead of a/b/c/d as prefixes for patches
-  mnemonicprefix = true
-	tool = vimdiff
-[rerere]
-  # Remember my merges
-  # http://gitfu.wordpress.com/2008/04/20/git-rerere-rereremember-what-you-did-last-time/
-  enabled = true
-[mergetool "diffconflicts"]
-  cmd = diffconflicts mvim $BASE $LOCAL $REMOTE $MERGED
-  trustExitCode = true
-[mergetool]
-  keepBackup = false
-[log]
-  abbrevCommit = true
+	# Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
+	# instead of a/b/c/d as prefixes for patches
+	mnemonicprefix = true
+	tool = vdiff
+
 [difftool]
 	prompt = false
+[difftool "vdiff"]
+	prompt = false
+	cmd = vimdiff \"$LOCAL\" \"$REMOTE\"
+[difftool "ediff"]
+	cmd = emacsclient -c --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+
+[merge]
+	# Include summaries of merged commits in newly created merge commit messages
+	log = true
+	tool = vmerge
+	summary = true
+	verbosity = 1
+	keepBackup = false
+[mergetool "vmerge"]
+	cmd           = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
+	trustExitCode = true
+[mergetool "emerge"]
+	cmd = emacsclient -c -a \"\"  --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"
+[mergetool "diffconflicts"]
+	cmd = diffconflicts mvim $BASE $LOCAL $REMOTE $MERGED
+	trustExitCode = true
+
+[rebase]
+	autosquash = true
+
+[push]
+	default = simple
+
+[branch]
+	autosetuprebase = always
+	autosetupmerge = true
+
+[alias]
+	# add
+	chunkyadd = add --patch           # stage commits chunk by chunk
+	unadd = reset HEAD
+
+	# commit
+	amend = commit --amend            # ammend your last commit
+	ammend = commit --amend           # ammend your last commit
+	undo-commit = reset --soft "HEAD^"
+
+	# diff
+	last = diff HEAD^                 # diff last committed change
+	wdiff = diff --word-diff=plain
+
+	# log
+	changes = log --pretty=format:\"%C(auto)%h %Cgreen%cr %Cblue[%cn] %C(bold white)%s%Creset\" --name-status
+	changelog = log --pretty=format:\" * %s\"
+	ls = ls-files
+
+	# reset
+	unstage = reset HEAD              # remove files from index (tracking)
+	uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
+	
+	# data analysis
+	authors = !git log --format="%aN" | sort -u
+	ranked-authors = !git authors | sort | uniq -c | sort -n
+	emails = !git log --format="%aE" | sort -u
+	email-domains = !git log --format="%aE" | awk -F'@' '{print $2}' | sort -u
+
+	# root = !pwd
+	root = rev-parse --show-toplevel
+	panic = !tar cvf ../git_panic.tar *
+	dt = difftool
+	exec = "!exec "
+	orphan = checkout --orphan
+	squash = rebase -i origin/master
+
+[format]
+	pretty = format:%C(green)%ad%Creset %C(auto)%h%C(auto)%d%Creset %C(reset)%s %Cblue [%an]%Creset
+[apply]
+	whitespace = nowarn
+[advice]
+	statusHints = false
+[rerere]
+	# Remember my merges
+	# http://gitfu.wordpress.com/2008/04/20/git-rerere-rereremember-what-you-did-last-time/
+	enabled = true
+[log]
+	abbrevCommit = true
 [url "https://github.com/"]
 	insteadOf = git://github.com/
 [gpg]

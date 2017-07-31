@@ -1,39 +1,55 @@
-# OSX       taken from: https://github.com/github/gitignore/blob/master/Global/OSX.gitignore
-# ----------------------------------------------------------------------------------------------
-.DS_Store
-# Thumbnails
-._*
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
+# For emacs:
+*~
+*.*~
+\#*
+.\#*
 
-# Windows   taken from: https://github.com/github/gitignore/blob/master/Global/Windows.gitignore
-# ----------------------------------------------------------------------------------------------
-# Windows image file caches
-Thumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Tags      taken from: https://github.com/github/gitignore/blob/master/Global/Tags.gitignore
-# ----------------------------------------------------------------------------------------------
-# Ignore tags created by etags and ctags
-TAGS
-tags
-
-# Vim       taken from: https://github.com/github/gitignore/blob/master/Global/vim.gitignore
-# ----------------------------------------------------------------------------------------------
+# For vim:
+*.swp
 .*.sw[a-z]
 *.un~
 Session.vim
-~/.vim/tmp/*
+.netrwhist
 
-# SASS
-# ----------------------------------------------------------------------------------------------
+# Ignore tags (from etags and ctags)
+TAGS
+!TAGS/
+tags
+!tags/
+
+# Logs and databases
+*.log
+*.cache
+
+# OS generated files
+.DS_Store?
+.DS_Store
+.CFUserTextEncoding
+.Trash
+.Xauthority
+thumbs.db
+Icon?
+Thumbs.db
+.cache
+
+# Code stuffs
+.svn
+.git
+.swp
+.idea
+.*.swp
+*~
+.tags
+tags
 .sass-cache
+tmp
+.codekit-cache
+config.codekit
 
-# Emacs files
-*.elc
-*#
-.#*
-!.#
+# Compiled things
+*.class
+*.exe
+*.o
+*.so
+*.dll
+*.pyc
