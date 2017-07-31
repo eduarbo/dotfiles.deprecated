@@ -138,17 +138,22 @@ installcmd() {
 install-deps() {
   local osdepsvar="${PACKAGE_MANAGER}_deps"
   local osdeps="${osdepsvar}[@]"
+  local deps_to_install=()
 
   # prevent install deps in unsupported package managers
   [[ ${SUPPORTED_PACKAGE_MANAGERS[@]} =~ ${PACKAGE_MANAGER} ]] || return 1
 
-  [[ -n $basedeps ]] && $installcmd "${basedeps[@]}"
+  [[ -n $basedeps ]] && deps_to_install=("${deps_to_install[@]}" "${basedeps[@]}")
 
   if [[ -n ${!osdepsvar} ]]; then
-    installcmd "${!osdeps}"
+    deps_to_install=("${deps_to_install[@]}" "${!osdeps}")
   elif [[ -n $deps ]]; then
-    installcmd "${deps[@]}"
+    deps_to_install=("${deps_to_install[@]}" "${deps}")
   fi
+
+  for dep in "${deps_to_install[@]}"; do
+    installcmd $dep
+  done
 }
 
 pop-and-missing() {
