@@ -2525,7 +2525,7 @@
 	<key>NSWindow Frame NSColorPanel</key>
 	<string>882 458 228 253 0 0 1440 900 </string>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>64 110 445 77 0 0 1440 900 </string>
+	<string>425 507 445 77 0 0 1440 900 </string>
 	<key>NSWindow Frame Preferences</key>
 	<string>269 441 606 456 0 0 1440 900 </string>
 	<key>NSWindow Frame ProfilesPanel</key>
@@ -2535,7 +2535,7 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 139 606 456 0 0 1440 900 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>644 269 918 495 0 0 1440 900 </string>
+	<string>357 247 918 495 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>4 12 1434 888 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
@@ -3196,7 +3196,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>KnackNerdFontC-Regular 14</string>
+			<string>Hack-Regular 14</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<false/>
 			<key>Option Key Sends</key>
