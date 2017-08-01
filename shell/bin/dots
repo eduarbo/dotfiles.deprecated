@@ -338,12 +338,12 @@ EOL
     linkpath="${ENABLED_DIR}/${module}"
     modulepath="$DOTFILES/$module"
 
-    # Register module as 'enabled'
-    [[ $link && $register && ! -L $linkpath ]] && _run ln -svf "$modulepath" "$linkpath"
-
     # run install script in a subshell, inherits everything from the current
     # script but do not transmit any change back
     [[ $install && -x ${modulepath}/install ]] && (eval "_run source $modulepath/install")
+
+    # Register module as 'enabled'
+    [[ $link && $register && ! -L $linkpath ]] && _run ln -svf "$modulepath" "$linkpath"
   done
   popd >/dev/null
 }
