@@ -45,22 +45,20 @@ else
   SUDO=''
 fi
 
-dep_prefix="${red}INSTALL DEPENDENCY:${nc} "
-
 # ensure homebrew, stow and GNU's readlink are available
 case "$OSTYPE" in
   darwin*)
-    _areuthere brew || PREFIX=$dep_prefix _run /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    _areuthere stow || PREFIX=$dep_prefix _run brew install stow
-    _areuthere greadlink || PREFIX=$dep_prefix _run brew install coreutils
+    _areuthere brew || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    _areuthere stow || brew install stow
+    _areuthere greadlink || brew install coreutils
     utilspath="$(dirname "$(dirname "$(greadlink -f "$0")")")/.utils.sh"
     ;;
   linux*)
     if ! _areuthere stow; then
       if _areuthere apt; then
-        PREFIX=$dep_prefix _run $SUDO apt install stow
+        $SUDO apt install stow
       elif _areuthere dnf; then
-        PREFIX=$dep_prefix _run $SUDO dnf install stow
+        $SUDO dnf install stow
       fi
     fi
 
