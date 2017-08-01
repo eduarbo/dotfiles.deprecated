@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
+  deps=(
+    karabiner-elements
+  )
+
+  brew tap caskroom/cask
+  brew cask install ${deps[@]}
+fi
