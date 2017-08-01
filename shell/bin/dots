@@ -50,7 +50,7 @@ dep_prefix="${red}INSTALL DEPENDENCY:${nc} "
 # ensure homebrew, stow and GNU's readlink are available
 case "$OSTYPE" in
   darwin*)
-    _areuthere brew || PREFIX=$dep_prefix _run ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    _areuthere brew || PREFIX=$dep_prefix _run /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     _areuthere stow || PREFIX=$dep_prefix _run brew install stow
     _areuthere greadlink || PREFIX=$dep_prefix _run brew install coreutils
     utilspath="$(dirname "$(dirname "$(greadlink -f "$0")")")/.utils.sh"
