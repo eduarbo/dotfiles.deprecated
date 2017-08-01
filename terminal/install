@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-brew_deps=(iterm2)
-
 case $OSTYPE in
   darwin*)
     brew tap caskroom/cask
+    brew cask install iterm2 font-hack
 
     # Enable italics
     tic ./xterm-256color.terminfo
