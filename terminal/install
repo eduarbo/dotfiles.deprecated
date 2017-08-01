@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
+brew_deps=(iterm2)
+
 case $OSTYPE in
   darwin*)
     brew tap caskroom/cask
-    brew cask install iterm2
 
     # Enable italics
-    tic xterm-256color-italic.terminfo
+    tic xterm-256color.terminfo
 
     # Specify the preferences directory
     defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "$DOTFILES/terminal"

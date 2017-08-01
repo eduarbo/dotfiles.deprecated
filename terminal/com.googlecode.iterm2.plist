@@ -2481,7 +2481,7 @@
 	<key>HideScrollbar</key>
 	<true/>
 	<key>LoadPrefsFromCustomFolder</key>
-	<string>1</string>
+	<true/>
 	<key>NSColorPanelMode</key>
 	<string>1</string>
 	<key>NSColorPickerSlidersDefaults</key>
@@ -2535,13 +2535,13 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 139 606 456 0 0 1440 900 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>644 291 796 473 0 0 1440 900 </string>
+	<string>644 269 918 495 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>4 471 650 429 0 0 1440 900 </string>
+	<string>4 12 1434 888 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>4 471 650 429 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>4 454 652 431 0 0 1440 900 </string>
+	<string>4 454 650 429 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
 	<string>4 21 650 429 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 4</key>
@@ -3246,7 +3246,7 @@
 			<key>Tags</key>
 			<array/>
 			<key>Terminal Type</key>
-			<string>xterm-256color-italic</string>
+			<string>xterm-256color</string>
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Unlimited Scrollback</key>
@@ -3254,7 +3254,7 @@
 			<key>Use Bold Font</key>
 			<true/>
 			<key>Use Bright Bold</key>
-			<true/>
+			<false/>
 			<key>Use Cursor Guide</key>
 			<false/>
 			<key>Use HFS Plus Mapping</key>
@@ -3325,7 +3325,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/eduarbo/</string>
+	<string>/Users/eduarbo/.dotfiles/terminal</string>
 	<key>Print In Black And White</key>
 	<true/>
 	<key>PromptOnQuit</key>
