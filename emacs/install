@@ -19,3 +19,6 @@ install-deps
 if [[ ! -d "$HOME/.emacs.d" ]]; then
   git clone --recursive "https://github.com/hlissner/.emacs.d" "$HOME/.emacs.d"
 fi
+
+make install
+make compile
