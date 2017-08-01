@@ -240,12 +240,15 @@ EOL
 
     echo -e "${green}» ${module}${nc}"
 
-    updatepath="${DOTFILES}/${module}/update"
+    modulepath="${DOTFILES}/$module"
+    updatepath="$modulepath/update"
     [[ $link ]] && _run stow -R -t "$HOME" "$module" # Restow
 
     # run update script in a subshell, inherits everything from the current
     # script but do not transmit any change back
+    pushd "$modulepath" >/dev/null
     [[ $update && -x $updatepath ]] && (eval "_run source $updatepath")
+    popd >/dev/null
   done
   popd >/dev/null
 }
@@ -340,7 +343,9 @@ EOL
 
     # run install script in a subshell, inherits everything from the current
     # script but do not transmit any change back
+    pushd "$modulepath" >/dev/null
     [[ $install && -x ${modulepath}/install ]] && (eval "_run source $modulepath/install")
+    popd >/dev/null
 
     # Register module as 'enabled'
     [[ $link && $register && ! -L $linkpath ]] && _run ln -svf "$modulepath" "$linkpath"

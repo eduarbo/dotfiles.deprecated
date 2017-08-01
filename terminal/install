@@ -7,10 +7,10 @@ case $OSTYPE in
     brew tap caskroom/cask
 
     # Enable italics
-    tic xterm-256color.terminfo
+    tic ./xterm-256color.terminfo
 
     # Specify the preferences directory
-    defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "$DOTFILES/terminal"
+    defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "$PWD"
     # Tell iTerm2 to use the custom preferences in the directory
     defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
     ;;
