@@ -161,8 +161,8 @@ install-deps() {
 
   for dep in "${deps_to_install[@]}"; do
     # Skip installation if package is already installed
-    isinstalled $dep && continue
-    installcmd $dep
+    isinstalled "$dep" && continue
+    installcmd "$dep"
   done
 }
 
