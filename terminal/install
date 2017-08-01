@@ -8,9 +8,10 @@ case $OSTYPE in
     # Enable italics
     tic xterm-256color-italic.terminfo
 
-    # Set path for custom preferences
-    defaults write com.googlecode.iterm2 PrefsCustomFolder ~/Library/Preferences
-    defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder 1
+    # Specify the preferences directory
+    defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "$DOTFILES/shell"
+    # Tell iTerm2 to use the custom preferences in the directory
+    defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
     ;;
   linux*)
     # TODO: Look for a nice terminal
