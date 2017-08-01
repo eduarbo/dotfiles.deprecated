@@ -22,7 +22,6 @@ export HISTIGNORE="l[sla]:rm:mv:mkdir:cd:[bf]g:exit:logout"
 
 export LESS_TERMCAP_md="${yellow}" # Highlight section titles in manual pages
 export MANPAGER='less -X'          # Don’t clear the screen after quitting a manual page
-export TERMINFO="$HOME/.terminfo"
 
 # Make new shells get the history lines from all previous shells instead of the
 # default "last window closed" history
