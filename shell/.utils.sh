@@ -46,8 +46,7 @@ lazy_source () {
 # Test whether a Homebrew formula is already installed
 # $1 - formula name (may include options)
 formula_exists() {
-  test "$(brew list "$1" 2&>/dev/null)" && return 0
-  return 1
+  return $(brew ls --versions "$1" > /dev/null)
 }
 
 # Logging
@@ -152,6 +151,8 @@ install-deps() {
   fi
 
   for dep in "${deps_to_install[@]}"; do
+    # Skip installation if package is already installed
+    [[ -n $isinstalled ]] && ${!isinstalled} $dep && continue
     installcmd $dep
   done
 }
@@ -179,6 +180,7 @@ fi
 case "$OSTYPE" in
   darwin*)
     export PACKAGE_MANAGER=brew
+    isinstalled=formula_exists
     installcmd="brew install"
     ;;
   linux*)
