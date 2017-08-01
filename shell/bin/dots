@@ -242,13 +242,14 @@ EOL
 
     modulepath="${DOTFILES}/$module"
     updatepath="$modulepath/update"
-    [[ $link ]] && _run stow -R -t "$HOME" "$module" # Restow
 
     # run update script in a subshell, inherits everything from the current
     # script but do not transmit any change back
     pushd "$modulepath" >/dev/null
     [[ $update && -x $updatepath ]] && (eval "_run source $updatepath")
     popd >/dev/null
+
+    [[ $link ]] && _run stow -R -t "$HOME" "$module" # Restow
   done
   popd >/dev/null
 }
@@ -309,6 +310,15 @@ EOL
 
     echo -e "${green}» ${module}${nc}"
 
+    linkpath="${ENABLED_DIR}/${module}"
+    modulepath="$DOTFILES/$module"
+
+    # run install script in a subshell, inherits everything from the current
+    # script but do not transmit any change back
+    pushd "$modulepath" >/dev/null
+    [[ $install && -x ${modulepath}/install ]] && (eval "_run source $modulepath/install")
+    popd >/dev/null
+
     if [[ $link ]]; then
       if stow -n -t "$HOME" "$module" 2>/dev/null; then
         _run stow -R -t "$HOME" "$module"
@@ -337,15 +347,6 @@ EOL
         esac
       fi
     fi
-
-    linkpath="${ENABLED_DIR}/${module}"
-    modulepath="$DOTFILES/$module"
-
-    # run install script in a subshell, inherits everything from the current
-    # script but do not transmit any change back
-    pushd "$modulepath" >/dev/null
-    [[ $install && -x ${modulepath}/install ]] && (eval "_run source $modulepath/install")
-    popd >/dev/null
 
     # Register module as 'enabled'
     [[ $link && $register && ! -L $linkpath ]] && _run ln -svf "$modulepath" "$linkpath"
