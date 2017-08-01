@@ -130,6 +130,15 @@ cleanpath() {
   fi
 }
 
+isinstalled() {
+  case "$OSTYPE" in
+    darwin*)
+      return $(formula_exists $1)
+      ;;
+  esac
+  return 0
+}
+
 installcmd() {
   $installcmd "$1"
 }
@@ -152,7 +161,7 @@ install-deps() {
 
   for dep in "${deps_to_install[@]}"; do
     # Skip installation if package is already installed
-    [[ -n $isinstalled ]] && ${!isinstalled} $dep && continue
+    isinstalled $dep && continue
     installcmd $dep
   done
 }
@@ -180,7 +189,6 @@ fi
 case "$OSTYPE" in
   darwin*)
     export PACKAGE_MANAGER=brew
-    isinstalled=formula_exists
     installcmd="brew install"
     ;;
   linux*)
