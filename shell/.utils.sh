@@ -140,7 +140,7 @@ isinstalled() {
 }
 
 installcmd() {
-  local dep="${1[@]}"
+  local dep="${1[*]}"
   $installcmd $dep
 }
 
