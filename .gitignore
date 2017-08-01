@@ -43,13 +43,12 @@ emacs.d/projectile.cache
 emacs.d/projectile-bookmarks.eld
 spacemacs/.spacemacs.d/custom.el
 
-!.gitkeep
-!*/
-.macosdefaultsinstalled
-
 # lua
 .luacheckcache
 /GPATH
 
-# setup
 .enabled.d/*
+
+!.gitkeep
+!*/
+.macosdefaultsinstalled
