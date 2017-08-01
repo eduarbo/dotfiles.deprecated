@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+deps=(
+  1password
+  google-drive
+  alfred
+  spotify
+  transmission
+  google-chrome
+  google-chrome-canary
+  opera
+  firefox
+  keka
+  flux
+  skype
+  dropbox
+  adobe-reader
+  virtualbox
+  postico
+  sshfs
+  java
+  mpv
+  vlc
+  android-file-transfer
+  slack
+  screenhero
+  appcleaner
+  omnidisksweeper
+  grandperspective
+  torbrowser
+  calibre
+  jdownloader
+  handbrake
+  licecap
+  keycastr
+  wireshark
+  betterzipql
+  qlcolorcode
+  qlimagesize
+  qlprettypatch
+  qlmarkdown
+  qlstephen
+  quicklook-json
+)
+
+e_header "Install macOS defaults"
+./bin/macosdefaults
+
+e_header "Install apps"
+brew tap caskroom/cask
+brew cask install ${deps[@]}

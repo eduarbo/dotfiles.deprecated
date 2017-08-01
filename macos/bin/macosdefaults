@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-# Most of the defaults were taken from: https://github.com/mathiasbynens/dotfiles/blob/master/.macos
+
+# ~/.macos — https://mths.be/macos
+
+# Close any open System Preferences panes, to prevent them from overriding
+# settings we’re about to change
+osascript -e 'tell application "System Preferences" to quit'
 
 # Ask for the administrator password upfront
 sudo -v
@@ -12,10 +17,10 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###############################################################################
 
 # Set computer name (as done via System Preferences → Sharing)
-#sudo scutil --set ComputerName "GLaDOS"
-#sudo scutil --set HostName "GLaDOS"
-#sudo scutil --set LocalHostName "GLaDOS"
-#sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "GLaDOS"
+#sudo scutil --set ComputerName "0x6D746873"
+#sudo scutil --set HostName "0x6D746873"
+#sudo scutil --set LocalHostName "0x6D746873"
+#sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "0x6D746873"
 
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
@@ -24,36 +29,17 @@ sudo pmset -a standbydelay 86400
 sudo nvram SystemAudioVolume=" "
 
 # Disable transparency in the menu bar and elsewhere on Yosemite
-# defaults write com.apple.universalaccess reduceTransparency -bool true
-
-# Enable automatically hide the menu bar in OS X
-defaults write NSGlobalDomain _HIHideMenuBar -bool true
-
-# Menu bar: hide the Time Machine, and User icons
-for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
-  defaults write "${domain}" dontAutoLoad -array \
-    "/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
-    "/System/Library/CoreServices/Menu Extras/User.menu"
-done
-defaults write com.apple.systemuiserver menuExtras -array \
-  "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
-  "/System/Library/CoreServices/Menu Extras/AirPort.menu" \
-  "/System/Library/CoreServices/Menu Extras/Battery.menu" \
-  "/System/Library/CoreServices/Menu Extras/Clock.menu"
+defaults write com.apple.universalaccess reduceTransparency -bool true
 
 # Set highlight color to green
-defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600"
+# defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600"
 
 # Set sidebar icon size to medium
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
 
 # Always show scrollbars
-#!!
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
 # Possible values: `WhenScrolling`, `Automatic` and `Always`
-
-# Make the speed when scrolling by dragging faster
-defaults write NSGlobalDomain NSAutoscrollResponseMultiplier -float 3
 
 # Disable the over-the-top focus ring animation
 defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
@@ -93,8 +79,7 @@ defaults write NSGlobalDomain NSTextShowsControlCharacters -bool true
 defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
 
 # Disable automatic termination of inactive apps
-#!!
-# defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
+defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 
 # Disable the crash reporter
 #defaults write com.apple.CrashReporter DialogType -string "none"
@@ -120,11 +105,26 @@ sudo systemsetup -setcomputersleep Off > /dev/null
 # Disable Notification Center and remove the menu bar icon
 # launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
 
-# Disable smart quotes as they’re annoying when typing code
-defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+# Disable automatic capitalization as it’s annoying when typing code
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
 
 # Disable smart dashes as they’re annoying when typing code
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+
+# Disable automatic period substitution as it’s annoying when typing code
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+
+# Disable smart quotes as they’re annoying when typing code
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+
+# Disable auto-correct
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+# Set a custom wallpaper image. `DefaultDesktop.jpg` is already a symlink, and
+# all wallpapers are in `/Library/Desktop Pictures/`. The default is `Wave.jpg`.
+#rm -rf ~/Library/Application Support/Dock/desktoppicture.db
+#sudo rm -rf /System/Library/CoreServices/DefaultDesktop.jpg
+#sudo ln -s /path/to/your/image /System/Library/CoreServices/DefaultDesktop.jpg
 
 ###############################################################################
 # SSD-specific tweaks                                                         #
@@ -140,17 +140,9 @@ sudo touch /private/var/vm/sleepimage
 # …and make sure it can’t be rewritten
 sudo chflags uchg /private/var/vm/sleepimage
 
-# Disable the sudden motion sensor as it’s not useful for SSDs
-sudo pmset -a sms 0
-
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
 ###############################################################################
-# global mouse tracking speed (1...5)
-defaults write NSGlobalDomain com.apple.mouse.scaling -float 5
-
-# global trackpad tracking speed (1...5)
-defaults write NSGlobalDomain com.apple.trackpad.scaling -int 3
 
 # Trackpad: enable tap to click for this user and for the login screen
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
@@ -183,30 +175,25 @@ defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 2
-
-# Set a shorter Delay until key repeat
-defaults write NSGlobalDomain InitialKeyRepeat -int 15
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain InitialKeyRepeat -int 10
 
 # Set language and text formats
 # Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
 # `Inches`, `en_GB` with `en_US`, and `true` with `false`.
-defaults write NSGlobalDomain AppleLanguages -array "en" "nl"
-defaults write NSGlobalDomain AppleLocale -string "en_GB@currency=EUR"
+defaults write NSGlobalDomain AppleLanguages -array "en" "es-MX"
+defaults write NSGlobalDomain AppleLocale -string "en_MX"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
 defaults write NSGlobalDomain AppleMetricUnits -bool true
 
+# Show language menu in the top right corner of the boot screen
+sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
+
 # Set the timezone; see `sudo systemsetup -listtimezones` for other values
-sudo systemsetup -settimezone "Europe/Brussels" > /dev/null
-
-# Disable auto-correct
-defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
-
-# Disable automatic spell checking
-defaults write NSGlobalDomain NSAllowContinuousSpellChecking -bool false
+sudo systemsetup -settimezone "America/Mexico_City" > /dev/null
 
 # Stop iTunes from responding to the keyboard media keys
-launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
+#launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
 
 ###############################################################################
 # Screen                                                                      #
@@ -226,7 +213,8 @@ defaults write com.apple.screencapture type -string "png"
 defaults write com.apple.screencapture disable-shadow -bool true
 
 # Enable subpixel font rendering on non-Apple LCDs
-defaults write NSGlobalDomain AppleFontSmoothing -int 2
+# Reference: https://github.com/kevinSuttle/macOS-Defaults/issues/17#issuecomment-266633501
+defaults write NSGlobalDomain AppleFontSmoothing -int 1
 
 # Enable HiDPI display modes (requires restart)
 sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
@@ -267,6 +255,9 @@ defaults write com.apple.finder ShowPathbar -bool true
 # Display full POSIX path as Finder window title
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
+# Keep folders on top when sorting by name
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
 # When performing a search, search the current folder by default
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
@@ -279,8 +270,9 @@ defaults write NSGlobalDomain com.apple.springing.enabled -bool true
 # Remove the spring loading delay for directories
 defaults write NSGlobalDomain com.apple.springing.delay -float 0
 
-# Avoid creating .DS_Store files on network volumes
+# Avoid creating .DS_Store files on network or USB volumes
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 # Disable disk image verification
 defaults write com.apple.frameworks.diskimages skip-verify -bool true
@@ -325,9 +317,6 @@ defaults write com.apple.finder WarnOnEmptyTrash -bool false
 # Enable AirDrop over Ethernet and on unsupported Macs running Lion
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
 
-# Enable the MacBook Air SuperDrive on any Mac
-sudo nvram boot-args="mbasd=1"
-
 # Show the ~/Library folder
 chflags nohidden ~/Library
 
@@ -341,15 +330,9 @@ file=/Applications/Dropbox.app/Contents/Resources/emblem-dropbox-uptodate.icns
 # Expand the following File Info panes:
 # “General”, “Open with”, and “Sharing & Permissions”
 defaults write com.apple.finder FXInfoPanesExpanded -dict \
-  General -bool true \
-  OpenWith -bool true \
-  Privileges -bool true
-
-# Finder: allow text selection in Quick Look
-defaults write com.apple.finder QLEnableTextSelection -bool true
-
-# Enable AirDrop over Ethernet and on unsupported Macs running Lion
-defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
+	General -bool true \
+	OpenWith -bool true \
+	Privileges -bool true
 
 ###############################################################################
 # Dock, Dashboard, and hot corners                                            #
@@ -407,9 +390,6 @@ defaults write com.apple.dock autohide-time-modifier -float 0
 
 # Automatically hide and show the Dock
 defaults write com.apple.dock autohide -bool true
-
-# Move Dock to the left
-defaults write com.apple.dock orientation left
 
 # Make Dock icons of hidden applications translucent
 defaults write com.apple.dock showhidden -bool true
@@ -527,6 +507,12 @@ defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebK
 defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false
 defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool false
 
+# Disable auto-playing video
+#defaults write com.apple.Safari WebKitMediaPlaybackAllowsInline -bool false
+#defaults write com.apple.SafariTechnologyPreview WebKitMediaPlaybackAllowsInline -bool false
+#defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false
+#defaults write com.apple.SafariTechnologyPreview com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false
+
 # Enable “Do Not Track”
 defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
 
@@ -559,6 +545,17 @@ defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
 defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled"
 
 ###############################################################################
+# Alfred 3                                                                    #
+###############################################################################
+
+# disable spotlight on cmd-space so Alfred can use it
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "{ enabled = 0; value = { parameters = ( 32, 49, 1048576); type = standard; }; }"
+# disable spotlight window shortcut
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "{ enabled = 0; value = { parameters = ( 32, 49, 1048576); type = standard; }; }"
+# defaults write com.runningwithcrayons.Alfred-Preferences features.defaultresults.scope -array-add "/usr/local/Cellar/emacs"
+defaults write com.runningwithcrayons.Alfred-Preferences-3 syncfolder -string "$HOME/Google Drive/prefs"
+
+###############################################################################
 # Spotlight                                                                   #
 ###############################################################################
 
@@ -577,34 +574,103 @@ sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Vol
 # 	MENU_WEBSEARCH             (send search queries to Apple)
 # 	MENU_OTHER
 defaults write com.apple.spotlight orderedItems -array \
-  '{"enabled" = 1;"name" = "APPLICATIONS";}' \
-  '{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
-  '{"enabled" = 1;"name" = "DIRECTORIES";}' \
-  '{"enabled" = 1;"name" = "PDF";}' \
-  '{"enabled" = 1;"name" = "FONTS";}' \
-  '{"enabled" = 0;"name" = "DOCUMENTS";}' \
-  '{"enabled" = 0;"name" = "MESSAGES";}' \
-  '{"enabled" = 0;"name" = "CONTACT";}' \
-  '{"enabled" = 0;"name" = "EVENT_TODO";}' \
-  '{"enabled" = 0;"name" = "IMAGES";}' \
-  '{"enabled" = 0;"name" = "BOOKMARKS";}' \
-  '{"enabled" = 0;"name" = "MUSIC";}' \
-  '{"enabled" = 0;"name" = "MOVIES";}' \
-  '{"enabled" = 0;"name" = "PRESENTATIONS";}' \
-  '{"enabled" = 0;"name" = "SPREADSHEETS";}' \
-  '{"enabled" = 0;"name" = "SOURCE";}' \
-  '{"enabled" = 0;"name" = "MENU_DEFINITION";}' \
-  '{"enabled" = 0;"name" = "MENU_OTHER";}' \
-  '{"enabled" = 0;"name" = "MENU_CONVERSION";}' \
-  '{"enabled" = 0;"name" = "MENU_EXPRESSION";}' \
-  '{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
-  '{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
+	'{"enabled" = 1;"name" = "APPLICATIONS";}' \
+	'{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
+	'{"enabled" = 1;"name" = "DIRECTORIES";}' \
+	'{"enabled" = 1;"name" = "PDF";}' \
+	'{"enabled" = 1;"name" = "FONTS";}' \
+	'{"enabled" = 0;"name" = "DOCUMENTS";}' \
+	'{"enabled" = 0;"name" = "MESSAGES";}' \
+	'{"enabled" = 0;"name" = "CONTACT";}' \
+	'{"enabled" = 0;"name" = "EVENT_TODO";}' \
+	'{"enabled" = 0;"name" = "IMAGES";}' \
+	'{"enabled" = 0;"name" = "BOOKMARKS";}' \
+	'{"enabled" = 0;"name" = "MUSIC";}' \
+	'{"enabled" = 0;"name" = "MOVIES";}' \
+	'{"enabled" = 0;"name" = "PRESENTATIONS";}' \
+	'{"enabled" = 0;"name" = "SPREADSHEETS";}' \
+	'{"enabled" = 0;"name" = "SOURCE";}' \
+	'{"enabled" = 0;"name" = "MENU_DEFINITION";}' \
+	'{"enabled" = 0;"name" = "MENU_OTHER";}' \
+	'{"enabled" = 0;"name" = "MENU_CONVERSION";}' \
+	'{"enabled" = 0;"name" = "MENU_EXPRESSION";}' \
+	'{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
+	'{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
 # Load new settings before rebuilding the index
 killall mds > /dev/null 2>&1
 # Make sure indexing is enabled for the main volume
 sudo mdutil -i on / > /dev/null
 # Rebuild the index from scratch
 sudo mdutil -E / > /dev/null
+
+###############################################################################
+# Terminal & iTerm 2                                                          #
+###############################################################################
+
+# Only use UTF-8 in Terminal.app
+defaults write com.apple.terminal StringEncodings -array 4
+
+# Use a modified version of the Solarized Dark theme by default in Terminal.app
+osascript <<EOD
+
+tell application "Terminal"
+
+	local allOpenedWindows
+	local initialOpenedWindows
+	local windowID
+	set themeName to "Solarized Dark xterm-256color"
+
+	(* Store the IDs of all the open terminal windows. *)
+	set initialOpenedWindows to id of every window
+
+	(* Open the custom theme so that it gets added to the list
+	   of available terminal themes (note: this will open two
+	   additional terminal windows). *)
+	do shell script "open '$HOME/init/" & themeName & ".terminal'"
+
+	(* Wait a little bit to ensure that the custom theme is added. *)
+	delay 1
+
+	(* Set the custom theme as the default terminal theme. *)
+	set default settings to settings set themeName
+
+	(* Get the IDs of all the currently opened terminal windows. *)
+	set allOpenedWindows to id of every window
+
+	repeat with windowID in allOpenedWindows
+
+		(* Close the additional windows that were opened in order
+		   to add the custom theme to the list of terminal themes. *)
+		if initialOpenedWindows does not contain windowID then
+			close (every window whose id is windowID)
+
+		(* Change the theme for the initial opened terminal windows
+		   to remove the need to close them in order for the custom
+		   theme to be applied. *)
+		else
+			set current settings of tabs of (every window whose id is windowID) to settings set themeName
+		end if
+
+	end repeat
+
+end tell
+
+EOD
+
+# Enable “focus follows mouse” for Terminal.app and all X11 apps
+# i.e. hover over a window and start typing in it without clicking first
+#defaults write com.apple.terminal FocusFollowsMouse -bool true
+#defaults write org.x.X11 wm_ffm -bool true
+
+# Enable Secure Keyboard Entry in Terminal.app
+# See: https://security.stackexchange.com/a/47786/8918
+defaults write com.apple.terminal SecureKeyboardEntry -bool true
+
+# Disable the annoying line marks
+defaults write com.apple.Terminal ShowLineMarks -int 0
+
+# Install the Solarized Dark theme for iTerm
+# open "${HOME}/init/Solarized Dark.itermcolors"
 
 ###############################################################################
 # Time Machine                                                                #
@@ -714,10 +780,6 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 # Google Chrome & Google Chrome Canary                                        #
 ###############################################################################
 
-# Allow installing user scripts via GitHub Gist or Userscripts.org
-defaults write com.google.Chrome ExtensionInstallSources -array "https://gist.githubusercontent.com/" "http://userscripts.org/*"
-defaults write com.google.Chrome.canary ExtensionInstallSources -array "https://gist.githubusercontent.com/" "http://userscripts.org/*"
-
 # Disable the all too sensitive backswipe on trackpads
 defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
 defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -bool false
@@ -757,9 +819,15 @@ defaults write com.operasoftware.OperaDeveloper PMPrintingExpandedStateForPrint2
 defaults write org.m0k.transmission UseIncompleteDownloadFolder -bool true
 defaults write org.m0k.transmission IncompleteDownloadFolder -string "${HOME}/Documents/Torrents"
 
+# Use `~/Downloads` to store completed downloads
+defaults write org.m0k.transmission DownloadLocationConstant -bool true
+
 # Don’t prompt for confirmation before downloading
 defaults write org.m0k.transmission DownloadAsk -bool false
 defaults write org.m0k.transmission MagnetOpenAsk -bool false
+
+# Don’t prompt for confirmation before removing non-downloading active transfers
+defaults write org.m0k.transmission CheckRemoveDownloading -bool true
 
 # Trash original torrent files
 defaults write org.m0k.transmission DeleteOriginalTorrent -bool true
@@ -771,8 +839,12 @@ defaults write org.m0k.transmission WarningLegal -bool false
 
 # IP block list.
 # Source: https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/
+defaults write org.m0k.transmission BlocklistNew -bool true
 defaults write org.m0k.transmission BlocklistURL -string "http://john.bitsurge.net/public/biglist.p2p.gz"
 defaults write org.m0k.transmission BlocklistAutoUpdate -bool true
+
+# Randomize port on launch
+defaults write org.m0k.transmission RandomPort -bool true
 
 ###############################################################################
 # Twitter.app                                                                 #
@@ -831,10 +903,27 @@ defaults write com.divisiblebyzero.Spectacle UndoLastMove -data 62706c6973743030
 # Kill affected applications                                                  #
 ###############################################################################
 
-for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
-  "Dock" "Finder" "Google Chrome" "Google Chrome Canary" "Mail" "Messages" \
-  "Opera" "Photos" "Safari" "Spectacle" "SystemUIServer" "Terminal" \
-  "Transmission" "Twitter" "iCal"; do
-  killall "${app}" &> /dev/null
+for app in "Activity Monitor" \
+	"Address Book" \
+  "Alfred 3" \
+	"Calendar" \
+	"cfprefsd" \
+	"Contacts" \
+	"Dock" \
+	"Finder" \
+	"Google Chrome Canary" \
+	"Google Chrome" \
+	"Mail" \
+	"Messages" \
+	"Opera" \
+	"Photos" \
+	"Safari" \
+	"Spectacle" \
+	"SystemUIServer" \
+	"Terminal" \
+	"Transmission" \
+	"Twitter" \
+	"iCal"; do
+	killall "${app}" &> /dev/null
 done
 echo "Done. Note that some of these changes require a logout/restart to take effect."
