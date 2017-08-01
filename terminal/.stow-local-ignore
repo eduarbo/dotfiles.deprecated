@@ -1,1 +1,2 @@
-\.com\.googlecode\.iterm2\.plist
+# Do not stow anything in this module
+.*
