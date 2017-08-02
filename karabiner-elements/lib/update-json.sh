@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for srcfile in src/json/*.erb; do
+for srcfile in src/*.erb; do
   dstfile=".config/karabiner/assets/complex_modifications/`basename $srcfile .erb`"
   if [ "$srcfile" -nt "$dstfile" ]; then
     if /usr/bin/ruby lib/erb2json.rb < "$srcfile" > "$dstfile"; then
