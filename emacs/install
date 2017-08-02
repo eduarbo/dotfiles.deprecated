@@ -21,3 +21,5 @@ stow-module
 pushd "$emacsd" >/dev/null
 YES=1 make install && make compile
 popd >/dev/null
+
+_info "Don't forget to install the fonts included with all-the-icons with: M-x all-the-icons-install-fonts"

@@ -7,10 +7,10 @@
       doom-localleader-key ",m")
 
 (setq +doom-modeline-height 25
-      +present-big-font (font-spec :family "Hack" :size 18)
+      doom-theme 'doom-one
       doom-font (font-spec :family "Hack" :size 12)
-      doom-variable-pitch-font (font-spec :family "Hack" :size 12)
-      doom-unicode-font (font-spec :family "Hack" :size 12)
+      ;; doom-variable-pitch-font (font-spec :family "Hack" :size 12)
+      ;; doom-unicode-font (font-spec :family "Hack" :size 12)
       doom-line-number-lpad 3)
 
 ;; Set my notes directory
