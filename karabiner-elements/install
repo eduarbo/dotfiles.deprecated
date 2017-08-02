@@ -9,4 +9,4 @@ if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
   brew cask install ${deps[@]}
 fi
 
-. update
+./update

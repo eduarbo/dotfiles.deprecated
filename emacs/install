@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-basedeps=(git)
+basedeps=(
+  git
+  ag
+)
 deps=(
   emacs
 )
