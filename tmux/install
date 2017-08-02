@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-deps=(tmux)
+basedeps=(tmux)
+brew_deps=(reattach-to-user-namespace)
 
 install-deps
 stow-module
