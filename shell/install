@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
 
 deps=(
+  git
   bash
   bash-completion
   zsh
   fasd
-  git
 )
+
+if pop-and-missing fasd apt; then
+  sudo add-apt-repository ppa:aacebedo/fasd
+  sudo apt-get update
+fi
+
+install-deps
+stow-module
 
 if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
   # Add homebrewed zsh to /etc/shells
@@ -18,12 +26,7 @@ if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
   echo "Disable /etc/zprofile and /etc/profile as they mess with my PATH!"
   [[ -f /etc/zprofile ]] && sudo mv /etc/zprofile /etc/zprofile.disabled
   [[ -f /etc/profile ]] && sudo mv /etc/profile /etc/profile.disabled
-elif pop-and-missing fasd apt; then
-  sudo add-apt-repository ppa:aacebedo/fasd
-  sudo apt-get update
 fi
-
-install-deps
 
 # set default shell if it's not already done
 if [[ $SHELL =~ zsh ]]; then

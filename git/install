@@ -10,3 +10,4 @@ if pop-and-missing hub apt; then
 fi
 
 install-deps
+stow-module

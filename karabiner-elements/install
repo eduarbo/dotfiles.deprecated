@@ -8,3 +8,5 @@ if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
   brew tap caskroom/cask
   brew cask install ${deps[@]}
 fi
+
+stow-module

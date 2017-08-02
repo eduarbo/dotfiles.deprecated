@@ -3,3 +3,4 @@
 deps=(tmux)
 
 install-deps
+stow-module
