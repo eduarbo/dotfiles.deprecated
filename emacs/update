@@ -5,9 +5,7 @@ if [[ -d $emacsd/.git ]]; then
   pushd "$emacsd" >/dev/null
   git pull
   if [[ -f $emacsd/Makefile ]]; then
-    YES=1
-    make
-    make compile
+    YES=1 make && make compile
   fi
   popd >/dev/null
 fi
