@@ -368,7 +368,10 @@ EOL
     # run update script in a subshell, inherits everything from the current
     # script but do not transmit any change back
     pushd "$modulepath" >/dev/null
-    [[ $update && -x $updatepath ]] && (eval "_run source $updatepath")
+    if [[ $update && -x $updatepath ]]; then
+      DRYRUN=1 _run source "$updatepath"
+      [[ $DRYRUN = 1 ]] || (eval source "$updatepath")
+    fi
     popd >/dev/null
   done
   popd >/dev/null
@@ -436,7 +439,11 @@ EOL
     # run install script in a subshell, inherits everything from the current
     # script but do not transmit any change back
     pushd "$modulepath" >/dev/null
-    [[ $install && -x ${modulepath}/install ]] && (eval "_run source $modulepath/install")
+    # [[ $install && -x ${modulepath}/install ]] && (eval "_run source $modulepath/install")
+    if [[ $install && -x ${modulepath}/install ]]; then
+      DRYRUN=1 _run source "$modulepath/install"
+      [[ $DRYRUN = 1 ]] || (eval source "$modulepath/install")
+    fi
     popd >/dev/null
 
     # Register module as 'enabled'
