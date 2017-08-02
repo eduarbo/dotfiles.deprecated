@@ -562,6 +562,34 @@ defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "{ en
 defaults write com.runningwithcrayons.Alfred-Preferences-3 syncfolder -string "$HOME/Google Drive/prefs"
 
 ###############################################################################
+# 1password                                                                   #
+###############################################################################
+
+# Lock it with shortcut ⌘ + ⇧ + '
+defaults write com.agilebits.onepassword4 "ShortcutRecorder GlobalLock" -dict \
+    keyChars -string "\\U00e6" \
+    keyCharsIgnoringModifiers -string "'" \
+    keyCode -int 39 \
+    modifierFlags -int 524288 \
+    modifiers -int 2048
+
+# Fill Login on current web page with shortcut ⌘ + '
+defaults write com.agilebits.onepassword4 "ShortcutRecorder BrowserActivation" -dict \
+        keyChars -string "'" \
+        keyCharsIgnoringModifiers -string '"' \
+        keyCode -int 39 \
+        modifierFlags -int 1179648 \
+        modifiers -int 768
+
+# Show 1Password mini with shortcut ⌘ + '
+defaults write com.agilebits.onepassword4 "ShortcutRecorder GlobalActivation" -dict \
+        keyChars -string "'" \
+        keyCharsIgnoringModifiers -string "'" \
+        keyCode -int 39 \
+        modifierFlags -int 1048576 \
+        modifiers -int 256
+
+###############################################################################
 # Spotlight                                                                   #
 ###############################################################################
 
@@ -875,27 +903,32 @@ defaults write com.divisiblebyzero.Spectacle UndoLastMove -data 62706c6973743030
 # Kill affected applications                                                  #
 ###############################################################################
 
-for app in "Activity Monitor" \
-	"Address Book" \
-  "Alfred 3" \
-	"Calendar" \
-	"cfprefsd" \
-	"Contacts" \
-	"Dock" \
-	"Finder" \
-	"Google Chrome Canary" \
-	"Google Chrome" \
-	"Mail" \
-	"Messages" \
-	"Opera" \
-	"Photos" \
-	"Safari" \
-	"Spectacle" \
-	"SystemUIServer" \
-	"Terminal" \
-	"Transmission" \
-	"Twitter" \
-	"iCal"; do
+apps=(
+  "1Password 6"
+  "Activity Monitor"
+  "Address Book"
+  "Alfred 3"
+  "Calendar"
+  "cfprefsd"
+  "Contacts"
+  "Dock"
+  "Finder"
+  "Google Chrome Canary"
+  "Google Chrome"
+  "Mail"
+  "Messages"
+  "Opera"
+  "Photos"
+  "Safari"
+  "Spectacle"
+  "SystemUIServer"
+  "Terminal"
+  "Transmission"
+  "Twitter"
+  "iCal"
+)
+for app in ${apps[@]}; do
 	killall "${app}" &> /dev/null
 done
+unset apps
 echo "Done. Note that some of these changes require a logout/restart to take effect."
