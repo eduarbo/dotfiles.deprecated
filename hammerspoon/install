@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
-brew_deps=(hammerspoon)
+if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
+  cask_deps=(hammerspoon)
 
-install-deps
+  brew tap caskroom/cask
+  brew cask install ${cask_deps[@]}
+fi
 
-defaults write org.hammerspoon.Hammerspoon '{
-    MJShowDockIconKey = 0;
-    MJShowMenuIconKey = 0;
-    MJSkipDockMenuIconProblemAlertKey = 1;
-}'
+. update

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
+  stow-module
+  defaults write org.hammerspoon.Hammerspoon MJShowDockIconKey -int 0
+  defaults write org.hammerspoon.Hammerspoon MJShowMenuIconKey -int 0
+  defaults write org.hammerspoon.Hammerspoon MJSkipDockMenuIconProblemAlertKey -int 1
+fi
