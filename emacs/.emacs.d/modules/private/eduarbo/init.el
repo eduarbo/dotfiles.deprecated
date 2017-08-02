@@ -42,5 +42,3 @@
 
 ;; Get some context
 (setq scroll-margin 10)
-
-(doom/toggle-fullscreen)
