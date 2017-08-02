@@ -130,90 +130,10 @@ cleanpath() {
   fi
 }
 
-isinstalled() {
-  case "$OSTYPE" in
-    darwin*)
-      return $(formula_exists $1)
-      ;;
-  esac
-  return 0
-}
-
-installcmd() {
-  $installcmd $1
-}
-
-install-deps() {
-  local osdepsvar="${PACKAGE_MANAGER}_deps"
-  local osdeps="${osdepsvar}[@]"
-  local deps_to_install=()
-
-  # prevent install deps in unsupported package managers
-  [[ ${SUPPORTED_PACKAGE_MANAGERS[@]} =~ ${PACKAGE_MANAGER} ]] || return 1
-
-  [[ -n $basedeps ]] && deps_to_install=("${deps_to_install[@]}" "${basedeps[@]}")
-
-  if [[ -n ${!osdepsvar} ]]; then
-    deps_to_install=("${deps_to_install[@]}" "${!osdeps}")
-  elif [[ -n $deps ]]; then
-    deps_to_install=("${deps_to_install[@]}" "${deps}")
-  fi
-
-  for dep in "${deps_to_install[@]}"; do
-    # Skip installation if package is already installed
-    isinstalled "$dep" && continue
-    installcmd "$dep"
   done
-}
-
-pop-and-missing() {
-  local pkg=$1
-  local pm=$2
-  local depsclone=$deps
-  # fail if the available PM is not the same as the passed one
-  [[ $# -eq 2 && $pm != ${PACKAGE_MANAGER} ]] && return 1
-  # fail when deps is empty
-  [[ $deps ]] || return 1
-  # Pop pkg from array
-  deps=( ${deps[@]#$pkg} )
-  # Compare arrays and fail if no pkg was popped
-  [[ ${depsclone[@]} == ${deps[@]} ]] && return 1
-  ! is_callable "$pkg"
 }
 
 if [[ -x "$(which brew)" ]]; then
   # BREW_LOCATION=`brew --prefix`
   export BREW_LOCATION="/usr/local"
 fi
-
-case "$OSTYPE" in
-  darwin*)
-    export PACKAGE_MANAGER=brew
-    installcmd="brew install"
-    ;;
-  linux*)
-    if [[ -f /etc/arch-release ]]; then
-      export PACKAGE_MANAGER=pacman
-      installcmd="sudo pacman --needed --noconfirm -S"
-    elif [[ -f /etc/fedora-release ]]; then
-      if is_callable dnf; then
-        export PACKAGE_MANAGER=dnf
-        installcmd="sudo dnf install -y"
-      else
-        export PACKAGE_MANAGER=yum
-        installcmd="sudo yum -y install"
-      fi
-    elif [[ -f /etc/debian-version ]]; then
-      if is_callable apt; then
-        export PACKAGE_MANAGER=apt
-        installcmd="apt install -y"
-      else
-        export PACKAGE_MANAGER=apt-get
-        installcmd="apt-get install -y"
-      fi
-    elif [[ -f /etc/SuSE-release ]]; then
-      export PACKAGE_MANAGER=zypper
-      installcmd="zypper install -y"
-    fi
-    ;;
-esac
