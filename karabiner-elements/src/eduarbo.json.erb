@@ -1,7 +1,4 @@
 <% numbers_row = "1234567890".split(""); %>
-<% upper_row = "qwertyuiop".split(""); %>
-<% middle_row = "asdfghjkl;".split(""); %>
-<% bottom_row = "zxcvbnm,./".split(""); %>
 <% symbols_modifier = "left_shift"; %>
 {
     "title": "Personal rules (@eduarbo)",
@@ -147,20 +144,32 @@
         {
             "description": "Symbols Layer",
             "manipulators": [
-                <% upper_row.each_with_index do |char, index| %>
+                <% "qwertyuiop".split("").each_with_index do |char, index| %>
                 {
                     "type": "basic",
                     "from": <%= from(char, [symbols_modifier], []) %>,
                     "to": <%= to([[numbers_row[index]]]) %>
                 },
                 <% end %>
-                <% middle_row.each_with_index do |char, index| %>
+
+                <% "asdfghjk".split("").each_with_index do |char, index| %>
                 {
                     "type": "basic",
                     "from": <%= from(char, [symbols_modifier], []) %>,
                     "to": <%= to([[numbers_row[index], ["right_shift"]]]) %>
                 },
                 <% end %>
+                {
+                    "type": "basic",
+                    "from": <%= from("l", [symbols_modifier], []) %>,
+                    "to": <%= to([["backslash"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("semicolon", [symbols_modifier], []) %>,
+                    "to": <%= to([["backslash", ["right_shift"]]]) %>
+                },
+
                 {
                     "type": "basic",
                     "from": <%= from("z", [symbols_modifier], []) %>,
