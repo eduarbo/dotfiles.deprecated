@@ -24,6 +24,5 @@ fi
 stow-module
 
 pushd "$emacsd" >/dev/null
-make install
-make compile
+YES=1 && make install && make compile
 popd >/dev/null

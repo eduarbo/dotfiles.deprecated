@@ -1,3 +1,10 @@
 #!/usr/bin/env bash
 
-[[ -f ~/.emacs.d/Makefile ]] && { cd ~/.emacs.d && YES=1 make && make compile; }
+emacsd="$HOME/.emacs.d"
+if [[ -d $emacsd/.git ]]; then
+  pushd "$emacsd" >/dev/null
+  git pull
+  [[ -f $emacsd/Makefile ]] && YES=1 && make && make compile
+  popd >/dev/null
+fi
+
