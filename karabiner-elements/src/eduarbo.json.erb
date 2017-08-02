@@ -1,0 +1,207 @@
+<% numbers_row = "1234567890".split(""); %>
+<% upper_row = "qwertyuiop".split(""); %>
+<% middle_row = "asdfghjkl;".split(""); %>
+<% bottom_row = "zxcvbnm,./".split(""); %>
+<% symbols_modifier = "left_shift"; %>
+{
+    "title": "Personal rules (@eduarbo)",
+    "rules": [
+        {
+            "description": "Better modifiers to reach them all with the thumbs",
+            "manipulators": [
+                {
+                    "description": "Change spacebar to left_command. (Post escape if pressed alone)",
+                    "from": {
+                        "key_code": "spacebar",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "left_command"
+                        }
+                    ],
+                    "to_if_alone": [
+                        {
+                            "key_code": "escape"
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "description": "Change right_command to right_shift. (Post return_or_enter if pressed alone)",
+                    "from": {
+                        "key_code": "right_command",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "right_shift"
+                        }
+                    ],
+                    "to_if_alone": [
+                        {
+                            "key_code": "return_or_enter"
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "description": "Change left_command to left_shift. (Post spacebar if pressed alone)",
+                    "from": {
+                        "key_code": "left_command",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "left_shift"
+                        }
+                    ],
+                    "to_if_alone": [
+                        {
+                            "key_code": "spacebar"
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "description": "Change right_option to right_option. (Post right_parenthesis if pressed alone)",
+                    "from": {
+                        "key_code": "right_option",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "right_option"
+                        }
+                    ],
+                    "to_if_alone": [
+                        {
+                            "key_code": "0",
+                            "modifiers": [
+                                "right_shift"
+                            ]
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "description": "Change left_option to left_control. (Post left_parenthesis if pressed alone)",
+                    "from": {
+                        "key_code": "left_option",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "left_control"
+                        }
+                    ],
+                    "to_if_alone": [
+                        {
+                            "key_code": "9",
+                            "modifiers": [
+                                "right_shift"
+                            ]
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "description": "Change left_control to fn.",
+                    "from": {
+                        "key_code": "left_control",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "fn"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "Symbols Layer",
+            "manipulators": [
+                <% upper_row.each_with_index do |char, index| %>
+                {
+                    "type": "basic",
+                    "from": <%= from(char, [symbols_modifier], []) %>,
+                    "to": <%= to([[numbers_row[index]]]) %>
+                },
+                <% end %>
+                <% middle_row.each_with_index do |char, index| %>
+                {
+                    "type": "basic",
+                    "from": <%= from(char, [symbols_modifier], []) %>,
+                    "to": <%= to([[numbers_row[index], ["right_shift"]]]) %>
+                },
+                <% end %>
+                {
+                    "type": "basic",
+                    "from": <%= from("z", [symbols_modifier], []) %>,
+                    "to": <%= to([["1", ["right_option"]]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("x", [symbols_modifier], []) %>,
+                    "to": <%= to([["equal_sign"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("c", [symbols_modifier], []) %>,
+                    "to": <%= to([["hyphen"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("v", [symbols_modifier], []) %>,
+                    "to": <%= to([["equal_sign", ["right_shift"]]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("b", [symbols_modifier], []) %>,
+                    "to": <%= to([["hyphen", ["right_shift"]]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("n", [symbols_modifier], []) %>,
+                    "to": <%= to([["n", ["right_option"]]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("m", [symbols_modifier], []) %>,
+                    "to": <%= to([["e", ["right_option"]]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("slash", [symbols_modifier], []) %>,
+                    "to": <%= to([["slash", ["right_shift", "right_option"]]]) %>
+                }
+            ]
+        }
+    ]
+}

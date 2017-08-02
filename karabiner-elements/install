@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 
-if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
-  deps=(
-    karabiner-elements
-  )
+# if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
+#   deps=(
+#     karabiner-elements
+#   )
 
-  brew tap caskroom/cask
-  brew cask install ${deps[@]}
-fi
+#   brew tap caskroom/cask
+#   brew cask install ${deps[@]}
+# fi
+
+sh lib/update-json.sh
+sh lib/apply-lint.sh
 
 stow-module

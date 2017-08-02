@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+sh lib/update-json.sh
+sh lib/apply-lint.sh
+
+restow-module

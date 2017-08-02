@@ -1,5 +1,5 @@
 root = true
 
-[*.json]
+[*.{json,erb}]
 indent_style = space
 indent_size = 4
