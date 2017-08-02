@@ -40,8 +40,8 @@ stow-module() {
       _run stow -R -t "$HOME" "$module"
     else
       conflicts=$(stow -n -t "$HOME" "$module" 2>&1 |
-                    awk '/\* existing target is neither/ {print "~/" $NF};\
-                      /\* existing target is stowed/ {print "~/" $(NF-2)}')
+                    awk '/\* existing target is neither/ {print $NF};\
+                      /\* existing target is stowed/ {print $(NF-2)}')
 
       if [[ $yes ]]; then
         choice=y
@@ -52,8 +52,9 @@ stow-module() {
       fi
       case $choice in
         y|Y) for filename in $conflicts; do
+               filename="$HOME/$filename"
                # Remove conflictive files
-               [[ -f $HOME/$filename || -L $HOME/$filename ]] && _run rm -f "$HOME/$filename"
+               [[ -f $filename || -L $filename ]] && _run rm -f "$filename"
              done
              _run stow -t "$HOME" "$module"
              ;;
