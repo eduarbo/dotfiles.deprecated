@@ -554,8 +554,8 @@ defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnab
 # Alfred 3                                                                    #
 ###############################################################################
 
-# disable spotlight on cmd-space so Alfred can use it
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "{ enabled = 0; value = { parameters = ( 32, 49, 1048576); type = standard; }; }"
+# rebind spotlight on cmd-left_parenthesis (cmd-option in the original keyboard layout) so Alfred can use it
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "{ enabled = 1; value = { parameters = ( 57, 25, 1179648); type = standard; }; }"
 # disable spotlight window shortcut
 defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "{ enabled = 0; value = { parameters = ( 32, 49, 1048576); type = standard; }; }"
 # defaults write com.runningwithcrayons.Alfred-Preferences features.defaultresults.scope -array-add "/usr/local/Cellar/emacs"
