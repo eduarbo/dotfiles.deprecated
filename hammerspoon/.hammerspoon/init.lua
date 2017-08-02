@@ -121,7 +121,7 @@ local function showDateTime()
   local time = os.date('%I:%M%p'):gsub('^0',''):lower()
   hs.alert(time..' - '..date, 2.5)
 end
-hs.hotkey.bind(MEGA, 'z', showDateTime)
+hs.hotkey.bind(MEGA, 'delete', showDateTime)
 
 -----------------------------------------------
 -- Toggle screen for focused window
