@@ -20,5 +20,7 @@ if [[ ! -d "$HOME/.emacs.d" ]]; then
   git clone --recursive "https://github.com/hlissner/.emacs.d" "$HOME/.emacs.d"
 fi
 
+stow-module
+
 make install
 make compile
