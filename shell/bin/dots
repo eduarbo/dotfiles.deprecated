@@ -35,6 +35,7 @@ _areuthere() {
 
 stow-module() {
   if [[ $link ]]; then
+    pushd "$DOTFILES" >/dev/null
     if stow -n -t "$HOME" "$module" 2>/dev/null; then
       _run stow -R -t "$HOME" "$module"
     else
@@ -61,11 +62,14 @@ stow-module() {
              ;;
       esac
     fi
+    popd >/dev/null
   fi
 }
 
 restow-module() {
+  pushd "$DOTFILES" >/dev/null
   [[ $link ]] && _run stow -R -t "$HOME" "$module" # Restow
+  popd >/dev/null
 }
 
 isinstalled() {
