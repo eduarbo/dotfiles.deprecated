@@ -130,9 +130,6 @@ cleanpath() {
   fi
 }
 
-  done
-}
-
 if [[ -x "$(which brew)" ]]; then
   # BREW_LOCATION=`brew --prefix`
   export BREW_LOCATION="/usr/local"
