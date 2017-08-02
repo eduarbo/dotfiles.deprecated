@@ -56,7 +56,7 @@ stow-module() {
                # Remove conflictive files
                [[ -f $filename || -L $filename ]] && _run rm -f "$filename"
              done
-             _run stow -t "$HOME" "$module"
+             _run stow -R -t "$HOME" "$module"
              ;;
         *)   PREFIX="${red}ABORTED:${nc} " DRYRUN=1 _run stow -t "$HOME" "$module"
              register=
@@ -65,12 +65,6 @@ stow-module() {
     fi
     popd >/dev/null
   fi
-}
-
-restow-module() {
-  pushd "$DOTFILES" >/dev/null
-  [[ $link ]] && _run stow -R -t "$HOME" "$module" # Restow
-  popd >/dev/null
 }
 
 isinstalled() {
@@ -96,8 +90,8 @@ install-deps() {
 
   [[ -n $basedeps ]] && deps_to_install=("${deps_to_install[@]}" "${basedeps[@]}")
 
-  if [[ -n ${!osdepsvar} ]]; then
-    deps_to_install=("${deps_to_install[@]}" "${!osdeps[@]}")
+  if [[ -n ${!osdeps} ]]; then
+    deps_to_install=("${deps_to_install[@]}" "${!osdeps}")
   elif [[ -n $deps ]]; then
     deps_to_install=("${deps_to_install[@]}" "${deps[@]}")
   fi
