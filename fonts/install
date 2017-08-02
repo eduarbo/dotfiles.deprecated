@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
+  cask_deps=(
+    font-hack
+    font-hack-nerd-font
+    font-fira-code
+    font-fira-mono
+    font-fira-sans
+    font-firacode-nerd-font
+    font-firamono-nerd-font
+    font-dejavu-sans
+    font-dejavusansmono-nerd-font
+  )
+
+  brew tap caskroom/cask
+  brew cask install ${cask_deps[@]}
+fi

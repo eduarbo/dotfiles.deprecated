@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 
-deps=(vim fonts-hack-ttf)
+deps=(vim)
 
-if pop-and-missing fonts-hack-ttf brew; then
-  brew tap caskroom/cask
-  brew cask install font-hack
-fi
-
+dots install fonts
 install-deps

@@ -2,18 +2,13 @@
 
 basedeps=(git)
 deps=(
-  fonts-hack-ttf
   emacs
 )
 brew_deps=(
   "emacs --with-modules --with-librsvg --with-imagemagick@6 --with-gnutls --with-cocoa"
 )
 
-if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
-  brew tap caskroom/cask
-  brew cask install font-hack
-fi
-
+dots install fonts
 install-deps
 
 emacsd="$HOME/.emacs.d"
