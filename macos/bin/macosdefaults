@@ -219,6 +219,9 @@ defaults write NSGlobalDomain AppleFontSmoothing -int 1
 # Use a dark menu bar / dock
 defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
 
+# Automatically hide and show the menu bar
+# defaults write NSGlobalDomain _HIHideMenuBar -bool true
+
 # Enable HiDPI display modes (requires restart)
 sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
 
