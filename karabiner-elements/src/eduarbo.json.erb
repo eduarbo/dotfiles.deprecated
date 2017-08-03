@@ -8,136 +8,44 @@
             "manipulators": [
                 {
                     "description": "Change spacebar to left_command. (Post escape if pressed alone)",
-                    "from": {
-                        "key_code": "spacebar",
-                        "modifiers": {
-                            "optional": [
-                                "any"
-                            ]
-                        }
-                    },
-                    "to": [
-                        {
-                            "key_code": "left_command"
-                        }
-                    ],
-                    "to_if_alone": [
-                        {
-                            "key_code": "escape"
-                        }
-                    ],
-                    "type": "basic"
+                    "type": "basic",
+                    "from": <%= from("spacebar", [], ["any"]) %>,
+                    "to": <%= to([["left_command"]]) %>,
+                    "to_if_alone": <%= to([["escape"]]) %>
                 },
                 {
                     "description": "Change right_command to right_shift. (Post return_or_enter if pressed alone)",
-                    "from": {
-                        "key_code": "right_command",
-                        "modifiers": {
-                            "optional": [
-                                "any"
-                            ]
-                        }
-                    },
-                    "to": [
-                        {
-                            "key_code": "right_shift"
-                        }
-                    ],
-                    "to_if_alone": [
-                        {
-                            "key_code": "return_or_enter"
-                        }
-                    ],
-                    "type": "basic"
+                    "type": "basic",
+                    "from": <%= from("right_command", [], ["any"]) %>,
+                    "to": <%= to([["right_shift"]]) %>,
+                    "to_if_alone": <%= to([["return_or_enter"]]) %>
                 },
                 {
                     "description": "Change left_command to left_shift. (Post spacebar if pressed alone)",
-                    "from": {
-                        "key_code": "left_command",
-                        "modifiers": {
-                            "optional": [
-                                "any"
-                            ]
-                        }
-                    },
-                    "to": [
-                        {
-                            "key_code": "left_shift"
-                        }
-                    ],
-                    "to_if_alone": [
-                        {
-                            "key_code": "spacebar"
-                        }
-                    ],
-                    "type": "basic"
+                    "type": "basic",
+                    "from": <%= from("left_command", [], ["any"]) %>,
+                    "to": <%= to([["left_shift"]]) %>,
+                    "to_if_alone": <%= to([["spacebar"]]) %>
                 },
                 {
                     "description": "Change right_option to right_option. (Post right_parenthesis if pressed alone)",
-                    "from": {
-                        "key_code": "right_option",
-                        "modifiers": {
-                            "optional": [
-                                "any"
-                            ]
-                        }
-                    },
-                    "to": [
-                        {
-                            "key_code": "right_option"
-                        }
-                    ],
-                    "to_if_alone": [
-                        {
-                            "key_code": "0",
-                            "modifiers": [
-                                "right_shift"
-                            ]
-                        }
-                    ],
-                    "type": "basic"
+                    "type": "basic",
+                    "from": <%= from("right_option", [], ["any"]) %>,
+                    "to": <%= to([["right_option"]]) %>,
+                    "to_if_alone": <%= to([["0", ["right_shift"]]]) %>
                 },
                 {
                     "description": "Change left_option to left_control. (Post left_parenthesis if pressed alone)",
-                    "from": {
-                        "key_code": "left_option",
-                        "modifiers": {
-                            "optional": [
-                                "any"
-                            ]
-                        }
-                    },
-                    "to": [
-                        {
-                            "key_code": "left_control"
-                        }
-                    ],
-                    "to_if_alone": [
-                        {
-                            "key_code": "9",
-                            "modifiers": [
-                                "right_shift"
-                            ]
-                        }
-                    ],
-                    "type": "basic"
+                    "type": "basic",
+                    "from": <%= from("left_option", [], ["any"]) %>,
+                    "to": <%= to([["left_control"]]) %>,
+                    "to_if_alone": <%= to([["9", ["right_shift"]]]) %>
                 },
                 {
                     "description": "Change left_control to fn.",
-                    "from": {
-                        "key_code": "left_control",
-                        "modifiers": {
-                            "optional": [
-                                "any"
-                            ]
-                        }
-                    },
-                    "to": [
-                        {
-                            "key_code": "fn"
-                        }
-                    ],
-                    "type": "basic"
+                    "type": "basic",
+                    "from": <%= from("left_control", [], ["any"]) %>,
+                    "to": <%= to([["fn"]]) %>
                 }
             ]
         },
@@ -209,6 +117,66 @@
                     "type": "basic",
                     "from": <%= from("slash", [symbols_modifier], []) %>,
                     "to": <%= to([["slash", ["right_shift", "right_option"]]]) %>
+                }
+            ]
+        },
+        {
+            "description": "Vi Mode [D as Trigger Key]",
+            "manipulators": [
+
+                <%# -------------------------------------------------- %>
+                <%# press d to enter Vi Mode, release to quit %>
+                <%# -------------------------------------------------- %>
+                {
+                    "type": "basic",
+                    "from": <%= from("d", [], ["any"]) %>,
+                    "to": [
+                        { "set_variable": { "name": "vi_mode", "value": 1 } }
+                    ],
+                    "to_if_alone": <%= to([["d"]]) %>,
+                    "to_after_key_up": [
+                        { "set_variable": { "name": "vi_mode", "value": 0 } }
+                    ]
+                },
+
+                <%# -------------------------------------------------- %>
+                <%# change h/j/k/l to arrow keys %>
+                <%# -------------------------------------------------- %>
+                {
+                    "type": "basic",
+                    "from": <%= from("h", [], ["any"]) %>,
+                    "to": <%= to([["left_arrow"]]) %>,
+                    "conditions": [
+                        { "type": "variable_if", "name": "vi_mode", "value": 1 },
+                        { "type": "variable_if", "name": "vi_visual_mode", "value": 0 }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("j", [], ["any"]) %>,
+                    "to": <%= to([["down_arrow"]]) %>,
+                    "conditions": [
+                        { "type": "variable_if", "name": "vi_mode", "value": 1 },
+                        { "type": "variable_if", "name": "vi_visual_mode", "value": 0 }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("k", [], ["any"]) %>,
+                    "to": <%= to([["up_arrow"]]) %>,
+                    "conditions": [
+                        { "type": "variable_if", "name": "vi_mode", "value": 1 },
+                        { "type": "variable_if", "name": "vi_visual_mode", "value": 0 }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("l", [], ["any"]) %>,
+                    "to": <%= to([["right_arrow"]]) %>,
+                    "conditions": [
+                        { "type": "variable_if", "name": "vi_mode", "value": 1 },
+                        { "type": "variable_if", "name": "vi_visual_mode", "value": 0 }
+                    ]
                 }
             ]
         }
