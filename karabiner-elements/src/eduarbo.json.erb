@@ -287,54 +287,6 @@
                     "to": <%= to([["fastforward"]]) %>
                 }
             ]
-        },
-        {
-            "description": "Vi Mode [F as Trigger Key]",
-            "manipulators": [
-                {
-                    "type": "basic",
-                    "from": <%= from("f", [], ["any"]) %>,
-                    "to": [
-                        { "set_variable": { "name": "vi_mode", "value": 1 } }
-                    ],
-                    "to_if_alone": <%= to([["f"]]) %>,
-                    "to_after_key_up": [
-                        { "set_variable": { "name": "vi_mode", "value": 0 } }
-                    ]
-                },
-                {
-                    "type": "basic",
-                    "from": <%= from("h", [], ["any"]) %>,
-                    "to": <%= to([["left_arrow"]]) %>,
-                    "conditions": [
-                        { "type": "variable_if", "name": "vi_mode", "value": 1 }
-                    ]
-                },
-                {
-                    "type": "basic",
-                    "from": <%= from("j", [], ["any"]) %>,
-                    "to": <%= to([["down_arrow"]]) %>,
-                    "conditions": [
-                        { "type": "variable_if", "name": "vi_mode", "value": 1 }
-                    ]
-                },
-                {
-                    "type": "basic",
-                    "from": <%= from("k", [], ["any"]) %>,
-                    "to": <%= to([["up_arrow"]]) %>,
-                    "conditions": [
-                        { "type": "variable_if", "name": "vi_mode", "value": 1 }
-                    ]
-                },
-                {
-                    "type": "basic",
-                    "from": <%= from("l", [], ["any"]) %>,
-                    "to": <%= to([["right_arrow"]]) %>,
-                    "conditions": [
-                        { "type": "variable_if", "name": "vi_mode", "value": 1 }
-                    ]
-                }
-            ]
         }
     ]
 }
