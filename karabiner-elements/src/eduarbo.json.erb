@@ -50,6 +50,43 @@
             ]
         },
         {
+            "description": "Emacs key bindings",
+            "manipulators": [
+                {
+                    "description": "Change control+u to delete-to-beginning-of-line",
+                    "type": "basic",
+                    "from": <%= from("u", ["control"], ["caps_lock"]) %>,
+                    "to": <%= to([["a", ["left_control", "right_shift"]], ["delete_or_backspace"], ["vk_none"]]) %>,
+                    "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
+                },
+                {
+                    "description": "Change control+w to option+delete",
+                    "type": "basic",
+                    "from": <%= from("w", ["control"], ["caps_lock"]) %>,
+                    "to": <%= to([["delete_or_backspace", ["right_option"]]]) %>,
+                    "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("d", ["control"], ["caps_lock"]) %>,
+                    "to": <%= to([["delete_forward"]]) %>,
+                    "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("b", ["control"], ["caps_lock", "shift"]) %>,
+                    "to": <%= to([["left_arrow", ["right_option"]]]) %>,
+                    "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("f", ["control"], ["caps_lock", "shift"]) %>,
+                    "to": <%= to([["right_arrow", ["right_option"]]]) %>,
+                    "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
+                }
+            ]
+        },
+        {
             "description": "Symbols Layer",
             "manipulators": [
                 <% "qwertyuiop".split("").each_with_index do |char, index| %>
