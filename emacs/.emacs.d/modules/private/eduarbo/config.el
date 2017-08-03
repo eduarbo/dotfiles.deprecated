@@ -48,6 +48,8 @@
   (add-hook! 'lisp-mode-hook (setq-local evil-args-delimiters '(" ")))
   (add-hook! 'emacs-lisp-mode-hook (setq-local evil-args-delimiters '(" "))))
 
+(after! evil-escape
+  (setq evil-escape-key-sequence nil))
 
 (after! evil-mc
   ;; if I'm in insert mode, chances are I want cursors to resume
