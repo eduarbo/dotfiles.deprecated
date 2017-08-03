@@ -1,5 +1,3 @@
-<% numbers_row = "1234567890".split(""); %>
-<% symbols_modifier = "left_shift"; %>
 {
     "title": "Personal rules (@eduarbo)",
     "rules": [
@@ -87,6 +85,10 @@
             ]
         },
         {
+            <%
+                symbols_modifier = "left_shift";
+                numbers_row = "1234567890".split("");
+            %>
             "description": "Symbols Layer",
             "manipulators": [
                 <% "qwertyuiop".split("").each_with_index do |char, index| %>
@@ -158,34 +160,154 @@
             ]
         },
         {
-            "description": "Vi Mode [D as Trigger Key]",
+            "description": "Fn Layer",
             "manipulators": [
-
                 <%# -------------------------------------------------- %>
-                <%# press d to enter Vi Mode, release to quit %>
+                <%# Volume controls %>
                 <%# -------------------------------------------------- %>
                 {
                     "type": "basic",
-                    "from": <%= from("d", [], ["any"]) %>,
+                    "from": <%= from("open_bracket", ["fn"], []) %>,
+                    "to": <%= to([["volume_decrement"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("close_bracket", ["fn"], []) %>,
+                    "to": <%= to([["volume_increment"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("delete_or_backspace", ["fn"], []) %>,
+                    "to": <%= to([["mute"]]) %>
+                },
+
+                <%# -------------------------------------------------- %>
+                <%# Brightness controls %>
+                <%# -------------------------------------------------- %>
+                {
+                    "type": "basic",
+                    "from": <%= from("w", ["fn"], []) %>,
+                    "to": <%= to([["display_brightness_decrement"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("r", ["fn"], []) %>,
+                    "to": <%= to([["display_brightness_increment"]]) %>
+                },
+
+                <%# -------------------------------------------------- %>
+                <%# Movement %>
+                <%# -------------------------------------------------- %>
+                {
+                    "type": "basic",
+                    "from": <%= from("a", ["fn"], []) %>,
+                    "to": <%= to([["home"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("g", ["fn"], []) %>,
+                    "to": <%= to([["end"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("e", ["fn"], []) %>,
+                    "to": <%= to([["up_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("s", ["fn"], []) %>,
+                    "to": <%= to([["left_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("d", ["fn"], []) %>,
+                    "to": <%= to([["down_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("f", ["fn"], []) %>,
+                    "to": <%= to([["right_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("h", ["fn"], []) %>,
+                    "to": <%= to([["right_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("j", ["fn"], []) %>,
+                    "to": <%= to([["down_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("k", ["fn"], []) %>,
+                    "to": <%= to([["up_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("l", ["fn"], []) %>,
+                    "to": <%= to([["right_arrow"]]) %>
+                },
+
+                <%# -------------------------------------------------- %>
+                <%# Function keys %>
+                <%# -------------------------------------------------- %>
+                <%
+                    remap_function_keys = [
+                        'y', 'u', 'i', 'o', 'p',
+                        'n', 'm', 'comma', 'period', 'slash',
+                        'grave_accent_and_tilde', 'quote'
+                    ];
+                %>
+
+                <% remap_function_keys.each.with_index(1) do |char, index| %>
+                {
+                    "type": "basic",
+                    "from": <%= from(char, ["fn"], []) %>,
+                    "to": <%= to([["f#{index}", ["fn"]]]) %>
+                },
+                <% end %>
+
+                <%# -------------------------------------------------- %>
+                <%# Music %>
+                <%# -------------------------------------------------- %>
+                {
+                    "type": "basic",
+                    "from": <%= from("x", ["fn"], []) %>,
+                    "to": <%= to([["rewind"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("c", ["fn"], []) %>,
+                    "to": <%= to([["play_or_pause"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("v", ["fn"], []) %>,
+                    "to": <%= to([["fastforward"]]) %>
+                }
+            ]
+        },
+        {
+            "description": "Vi Mode [F as Trigger Key]",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": <%= from("f", [], ["any"]) %>,
                     "to": [
                         { "set_variable": { "name": "vi_mode", "value": 1 } }
                     ],
-                    "to_if_alone": <%= to([["d"]]) %>,
+                    "to_if_alone": <%= to([["f"]]) %>,
                     "to_after_key_up": [
                         { "set_variable": { "name": "vi_mode", "value": 0 } }
                     ]
                 },
-
-                <%# -------------------------------------------------- %>
-                <%# change h/j/k/l to arrow keys %>
-                <%# -------------------------------------------------- %>
                 {
                     "type": "basic",
                     "from": <%= from("h", [], ["any"]) %>,
                     "to": <%= to([["left_arrow"]]) %>,
                     "conditions": [
-                        { "type": "variable_if", "name": "vi_mode", "value": 1 },
-                        { "type": "variable_if", "name": "vi_visual_mode", "value": 0 }
+                        { "type": "variable_if", "name": "vi_mode", "value": 1 }
                     ]
                 },
                 {
@@ -193,8 +315,7 @@
                     "from": <%= from("j", [], ["any"]) %>,
                     "to": <%= to([["down_arrow"]]) %>,
                     "conditions": [
-                        { "type": "variable_if", "name": "vi_mode", "value": 1 },
-                        { "type": "variable_if", "name": "vi_visual_mode", "value": 0 }
+                        { "type": "variable_if", "name": "vi_mode", "value": 1 }
                     ]
                 },
                 {
@@ -202,8 +323,7 @@
                     "from": <%= from("k", [], ["any"]) %>,
                     "to": <%= to([["up_arrow"]]) %>,
                     "conditions": [
-                        { "type": "variable_if", "name": "vi_mode", "value": 1 },
-                        { "type": "variable_if", "name": "vi_visual_mode", "value": 0 }
+                        { "type": "variable_if", "name": "vi_mode", "value": 1 }
                     ]
                 },
                 {
@@ -211,8 +331,7 @@
                     "from": <%= from("l", [], ["any"]) %>,
                     "to": <%= to([["right_arrow"]]) %>,
                     "conditions": [
-                        { "type": "variable_if", "name": "vi_mode", "value": 1 },
-                        { "type": "variable_if", "name": "vi_visual_mode", "value": 0 }
+                        { "type": "variable_if", "name": "vi_mode", "value": 1 }
                     ]
                 }
             ]
