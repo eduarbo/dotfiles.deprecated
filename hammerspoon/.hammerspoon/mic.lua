@@ -2,6 +2,7 @@
 -- You can toggle mute by double tapping the f13 key
 
 local utils = require("utils")
+local label = require("labels")
 
 local micKey = 'f13'
 local doubleTap = false
@@ -13,9 +14,9 @@ local darkmode_status = hs.osascript.applescript('tell application "System Event
 local function displayStatus()
     hs.alert.closeAll()
     if mic:muted() then
-        hs.alert.show('🎙 Muted', 1)
+        label.new('🎙 Muted'):show(1)
     else
-        hs.alert.show('🎙 on Air', 1)
+        label.new('🎙 on Air'):show(1)
     end
 end
 
