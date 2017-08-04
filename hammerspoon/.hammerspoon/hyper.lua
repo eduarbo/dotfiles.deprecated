@@ -20,6 +20,8 @@ local apps = {
     { 'm', "Mail" },
     { 'p', "Spotify" },
     { 'r', "Activity Monitor" },
+    { 'b', "Karabiner-Elements" },
+    { ';', "Alfred 3" },
     { 'w', "1Password 6" },
 }
 
