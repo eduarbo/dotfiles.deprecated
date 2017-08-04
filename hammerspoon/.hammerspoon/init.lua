@@ -44,4 +44,5 @@ quitModal:bind('', 'escape', function() quitModal:exit() end)
 -----------------------------------------------
 
 require("hyper")
+require("netspeed")
 require("window")
