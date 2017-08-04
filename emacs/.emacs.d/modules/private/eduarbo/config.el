@@ -90,6 +90,10 @@
   (setq shackle-rules (remove '("^\\*"  :regexp t :noselect t :autokill t) shackle-rules)))
 
 
+(after! lua-mode
+  (setq lua-indent-level 4))
+
+
 (after! company
   (setq completion-ignore-case t
         company-abort-manual-when-too-short t
