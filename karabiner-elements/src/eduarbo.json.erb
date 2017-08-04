@@ -287,6 +287,31 @@
                     "to": <%= to([["fastforward"]]) %>
                 }
             ]
+        },
+        {
+            "description": "Vi Mode",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": <%= from("h", ["right_option"], ["any"]) %>,
+                    "to": <%= to([["left_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("j", ["right_option"], ["any"]) %>,
+                    "to": <%= to([["down_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("k", ["right_option"], ["any"]) %>,
+                    "to": <%= to([["up_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("l", ["right_option"], ["any"]) %>,
+                    "to": <%= to([["right_arrow"]]) %>
+                }
+            ]
         }
     ]
 }
