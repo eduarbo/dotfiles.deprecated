@@ -44,5 +44,6 @@ quitModal:bind('', 'escape', function() quitModal:exit() end)
 -----------------------------------------------
 
 require("hyper")
+require("date-battery")
 require("netspeed")
 require("window")
