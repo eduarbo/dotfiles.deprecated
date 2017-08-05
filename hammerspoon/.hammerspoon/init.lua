@@ -5,7 +5,7 @@ local utils = require("utils")
 hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", hs.reload):start()
 
 utils.tempNotify(2, hs.notify.new({
-    title = "Hammerspoon",
+    title = "Hammerspoon  🔨🥄",
     subTitle = "Config reloaded",
 }))
 
@@ -43,7 +43,6 @@ quitModal:bind('', 'escape', function() quitModal:exit() end)
 -- Modules
 -----------------------------------------------
 
-require("hyper")
 require("date-battery")
 require("mic")
 require("netspeed")

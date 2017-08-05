@@ -61,7 +61,7 @@
                     "description": "Change control+w to option+delete",
                     "type": "basic",
                     "from": <%= from("w", ["control"], ["caps_lock"]) %>,
-                    "to": <%= to([["delete_or_backspace", ["right_option"]]]) %>,
+                    "to": <%= to([["delete_or_backspace", ["left_option"]]]) %>,
                     "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
                 },
                 {
@@ -73,13 +73,13 @@
                 {
                     "type": "basic",
                     "from": <%= from("b", ["control"], ["caps_lock", "shift"]) %>,
-                    "to": <%= to([["left_arrow", ["right_option"]]]) %>,
+                    "to": <%= to([["left_arrow", ["left_option"]]]) %>,
                     "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
                 },
                 {
                     "type": "basic",
                     "from": <%= from("f", ["control"], ["caps_lock", "shift"]) %>,
-                    "to": <%= to([["right_arrow", ["right_option"]]]) %>,
+                    "to": <%= to([["right_arrow", ["left_option"]]]) %>,
                     "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
                 }
             ]
@@ -120,7 +120,7 @@
                 {
                     "type": "basic",
                     "from": <%= from("z", [symbols_modifier], []) %>,
-                    "to": <%= to([["1", ["right_option"]]]) %>
+                    "to": <%= to([["1", ["left_option"]]]) %>
                 },
                 {
                     "type": "basic",
@@ -145,17 +145,17 @@
                 {
                     "type": "basic",
                     "from": <%= from("n", [symbols_modifier], []) %>,
-                    "to": <%= to([["n", ["right_option"]]]) %>
+                    "to": <%= to([["n", ["left_option"]]]) %>
                 },
                 {
                     "type": "basic",
                     "from": <%= from("m", [symbols_modifier], []) %>,
-                    "to": <%= to([["e", ["right_option"]]]) %>
+                    "to": <%= to([["e", ["left_option"]]]) %>
                 },
                 {
                     "type": "basic",
                     "from": <%= from("slash", [symbols_modifier], []) %>,
-                    "to": <%= to([["slash", ["right_shift", "right_option"]]]) %>
+                    "to": <%= to([["slash", ["right_shift", "left_option"]]]) %>
                 }
             ]
         },
@@ -311,6 +311,36 @@
                     "from": <%= from("l", ["right_option"], ["any"]) %>,
                     "to": <%= to([["right_arrow"]]) %>
                 }
+            ]
+        },
+        {
+            <%
+                appsMap = {
+                    "a" => "/Applications/Calendar.app",
+                    "c" => "/Applications/Google Chrome.app",
+                    "o" => "/Applications/Opera.app",
+                    "e" => "/usr/local/Cellar/emacs/25.2/Emacs.app",
+                    "i" => "/Applications/iTerm.app",
+                    "s" => "/Applications/Slack.app",
+                    "f" => "/System/Library/CoreServices/Finder.app",
+                    "m" => "/Applications/Mail.app",
+                    "p" => "/Applications/Spotify.app",
+                    "r" => "/Applications/Utilities/Activity Monitor.app",
+                    "b" => "/Applications/Karabiner-Elements.app",
+                    "w" => "/Applications/1Password 6.app"
+                }
+            %>
+
+            "description": "Launch apps by right option+letters.",
+            "manipulators": [
+                <% appsMap.each do |key, appPath| %>
+                {
+                    "type": "basic",
+                    "from": <%= from(key, ["right_option"], ["caps_lock"]) %>,
+                    "to": [{ "shell_command": "open '<%= appPath %>'" }]
+                },
+                <% end %>
+                { "type": "basic" }
             ]
         }
     ]
