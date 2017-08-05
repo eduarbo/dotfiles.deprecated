@@ -12,7 +12,6 @@ local mic = hs.audiodevice.defaultInputDevice()
 local darkmode_status = hs.osascript.applescript('tell application "System Events"\nreturn dark mode of appearance preferences\nend tell')
 
 local function displayStatus()
-    hs.alert.closeAll()
     if mic:muted() then
         label.new('🎙 Muted'):show(1)
     else
