@@ -17,13 +17,13 @@ function minutesToHours(minutes)
     end
 end
 
-function showBatteryStatus()
-    local message
+function batteryStatus()
+    local message = "🔋"
+    local pct = hs.battery.percentage()
 
     if hs.battery.isCharging() then
-        local pct = hs.battery.percentage()
         local untilFull = hs.battery.timeToFullCharge()
-        message = "Charging:"
+        message = message .. " Charging:"
 
         if untilFull == -1 then
             message = string.format("%s %.0f%% (calculating...)", message, pct);
@@ -32,9 +32,7 @@ function showBatteryStatus()
             message = string.format("%s %.0f%% (%s remaining @ %.1fW)", message, pct, minutesToHours(untilFull), watts)
         end
     elseif hs.battery.powerSource() == "Battery Power" then
-        local pct = hs.battery.percentage()
         local untilEmpty = hs.battery.timeRemaining()
-        message = showDateTime()..'\n🔋'
 
         if untilEmpty == -1 then
             message = string.format("%s %.0f%% (calculating...)", message, pct)
@@ -43,27 +41,28 @@ function showBatteryStatus()
             message = string.format("%s %.0f%% (%s remaining @ %.1fW)", message, pct, minutesToHours(untilEmpty), watts)
         end
     else
-        message = "Fully charged"
+        message = message .. " Fully charged"
     end
+
+    return message
+end
+
+function showStatus()
+    local message = showDateTime() .. "\n" .. batteryStatus()
 
     hs.alert.closeAll()
     hs.alert.show(message)
-    -- hs.alert.show(hs.styledtext.new(message, {
-    --     paragraphStyle = {
-    --         alignment = 'justified'
-    --     }
-    -- }))
 end
 
 function batteryChangedCallback()
     local powerSource = hs.battery.powerSource()
 
     if powerSource ~= previousPowerSource then
-        showBatteryStatus()
+        showStatus()
         previousPowerSource = powerSource;
     end
 end
 
 hs.battery.watcher.new(batteryChangedCallback):start()
 
-hs.hotkey.bind('rightalt', ",", showBatteryStatus)
+hs.hotkey.bind('rightalt', ",", showStatus)
