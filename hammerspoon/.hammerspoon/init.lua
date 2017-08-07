@@ -40,6 +40,13 @@ quitModal:bind('cmd', 'q', doQuit)
 quitModal:bind('', 'escape', function() quitModal:exit() end)
 
 -----------------------------------------------
+-- Lock system
+-----------------------------------------------
+hs.hotkey.bind({"rightalt", "cmd"}, '`', 'Lock system', function()
+    hs.caffeinate.systemSleep()
+end)
+
+-----------------------------------------------
 -- Modules
 -----------------------------------------------
 
