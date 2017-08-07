@@ -7,6 +7,7 @@ set noautofocus
 set typelinkhints
 set nodimhintcharacters
 set defaultnewtabpage
+
 let searchlimit = 40
 let typelinkhintsdelay = 0
 let hintcharacters = "fdsajkl;weruiogh"
@@ -32,6 +33,7 @@ let searchalias t = "twitter"
 let searchalias u = "urbandictionary"
 let searchalias w = "wikipedia"
 let searchalias y = "youtube"
+
 " Mappings
 map ; openCommandBar
 map h previousTab
