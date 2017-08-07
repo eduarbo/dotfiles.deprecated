@@ -2,6 +2,31 @@
     "title": "Personal rules (@eduarbo)",
     "rules": [
         {
+            "description": "Vi Mode",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": <%= from("h", ["right_option"], ["any"]) %>,
+                    "to": <%= to([["left_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("j", ["right_option"], ["any"]) %>,
+                    "to": <%= to([["down_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("k", ["right_option"], ["any"]) %>,
+                    "to": <%= to([["up_arrow"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("l", ["right_option"], ["any"]) %>,
+                    "to": <%= to([["right_arrow"]]) %>
+                }
+            ]
+        },
+        {
             "description": "Better modifiers to reach them all with the thumbs",
             "manipulators": [
                 {
@@ -94,7 +119,7 @@
                 <% "qwertyuiop".split("").each_with_index do |char, index| %>
                 {
                     "type": "basic",
-                    "from": <%= from(char, [symbols_modifier], []) %>,
+                    "from": <%= from(char, [symbols_modifier], ["caps_lock"]) %>,
                     "to": <%= to([[numbers_row[index]]]) %>
                 },
                 <% end %>
@@ -102,59 +127,59 @@
                 <% "asdfghjk".split("").each_with_index do |char, index| %>
                 {
                     "type": "basic",
-                    "from": <%= from(char, [symbols_modifier], []) %>,
+                    "from": <%= from(char, [symbols_modifier], ["caps_lock"]) %>,
                     "to": <%= to([[numbers_row[index], ["right_shift"]]]) %>
                 },
                 <% end %>
                 {
                     "type": "basic",
-                    "from": <%= from("l", [symbols_modifier], []) %>,
+                    "from": <%= from("l", [symbols_modifier], ["caps_lock"]) %>,
                     "to": <%= to([["backslash"]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("semicolon", [symbols_modifier], []) %>,
+                    "from": <%= from("semicolon", [symbols_modifier], ["caps_lock"]) %>,
                     "to": <%= to([["backslash", ["right_shift"]]]) %>
                 },
 
                 {
                     "type": "basic",
-                    "from": <%= from("z", [symbols_modifier], []) %>,
+                    "from": <%= from("z", [symbols_modifier], ["caps_lock"]) %>,
                     "to": <%= to([["1", ["left_option"]]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("x", [symbols_modifier], []) %>,
+                    "from": <%= from("x", [symbols_modifier], ["caps_lock"]) %>,
                     "to": <%= to([["equal_sign"]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("c", [symbols_modifier], []) %>,
+                    "from": <%= from("c", [symbols_modifier], ["caps_lock"]) %>,
                     "to": <%= to([["hyphen"]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("v", [symbols_modifier], []) %>,
+                    "from": <%= from("v", [symbols_modifier], ["caps_lock"]) %>,
                     "to": <%= to([["equal_sign", ["right_shift"]]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("b", [symbols_modifier], []) %>,
+                    "from": <%= from("b", [symbols_modifier], ["caps_lock"]) %>,
                     "to": <%= to([["hyphen", ["right_shift"]]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("n", [symbols_modifier], []) %>,
+                    "from": <%= from("n", [symbols_modifier], ["caps_lock"]) %>,
                     "to": <%= to([["n", ["left_option"]]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("m", [symbols_modifier], []) %>,
+                    "from": <%= from("m", [symbols_modifier], ["caps_lock"]) %>,
                     "to": <%= to([["e", ["left_option"]]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("slash", [symbols_modifier], []) %>,
+                    "from": <%= from("slash", [symbols_modifier], ["caps_lock"]) %>,
                     "to": <%= to([["slash", ["right_shift", "left_option"]]]) %>
                 }
             ]
@@ -285,31 +310,6 @@
                     "type": "basic",
                     "from": <%= from("v", ["fn"], []) %>,
                     "to": <%= to([["fastforward"]]) %>
-                }
-            ]
-        },
-        {
-            "description": "Vi Mode",
-            "manipulators": [
-                {
-                    "type": "basic",
-                    "from": <%= from("h", ["right_option"], ["any"]) %>,
-                    "to": <%= to([["left_arrow"]]) %>
-                },
-                {
-                    "type": "basic",
-                    "from": <%= from("j", ["right_option"], ["any"]) %>,
-                    "to": <%= to([["down_arrow"]]) %>
-                },
-                {
-                    "type": "basic",
-                    "from": <%= from("k", ["right_option"], ["any"]) %>,
-                    "to": <%= to([["up_arrow"]]) %>
-                },
-                {
-                    "type": "basic",
-                    "from": <%= from("l", ["right_option"], ["any"]) %>,
-                    "to": <%= to([["right_arrow"]]) %>
                 }
             ]
         },
