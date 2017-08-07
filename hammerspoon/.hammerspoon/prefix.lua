@@ -4,7 +4,7 @@ local module = {}
 
 local TIMEOUT = 5
 
-local modal = hs.hotkey.modal.new('alt', "'")
+local modal = hs.hotkey.modal.new('alt', ".")
 
 function modal:entered()
     modal.alertId = hs.alert.show("Prefix Mode", 9999)
