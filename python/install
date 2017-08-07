@@ -9,12 +9,10 @@ if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
 
   install-deps
 
-  # Set default python version
-  ln -sf /usr/local/bin/python3 /usr/local/bin/python
-  ln -sf /usr/local/bin/pip3 /usr/local/bin/pip
-
   # Install virtualenv only in python2, for python3 we have the built-in venv module
   PIP_REQUIRE_VIRTUALENV="" pip2 install virtualenv
+
+  # TODO: Install completions for pip and python
 else
   echo "Unsupported OS"
 fi
