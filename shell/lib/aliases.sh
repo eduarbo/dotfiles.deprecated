@@ -67,13 +67,6 @@ alias reload="exec $SHELL -l"
 # Lists the ten most used commands.
 alias historystat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
 
-alias py='python'
-alias py2='python2'
-alias py3='python3'
-alias ipy='ipython'
-alias mkv='mkvirtualenv'
-alias workoff='deactivate'
-
 alias ssh='TERM=xterm-256color ssh'
 # }}}
 
@@ -104,8 +97,6 @@ alias mv='mv -i'
 # }}}
 
 # Misc --------------------------------------------------------------------- {{{
-alias server='python -m SimpleHTTPServer'
-
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en1"
 alias ips="ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)\|[a-fA-F0-9:]\+\)' | sed -e 's/inet6* //'"
