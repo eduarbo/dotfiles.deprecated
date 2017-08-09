@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+brew_deps=(yarn)
+
 . env.sh # export NVM_DIR
 
 (
@@ -10,4 +12,5 @@
 
 nvm install node
 nvm alias default node
+install-deps
 stow-module
