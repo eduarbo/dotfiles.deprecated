@@ -1,9 +1,26 @@
+" :set encoding should be described before :scriptencoding, otherwise Vim can
+" not recognize the character code of your vimrc
+set encoding=utf-8
+scriptencoding utf-8
+
 set nocompatible
 
-" Preferences {{{
-syntax on
-filetype indent plugin on
+" Plugins {{{
+" Automatic installation
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
 
+call plug#begin('~/.vim/plugged')
+
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'w0ng/vim-hybrid'
+
+call plug#end() " Automatically executes filetype plugin indent on and syntax enable
+
+" Preferences {{{
 set laststatus=2             " Show statusbar
 set nolist                   " Don't show whitespace chars (indentLine does it nicer)
 set nospell                  " No spell check, please
@@ -40,6 +57,10 @@ set wildignore+=*.class,*.o,*.pyc,*.obj,*DS_Store*
 " Shell {{{
 " 256bit terminals
 set t_Co=256
+if (has('termguicolors'))
+  " True colors
+  set termguicolors
+endif
 set title
 " }}}
 " Search {{{
@@ -135,3 +156,5 @@ let g:netrw_liststyle = 3
 let g:netrw_sort_options = 'i'
 " }}}
 " }}}
+set background=dark
+colorscheme hybrid
