@@ -41,6 +41,12 @@ set shortmess+=filmnrxoOtTs
 set ruler                " Show line/col no in statusline
 set showcmd              " Show command issued
 
+" Time out on key codes but not mappings.
+" Basically this makes terminal Vim work sanely.
+set notimeout
+set ttimeout
+set ttimeoutlen=0
+
 set textwidth=88
 set fillchars=vert:¦
 
@@ -103,9 +109,6 @@ nmap Q <Plug>FormatLine
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 
-" Panic Button
-nnoremap <leader>` mzggg?G`z
-
 " Made D behave as C
 nnoremap D d$
 
@@ -127,6 +130,7 @@ noremap k gk
 noremap gj j
 noremap gk k
 
+" Splits
 nnoremap <leader>wv <C-w>v
 nnoremap <leader>ws <C-w>s
 
@@ -147,14 +151,11 @@ nnoremap J mzJ`z
 "identation
 vnoremap < <gv
 vnoremap > >gv
-" }}}
-" Navigation {{{
-" netrw
-let g:netrw_banner = 0
-let g:netrw_keepdir = 0
-let g:netrw_liststyle = 3
-let g:netrw_sort_options = 'i'
+
+" Panic Button
+nnoremap <leader>` mzggg?G`z
 " }}}
 " }}}
+
 set background=dark
 colorscheme hybrid
