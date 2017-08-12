@@ -37,7 +37,7 @@
   (counsel-git-grep nil (+eduarbo/region-or-nil)))
 
 ;;;###autoload
-(defun +eduarbo/rename-this-file ()
+(defun +eduarbo/rename-this-buffer-file ()
   "Renames current buffer and file it is visiting."
   (interactive)
   (let* ((name (buffer-name))
@@ -59,8 +59,7 @@
                (when (fboundp 'recentf-add-file)
                  (recentf-add-file new-name)
                  (recentf-remove-if-non-kept filename))
-               (when (and (configuration-layer/package-usedp 'projectile)
-                          (projectile-project-p))
+               (when (projectile-project-p)
                  (call-interactively #'projectile-invalidate-cache))
                (message "File '%s' successfully renamed to '%s'" name (file-name-nondirectory new-name))))))))
 
@@ -88,7 +87,9 @@
   `(progn
      (defun ,(intern (format "+eduarbo/find-in-%s" name)) ()
        (interactive)
-       (let ((default-directory ,dir))
+       (let ((default-directory ,dir)
+             projectile-require-project-root
+             projectile-cached-buffer-file-name)
          (call-interactively (command-remapping #'projectile-find-file))))
      (defun ,(intern (format "+eduarbo/browse-%s" name)) ()
        (interactive)

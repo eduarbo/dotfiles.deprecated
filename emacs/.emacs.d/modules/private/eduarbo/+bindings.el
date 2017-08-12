@@ -159,7 +159,7 @@
      :desc "Browse emacs.d"            :n "E" #'+eduarbo/browse-emacsd
      :desc "Find file"                 :n "f" #'find-file
      :desc "Recent files"              :n "r" #'recentf
-     :desc "Rename file"               :n "R" #'+eduarbo/rename-this-file
+     :desc "Rename file"               :n "R" #'+eduarbo/rename-this-buffer-file
      :desc "Copy file"                 :n "C" #'write-file
      :desc "Kill file"                 :n "K" #'+evil:delete-this-file
      :desc "Save file"                 :n "s" #'save-buffer
