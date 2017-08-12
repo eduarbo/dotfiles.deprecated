@@ -75,6 +75,13 @@
   (advice-add #'projectile-switch-project-by-name :around #'fix-projectile-project-name))
 
 
+(after! flycheck-pos-tip
+  ;; make sure flycheck errors take precedence over eldoc. Eldoc delay is 0.5
+  (setq flycheck-display-errors-delay 0.6)
+  ;; Disable broken tooltip in macOS
+  (flycheck-pos-tip-mode -1))
+
+
 (after! magit
   ;; Prevent magit windows to be handled by shackle
   (setq shackle-rules (remove '("^\\*magit" :regexp t :size 0.5 :noesc t :autokill t) shackle-rules))
