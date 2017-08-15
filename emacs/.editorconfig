@@ -24,7 +24,6 @@ indent_style = tab
 [*.{js,json}]
 indent_style = space
 indent_size = 2
-trim_trailing_whitespace = true
 
 # Matches the exact files either package.json or .travis.yml
 [{package.json,.travis.yml}]

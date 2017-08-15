@@ -304,6 +304,7 @@
      :desc "Indent guides (column)" :n "I" #'highlight-indentation-current-column-mode
      :desc "Impatient mode"         :n "h" #'+impatient-mode/toggle
      :desc "Big mode"               :n "b" #'+doom-big-font-mode
+     :desc "Whitespace"             :n "w" #'whitespace-mode
      :desc "Evil goggles"           :n "g" #'+evil-goggles/toggle))
 
 

@@ -32,7 +32,9 @@
   :when (and (featurep! :feature evil)
              (featurep! :feature version-control))
   :after magit
-  :init (setq evil-magit-want-horizontal-movement t))
+  :init
+  (setq evil-magit-want-horizontal-movement t
+        magit-diff-paint-whitespace t))
 
 
 (def-package! company-flx
