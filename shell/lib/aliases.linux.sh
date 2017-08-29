@@ -8,9 +8,15 @@ alias localip='ip route get 1 | awk "{print \$NF;exit}"'
 if (( $+commands[xclip] )); then
     alias y='xclip -selection clipboard -in'
     alias p='xclip -selection clipboard -out'
+    # For compatibility with some aliases
+    alias pbcopy='xclip -selection clipboard -in'
+    alias pbpaste='xclip -selection clipboard -out'
 elif (( $+commands[xsel] )); then
     alias y='xsel --clipboard --input'
     alias p='xsel --clipboard --output'
+    # For compatibility with some aliases
+    alias pbcopy='xsel --clipboard --input'
+    alias pbpaste='xsel --clipboard --output'
 fi
 
 alias reboot="systemctl reboot"
