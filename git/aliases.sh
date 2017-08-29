@@ -49,3 +49,4 @@ alias gh='git help'
 # copy
 alias gcb="git rev-parse --abbrev-ref HEAD | pbcopy | echo '=> Copied branch name'"
 alias gch="git rev-parse --short HEAD | pbcopy | echo '=> Copied short commit hash'"
+alias gcH="git rev-parse HEAD | pbcopy | echo '=> Copied commit hash'"
