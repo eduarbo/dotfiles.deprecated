@@ -746,7 +746,7 @@
 
 ;; evil-easymotion
 (after! evil-easymotion
-  (let ((prefix (concat doom-leader-key " /")))
+  (let ((prefix (concat "g SPC")))
     ;; NOTE `evilem-default-keybinds' unsets all other keys on the prefix (in
     ;; motion state)
     (evilem-default-keybindings prefix)
