@@ -8,6 +8,8 @@ deps=(
   emacs
 )
 brew_deps=(
+  cmake
+  llvm
   "emacs --with-modules --with-librsvg --with-imagemagick@6 --with-gnutls --with-cocoa"
 )
 

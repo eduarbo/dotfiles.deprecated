@@ -1,21 +1,26 @@
 ;;; private/eduarbo/init.el -*- lexical-binding: t; -*-
 
-(setq user-mail-address "eduarbo@gmail.com"
+(setq doom-leader-key ","
+      doom-localleader-key "SPC"
+
+      user-mail-address "eduarbo@gmail.com"
       user-full-name    "Eduardo Ruiz Macias")
 
-(setq doom-leader-key ","
-      doom-localleader-key ",m")
+;; An extra measure to prevent the flash of unstyled mode-line while Emacs is
+;; booting up (when Doom is byte-compiled).
+(setq-default mode-line-format nil)
+
+(set! :font "Hack" :size 14)
+(set! :big-font "Hack" :size 16)
+;; (set! :variable-font "Fira Sans" :size 12)
+(set! :unicode-font "Hack" :size 14)
 
 (setq +doom-modeline-height 25
-      doom-theme 'doom-one
-      doom-font (font-spec :family "Hack" :size 12)
-      ;; doom-variable-pitch-font (font-spec :family "Hack" :size 12)
-      ;; doom-unicode-font (font-spec :family "Hack" :size 12)
-      doom-line-number-lpad 3)
+      ;; doom-line-number-lpad 3
+      doom-theme 'doom-one)
 
 ;; Set my notes directory
 (setq +org-dir (expand-file-name "~/Google Drive/org/"))
-(setq +present--original-font doom-font)
 
 ;; Enable accents
 (setq ns-alternate-modifier 'none)

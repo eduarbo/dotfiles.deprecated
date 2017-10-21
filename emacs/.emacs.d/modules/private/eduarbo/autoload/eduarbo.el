@@ -1,40 +1,12 @@
 ;;; private/eduarbo/autoload/eduarbo.el -*- lexical-binding: t; -*-
 
 ;;;###autoload
-(defun +eduarbo/set-workspace--last (name frame)
-  "Save last visited workspace."
-  (let ((old-name (+workspace-current-name)))
-    (when (and (framep frame)
-               (not (string= old-name persp-nil-name))
-               (not (string= old-name +workspace--last)))
-      (setq +workspace--last old-name))))
-
-;;;###autoload
 (defun +eduarbo/yank-buffer-filename ()
   "Copy the current buffer's path to the kill ring."
   (interactive)
   (if-let (filename (or buffer-file-name (bound-and-true-p list-buffers-directory)))
       (message (kill-new (abbreviate-file-name filename)))
     (error "Couldn't find filename in current buffer")))
-
-;;;###autoload
-(defun +eduarbo/region-or-nil ()
-  "Return region whenever available."
-  (when (use-region-p)
-    (deactivate-mark)
-    (buffer-substring-no-properties (mark) (point))))
-
-;;;###autoload
-(defun +eduarbo/swiper-region ()
-  "Swiper region whenever available."
-  (interactive)
-  (swiper (+eduarbo/region-or-nil)))
-
-;;;###autoload
-(defun +eduarbo/counsel-git-grep-region ()
-  "Git grep region whenever available."
-  (interactive)
-  (counsel-git-grep nil (+eduarbo/region-or-nil)))
 
 ;;;###autoload
 (defun +eduarbo/rename-this-buffer-file ()
@@ -64,23 +36,9 @@
                (message "File '%s' successfully renamed to '%s'" name (file-name-nondirectory new-name))))))))
 
 ;;;###autoload
-(defun +eduarbo/workspace-switch-last ()
-  "Switch to the perspective accessed before the current one."
-  (interactive)
-  (unless +workspace--last
-    (error "There is no last perspective"))
-  (+workspace-switch +workspace--last))
-
-;;;###autoload
 (defun +eduarbo/ag-notes (&optional initial-input)
   (interactive)
-  (counsel-ag initial-input +org-notes-dir "--hidden" "Find in notes"))
-
-;;;###autoload
-(defun +eduarbo/alternate-buffer-in-persp ()
-  "Switch back and forth between current and last buffer in the current perspective."
-  (interactive)
-  (with-persp-buffer-list () (switch-to-buffer (other-buffer (current-buffer) t))))
+  (counsel-ag initial-input +org-dir nil "Find in notes"))
 
 (defmacro +eduarbo-def-finder! (name dir)
   "Define a pair of find-file and browse functions."
@@ -88,8 +46,10 @@
      (defun ,(intern (format "+eduarbo/find-in-%s" name)) ()
        (interactive)
        (let ((default-directory ,dir)
+             ;; projectile-enable-caching
              projectile-require-project-root
-             projectile-cached-buffer-file-name)
+             projectile-cached-buffer-file-name
+             projectile-cached-project-root)
          (call-interactively (command-remapping #'projectile-find-file))))
      (defun ,(intern (format "+eduarbo/browse-%s" name)) ()
        (interactive)
