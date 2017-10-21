@@ -22,6 +22,8 @@ alias bru='brew update && brew upgrade && brew cleanup'
 
 alias localip="ipconfig getifaddr en1"
 
+alias unfuckcamera="sudo killall VDCAssistant"
+
 # macOS has no `md5sum`, so use `md5` as a fallback
 is_callable md5sum || alias md5sum="md5"
 # macOS has no `sha1sum`, so use `shasum` as a fallback
