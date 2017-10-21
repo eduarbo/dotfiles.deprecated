@@ -380,8 +380,8 @@
  :nv [C-tab] #'aya-create
 
  ;; company-mode (vim-like omnicompletion)
- ;; :i [S-return]  #'+company/complete
  :i [tab]    #'company-indent-or-complete-common
+
  (:prefix "C-x"
    :i "C-l"   #'+company/whole-lines
    :i "C-k"   #'+company/dict-or-keywords
@@ -404,9 +404,6 @@
      "C-S-s"      #'company-search-candidates
      "C-s"        #'company-filter-candidates
      "C-h"        #'company-quickhelp-manual-begin
-     [13]         nil
-     [return]     nil
-     [tab]        #'company-complete-selection
      [escape]     (λ! (company-abort) (evil-normal-state 1)))
    ;; Automatically applies to `company-filter-map'
    (:map company-search-map
@@ -657,8 +654,8 @@
      "C-n"           #'yas-next-field
      "C-p"           #'yas-prev-field
    (:map yas-minor-mode-map
-     :i [S-return] yas-maybe-expand
-     :v [S-return] #'+snippets/expand-on-region))
+     :i [backtab] yas-maybe-expand
+     :v [backtab] #'+snippets/expand-on-region))
 
 
  ;; --- Major mode bindings --------------------------
