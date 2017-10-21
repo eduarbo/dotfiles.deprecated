@@ -14,6 +14,7 @@ brew_deps=(
 )
 
 dots install fonts
+dots install editorconfig
 install-deps
 
 emacsd="$HOME/.emacs.d"
