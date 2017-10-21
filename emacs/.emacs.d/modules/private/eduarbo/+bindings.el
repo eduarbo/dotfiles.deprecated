@@ -339,8 +339,8 @@
  :n  "g@" #'+evil:macro-on-all-lines
  ;; jump to char/line
  :nv  "go"  #'avy-goto-char-timer
- :nv  "gs"  #'avy-goto-char-2-above
- :nv  "gS"  #'avy-goto-char-2-below
+ :nv  "gs"  #'avy-goto-char-2-below
+ :nv  "gS"  #'avy-goto-char-2-above
  :nv  "gl"  #'avy-goto-line
  ;; repeat in visual mode (FIXME buggy)
  :v  "."  #'evil-repeat
@@ -474,6 +474,9 @@
 
  ;; evil-snipe
  (:after evil-snipe
+   ;; Override default snipe mappings
+   :v  "s"  #'evil-surround-region
+
    ;; Binding to switch to evil-easymotion/avy after a snipe
    :map evil-snipe-parent-transient-map
    "C-;" (λ! (require 'evil-easymotion)
@@ -484,8 +487,11 @@
                                     (evil-snipe-enable-incremental-highlight))))))
 
  ;; evil-surround
- ;; NOTE: why not map evil-surrond-region to lower s
- :v  "S"  #'evil-surround-region
+ (:after evil-surround
+   ;; Override default surround mappings
+   :v  "S"   #'evil-snipe-S
+   :v  "C-s" #'evil-snipe-s)
+
  :o  "s"  #'evil-surround-edit
  :o  "S"  #'evil-Surround-edit
 
