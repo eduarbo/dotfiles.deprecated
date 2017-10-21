@@ -47,3 +47,6 @@
 
 ;; Get some context
 (setq scroll-margin 10)
+
+;; Disable package (tells Doom to ignore def-package! blocks for this package)
+(def-package-hook! evil-escape :disable)

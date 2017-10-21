@@ -45,10 +45,6 @@
   (add-hook! 'emacs-lisp-mode-hook (setq-local evil-args-delimiters '(" "))))
 
 
-(after! evil-escape
-  (setq evil-escape-key-sequence nil))
-
-
 (def-package! evil-magit
   :when (and (featurep! :feature evil)
              (featurep! :feature version-control))
