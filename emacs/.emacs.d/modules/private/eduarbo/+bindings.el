@@ -41,7 +41,6 @@
  ;; Simple window navigation/manipulation
  "C-'"    #'doom/popup-toggle
  "C-~"    #'doom/popup-raise
- "M-d"    #'bookmark-set
  "M-t"    #'+workspace/new
  "M-T"    #'+workspace/display
  "M-w"    #'delete-window
@@ -94,6 +93,7 @@
    :desc "Switch buffer"           :n "<"   #'switch-to-buffer
    :desc "Browse files"            :n "."   #'find-file
    :desc "Toggle last popup"       :n "'"   #'doom/popup-toggle
+   :desc "Ivy resume"              :n "`"   #'+ivy-quit-and-resume
    :desc "Eval expression"         :n ":"   #'eval-expression
    :desc "Switch last buffer"      :n "TAB" #'evil-switch-to-windows-last-buffer
    :desc "Switch last workspace"   :n "DEL" #'persp-frame-switch
@@ -127,7 +127,6 @@
 
    (:desc "search" :prefix "/"
      :desc "Swiper"                :nv "/" #'swiper
-     ;; TODO: allow swiper on region
      :desc "Ag"                    :v  "g" #'+ivy:ag
                                    :n  "g"  #'counsel-projectile-ag
      :desc "Imenu"                 :nv "i" #'imenu
@@ -135,18 +134,18 @@
      :desc "Online providers"      :nv "o" #'+jump/online-select)
 
    (:desc "buffer" :prefix "b"
-     :desc "New empty buffer"           :n "n" #'evil-buffer-new
      :desc "Switch workspace buffer"    :n "b" #'persp-switch-to-buffer
      :desc "Switch buffer"              :n "B" #'switch-to-buffer
      :desc "Kill buffer"                :n "k" #'doom/kill-this-buffer
+     :desc "New empty buffer"           :n "n" #'evil-buffer-new
      :desc "Kill other buffers"         :n "o" #'doom/kill-other-buffers
      :desc "Save buffer"                :n "s" #'save-buffer
+     :desc "Sudo edit this file"        :n "S" #'doom/sudo-this-file
      :desc "Pop scratch buffer"         :n "x" #'doom/open-scratch-buffer
-     :desc "Pop project scratch buffer" :n "x" #'doom/open-project-scratch-buffer
+     :desc "Pop project scratch buffer" :n "X" #'doom/open-project-scratch-buffer
      :desc "Bury buffer"                :n "z" #'bury-buffer
      :desc "Next buffer"                :n "]" #'doom/next-buffer
-     :desc "Previous buffer"            :n "[" #'doom/previous-buffer
-     :desc "Sudo edit this file"        :n "S" #'doom/sudo-this-file)
+     :desc "Previous buffer"            :n "[" #'doom/previous-buffer)
 
    (:desc "code" :prefix "c"
      :desc "List errors"               :n  "x" #'flycheck-list-errors
@@ -192,25 +191,25 @@
    (:desc "help" :prefix "h"
      :n "h" help-map
      :desc "Apropos"               :n "a" #'apropos
-     :desc "Reload theme"          :n "R" #'doom/reload-theme
-     :desc "Find library"          :n "l" #'find-library
-     :desc "Toggle Emacs log"      :n "m" #'doom/popup-toggle-messages
-     :desc "Command log"           :n "L" #'global-command-log-mode
-     :desc "Describe function"     :n "f" #'describe-function
-     :desc "Describe key"          :n "k" #'describe-key
      :desc "Describe char"         :n "c" #'describe-char
-     :desc "Describe mode"         :n "M" #'describe-mode
-     :desc "Describe variable"     :n "v" #'describe-variable
-     :desc "Describe face"         :n "F" #'describe-face
-     :desc "Describe DOOM setting" :n "s" #'doom/describe-setting
      :desc "Describe DOOM module"  :n "d" #'doom/describe-module
+     :desc "Describe function"     :n "f" #'describe-function
+     :desc "Describe face"         :n "F" #'describe-face
+     :desc "Find documentation"    :n "h" #'+jump/documentation
+     :desc "Info"                  :n "i" #'info
+     :desc "Describe key"          :n "k" #'describe-key
+     :desc "Find library"          :n "l" #'find-library
+     :desc "Command log"           :n "L" #'global-command-log-mode
+     :desc "Toggle Emacs log"      :n "m" #'doom/popup-toggle-messages
+     :desc "Describe mode"         :n "M" #'describe-mode
+     :desc "Toggle profiler"       :n "p" #'doom/toggle-profiler
+     :desc "Reload theme"          :n "R" #'doom/reload-theme
+     :desc "Describe DOOM setting" :n "s" #'doom/describe-setting
+     :desc "Describe variable"     :n "v" #'describe-variable
      :desc "Find definition"       :n "." #'+jump/definition
      :desc "Find references"       :n "/" #'+jump/references
-     :desc "Find documentation"    :n "h" #'+jump/documentation
      :desc "What face"             :n "'" #'doom/what-face
-     :desc "What minor modes"      :n ";" #'doom/what-minor-mode
-     :desc "Info"                  :n "i" #'info
-     :desc "Toggle profiler"       :n "p" #'doom/toggle-profiler)
+     :desc "What minor modes"      :n ";" #'doom/what-minor-mode)
 
    (:desc "insert" :prefix "i"
      :desc "From kill-ring" :nv "y" #'counsel-yank-pop
@@ -254,8 +253,6 @@
 
    (:desc "open" :prefix "o"
      :desc "Default browser"     :n  "b" #'browse-url-of-file
-     ;; FIXME: is not working
-     ;; :desc "Debugger"            :n  "d" #'+debug/open
      :desc "REPL"                :n  "r" #'+eval/open-repl
                                  :v  "r" #'+eval:repl
      :desc "Neotree"             :n  "n" #'+neotree/toggle
@@ -271,18 +268,14 @@
      ;; macos
      (:when IS-MAC
        :desc "Reveal in Finder"          :n "o" #'+macos/reveal-in-finder
-       :desc "Reveal project in Finder"  :n "O" #'+macos/reveal-project-in-finder
-       ;; TODO: Send to Alfred instead
-       ;; :desc "Send to Launchbar"         :n "l" #'+macos/send-to-launchbar
-       ;; :desc "Send project to Launchbar" :n "L" #'+macos/send-project-to-launchbar
-       ))
+       :desc "Reveal project in Finder"  :n "O" #'+macos/reveal-project-in-finder))
 
    (:desc "project" :prefix "p"
      :desc "Browse project"              :n  "." (find-file-in! (doom-project-root))
      :desc "Find file in project"        :n  "/" #'projectile-find-file
      :desc "Run cmd in project root"     :nv "!" #'projectile-run-shell-command-in-root
      :desc "Switch project"              :n  "p" #'projectile-switch-project
-     :desc "Switch project in workspace" :n  "p" #'+eduarbo/workspaces-projectile-switch-project
+     :desc "Switch project in workspace" :n  "P" #'+eduarbo/workspaces-projectile-switch-project
      :desc "Discover projects"           :n  "d" #'projectile-discover-projects-in-directory
      :desc "Recent project files"        :n  "r" #'projectile-recentf
      :desc "List project tasks"          :n  "t" #'+ivy/tasks
@@ -308,20 +301,19 @@
      :desc "New snippet"           :n  "n" #'yas-new-snippet
      :desc "Insert snippet"        :nv "i" #'yas-insert-snippet
      :desc "Find snippet for mode" :n  "s" #'yas-visit-snippet-file
-     :desc "Find snippet"          :n  "S" #'+eduarbo/find-in-snippets)
+     :desc "Find snippet"          :n  "S" #'+eduarbo/find-in-snippets) ;; FIXME
 
    (:desc "toggle" :prefix "t"
      ;; TODO: add toggle to center window mode
-     :desc "Flyspell"               :n "s" #'flyspell-mode
+     :desc "Big mode"               :n "b" #'doom-big-font-mode
      :desc "Flycheck"               :n "f" #'flycheck-mode
-     :desc "Line numbers"           :n "l" #'doom/toggle-line-numbers
      :desc "Fullscreen"             :n "F" #'doom/toggle-fullscreen
+     :desc "Evil goggles"           :n "g" #'+evil-goggles/toggle
      :desc "Indent guides"          :n "i" #'highlight-indentation-mode
      :desc "Indent guides (column)" :n "I" #'highlight-indentation-current-column-mode
-     :desc "Impatient mode"         :n "h" #'+impatient-mode/toggle
-     :desc "Big mode"               :n "b" #'doom-big-font-mode
-     :desc "Whitespace"             :n "w" #'whitespace-mode
-     :desc "Evil goggles"           :n "g" #'+evil-goggles/toggle))
+     :desc "Line numbers"           :n "l" #'doom/toggle-line-numbers
+     :desc "Flyspell"               :n "s" #'flyspell-mode
+     :desc "Whitespace"             :n "w" #'whitespace-mode))
 
 
  ;; --- Personal vim-esque bindings ------------------
@@ -343,10 +335,10 @@
  :v  "@"  #'+evil:macro-on-all-lines
  :n  "g@" #'+evil:macro-on-all-lines
  ;; jump to char/line
- :nv  "go"  #'avy-goto-char-timer
- :nv  "gs"  #'avy-goto-char-2-below
- :nv  "gS"  #'avy-goto-char-2-above
- :nv  "gl"  #'avy-goto-line
+ :nv "go"  #'avy-goto-char-timer
+ :nv "gs"  #'avy-goto-char-2-below
+ :nv "gS"  #'avy-goto-char-2-above
+ :nv "gl"  #'avy-goto-line
  ;; repeat in visual mode (FIXME buggy)
  :v  "."  #'evil-repeat
  ;; don't leave visual mode after shifting
@@ -580,6 +572,7 @@
  ;; ivy
  (:after ivy
    :map ivy-minibuffer-map
+   ;; NOTE: The active region can be yanked into the ivy minibuffer with M-n
    [escape] #'keyboard-escape-quit
    "M-v" #'yank
    "M-z" #'undo
