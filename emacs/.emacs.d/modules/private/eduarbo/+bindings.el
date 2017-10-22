@@ -282,10 +282,12 @@
      :desc "Find file in project"        :n  "/" #'projectile-find-file
      :desc "Run cmd in project root"     :nv "!" #'projectile-run-shell-command-in-root
      :desc "Switch project"              :n  "p" #'projectile-switch-project
+     :desc "Switch project in workspace" :n  "p" #'+eduarbo/workspaces-projectile-switch-project
      :desc "Discover projects"           :n  "d" #'projectile-discover-projects-in-directory
      :desc "Recent project files"        :n  "r" #'projectile-recentf
      :desc "List project tasks"          :n  "t" #'+ivy/tasks
      :desc "Pop term in project"         :n  "o" #'+term/open-popup-in-project
+     :desc "Switch project in workspace" :n  "w" #'+eduarbo/workspaces-projectile-switch-project
      :desc "Invalidate cache"            :n  "x" #'projectile-invalidate-cache)
 
    (:desc "quit" :prefix "q"

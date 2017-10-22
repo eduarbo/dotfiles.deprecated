@@ -84,6 +84,7 @@
 
 
 (after! projectile
+  ;; Fix for broken projectile-discover-projects-in-directory
   ;; TODO: Remove after this workaround is merged into master
   ;; https://github.com/bbatsov/projectile/issues/1165
   (defun projectile-discover-projects-in-directory (directory)

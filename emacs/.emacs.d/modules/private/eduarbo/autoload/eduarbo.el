@@ -1,6 +1,35 @@
 ;;; private/eduarbo/autoload/eduarbo.el -*- lexical-binding: t; -*-
 
 ;;;###autoload
+(defun +eduarbo/counsel-projectile-switch-project-action (project)
+  "Switch to a project we have visited before.
+
+Invokes the command referenced by
+`projectile-switch-project-action' on switch."
+  (interactive)
+  (let ((projectile-project-name (funcall projectile-project-name-function project)))
+    (when persp-mode
+      (+workspace-switch projectile-project-name t)
+      (with-current-buffer (switch-to-buffer (doom-fallback-buffer))
+        (setq default-directory project)))
+    (counsel-projectile-switch-project-action project)))
+
+;;;###autoload
+(defun +eduarbo/workspaces-projectile-switch-project ()
+  "Switch to a project we have visited before.
+
+Invokes the command referenced by
+`projectile-switch-project-action' on switch."
+  (interactive)
+  (ivy-read (projectile-prepend-project-name "Switch to project: ")
+            projectile-known-projects
+            :preselect (and (projectile-project-p)
+                            (abbreviate-file-name (projectile-project-root)))
+            :action #'+eduarbo/counsel-projectile-switch-project-action
+            :require-match t
+            :caller 'counsel-projectile-switch-project))
+
+;;;###autoload
 (defun +eduarbo/yank-buffer-filename ()
   "Copy the current buffer's path to the kill ring."
   (interactive)
