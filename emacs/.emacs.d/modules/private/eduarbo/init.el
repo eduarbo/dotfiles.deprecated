@@ -1,31 +1,34 @@
 ;;; private/eduarbo/init.el -*- lexical-binding: t; -*-
 
+;; Special file that is automatically loaded after Doom core files, but before
+;; modules are loaded. Use it to configure DOOM.
+
 (setq doom-leader-key ","
-      doom-localleader-key "SPC"
+      doom-localleader-key "SPC" ;; FIXME
+
+      ;; Set my notes directory
+      +org-dir (expand-file-name "~/Google Drive/org/")
 
       user-mail-address "eduarbo@gmail.com"
       user-full-name    "Eduardo Ruiz Macias")
 
-;; An extra measure to prevent the flash of unstyled mode-line while Emacs is
-;; booting up (when Doom is byte-compiled).
-(setq-default mode-line-format nil)
-
+;; Fonts
 (set! :font "Hack" :size 14)
 (set! :big-font "Hack" :size 16)
 ;; (set! :variable-font "Fira Sans" :size 12)
 (set! :unicode-font "Hack" :size 14)
 
-(setq +doom-modeline-height 25
-      ;; doom-line-number-lpad 3
-      doom-theme 'doom-one)
+;; An extra measure to prevent the flash of unstyled mode-line while Emacs is
+;; booting up (when Doom is byte-compiled).
+(setq-default mode-line-format nil)
 
-;; Set my notes directory
-(setq +org-dir (expand-file-name "~/Google Drive/org/"))
+;; Doom theme
+(setq doom-theme 'doom-one)
 
 ;; Enable accents
 (setq ns-alternate-modifier 'none)
 
-;; JavaScript
+;; JavaScript defaults
 (setq js2-bounce-indent-p t
       ;; Let flycheck handle parse errors
       js2-mode-show-parse-errors nil
@@ -45,8 +48,5 @@
       sh-indentation tab-width
       sh-basic-offset tab-width)
 
-;; Get some context
+;; Get some context when scrolling
 (setq scroll-margin 10)
-
-;; Disable package (tells Doom to ignore def-package! blocks for this package)
-(def-package-hook! evil-escape :disable)
