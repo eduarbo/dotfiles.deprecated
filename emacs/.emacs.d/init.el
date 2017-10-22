@@ -121,9 +121,6 @@
       ;org-sync          ; TODO sync with mobile
       ;org-publish       ; TODO org + blogs
 
-       ;; NOTE: Deprecated
-      ;org-notebook    ; org-mode as a notebook
-
        ;; Applications are complex and opinionated modules that transform Emacs
        ;; toward a specific purpose. They may have additional dependencies and
        ;; should be loaded last.
