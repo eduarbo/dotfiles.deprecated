@@ -41,6 +41,7 @@
  ;; Simple window navigation/manipulation
  "C-'"    #'doom/popup-toggle
  "C-~"    #'doom/popup-raise
+ "M-d"    #'bookmark-set
  "M-t"    #'+workspace/new
  "M-T"    #'+workspace/display
  "M-w"    #'delete-window
@@ -163,20 +164,20 @@
      :desc "Find file"                 :n "." #'find-file
      :desc "Sudo find file"            :n ">" #'doom/sudo-find-file
      :desc "Find file in project"      :n "/" #'projectile-find-file
-     :desc "Find file from here"       :n "f" #'counsel-file-jump
      :desc "Find other file"           :n "a" #'projectile-find-other-file
      :desc "Open project editorconfig" :n "c" #'editorconfig-find-current-editorconfig
+     :desc "Copy file"                 :n "C" #'write-file
      :desc "Find file in dotfiles"     :n "d" #'+eduarbo/find-in-dotfiles
      :desc "Browse dotfiles"           :n "D" #'+eduarbo/browse-dotfiles
      :desc "Find file in emacs.d"      :n "e" #'+eduarbo/find-in-emacsd
      :desc "Browse emacs.d"            :n "E" #'+eduarbo/browse-emacsd
-     :desc "Recent files"              :n "R" #'recentf-open-files
-     :desc "Recent project files"      :n "r" #'projectile-recentf
-     :desc "Yank filename"             :n "y" #'+eduarbo/yank-buffer-filename
-     :desc "Rename file"               :n "R" #'+eduarbo/rename-this-buffer-file
-     :desc "Copy file"                 :n "C" #'write-file
+     :desc "Find file from here"       :n "f" #'counsel-file-jump
      :desc "Kill file"                 :n "K" #'+evil:delete-this-file
-     :desc "Save file"                 :n "s" #'save-buffer)
+     :desc "Move file"                 :n "M" #'+eduarbo/rename-this-buffer-file
+     :desc "Recent project files"      :n "r" #'projectile-recentf
+     :desc "Recent files"              :n "R" #'recentf-open-files
+     :desc "Save file"                 :n "s" #'save-buffer
+     :desc "Yank filename"             :n "y" #'+eduarbo/yank-buffer-filename)
 
    (:desc "git" :prefix "g"
      :desc "Git status"        :n  "s" #'magit-status
@@ -217,17 +218,17 @@
 
    (:desc "layout" :prefix "l"
      :desc "Display tab bar"          :n "TAB" #'+workspace/display
-     :desc "New workspace"            :n "n"   #'+workspace/new
-     :desc "Rename workspace"         :n "r"   #'+workspace:rename
+     :desc "Delete this workspace"    :n "d"   #'+workspace/delete
      :desc "Load workspace from file" :n "l"   #'+workspace/load
-     :desc "Load last session"        :n "L"   (λ! (+workspace/load-session))
+     :desc "Load session"             :n "L"   #'+workspace/load-session
+     :desc "New workspace"            :n "n"   #'+workspace/new
+     :desc "Load last session"        :n "o"   (λ! (+workspace/load-session))
+     :desc "Rename workspace"         :n "r"   #'+workspace:rename
      :desc "Save workspace to file"   :n "s"   #'+workspace/save
      :desc "Autosave current session" :n "S"   #'+workspace/save-session
-     :desc "Switch workspace"         :n "."   #'persp-frame-switch
      :desc "Kill all buffers"         :n "x"   #'doom/kill-all-buffers
      :desc "Delete session"           :n "X"   #'+workspace/kill-session
-     :desc "Delete this workspace"    :n "d"   #'+workspace/delete
-     :desc "Load session"             :n "L"   #'+workspace/load-session
+     :desc "Switch workspace"         :n "."   #'persp-frame-switch
      :desc "Next workspace"           :n "]"   #'+workspace/switch-right
      :desc "Previous workspace"       :n "["   #'+workspace/switch-left
      :desc "Switch to 1st workspace"  :n "1"   (λ! (+workspace/switch-to 0))
@@ -246,12 +247,15 @@
      :desc "Find file in notes"    :n "n" #'+eduarbo/find-in-notes
      :desc "Browse notes"          :n "N" #'+eduarbo/browse-notes
      :desc "Org capture"           :n "x" #'+org-capture/open
-     :desc "Browse mode notes"     :n "m" #'+org/browse-notes-for-major-mode
-     :desc "Browse project notes"  :n "p" #'+org/browse-notes-for-project)
+     ;; TODO: build my own org-notebook as the original was deprecated
+     ;; :desc "Browse mode notes"     :n "m" #'+org/browse-notes-for-major-mode
+     ;; :desc "Browse project notes"  :n "p" #'+org/browse-notes-for-project
+     )
 
    (:desc "open" :prefix "o"
      :desc "Default browser"     :n  "b" #'browse-url-of-file
-     :desc "Debugger"            :n  "d" #'+debug/open
+     ;; FIXME: is not working
+     ;; :desc "Debugger"            :n  "d" #'+debug/open
      :desc "REPL"                :n  "r" #'+eval/open-repl
                                  :v  "r" #'+eval:repl
      :desc "Neotree"             :n  "n" #'+neotree/toggle
@@ -260,30 +264,29 @@
 
      ;; applications
      :desc "APP: elfeed"  :n "E" #'=rss
-     :desc "APP: email"   :n "M" #'=email
-     :desc "APP: twitter" :n "T" #'=twitter
+     ;; :desc "APP: email"   :n "M" #'=email
+     ;; :desc "APP: twitter" :n "T" #'=twitter
      :desc "APP: regex"   :n "X" #'=regex
 
      ;; macos
      (:when IS-MAC
        :desc "Reveal in Finder"          :n "o" #'+macos/reveal-in-finder
        :desc "Reveal project in Finder"  :n "O" #'+macos/reveal-project-in-finder
-       :desc "Send to Transmit"          :n "u" #'+macos/send-to-transmit
-       :desc "Send project to Transmit"  :n "U" #'+macos/send-project-to-transmit
-       :desc "Send to Launchbar"         :n "l" #'+macos/send-to-launchbar
-       :desc "Send project to Launchbar" :n "L" #'+macos/send-project-to-launchbar))
+       ;; TODO: Send to Alfred instead
+       ;; :desc "Send to Launchbar"         :n "l" #'+macos/send-to-launchbar
+       ;; :desc "Send project to Launchbar" :n "L" #'+macos/send-project-to-launchbar
+       ))
 
    (:desc "project" :prefix "p"
-     :desc "Browse project"          :n  "." (find-file-in! (doom-project-root))
-     :desc "Find file in project"    :n  "/" #'projectile-find-file
-     :desc "Run cmd in project root" :nv "!" #'projectile-run-shell-command-in-root
-     :desc "Switch project"          :n  "p" #'projectile-switch-project
-     ;; TODO: add binding to switch to project in a new workspace/layout
-     :desc "Discover projects"       :n  "d" #'projectile-discover-projects-in-directory
-     :desc "Recent project files"    :n  "r" #'projectile-recentf
-     :desc "List project tasks"      :n  "t" #'+ivy/tasks
-     :desc "Pop term in project"     :n  "o" #'+term/open-popup-in-project
-     :desc "Invalidate cache"        :n  "x" #'projectile-invalidate-cache)
+     :desc "Browse project"              :n  "." (find-file-in! (doom-project-root))
+     :desc "Find file in project"        :n  "/" #'projectile-find-file
+     :desc "Run cmd in project root"     :nv "!" #'projectile-run-shell-command-in-root
+     :desc "Switch project"              :n  "p" #'projectile-switch-project
+     :desc "Discover projects"           :n  "d" #'projectile-discover-projects-in-directory
+     :desc "Recent project files"        :n  "r" #'projectile-recentf
+     :desc "List project tasks"          :n  "t" #'+ivy/tasks
+     :desc "Pop term in project"         :n  "o" #'+term/open-popup-in-project
+     :desc "Invalidate cache"            :n  "x" #'projectile-invalidate-cache)
 
    (:desc "quit" :prefix "q"
      ;; TODO: add Restart Emacs
@@ -414,6 +417,8 @@
 
  ;; counsel
  (:after counsel
+   (:map ivy-mode-map
+     [backtab]  #'ivy-dispatching-done)
    (:map counsel-ag-map
      [backtab]  #'+ivy/wgrep-occur  ; search/replace on results
      [C-return] #'counsel-git-grep-recenter   ; preview
