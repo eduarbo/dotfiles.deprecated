@@ -19,7 +19,8 @@ install-deps
 
 emacsd="$HOME/.emacs.d"
 if [[ ! -d "$HOME/.emacs.d" ]]; then
-  git clone --recursive "https://github.com/hlissner/.emacs.d" "$emacsd"
+  # git clone --recursive --branch develop "https://github.com/hlissner/.emacs.d" "$emacsd"
+  git clone --recursive --branch develop "https://github.com/eduarbo/doom-emacs" "$emacsd"
 fi
 
 stow-module

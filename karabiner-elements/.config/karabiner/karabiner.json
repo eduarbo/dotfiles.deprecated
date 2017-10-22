@@ -1750,7 +1750,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open '/usr/local/Cellar/emacs/25.2/Emacs.app'"
+                                        "shell_command": "open '/Applications/Emacs.app'"
                                     }
                                 ],
                                 "type": "basic"
