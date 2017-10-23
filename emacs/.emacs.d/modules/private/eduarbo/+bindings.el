@@ -429,9 +429,11 @@
 
  ;; evil-magit
  (:after evil-magit
-   :map (magit-status-mode-map magit-revision-mode-map)
-   :n "C-j" nil
-   :n "C-k" nil)
+   :map magit-mode-map
+   :en "C-h"    #'evil-window-left
+   :en "C-j"    #'evil-window-down
+   :en "C-k"    #'evil-window-up
+   :en "C-l"    #'evil-window-right)
 
  ;; evil-mc
  (:prefix "gz"

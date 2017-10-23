@@ -69,19 +69,24 @@
   (flycheck-pos-tip-mode -1))
 
 
+;; (after! ivy
+;;   ;; Enable fuzzy matching in ivy
+;;   ;; TODO: Use space to narrow results.
+;;   ;; Issue: https://github.com/abo-abo/swiper/issues/360
+;;   (setq ivy-initial-inputs-alist nil
+;;         ivy-re-builders-alist '((ivy-switch-buffer . ivy--regex-plus)
+;;                                 (t . ivy--regex-fuzzy))))
+
+
 (after! magit
-  ;; Prevent magit windows to be handled by shackle
-  (setq shackle-rules (remove '("^\\*magit" :regexp t :size 0.5 :noesc t :autokill t) shackle-rules))
-  (setq magit-display-buffer-function 'magit-display-buffer-fullcolumn-most-v1
-        magit-bury-buffer-function 'magit-restore-window-configuration)
-  (setq magit-repository-directories '("~/dev" "~/.emacs.d" "~/.dotfiles"))
-  (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")))
-
-(after! shackle
-  ;; Prevent magit windows to be handled by shackle
-  (add-to-list 'shackle-rules '("^\\*(?!magit).*" :regexp t :same t))
-  (setq shackle-rules (remove '("^\\*"  :regexp t :noselect t :autokill t) shackle-rules)))
-
+  (magit-add-section-hook 'magit-status-sections-hook
+                          'magit-insert-recent-commits
+                          nil t)
+  (magit-add-section-hook 'magit-status-headers-hook
+                          'magit-insert-user-header)
+  (setq magit-repository-directories '("~/dev" "~/.emacs.d" "~/.dotfiles")
+        magit-commit-show-diff nil
+        magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")))
 
 (after! projectile
   ;; Fix for broken projectile-discover-projects-in-directory
