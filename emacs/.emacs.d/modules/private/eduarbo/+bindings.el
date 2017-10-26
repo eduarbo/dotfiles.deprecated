@@ -795,6 +795,9 @@
       ;; Emacsien motions for insert mode
       :i "C-b" #'backward-word
       :i "C-f" #'forward-word
+      :i "C-d" #'delete-char
+      :i "C-k" #'kill-line
+      :i [C-backspace] #'kill-line
 
       ;; Highjacks space/backspace to:
       ;;   a) balance spaces inside brackets/parentheses ( | ) -> (|)
