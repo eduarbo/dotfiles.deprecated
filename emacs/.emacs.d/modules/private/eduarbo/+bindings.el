@@ -377,7 +377,8 @@
  :nv [C-tab] #'aya-create
 
  ;; company-mode (vim-like omnicompletion)
- :i [tab]    #'company-indent-or-complete-common
+ :i [S-return] #'company-ispell
+ :i [tab]      #'company-indent-or-complete-common
 
  (:prefix "C-x"
    :i "C-l"   #'+company/whole-lines
@@ -401,6 +402,9 @@
      "C-S-s"      #'company-search-candidates
      "C-s"        #'company-filter-candidates
      "C-h"        #'company-quickhelp-manual-begin
+     [C-tab]      #'company-complete-common
+     [tab]        #'company-complete-common-or-cycle
+     [backtab]    #'company-select-previous
      [escape]     (λ! (company-abort) (evil-normal-state 1)))
    ;; Automatically applies to `company-filter-map'
    (:map company-search-map
@@ -411,8 +415,6 @@
 
  ;; counsel
  (:after counsel
-   (:map ivy-mode-map
-     [backtab]  #'ivy-dispatching-done)
    (:map counsel-ag-map
      [backtab]  #'+ivy/wgrep-occur  ; search/replace on results
      [C-return] #'counsel-git-grep-recenter   ; preview
@@ -647,17 +649,15 @@
      "<M-right>"     #'+snippets/goto-end-of-field
      "<M-left>"      #'+snippets/goto-start-of-field
      "<M-backspace>" #'+snippets/delete-to-start-of-field
+     "C-u"           #'+snippets/delete-to-start-of-field
+     "C-n"           #'yas-next-field
+     "C-p"           #'yas-prev-field
      [escape]        #'evil-normal-state
      [backspace]     #'+snippets/delete-backward-char
      [delete]        #'+snippets/delete-forward-char-or-field)
-     ;; allow company to be called inside snippet
-     [tab]           nil
-     [backtab]       nil
-     "C-n"           #'yas-next-field
-     "C-p"           #'yas-prev-field
    (:map yas-minor-mode-map
-     :i [backtab] yas-maybe-expand
-     :v [backtab] #'+snippets/expand-on-region))
+     :i [backtab]    yas-maybe-expand
+     :v [backtab]    #'+snippets/expand-on-region))
 
 
  ;; --- Major mode bindings --------------------------
