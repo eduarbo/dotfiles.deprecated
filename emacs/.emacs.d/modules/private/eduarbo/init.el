@@ -3,6 +3,8 @@
 ;; Special file that is automatically loaded after Doom core files, but before
 ;; modules are loaded. Use it to configure DOOM.
 
+(doom/toggle-fullscreen)
+
 (setq doom-leader-key ","
       doom-localleader-key "SPC" ;; FIXME
 

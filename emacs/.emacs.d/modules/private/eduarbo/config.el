@@ -1,7 +1,5 @@
 ;;; private/eduarbo/config.el -*- lexical-binding: t; -*-
 
-(doom/toggle-fullscreen)
-
 (when (featurep! :feature evil)
   (load! +bindings)  ; my key bindings
   (load! +commands)) ; my custom ex commands
