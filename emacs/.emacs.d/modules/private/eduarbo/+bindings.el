@@ -474,8 +474,8 @@
 
  ;; evil-snipe
  (:after evil-snipe
-   ;; Override default snipe mappings
-   :v  "s"  #'evil-surround-region
+   :v  "S"   #'evil-snipe-s
+   :v  "C-s" #'evil-snipe-S
 
    ;; Binding to switch to evil-easymotion/avy after a snipe
    :map evil-snipe-parent-transient-map
@@ -487,11 +487,7 @@
                                     (evil-snipe-enable-incremental-highlight))))))
 
  ;; evil-surround
- (:after evil-surround
-   ;; Override default surround mappings
-   :v  "S"   #'evil-snipe-S
-   :v  "C-s" #'evil-snipe-s)
-
+ :v  "s"  #'evil-surround-region
  :o  "s"  #'evil-surround-edit
  :o  "S"  #'evil-Surround-edit
 
