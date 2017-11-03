@@ -30,8 +30,8 @@
  :nvime "M-x" #'execute-extended-command
  :nvime "A-x" #'execute-extended-command
  ;; Emacs debug utilities
- "M-;"        #'eval-expression
- :nvime "M-;" #'eval-expression
+ "M-/"        #'eval-expression
+ :nvime "M-/" #'eval-expression
  "M-:"        #'doom/open-scratch-buffer
  :nvime "M-:" #'doom/open-scratch-buffer
  ;; Text-scaling
@@ -83,9 +83,9 @@
 
  ;; --- <leader> -------------------------------------
  (:leader
-   :desc "M-x"         :nv ";"   #'execute-extended-command
+   :desc "M-x"                     :nv ";"   #'execute-extended-command
    :desc "Pop up scratch buffer"   :nv "x"  #'doom/open-scratch-buffer
-   :desc "Org Capture"             :nv "X"  #'+org-capture/open
+   :desc "Pop up scratch buffer"   :nv "X"  #'doom/open-project-scratch-buffer
 
    ;; Most commonly used
    :desc "Find file in project"    :n "SPC" #'projectile-find-file
@@ -301,7 +301,7 @@
      :desc "New snippet"           :n  "n" #'yas-new-snippet
      :desc "Insert snippet"        :nv "i" #'yas-insert-snippet
      :desc "Find snippet for mode" :n  "s" #'yas-visit-snippet-file
-     :desc "Find snippet"          :n  "S" #'+eduarbo/find-in-snippets) ;; FIXME
+     :desc "Find snippet"          :n  "S" #'+eduarbo/find-in-snippets)
 
    (:desc "toggle" :prefix "t"
      ;; TODO: add toggle to center window mode
@@ -379,6 +379,7 @@
  ;; company-mode (vim-like omnicompletion)
  :i [S-return] #'company-ispell
  :i [tab]      #'company-indent-or-complete-common
+ :i [backtab]  #'company-files
 
  (:prefix "C-x"
    :i "C-l"   #'+company/whole-lines
@@ -404,7 +405,6 @@
      "C-h"        #'company-quickhelp-manual-begin
      [C-tab]      #'company-complete-common
      [tab]        #'company-complete-common-or-cycle
-     [backtab]    #'company-select-previous
      [escape]     (λ! (company-abort) (evil-normal-state 1)))
    ;; Automatically applies to `company-filter-map'
    (:map company-search-map
@@ -646,14 +646,18 @@
      "<M-left>"      #'+snippets/goto-start-of-field
      "<M-backspace>" #'+snippets/delete-to-start-of-field
      "C-u"           #'+snippets/delete-to-start-of-field
-     "C-n"           #'yas-next-field
-     "C-p"           #'yas-prev-field
+     "M-h"           #'yas-prev-field
+     "M-j"           #'yas-prev-field
+     "M-k"           #'yas-next-field
+     "M-l"           #'yas-next-field
      [escape]        #'evil-normal-state
      [backspace]     #'+snippets/delete-backward-char
-     [delete]        #'+snippets/delete-forward-char-or-field)
+     [delete]        #'+snippets/delete-forward-char-or-field
+     ;; allow company to work in a yasnippet expansion
+     [tab]           nil)
    (:map yas-minor-mode-map
-     :i [backtab]    yas-maybe-expand
-     :v [backtab]    #'+snippets/expand-on-region))
+     :i "M-;"        yas-maybe-expand
+     :v "M-;"        #'+snippets/expand-on-region))
 
 
  ;; --- Major mode bindings --------------------------
