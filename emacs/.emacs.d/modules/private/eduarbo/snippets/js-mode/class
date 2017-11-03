@@ -2,5 +2,5 @@
 # name: class
 # --
 class ${1:Name} {
-    $0
+  $0
 }

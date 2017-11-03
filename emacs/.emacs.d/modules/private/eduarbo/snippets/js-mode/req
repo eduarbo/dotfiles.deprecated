@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: require("...")
-# uuid: req
-# key: req
-# type: command
-# --
-(%alias "require")

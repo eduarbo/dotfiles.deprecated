@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: arr.filter(function(item) {...})
-# key: filfu
+# key: filf
 # --
 `(unless (eq (char-before) ?.) ".")`filter(function(${1:item}) {
     `(!%!)`$0

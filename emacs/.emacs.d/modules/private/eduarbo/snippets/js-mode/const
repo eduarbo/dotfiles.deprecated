@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: const ... = ...;
-# key: con
+# key: c
 # --
 const ${1:name} = ${0:`%`};

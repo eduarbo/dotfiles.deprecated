@@ -1,5 +1,5 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: arrow function
-# key: =>
+# -*- mode: snippet -*-
+# name: arrow function with concise body
+# key: a
 # --
-$1 => `(if (> (%lines %) 1) (concat "{ " (!%!) " }") %)`$0
+$1 => $0

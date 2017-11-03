@@ -1,9 +1,7 @@
 # -*- mode: snippet -*-
-# name: named function
-# key: function
-# uuid: function_block
-# condition: (or (%bolp) (region-active-p))
+# name: function
+# key: f
 # --
-function ${1:name}($2) {
-    `(!%!)`$0
+function${1: ${2:name}}(${3:arg}) {
+  $0
 }
