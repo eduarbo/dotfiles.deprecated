@@ -9,6 +9,6 @@ if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
     font-dejavu-sans
   )
 
-  brew tap caskroom/cask
+  brew tap caskroom/fonts
   brew cask install ${cask_deps[@]}
 fi
