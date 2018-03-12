@@ -10,7 +10,8 @@ deps=(
 brew_deps=(
   cmake
   llvm
-  "emacs --with-modules --with-librsvg --with-imagemagick@6 --with-gnutls --with-cocoa"
+  coreutils
+  "emacs-plus --without-spacemacs-icon"
 )
 
 dots install fonts
@@ -18,8 +19,7 @@ dots install editorconfig
 install-deps
 
 emacsd="$HOME/.emacs.d"
-if [[ ! -d "$HOME/.emacs.d" ]]; then
-  # git clone --recursive --branch develop "https://github.com/hlissner/.emacs.d" "$emacsd"
+if [[ ! -d "$emacsd" ]]; then
   git clone --recursive --branch develop "https://github.com/eduarbo/doom-emacs" "$emacsd"
 fi
 
