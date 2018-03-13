@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: keytyped
-# key: key
-# --
-void keyTyped(){
-  ${1}
-}

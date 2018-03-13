@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: adjust-hue($color, $degree)
-# group: HSL functions
-# --
-adjust-hue(${1:$color}, ${2:$degree})

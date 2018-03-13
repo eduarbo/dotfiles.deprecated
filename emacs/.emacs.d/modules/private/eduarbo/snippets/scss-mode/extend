@@ -1,3 +1,0 @@
-# name: @extend
-# --
-@extend `(%1)`$0;

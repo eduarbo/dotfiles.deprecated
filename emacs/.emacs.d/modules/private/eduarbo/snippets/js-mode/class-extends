@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: class extends
-# key: cle
-# --
-class ${1:Name} extends ${2:Name} {
-  $0
-}

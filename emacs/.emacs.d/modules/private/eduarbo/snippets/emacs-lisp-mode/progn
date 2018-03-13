@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: progn
-# --
-(progn `(!%)`$0)`(%$)`

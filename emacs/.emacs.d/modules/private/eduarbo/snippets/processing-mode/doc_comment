@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: doc - coment
-# key: doc
-# --
-/**
- *	${1:@private}$0
- */

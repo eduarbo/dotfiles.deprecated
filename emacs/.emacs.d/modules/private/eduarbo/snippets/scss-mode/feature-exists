@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: feature-exists($feature)
-# group: Introspection functions
-# --
-feature-exists(${1:$feature})

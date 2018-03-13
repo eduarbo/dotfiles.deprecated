@@ -1,4 +1,0 @@
-# name: parent::...
-# key: par
-# --
-parent::$0

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: log
-# key: log
-# --
-log(${1:value});

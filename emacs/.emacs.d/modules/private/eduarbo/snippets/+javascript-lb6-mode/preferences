@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: Action.preferences.?
-# --
-Action.preferences.${1:name}

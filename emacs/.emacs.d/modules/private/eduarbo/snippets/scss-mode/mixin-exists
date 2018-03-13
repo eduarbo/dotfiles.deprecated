@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: mixin-exists($name)
-# group: Introspection functions
-# --
-mixin-exists(${1:$name})

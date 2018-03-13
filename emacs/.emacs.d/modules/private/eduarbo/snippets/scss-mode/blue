@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: blue($color)
-# group: RGB functions
-# --
-blue(${1:color})

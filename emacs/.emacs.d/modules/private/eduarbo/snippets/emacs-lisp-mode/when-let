@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: when-let
-# --
-(when-let (${1:var-list}) `(!%)`$0)`(%$)`

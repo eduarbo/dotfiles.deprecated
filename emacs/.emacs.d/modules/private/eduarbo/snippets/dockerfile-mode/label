@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: LABEL <key>=<value> ...
-# --
-LABEL ${1:key}=${2:value}

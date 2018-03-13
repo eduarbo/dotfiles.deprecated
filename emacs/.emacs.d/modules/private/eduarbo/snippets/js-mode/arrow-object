@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: arrow function object literal
-# key: ao
-# --
-$1 => ({
-  $0
-})

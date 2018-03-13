@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: saturation
-# key: saturation
-# --
-saturation(${1:color});

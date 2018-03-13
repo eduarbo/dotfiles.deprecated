@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: hue
-# key: hue
-# --
-hue(${1:color});

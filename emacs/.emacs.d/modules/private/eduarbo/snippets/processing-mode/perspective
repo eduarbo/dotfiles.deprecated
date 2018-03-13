@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: perspective
-# key: perspective
-# --
-perspective(${5:${1:fov}, ${2:aspect}, ${3:zNear}, ${4:zFar}});

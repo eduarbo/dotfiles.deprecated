@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: $animateProvider
-# condition: (memq major-mode '(js-mode js2-mode))
-# --
-$animateProvider

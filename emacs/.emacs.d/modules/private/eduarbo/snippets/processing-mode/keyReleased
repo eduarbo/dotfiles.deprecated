@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: keyReleased
-# key: keyReleased
-# --
-void keyReleased(){
-  ${1}
-}

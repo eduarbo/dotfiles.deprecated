@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: Gulp task
-# --
-gulp.task('${1:task-name}', ($2) => {
-    `%`$0
-});

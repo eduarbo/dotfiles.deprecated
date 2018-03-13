@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: sphere
-# key: sphere
-# --
-sphere(${1:radius});

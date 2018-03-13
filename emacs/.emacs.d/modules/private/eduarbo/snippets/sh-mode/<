@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Less than
-# key: <
-# --
-"$1" -lt "$2"

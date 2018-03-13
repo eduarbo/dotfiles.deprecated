@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: if ...; then ...; fi
-# key: if;
-# --
-${1:condition} && ${0:echo 1}

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: encodeURIComponent
-# key: euc
-# --
-encodeURIComponent(${1:`%`})`(if (eolp) ";")`

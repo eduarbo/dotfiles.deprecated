@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: floor
-# key: floor
-# --
-floor(${1:value});

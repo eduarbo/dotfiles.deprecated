@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: map-remove($map, $key, ...)
-# group: Map functions
-# --
-map-remove(${1:$map}, ${2:$key})

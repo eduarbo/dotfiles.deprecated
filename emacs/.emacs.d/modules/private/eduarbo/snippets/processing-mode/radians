@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: radians
-# key: radians
-# --
-radians(${1:deg});

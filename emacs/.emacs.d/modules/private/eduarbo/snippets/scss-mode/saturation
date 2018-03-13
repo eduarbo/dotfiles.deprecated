@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: saturation($color)
-# group: HSL functions
-# --
-saturation(${1:$color})

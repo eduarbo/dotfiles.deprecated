@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: lerpColor
-# key: lerpColor
-# --
-lerpColor(${1:c1}, ${2:c2}, ${3:amt});

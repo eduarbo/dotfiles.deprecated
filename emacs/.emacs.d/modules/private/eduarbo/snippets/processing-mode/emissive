@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: emissive
-# key: material
-# --
-emissive(${8:${3:value1}, ${4:value2}, ${5:value3}});

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: textFont
-# key: text
-# --
-textFont(${1:font}${7:, ${6:size}});

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: atan
-# key: atan
-# --
-atan(${1:rad});

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: inspect($value)
-# group: Introspection functions
-# --
-inspect(${1:$value})

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: HTML/JSX self-closed tag
-# key: </
-# --
-<${1:div} `%`$0/>

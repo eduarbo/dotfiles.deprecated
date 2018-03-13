@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: unhex
-# key: unhex
-# --
-unhex(${3:c});

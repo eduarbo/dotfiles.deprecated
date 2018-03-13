@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: join
-# key: join
-# --
-join(${3:strgArray}, ${4:seperator});

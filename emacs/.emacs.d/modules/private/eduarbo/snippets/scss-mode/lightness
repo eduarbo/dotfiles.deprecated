@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: lightness($color)
-# group: HSL functions
-# --
-lightness(${1:$color})

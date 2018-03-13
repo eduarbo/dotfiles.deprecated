@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: exp
-# key: exp
-# --
-exp(${1:value});

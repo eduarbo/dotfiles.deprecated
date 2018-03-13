@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: PImage
-# key: PImage
-# --
-PImage(${1:width}, ${2:height});

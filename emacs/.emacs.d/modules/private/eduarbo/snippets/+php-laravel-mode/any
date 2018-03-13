@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: Route::any(<uri>, <func>)
-# --
-Route::any('${1:/}', function () {
-    `%`$0
-});

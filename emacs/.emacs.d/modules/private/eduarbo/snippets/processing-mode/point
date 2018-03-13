@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: point
-# key: point
-# --
-point(${1:x}, ${2:y}${4:, ${3:z}});

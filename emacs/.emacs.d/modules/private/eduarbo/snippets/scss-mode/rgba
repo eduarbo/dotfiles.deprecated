@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: rgb($red, $green, $blue, $alpha)
-# group: RGB functions
-# --
-rgba(${1:$red}, ${2:$green}, ${3:$blue}, ${4:alpha})

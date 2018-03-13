@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: autoload tag
-# --
-;;;###autoload`(%emacs-lisp-evil-autoload)`$0

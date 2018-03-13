@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: map
-# --
-map[${1:KeyType}]${2:ValueType}

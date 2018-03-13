@@ -1,3 +1,0 @@
-#name: format
-# --
-(format "$0" $1)

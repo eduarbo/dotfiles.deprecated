@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: PGraphics
-# key: PGraphics
-# --
-PGraphics pg;
-pg = createGraphics(${5:${1:width}, ${2:height}${4:, ${3:applet}}});

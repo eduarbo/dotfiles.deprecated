@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: script src="..."
-# --
-script src="${1:lib.js}"

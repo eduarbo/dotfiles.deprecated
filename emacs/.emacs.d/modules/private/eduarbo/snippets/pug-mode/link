@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: link type="stylesheet"
-# --
-link(rel="stylesheet", href="${1:stylesheet.css}", type="type/css")

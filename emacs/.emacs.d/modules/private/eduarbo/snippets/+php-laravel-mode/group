@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: Route::group([<attrs>], <func>)
-# --
-Route::group([$1], function() {
-    `%`$0
-});

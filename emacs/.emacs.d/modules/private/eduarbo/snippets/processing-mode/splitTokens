@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: splitTokens
-# key: split
-# --
-splitTokens(${3:str}${5:, ${4:tokens}});

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: loadImage
-# key: loadImage
-# --
-loadImage(${1:filename});

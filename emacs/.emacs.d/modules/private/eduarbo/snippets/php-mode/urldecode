@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: urldecode(...)
-# key: urld
-# --
-urldecode(${1:`%`})$0

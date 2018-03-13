@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: abs($number)
-# group: Number functions
-# --
-abs(${1:$number})

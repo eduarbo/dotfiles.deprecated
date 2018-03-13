@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: add-hook
-# key: ah
-# uuid: ah
-# type: command
-# --
-(%alias "add-hook")

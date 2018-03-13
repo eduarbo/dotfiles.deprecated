@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: glPushMatrix
-# key: glPushMatrix
-# --
-// spush and pop the current matrix stack
-gl.glPushMatrix();
-$1
-gl.glPopMatrix();

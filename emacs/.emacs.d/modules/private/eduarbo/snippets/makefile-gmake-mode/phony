@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: phony
-# --
-.PHONY = $0

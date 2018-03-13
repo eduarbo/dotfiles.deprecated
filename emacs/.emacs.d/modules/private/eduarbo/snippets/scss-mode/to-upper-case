@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: to-upper-case($string)
-# group: String functions
-# --
-to-upper-case(${1:$string})

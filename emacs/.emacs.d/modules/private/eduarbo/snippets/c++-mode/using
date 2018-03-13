@@ -1,4 +1,0 @@
-#name : using namespace ... 
-# key: using
-# --
-using namespace ${std};

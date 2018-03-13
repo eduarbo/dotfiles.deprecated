@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: namespace ... end
-# key: ns
-# --
-namespace :${1:name} do 
-    $0
-end

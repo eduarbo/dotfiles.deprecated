@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: mapcar
-# --
-(mapcar ${1:fn} ${0:list})

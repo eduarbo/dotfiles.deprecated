@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: floor($number)
-# group: Number functions
-# --
-floor(${1:$number})

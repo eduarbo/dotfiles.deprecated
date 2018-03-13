@@ -1,3 +1,0 @@
-#name: number-to-string
-# --
-(number-to-string `(!%)`$0)

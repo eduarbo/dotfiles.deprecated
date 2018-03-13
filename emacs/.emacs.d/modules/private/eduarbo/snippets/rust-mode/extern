@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: extern
-# key: extern
-# --
-extern crate ${1:rand};$0

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: lightFalloff
-# key: light
-# --
-lightFalloff(${1:constant}, ${2:linear}, ${3:quadratic});

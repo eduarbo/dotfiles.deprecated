@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: fade-in($color, $amount)
-# group: Opacity functions
-# --
-fade-in(${1:$color}, ${2:$amount})

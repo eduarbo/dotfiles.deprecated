@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: $cacheFactory
-# condition: (memq major-mode '(js-mode js2-mode))
-# --
-$cacheFactory

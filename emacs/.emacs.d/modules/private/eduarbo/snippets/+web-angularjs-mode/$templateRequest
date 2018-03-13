@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: $templateRequest
-# condition: (memq major-mode '(js-mode js2-mode))
-# --
-$templateRequest

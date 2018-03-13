@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: quote($string)
-# group: String functions
-# --
-quote(${1:$string})

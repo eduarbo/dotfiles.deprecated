@@ -1,3 +1,0 @@
-#name: fboundp
-# --
-(fboundp '$0)

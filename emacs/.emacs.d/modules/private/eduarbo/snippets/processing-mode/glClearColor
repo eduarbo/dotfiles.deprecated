@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: glClearColor
-# key: glClearColor
-# --
-gl.glClearColor(${1:red}, ${2:green}, ${3:blue}, ${4:alpha});

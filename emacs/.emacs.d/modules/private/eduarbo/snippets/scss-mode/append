@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: append($list, $value, [$separator])
-# group: List functions
-# --
-append(${1:$list}, ${2:$value}, ${3:[$sep]})

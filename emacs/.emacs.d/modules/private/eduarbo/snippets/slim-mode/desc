@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: meta name="description"
-# --
-meta name="description" content="$0"

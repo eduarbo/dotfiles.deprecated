@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: arrow function with concise body
-# key: a
-# --
-$1 => $0

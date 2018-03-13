@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: HTML/JSX tag
-# key: <
-# --
-<${1:div}>${0:`(!%!)`}</$1>

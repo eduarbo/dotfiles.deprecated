@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: enum
-# --
-enum ${1:NAME} {$0};

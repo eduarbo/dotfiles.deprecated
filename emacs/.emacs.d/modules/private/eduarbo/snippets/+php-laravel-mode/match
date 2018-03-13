@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: Route::match([...], <func>)
-# --
-Route::match([${1:'get', 'post'}], '${2:/}', function () {
-    `%`$0
-});

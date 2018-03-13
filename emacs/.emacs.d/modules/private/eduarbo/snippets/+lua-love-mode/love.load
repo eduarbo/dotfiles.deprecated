@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: love.load
-# condition: love-mode
-# --
-function love.load()
-    `%`${0:-- load code}
-end

@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: VOLUME ...
-# --
-VOLUME ${1:/path}

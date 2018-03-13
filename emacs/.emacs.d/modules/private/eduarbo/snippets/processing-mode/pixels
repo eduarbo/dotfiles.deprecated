@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: pixels
-# key: pixels
-# --
-pixels[${1:index}]$0

@@ -1,4 +1,0 @@
-# name: $var = value;
-# key: =
-# --
-\$${1:var_name} = `%`$0;

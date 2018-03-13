@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: reverse
-# key: reverse
-# --
-reverse(${1:array});

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: hour
-# key: time
-# --
-hour()$0

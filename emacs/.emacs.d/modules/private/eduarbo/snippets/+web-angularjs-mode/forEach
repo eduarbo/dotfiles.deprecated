@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: forEach
-# condition: (memq major-mode '(js-mode js2-mode))
-# --
-forEach

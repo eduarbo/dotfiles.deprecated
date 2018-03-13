@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: isDefined
-# condition: (memq major-mode '(js-mode js2-mode))
-# --
-isDefined

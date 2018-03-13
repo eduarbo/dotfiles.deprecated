@@ -1,3 +1,0 @@
-#name : FILE *fp = fopen(..., ...);
-# --
-FILE *${f} = fopen(${"file"}, "${r}");

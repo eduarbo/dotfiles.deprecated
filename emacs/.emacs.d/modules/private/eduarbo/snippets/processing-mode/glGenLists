@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: glGenLists
-# key: glGenLists
-# --
-gl.glGenLists(${1:1});

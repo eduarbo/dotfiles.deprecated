@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: unit($number)
-# group: Introspection functions
-# --
-unit(${1:$number})

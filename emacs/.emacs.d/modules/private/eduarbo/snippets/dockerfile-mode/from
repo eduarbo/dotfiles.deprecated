@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: FROM <image>[:<tag|digest>]
-# --
-FROM ${1:phusion/baseimage:${2:latest}}

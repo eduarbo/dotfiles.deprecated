@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: while ... do ... end
-# --
-while ${1:true} do
-    $0
-end

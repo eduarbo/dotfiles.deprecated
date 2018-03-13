@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: EXPOSE <port> [<port> ...]
-# --
-EXPOSE ${1:80}

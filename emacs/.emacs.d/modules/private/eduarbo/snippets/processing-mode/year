@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: year
-# key: time
-# --
-year()$0

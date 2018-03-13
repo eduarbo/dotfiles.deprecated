@@ -1,4 +1,0 @@
-#name: string-to-number
-#key: stn
-# --
-(string-to-number "`%`$0")

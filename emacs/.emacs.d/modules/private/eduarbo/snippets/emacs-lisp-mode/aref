@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: aref
-# --
-(aref ${1:array} ${0:index})

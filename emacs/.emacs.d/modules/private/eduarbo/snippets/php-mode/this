@@ -1,4 +1,0 @@
-# name: $this->...
-# key: thi
-# --
-\$this->$0

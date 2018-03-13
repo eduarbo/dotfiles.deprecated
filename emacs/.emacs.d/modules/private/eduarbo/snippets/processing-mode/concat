@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: concat
-# key: concat
-# --
-concat(${1:array1}, ${2:array2});

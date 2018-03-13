@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: brightness
-# key: brightness
-# --
-brightness(${1:color});

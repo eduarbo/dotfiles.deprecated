@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: length($list)
-# group: List functions
-# --
-length(${1:$list})

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: saveBytes
-# key: file
-# --
-saveBytes(${1:filename}, ${2:bytes});

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: $interpolateProvider
-# condition: (memq major-mode '(js-mode js2-mode))
-# --
-$interpolateProvider

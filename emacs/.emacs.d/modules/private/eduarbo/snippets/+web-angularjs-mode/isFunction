@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: isFunction
-# condition: (memq major-mode '(js-mode js2-mode))
-# --
-isFunction

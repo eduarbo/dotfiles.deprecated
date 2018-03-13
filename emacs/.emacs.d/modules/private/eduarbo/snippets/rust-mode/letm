@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: let mut
-# key: letm
-# --
-let mut ${1:var} = $0;

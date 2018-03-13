@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: begin ... rescue
-# key: begin
-# --
-begin
-    `%`$0
-rescue ${1:Error}
-       # handle error
-end

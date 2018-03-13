@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: zip($list1, $list2, ...)
-# group: List functions
-# --
-zip(${1:$list1}, ${2:$list2})

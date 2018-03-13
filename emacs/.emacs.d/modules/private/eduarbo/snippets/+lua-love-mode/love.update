@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: love.update
-# condition: love-mode
-# --
-function love.update(dt)
-    `%`${0:-- update code}
-end

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: printMatrix
-# key: matrix
-# --
-printMatrix();

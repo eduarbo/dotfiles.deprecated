@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: str-slice($string, $start-at, [$end-at])
-# group: String functions
-# --
-str-slice(${1:$string}, ${2:$start-at}${3:, ${4:$end-at}})

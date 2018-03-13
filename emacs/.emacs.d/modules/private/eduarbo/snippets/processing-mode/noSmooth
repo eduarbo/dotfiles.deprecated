@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: noSmooth
-# key: smooth
-# --
-noSmooth();

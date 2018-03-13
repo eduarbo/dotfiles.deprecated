@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: nfc
-# key: nfc
-# --
-nfc(${3:value}${5:, ${4:right}});

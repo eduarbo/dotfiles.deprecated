@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: arr.forEach(function(item) {...})
-# key: foref
-# --
-`(unless (eq (char-before) ?.) ".")`forEach(function(${1:item}) {
-    `(!%!)`$0
-})`(if (eolp) ";")`

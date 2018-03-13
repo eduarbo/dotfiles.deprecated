@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: lightSpecular
-# key: light
-# --
-lightFalloff(${1:v1}, ${2:v2}, ${3:v3});

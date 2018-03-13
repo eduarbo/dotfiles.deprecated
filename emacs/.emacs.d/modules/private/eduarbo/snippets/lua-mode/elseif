@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: elseif ... then ...
-# --
-elseif ${1:true} then
-   `%`$0

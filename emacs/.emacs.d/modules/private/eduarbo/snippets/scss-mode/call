@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: call($name, ...)
-# group: Introspection functions
-# --
-call(${1:$name}, ${2:$args...})

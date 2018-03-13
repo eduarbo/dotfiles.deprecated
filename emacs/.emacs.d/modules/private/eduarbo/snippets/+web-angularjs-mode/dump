@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: dump
-# condition: (memq major-mode '(js-mode js2-mode))
-# --
-dump

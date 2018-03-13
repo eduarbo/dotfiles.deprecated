@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: decodeURIComponent
-# key: duc
-# --
-decodeURIComponent(${1:`%`})`(if (eolp) ";")`

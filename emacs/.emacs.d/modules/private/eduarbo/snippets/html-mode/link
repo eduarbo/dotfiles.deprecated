@@ -1,3 +1,0 @@
-#name: <link stylesheet="..." />
-# --
-<link rel="${1:stylesheet}" href="${2:url}" />

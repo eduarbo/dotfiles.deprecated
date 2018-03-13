@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: lighten($color, $amount)
-# group: HSL functions
-# --
-lighten(${1:$color}, ${2:$amount})

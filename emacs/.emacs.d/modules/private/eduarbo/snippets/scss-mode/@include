@@ -1,4 +1,0 @@
-# name: @include mixin
-# key: inc
-# --
-@include `(%1)`${1:mixin-name};

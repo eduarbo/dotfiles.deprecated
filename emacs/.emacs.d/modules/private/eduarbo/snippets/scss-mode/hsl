@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: hsl($hue, $saturation, $lightness)
-# group: HSL functions
-# --
-hsl(${1:$hue}, ${2:$saturation}, ${3:$lightness})

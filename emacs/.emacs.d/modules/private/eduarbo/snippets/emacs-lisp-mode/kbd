@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: kbd
-# --
-(kbd "${0:`%`}")

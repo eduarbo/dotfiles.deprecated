@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: math
-# --
-#include <math.h>$0
