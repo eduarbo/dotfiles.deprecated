@@ -81,3 +81,6 @@
   ;; font. This bugs me. Personally, markdown #-marks for headlines are more
   ;; elegant, so we use those.
   (setq org-bullets-bullet-list '("#")))
+
+(after! yasnippet
+  (push (expand-file-name "snippets/") yas-snippet-dirs))

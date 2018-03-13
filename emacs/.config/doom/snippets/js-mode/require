@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: require("...")
+# uuid: require
+# key: req
+# --
+require(`%`$0)`(if (eolp) ";")`

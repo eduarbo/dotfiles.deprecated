@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: it
+# key: it
+# --
+it('${1:name}', () => {
+  $0
+});
