@@ -3,16 +3,25 @@
 (setq +doom-modeline-buffer-file-name-style 'relative-from-project
       show-trailing-whitespace t)
 
-;; use gnu ls to allow dired to sort directories
-(setq insert-directory-program "gls" dired-use-ls-dired t)
-
 (add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
+
 
 ;;
 ;; Bindings
 ;;
 
-(map! :nv "go"  #'avy-goto-char-timer)
+(map!
+ :nv "go"  #'evil-avy-goto-char-timer
+ :nv "Q"   #'fill-paragraph
+
+ (:leader
+   (:desc "yank" :prefix "k"
+     :desc "kill-ring pop"               :n "k" #'counsel-yank-pop
+     :desc "buffer filename"             :n "f" #'+default/yank-buffer-filepath
+     :desc "buffer base name"            :n "b" #'+eduarbo/yank-buffer-base-name
+     :desc "buffer name with extension"  :n "n" #'+eduarbo/yank-buffer-name
+     :desc "buffer path"                 :n "p" #'+eduarbo/yank-buffer-path)))
+
 
 ;;
 ;; Packages
@@ -74,6 +83,11 @@
 (after! magit
   (setq ;magit-commit-show-diff nil
         magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")))
+
+(after! company
+  (setq completion-ignore-case t
+        company-abort-manual-when-too-short t
+        company-dabbrev-ignore-case t))
 
 ;; lang/org
 (after! org-bullets
