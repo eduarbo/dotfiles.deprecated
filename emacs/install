@@ -3,6 +3,7 @@
 basedeps=(
   git
   ag
+  rg
 )
 deps=(
   emacs
@@ -11,7 +12,7 @@ brew_deps=(
   cmake
   llvm
   coreutils
-  "emacs-plus --without-spacemacs-icon"
+  "emacs --with-cocoa --with-gnutls --with-rsvg --with-imagemagick@6 --devel"
 )
 
 dots install fonts
