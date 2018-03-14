@@ -55,13 +55,14 @@ fi
 zplugin light mafredri/zsh-async
 
 if is_interactive; then
-  # zplugin light zdharma/zui
-  zplugin ice blockf # Disallow zsh-ompletions to modify fpath
+  zplugin ice blockf # Disallow zsh-completions to modify fpath
   zplugin light zsh-users/zsh-completions
   zplugin light zsh-users/zsh-autosuggestions
   zplugin light zdharma/history-search-multi-word
   is_ssh || zplugin light zdharma/fast-syntax-highlighting
-  zplugin light eduarbo/simpl
+  zplugin ice pick"simpl.zsh"; zplugin light eduarbo/simpl
+  # zplugin light denysdovhan/spaceship-prompt
+  # zplugin ice pick"pure.zsh"; zplugin light sindresorhus/pure
   zplugin light djui/alias-tips
 fi
 
