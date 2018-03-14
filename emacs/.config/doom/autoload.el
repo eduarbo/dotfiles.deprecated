@@ -1,5 +1,8 @@
 ;; config/eduarbo/autoload.el -*- lexical-binding: t; -*-
 
+(require 's)
+(require 'thingatpt)
+
 ;;;###autoload
 (defun +eduarbo/case-transform (fn beg end)
   "Apply function FN to the text between BEG and END."
