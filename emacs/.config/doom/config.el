@@ -15,6 +15,13 @@
  :nv "Q"   #'fill-paragraph
 
  (:leader
+   (:prefix "c"
+     :desc "lowerCamelCase"          :n  "c" #'+eduarbo/lower-camel-case
+     :desc "UpperCamelCase"          :n  "C" #'+eduarbo/upper-camel-case
+     :desc "kebab-case"              :n  "k" #'+eduarbo/dashed-words-case
+     :desc "SCREAMING_SNAKE_CASE"    :n  "S" #'+eduarbo/screaming-snake-case
+     :desc "snake_case"              :n  "s" #'+eduarbo/snake-case)
+
    (:desc "yank" :prefix "k"
      :desc "kill-ring pop"               :n "k" #'counsel-yank-pop
      :desc "buffer filename"             :n "f" #'+default/yank-buffer-filepath
