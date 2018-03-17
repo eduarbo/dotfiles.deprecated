@@ -68,5 +68,3 @@
   (if-let* ((filename (or buffer-file-name (bound-and-true-p list-buffers-directory))))
       (message (kill-new (file-name-directory filename)))
     (error "Couldn't find base filename in current buffer")))
-
-;; TODO: fix buffer switch in workspace

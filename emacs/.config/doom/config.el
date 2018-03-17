@@ -1,10 +1,6 @@
 ;;; config/eduarbo/config.el -*- lexical-binding: t; -*-
 
-(setq +doom-modeline-buffer-file-name-style 'relative-from-project
-      show-trailing-whitespace t)
-
-(add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
-
+;; TODO: fix buffer switch in workspace
 
 ;;
 ;; Bindings
@@ -28,19 +24,6 @@
      :desc "buffer base name"            :n "b" #'+eduarbo/yank-buffer-base-name
      :desc "buffer name with extension"  :n "n" #'+eduarbo/yank-buffer-name
      :desc "buffer path"                 :n "p" #'+eduarbo/yank-buffer-path)))
-
-
-;;
-;; Packages
-;;
-
-(def-package! evil-magit
-  :when (and (featurep! :feature evil)
-             (featurep! :feature version-control))
-  :after magit
-  :init
-  (setq evil-magit-want-horizontal-movement t
-        magit-diff-paint-whitespace t))
 
 
 ;;
@@ -74,6 +57,8 @@
 ;; Modules
 ;;
 
+(add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
+
 ;; feature/evil
 (after! evil-mc
   ;; Make evil-mc resume its cursors when I switch to insert mode
@@ -82,19 +67,11 @@
   (add-hook! 'evil-mc-after-cursors-deleted
     (remove-hook 'evil-insert-state-entry-hook #'evil-mc-resume-cursors t)))
 
+;; FIXME: not sure why the hooks are not setting the buffer var
 (after! evil-args
   ;; Set space as a delimiter arguments for lisp-family languages
   (add-hook! 'lisp-mode-hook (setq-local evil-args-delimiters '(" ")))
   (add-hook! 'emacs-lisp-mode-hook (setq-local evil-args-delimiters '(" "))))
-
-(after! magit
-  (setq ;magit-commit-show-diff nil
-        magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")))
-
-(after! company
-  (setq completion-ignore-case t
-        company-abort-manual-when-too-short t
-        company-dabbrev-ignore-case t))
 
 ;; lang/org
 (after! org-bullets
@@ -103,5 +80,15 @@
   ;; elegant, so we use those.
   (setq org-bullets-bullet-list '("#")))
 
+;; TODO: before uncomment this, figure out why pos-tip is not showing up in
+;; first place
+
+;; (after! flycheck-pos-tip
+;;   ;; make sure flycheck errors take precedence over eldoc. Eldoc delay is 0.5
+;;   (setq flycheck-display-errors-delay 0.6)
+;;   ;; Disable broken tooltip in macOS
+;;   (flycheck-pos-tip-mode -1))
+
+;; source my snippets
 (after! yasnippet
-  (push (expand-file-name "snippets/") yas-snippet-dirs))
+  (push (expand-file-name "snippets/" +private-config-path) yas-snippet-dirs))

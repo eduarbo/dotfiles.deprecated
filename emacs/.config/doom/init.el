@@ -24,15 +24,15 @@
       ;; use gnu ls to allow dired to sort directories
       insert-directory-program "gls" dired-use-ls-dired t
 
+      +doom-modeline-buffer-file-name-style 'relative-from-project
+      show-trailing-whitespace t
+
       org-ellipsis " ▼ ")
 
 
 ;;
 ;; Disable packages
 ;;
-
-;; I don't need evil-escape
-(def-package-hook! evil-escape :disable)
 
 ; Use my own snippets
 (def-package-hook! emacs-snippets :disable)
