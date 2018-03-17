@@ -79,7 +79,7 @@
                     "description": "Change control+u to delete-to-beginning-of-line",
                     "type": "basic",
                     "from": <%= from("u", ["control"], ["caps_lock"]) %>,
-                    "to": <%= to([["a", ["left_control", "right_shift"]], ["delete_or_backspace"], ["vk_none"]]) %>,
+                    "to": <%= to([["a", ["left_control", "left_shift"]], ["delete_or_backspace"], ["vk_none"]]) %>,
                     "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
                 },
                 {
@@ -113,74 +113,85 @@
             <%
                 symbols_modifier = "left_shift";
                 numbers_row = "1234567890".split("");
+                optional_modifiers = ["caps_lock", "command", "control", "option"];
             %>
             "description": "Symbols Layer",
             "manipulators": [
-                <% "qwertyuiop".split("").each_with_index do |char, index| %>
+                <% "qwertyui".split("").each_with_index do |char, index| %>
                 {
                     "type": "basic",
-                    "from": <%= from(char, [symbols_modifier], ["caps_lock"]) %>,
-                    "to": <%= to([[numbers_row[index]]]) %>
+                    "from": <%= from(char, [symbols_modifier], optional_modifiers) %>,
+                    "to": <%= to([[numbers_row[index], ["left_shift"]]]) %>
                 },
                 <% end %>
 
-                <% "asdfghjk".split("").each_with_index do |char, index| %>
+                <% "asdfghjkl;".split("").each_with_index do |char, index| %>
                 {
                     "type": "basic",
-                    "from": <%= from(char, [symbols_modifier], ["caps_lock"]) %>,
-                    "to": <%= to([[numbers_row[index], ["right_shift"]]]) %>
+                    "from": <%= from(char, [symbols_modifier], optional_modifiers) %>,
+                    "to": <%= to([[numbers_row[index]]]) %>
                 },
                 <% end %>
                 {
                     "type": "basic",
-                    "from": <%= from("l", [symbols_modifier], ["caps_lock"]) %>,
+                    "from": <%= from("o", [symbols_modifier], optional_modifiers) %>,
                     "to": <%= to([["backslash"]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("semicolon", [symbols_modifier], ["caps_lock"]) %>,
-                    "to": <%= to([["backslash", ["right_shift"]]]) %>
+                    "from": <%= from("p", [symbols_modifier], optional_modifiers) %>,
+                    "to": <%= to([["backslash", ["left_shift"]]]) %>
                 },
 
                 {
                     "type": "basic",
-                    "from": <%= from("z", [symbols_modifier], ["caps_lock"]) %>,
+                    "from": <%= from("z", [symbols_modifier], optional_modifiers) %>,
                     "to": <%= to([["1", ["left_option"]]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("x", [symbols_modifier], ["caps_lock"]) %>,
+                    "from": <%= from("x", [symbols_modifier], optional_modifiers) %>,
+                    "to": <%= to([["grave_accent_and_tilde", ["left_shift"]]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("c", [symbols_modifier], optional_modifiers) %>,
+                    "to": <%= to([["hyphen", "left_shift"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("v", [symbols_modifier], optional_modifiers) %>,
                     "to": <%= to([["equal_sign"]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("c", [symbols_modifier], ["caps_lock"]) %>,
-                    "to": <%= to([["hyphen"]]) %>
+                    "from": <%= from("b", [symbols_modifier], optional_modifiers) %>,
+                    "to": <%= to([["grave_accent_and_tilde"]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("v", [symbols_modifier], ["caps_lock"]) %>,
-                    "to": <%= to([["equal_sign", ["right_shift"]]]) %>
-                },
-                {
-                    "type": "basic",
-                    "from": <%= from("b", [symbols_modifier], ["caps_lock"]) %>,
-                    "to": <%= to([["hyphen", ["right_shift"]]]) %>
-                },
-                {
-                    "type": "basic",
-                    "from": <%= from("n", [symbols_modifier], ["caps_lock"]) %>,
+                    "from": <%= from("n", [symbols_modifier], optional_modifiers) %>,
                     "to": <%= to([["n", ["left_option"]]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("m", [symbols_modifier], ["caps_lock"]) %>,
+                    "from": <%= from("m", [symbols_modifier], optional_modifiers) %>,
                     "to": <%= to([["e", ["left_option"]]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("slash", [symbols_modifier], ["caps_lock"]) %>,
-                    "to": <%= to([["slash", ["right_shift", "left_option"]]]) %>
+                    "from": <%= from("comma", [symbols_modifier], optional_modifiers) %>,
+                    "to": <%= to([["hyphen"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("period", [symbols_modifier], optional_modifiers) %>,
+                    "to": <%= to([["equal_sign", ["left_shift"]]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("slash", [symbols_modifier], optional_modifiers) %>,
+                    "to": <%= to([["slash", ["left_shift", "left_option"]]]) %>
                 }
             ]
         },
