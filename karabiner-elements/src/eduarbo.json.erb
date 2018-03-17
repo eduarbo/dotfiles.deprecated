@@ -196,6 +196,36 @@
             ]
         },
         {
+            "description": "Main layer",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": <%= from("caps_lock", [], ["any"]) %>,
+                    "to": <%= to([["delete_or_backspace"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("delete_or_backspace", [], ["any"]) %>,
+                    "to": <%= to([["f13"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("open_bracket", [], ["any"]) %>,
+                    "to": <%= to([["grave_accent_and_tilde"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("left_shift", [], ["any"]) %>,
+                    "to": <%= to([["open_bracket"]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("right_shift", [], ["any"]) %>,
+                    "to": <%= to([["close_bracket"]]) %>
+                }
+            ]
+        },
+        {
             "description": "Fn Layer",
             "manipulators": [
                 <%# -------------------------------------------------- %>
