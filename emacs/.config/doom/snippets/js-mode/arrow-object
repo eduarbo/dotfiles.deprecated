@@ -2,6 +2,6 @@
 # name: arrow function object literal
 # key: ao
 # --
-$1 => ({
-  $0
+${1:arg} => ({
+  `%`$0
 })
