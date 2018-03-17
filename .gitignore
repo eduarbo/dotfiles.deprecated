@@ -49,9 +49,6 @@ spacemacs/.spacemacs.d/custom.el
 
 .enabled.d/*
 
-# Karabiner-elements compiled file
-karabiner-elements/.config/karabiner/assets/complex_modifications/eduarbo.json
-
 !.gitkeep
 !*/
 .macosdefaultsinstalled

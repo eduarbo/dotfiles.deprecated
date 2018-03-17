@@ -2,7 +2,7 @@
     "title": "Personal rules (@eduarbo)",
     "rules": [
         {
-            "description": "Vi Mode",
+            "description": "Moving Around",
             "manipulators": [
                 {
                     "type": "basic",
@@ -27,45 +27,45 @@
             ]
         },
         {
-            "description": "Better modifiers to reach them all with the thumbs",
+            "description": "Thumb cluster",
             "manipulators": [
                 {
-                    "description": "Change spacebar to left_command. (Post escape if pressed alone)",
+                    "description": "Change spacebar to right_command. (Post return if pressed alone)",
                     "type": "basic",
                     "from": <%= from("spacebar", [], ["any"]) %>,
-                    "to": <%= to([["left_command"]]) %>,
-                    "to_if_alone": <%= to([["escape"]]) %>
-                },
-                {
-                    "description": "Change right_command to right_shift. (Post return_or_enter if pressed alone)",
-                    "type": "basic",
-                    "from": <%= from("right_command", [], ["any"]) %>,
-                    "to": <%= to([["right_shift"]]) %>,
+                    "to": <%= to([["right_command"]]) %>,
                     "to_if_alone": <%= to([["return_or_enter"]]) %>
                 },
                 {
-                    "description": "Change left_command to left_shift. (Post spacebar if pressed alone)",
+                    "description": "Change right_command to right_shift. (Post spacebar if pressed alone)",
+                    "type": "basic",
+                    "from": <%= from("right_command", [], ["any"]) %>,
+                    "to": <%= to([["right_shift"]]) %>,
+                    "to_if_alone": <%= to([["escape"]]) %>
+                },
+                {
+                    "description": "Change left_command to left_shift. (Post tab if pressed alone)",
                     "type": "basic",
                     "from": <%= from("left_command", [], ["any"]) %>,
                     "to": <%= to([["left_shift"]]) %>,
                     "to_if_alone": <%= to([["spacebar"]]) %>
                 },
                 {
-                    "description": "Change right_option to right_option. (Post right_parenthesis if pressed alone)",
+                    "description": "Change right_option to right_option. (Post open parenthesis if pressed alone)",
                     "type": "basic",
                     "from": <%= from("right_option", [], ["any"]) %>,
                     "to": <%= to([["right_option"]]) %>,
-                    "to_if_alone": <%= to([["0", ["right_shift"]]]) %>
+                    "to_if_alone": <%= to([["0", ["left_shift"]]]) %>
                 },
                 {
-                    "description": "Change left_option to left_control. (Post left_parenthesis if pressed alone)",
+                    "description": "Change left_option to right_control. (Post close parenthesis if pressed alone)",
                     "type": "basic",
                     "from": <%= from("left_option", [], ["any"]) %>,
-                    "to": <%= to([["left_control"]]) %>,
-                    "to_if_alone": <%= to([["9", ["right_shift"]]]) %>
+                    "to": <%= to([["right_control"]]) %>,
+                    "to_if_alone": <%= to([["9", ["left_shift"]]]) %>
                 },
                 {
-                    "description": "Change left_control to fn.",
+                    "description": "Change left_control to fn",
                     "type": "basic",
                     "from": <%= from("left_control", [], ["any"]) %>,
                     "to": <%= to([["fn"]]) %>
