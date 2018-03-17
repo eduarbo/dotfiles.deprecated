@@ -79,14 +79,14 @@
                     "description": "Change control+u to delete-to-beginning-of-line",
                     "type": "basic",
                     "from": <%= from("u", ["control"], ["caps_lock"]) %>,
-                    "to": <%= to([["a", ["left_control", "left_shift"]], ["delete_or_backspace"], ["vk_none"]]) %>,
+                    "to": <%= to([["a", ["control", "left_shift"]], ["delete_or_backspace"], ["vk_none"]]) %>,
                     "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
                 },
                 {
                     "description": "Change control+w to option+delete",
                     "type": "basic",
                     "from": <%= from("w", ["control"], ["caps_lock"]) %>,
-                    "to": <%= to([["delete_or_backspace", ["left_option"]]]) %>,
+                    "to": <%= to([["delete_or_backspace", ["option"]]]) %>,
                     "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
                 },
                 {
@@ -98,13 +98,13 @@
                 {
                     "type": "basic",
                     "from": <%= from("b", ["control"], ["caps_lock", "shift"]) %>,
-                    "to": <%= to([["left_arrow", ["left_option"]]]) %>,
+                    "to": <%= to([["left_arrow", ["option"]]]) %>,
                     "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
                 },
                 {
                     "type": "basic",
                     "from": <%= from("f", ["control"], ["caps_lock", "shift"]) %>,
-                    "to": <%= to([["right_arrow", ["left_option"]]]) %>,
+                    "to": <%= to([["right_arrow", ["option"]]]) %>,
                     "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
                 }
             ]
