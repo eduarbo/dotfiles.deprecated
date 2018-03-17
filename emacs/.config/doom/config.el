@@ -7,11 +7,6 @@
 ;;
 
 (map!
- :nv "go"  #'evil-avy-goto-char-timer
- :n  "g/"  #'counsel-rg
- :v  "g/"  #'+ivy:rg
- :nv "Q"   #'fill-paragraph
-
  (:leader
    (:prefix "c"
      :desc "lowerCamelCase"          :n  "c" #'+eduarbo/lower-camel-case
