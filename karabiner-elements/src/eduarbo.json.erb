@@ -125,11 +125,16 @@
                 },
                 <% end %>
 
-                <% "asdfghjkl;".split("").each_with_index do |char, index| %>
+                <% "asdfghjkl".split("").each_with_index do |char, index| %>
                 {
                     "type": "basic",
                     "from": <%= from(char, [symbols_modifier], optional_modifiers) %>,
                     "to": <%= to([[numbers_row[index]]]) %>
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("semicolon", [symbols_modifier], optional_modifiers) %>,
+                    "to": <%= to([["0"]]) %>
                 },
                 <% end %>
                 {
