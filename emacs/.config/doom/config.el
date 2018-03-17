@@ -8,6 +8,8 @@
 
 (map!
  :nv "go"  #'evil-avy-goto-char-timer
+ :n  "g/"  #'counsel-rg
+ :v  "g/"  #'+ivy:rg
  :nv "Q"   #'fill-paragraph
 
  (:leader
