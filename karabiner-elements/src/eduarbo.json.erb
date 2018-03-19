@@ -12,14 +12,14 @@
                     "to_if_alone": <%= to([["return_or_enter"]]) %>
                 },
                 {
-                    "description": "Change right_command to right_shift. (Post spacebar if pressed alone)",
+                    "description": "Change right_command to right_shift. (Post escape if pressed alone)",
                     "type": "basic",
                     "from": <%= from("right_command", [], ["any"]) %>,
                     "to": <%= to([["right_shift"]]) %>,
                     "to_if_alone": <%= to([["escape"]]) %>
                 },
                 {
-                    "description": "Change left_command to left_shift. (Post tab if pressed alone)",
+                    "description": "Change left_command to left_shift. (Post spacebar if pressed alone)",
                     "type": "basic",
                     "from": <%= from("left_command", [], ["any"]) %>,
                     "to": <%= to([["left_shift"]]) %>,
