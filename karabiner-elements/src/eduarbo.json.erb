@@ -238,17 +238,17 @@
                 <%# -------------------------------------------------- %>
                 {
                     "type": "basic",
-                    "from": <%= from("open_bracket", ["fn"], []) %>,
+                    "from": <%= from("q", ["fn"], []) %>,
                     "to": <%= to([["volume_decrement"]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("close_bracket", ["fn"], []) %>,
+                    "from": <%= from("t", ["fn"], []) %>,
                     "to": <%= to([["volume_increment"]]) %>
                 },
                 {
                     "type": "basic",
-                    "from": <%= from("delete_or_backspace", ["fn"], []) %>,
+                    "from": <%= from("tab", ["fn"], []) %>,
                     "to": <%= to([["mute"]]) %>
                 },
 
@@ -299,35 +299,15 @@
                     "from": <%= from("f", ["fn"], []) %>,
                     "to": <%= to([["right_arrow"]]) %>
                 },
-                {
-                    "type": "basic",
-                    "from": <%= from("h", ["fn"], []) %>,
-                    "to": <%= to([["left_arrow"]]) %>
-                },
-                {
-                    "type": "basic",
-                    "from": <%= from("j", ["fn"], []) %>,
-                    "to": <%= to([["down_arrow"]]) %>
-                },
-                {
-                    "type": "basic",
-                    "from": <%= from("k", ["fn"], []) %>,
-                    "to": <%= to([["up_arrow"]]) %>
-                },
-                {
-                    "type": "basic",
-                    "from": <%= from("l", ["fn"], []) %>,
-                    "to": <%= to([["right_arrow"]]) %>
-                },
 
                 <%# -------------------------------------------------- %>
                 <%# Function keys %>
                 <%# -------------------------------------------------- %>
                 <%
                     remap_function_keys = [
-                        'y', 'u', 'i', 'o', 'p',
-                        'n', 'm', 'comma', 'period', 'slash',
-                        'grave_accent_and_tilde', 'quote'
+                        'y', 'u', 'i', 'o',
+                        'h', 'j', 'k', 'l',
+                        'n', 'm', 'comma', 'period'
                     ];
                 %>
 
