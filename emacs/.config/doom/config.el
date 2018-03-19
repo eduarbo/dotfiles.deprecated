@@ -15,9 +15,9 @@
      :desc "SCREAMING_SNAKE_CASE"    :n  "S" #'+eduarbo/screaming-snake-case
      :desc "snake_case"              :n  "s" #'+eduarbo/snake-case)
 
-   (:desc "yank" :prefix "k"
+   (:desc "yank" :prefix "y"
      :desc "kill-ring pop"               :n "k" #'counsel-yank-pop
-     :desc "buffer filename"             :n "f" #'+default/yank-buffer-filepath
+     :desc "buffer filename"             :n "f" #'+default/yank-buffer-filename
      :desc "buffer base name"            :n "b" #'+eduarbo/yank-buffer-base-name
      :desc "buffer name with extension"  :n "n" #'+eduarbo/yank-buffer-name
      :desc "buffer path"                 :n "p" #'+eduarbo/yank-buffer-path)))
