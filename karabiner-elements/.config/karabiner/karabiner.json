@@ -40,7 +40,7 @@
                                 "type": "basic"
                             },
                             {
-                                "description": "Change right_command to right_shift. (Post spacebar if pressed alone)",
+                                "description": "Change right_command to right_shift. (Post escape if pressed alone)",
                                 "from": {
                                     "key_code": "right_command",
                                     "modifiers": {
@@ -62,7 +62,7 @@
                                 "type": "basic"
                             },
                             {
-                                "description": "Change left_command to left_shift. (Post tab if pressed alone)",
+                                "description": "Change left_command to left_shift. (Post spacebar if pressed alone)",
                                 "from": {
                                     "key_code": "left_command",
                                     "modifiers": {
@@ -1534,7 +1534,7 @@
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "open_bracket",
+                                    "key_code": "q",
                                     "modifiers": {
                                         "mandatory": [
                                             "fn"
@@ -1550,7 +1550,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "close_bracket",
+                                    "key_code": "t",
                                     "modifiers": {
                                         "mandatory": [
                                             "fn"
@@ -1566,7 +1566,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "delete_or_backspace",
+                                    "key_code": "tab",
                                     "modifiers": {
                                         "mandatory": [
                                             "fn"
@@ -1710,70 +1710,6 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "h",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "fn"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_arrow"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "j",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "fn"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "down_arrow"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "k",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "fn"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "up_arrow"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "l",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "fn"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_arrow"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
                                     "key_code": "y",
                                     "modifiers": {
                                         "mandatory": [
@@ -1850,7 +1786,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "p",
+                                    "key_code": "h",
                                     "modifiers": {
                                         "mandatory": [
                                             "fn"
@@ -1869,7 +1805,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "n",
+                                    "key_code": "j",
                                     "modifiers": {
                                         "mandatory": [
                                             "fn"
@@ -1888,7 +1824,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "m",
+                                    "key_code": "k",
                                     "modifiers": {
                                         "mandatory": [
                                             "fn"
@@ -1907,7 +1843,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "comma",
+                                    "key_code": "l",
                                     "modifiers": {
                                         "mandatory": [
                                             "fn"
@@ -1926,7 +1862,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "period",
+                                    "key_code": "n",
                                     "modifiers": {
                                         "mandatory": [
                                             "fn"
@@ -1945,7 +1881,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "slash",
+                                    "key_code": "m",
                                     "modifiers": {
                                         "mandatory": [
                                             "fn"
@@ -1964,7 +1900,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "grave_accent_and_tilde",
+                                    "key_code": "comma",
                                     "modifiers": {
                                         "mandatory": [
                                             "fn"
@@ -1983,7 +1919,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "quote",
+                                    "key_code": "period",
                                     "modifiers": {
                                         "mandatory": [
                                             "fn"
