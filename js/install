@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-brew_deps=(yarn)
-
 . env.sh # export NVM_DIR
 
 (
