@@ -26,8 +26,9 @@ install() {
 update() {
   if [[ -e ${ZPLGM[BIN_DIR]}/zplugin.zsh ]]; then
     source ${ZPLGM[BIN_DIR]}/zplugin.zsh
-    zplugin self-update 
+    zplugin self-update
     zplugin update --all
+    zplugin compile --all
   fi
 }
 
