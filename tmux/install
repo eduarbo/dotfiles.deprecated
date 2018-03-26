@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-basedeps=(tmux)
-brew_deps=(reattach-to-user-namespace gawk)
-
-install-deps
-stow-module
