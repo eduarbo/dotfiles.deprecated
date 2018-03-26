@@ -56,11 +56,15 @@ bindkey -M viins '^a' beginning-of-line
 bindkey -M viins '^e' end-of-line
 bindkey -M viins '^d' push-line-or-edit
 
+bindkey -M vicmd '?'  history-search-multi-word
 bindkey -M vicmd '^k' kill-line
 bindkey -M vicmd 'H'  run-help
 
 # Shift + Tab
 bindkey -M viins '^[[Z' reverse-menu-complete
+
+# Ctrl + R
+bindkey "^R" history-search-multi-word
 
 # bind UP and DOWN arrow keys
 bindkey '^[[A' history-substring-search-up

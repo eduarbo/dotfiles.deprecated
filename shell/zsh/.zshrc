@@ -13,13 +13,12 @@
 _load_repo zdharma/zplugin $ZPL_DIR zplugin.zsh
 
 zplugin light mafredri/zsh-async # dependency
-zplugin light zdharma/history-search-multi-word
 zplugin ice from"gh-r" as"program"; zplugin light junegunn/fzf-bin
-zplugin light zsh-users/zsh-autosuggestions
+# zplugin light zsh-users/zsh-autosuggestions
 zplugin light zsh-users/zsh-history-substring-search
 zplugin ice blockf; zplugin light zsh-users/zsh-completions # Disallow zsh-completions to modify fpath
+zplugin light zdharma/history-search-multi-word
 zplugin ice pick"simpl.zsh"; zplugin light eduarbo/simpl
-# zplugin ice pick"pure.zsh"; zplugin light sindresorhus/pure
 [[ -z $SSH_CONNECTION ]] && zplugin light zdharma/fast-syntax-highlighting
 
 _load shell/zsh/config.zsh
