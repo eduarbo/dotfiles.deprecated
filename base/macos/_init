@@ -7,7 +7,7 @@ install() {
         ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
 
-    ./macosdefaults
+    ./bin/macosdefaults
 
     brew install \
         wget curl tree coreutils bash gnupg2 \
@@ -16,7 +16,8 @@ install() {
 }
 
 update() {
-    ./macosdefaults
+    ./bin/macosdefaults
+
     if _is_callable brew; then
         brew update && brew upgrade && brew cleanup
     else
