@@ -7,12 +7,18 @@ install() {
         ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
 
-    ./bin/macosdefaults
+    brew tap caskroom/cask
 
     brew install \
         wget curl tree coreutils bash gnupg2 \
         the_silver_searcher ripgrep ffmpeg \
         neofetch pinentry-mac aspell
+
+    brew cask install font-hack font-hack-nerd-font \
+      font-fira-code font-fira-mono font-fira-sans \
+      font-input font-dejavu-sans
+
+    ./bin/macosdefaults
 }
 
 update() {
