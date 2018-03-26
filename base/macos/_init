@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+source ${0:A:h}/../../deploy
+
+install() {
+    # Install homebrew
+    if ! _is_callable brew; then
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
+
+    ./macosdefaults
+
+    brew install \
+        wget curl tree coreutils bash gnupg2 \
+        the_silver_searcher ripgrep ffmpeg \
+        neofetch pinentry-mac
+}
+
+update() {
+    ./macosdefaults
+    if _is_callable brew; then
+        brew update && brew upgrade && brew cleanup
+    else
+        echo-fail "homebrew not detected"
+    fi
+}
+
+# link() {}
+
+# clean() {}
+
+init "$@"
