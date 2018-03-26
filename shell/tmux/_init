@@ -1,0 +1,45 @@
+#!/usr/bin/env zsh
+source ${0:A:h}/../../deploy
+source env.zsh
+
+install() {
+    case $(_os) in
+        macos)  brew install tmux reattach-to-user-namespace ;;
+        arch)   sudo pacman --needed --noconfirm -S tmux ;;
+        debian) sudo apt-get install -y tmux ;;
+    esac
+
+    [[ -n $TMUXIFIER ]] && _ensure_repo jimeh/tmuxifier $TMUXIFIER
+
+    local tpm=$TMUX_PLUGINS_HOME/tpm
+    _ensure_repo tmux-plugins/tpm $tpm
+    $tpm/bin/install_plugins
+}
+
+update() {
+    local tpm=$TMUX_PLUGINS_HOME/tpm
+    if [[ -d $tpm ]]; then
+        $tpm/bin/install_plugins
+        $tpm/bin/update_plugins all
+        $tpm/bin/clean_plugins all
+    fi
+
+    if [[ -d $TMUXIFIER ]]; then
+        cd $TMUXIFIER && git pull --rebase
+    fi
+}
+
+link() {
+    # NOTE: Unfortunately tmux doesn't support XDG Base Directory because fuck you!
+    # https://github.com/tmux/tmux/issues/142
+    mklink .tmux.conf $HOME/
+    mklink tmux*.conf $TMUX_HOME/
+    mklink scripts    $TMUX_HOME/scripts
+    mklink layouts    $TMUXIFIER_LAYOUT_PATH
+}
+
+clean() {
+    rm -rfv "$HOME/.tmux.conf" "$TMUX_HOME" "$TMUX_PLUGINS_HOME" "$TMUXIFIER"
+}
+
+init "$@"
