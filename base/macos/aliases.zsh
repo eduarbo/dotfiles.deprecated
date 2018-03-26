@@ -4,9 +4,9 @@ alias date=gdate
 alias y=pbcopy
 alias p=pbpaste
 
-alias br=brew
-alias bru='brew update && brew upgrade && brew cleanup'
-alias brc='brew cask'
+alias b=brew
+alias bu='brew update && brew upgrade && brew cleanup'
+alias c='brew cask'
 
 # OS X has no `md5sum`, so use `md5` as a fallback
 _is_callable md5sum  || alias md5sum="md5"
