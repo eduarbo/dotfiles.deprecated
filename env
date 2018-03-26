@@ -43,7 +43,7 @@ function _load {
 }
 
 function _load_all {
-  for file in "$DOTFILES_DATA"/*.topic/"$1"; do
+  for file in "$DOTFILES_DATA"/*.topic/"$1"(N); do
     [[ -e $file ]] && source "$file"
   done
 }
