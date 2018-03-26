@@ -12,7 +12,7 @@ install() {
     brew install \
         wget curl tree coreutils bash gnupg2 \
         the_silver_searcher ripgrep ffmpeg \
-        neofetch pinentry-mac
+        neofetch pinentry-mac aspell
 }
 
 update() {
