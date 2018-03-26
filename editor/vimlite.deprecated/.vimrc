@@ -91,6 +91,24 @@ set backspace=indent,eol,start      " normal backspace behavior
 " see :h fo-table
 set formatoptions=qrn1lr
 " }}}
+" Navigation {{{
+" netrw
+let g:netrw_altv = 1            " open files on right
+let g:netrw_banner = 0          " do not display info on the top of window
+let g:netrw_browse_split = 0    " use the previous window to open file
+" let g:netrw_fastbrowse = 2      " only obtains directory listings when the directory hasn't been seen before
+let g:netrw_keepdir = 0
+let g:netrw_liststyle = 3       " tree style
+let g:netrw_preview = 1         " open previews vertically
+let g:netrw_retmap = 1          " click once to select and open a file, double-click to return
+let g:netrw_silent = 1
+let g:netrw_sort_options = 'i'  " Ignore case when sortig
+let g:netrw_sort_sequence = '[\/]$,*' " sort is affecting only: directories on the top, files below
+let g:netrw_special_syntax= 1   " get additional highlighting of *.bak, *.gz, *.zip, *.bz2, etc groups
+let g:netrw_winsize = 25        " absolute width of netrw window
+
+noremap <leader>tn :Lexplore<cr>
+" }}}
 " Keymaps {{{
 let mapleader = ","
 noremap ; :
@@ -116,9 +134,16 @@ nnoremap D d$
 nnoremap Y y$
 
 " Copy/Paste to and from Desktop Environment
-noremap <leader>y "+y
-noremap <leader>p "+p
-noremap <leader>P "+P
+" vnoremap <leader>y "*y
+" vnoremap <leader>p "*p
+" vnoremap <leader>Y "+y
+" vnoremap <leader>P "+p
+vmap <Leader>y "*y
+vmap <Leader>d "*d
+nmap <Leader>p "*p
+nmap <Leader>P "*P
+vmap <Leader>p "*p
+vmap <Leader>P "*P
 
 " Use sane regexes.
 nnoremap / /\v
