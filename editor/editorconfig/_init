@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+source ${0:A:h}/../../deploy
+
+install() {
+  case $(_os) in
+    macos) brew install editorconfig ;;
+    arch)  pacaur --noedit --needed --noconfirm -S editorconfig-core-c ;;
+    debian) sudo apt-get install -y editorconfig ;;
+  esac
+}
+
+# update() {}
+
+link() {
+  # TODO: Check if editorconfig supports XDG Base Directory
+  mklink .editorconfig ~/.editorconfig
+}
+
+clean() {
+  rm -fv ~/.editorconfig
+}
+
+init "$@"
