@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+source ${0:A:h}/../../deploy
+
+# install() {}
+
+# update() {}
+
+link() {
+  mklink .cvimrc ~/.cvimrc
+}
+
+clean() {
+  rm -fv ~/.cvimrc
+}
+
+init "$@"
