@@ -193,6 +193,7 @@ EOL
     fi
     [[ -n $CLEAN ]] && clean
     popd -q
+    exec $SHELL -l
   fi
 fi
 
