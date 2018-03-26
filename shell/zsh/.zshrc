@@ -14,7 +14,7 @@ _load_repo zdharma/zplugin $ZPL_DIR zplugin.zsh
 
 zplugin light mafredri/zsh-async # dependency
 zplugin ice from"gh-r" as"program"; zplugin light junegunn/fzf-bin
-# zplugin light zsh-users/zsh-autosuggestions
+zplugin light zsh-users/zsh-autosuggestions
 zplugin light zsh-users/zsh-history-substring-search
 zplugin ice blockf; zplugin light zsh-users/zsh-completions # Disallow zsh-completions to modify fpath
 zplugin light zdharma/history-search-multi-word
@@ -33,9 +33,9 @@ autoload -Uz compinit
 zcompdump="$ZSH_CACHE"/zcompdump
 zcompfiles=($zcompdump(Nm-20))
 if [[ $#zcompfiles > 0 ]]; then
-    compinit -C -d "$zcompdump"
+  compinit -C -d "$zcompdump"
 else
-    compinit -d "$zcompdump"
+  compinit -d "$zcompdump"
 fi
 unset zcompfiles
 
