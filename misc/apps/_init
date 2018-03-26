@@ -31,7 +31,6 @@ CASK_DEPS=(
   betterzipql
   borgbackup
   calibre
-  dropbox
   firefox
   flux
   google-chrome
@@ -61,6 +60,7 @@ CASK_DEPS=(
   sshfs
   torbrowser
   transmission
+  unetbootin
   virtualbox
   vlc
   wireshark
