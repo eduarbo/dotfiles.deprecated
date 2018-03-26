@@ -1,0 +1,64 @@
+[user]
+	name = Eduardo Ruiz Macias
+	email = eduarbo@gmail.com
+
+[core]
+	pager = diff-so-fancy | less --tabs=4 -RFX
+	whitespace = trailing-space
+[color]
+	ui = auto
+[github]
+	user = eduarbo
+[rebase]
+	autosquash = true
+[push]
+	default = current
+[merge]
+    ff = onlt
+	log = true
+[diff]
+	# Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
+	# instead of a/b/c/d as prefixes for patches
+	mnemonicprefix = true
+
+[alias]
+	# commit
+	chunkyadd = add --patch  # stage commits chunk by chunk
+	amend = commit --amend
+	ammend = commit --amend
+
+	# revert
+	unadd = reset HEAD
+	undo-commit = reset --soft "HEAD^"
+
+	# reset
+	unstage = reset HEAD   # remove files from index (tracking)
+	uncommit = reset --soft HEAD^  # go back before last commit, with files in uncommitted state
+
+	# diff
+	last = diff HEAD^  # diff last committed change
+	wdiff = diff --word-diff=plain
+
+	# log
+	changes = log --pretty=format:\"%C(auto)%h %Cgreen%cr %Cblue[%cn] %C(bold white)%s%Creset\" --name-status
+	changelog = log --pretty=format:\" * %s\"
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	ls = ls-files
+
+	# data analysis
+	authors = !git log --format="%aN" | sort -u
+	ranked-authors = !git authors | sort | uniq -c | sort -n
+	emails = !git log --format="%aE" | sort -u
+	email-domains = !git log --format="%aE" | awk -F'@' '{print $2}' | sort -u
+
+	root = rev-parse --show-toplevel
+	panic = !tar cvf ../git_panic.tar *
+	dt = difftool
+	exec = "!exec "
+	orphan = checkout --orphan
+	squash = rebase -i origin/master
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
