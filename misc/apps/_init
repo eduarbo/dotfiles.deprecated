@@ -1,0 +1,83 @@
+#!/usr/bin/env zsh
+source ${0:A:h}/../../deploy
+
+BREW_DEPS=(
+  'findutils --with-default-names'
+  'gnu-sed --with-default-names'
+  'grep --with-default-names'
+  openssh
+  rsync
+  openssl
+  mvtools
+  ffms2
+  subliminal
+  highlight
+  htop
+  gtypist
+  pgcli
+  'wget --with-iri'
+  p7zip
+  unzip
+  unrar
+  android-platform-tools
+)
+
+CASK_DEPS=(
+  1password
+  adobe-reader
+  alfred
+  android-file-transfer
+  appcleaner
+  betterzipql
+  borgbackup
+  calibre
+  dropbox
+  firefox
+  flux
+  google-chrome
+  google-chrome-canary
+  google-drive
+  grandperspective
+  handbrake
+  java
+  jdownloader
+  keka
+  keycastr
+  licecap
+  mpv
+  omnidisksweeper
+  opera
+  postico
+  qlcolorcode
+  qlimagesize
+  qlmarkdown
+  qlprettypatch
+  qlstephen
+  quicklook-json
+  screenhero
+  skype
+  slack
+  spotify
+  sshfs
+  torbrowser
+  transmission
+  virtualbox
+  vlc
+  wireshark
+)
+
+install() {
+  case $(_os) in
+    macos)  brew install "${BREW_DEPS[@]}"
+            cask install "${CASK_DEPS[@]}"
+            ;;
+  esac
+}
+
+# update() {}
+
+# link() {}
+
+# clean() {}
+
+init "$@"
