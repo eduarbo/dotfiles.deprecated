@@ -1,0 +1,33 @@
+#!/bin/sh
+# Author: Eduardo Ruiz <eduarbo@gmail.com>
+# Source: https://gist.github.com/eduarbo/d44f5033899520b69140
+
+# This script allows you to push an ignored subfolder to `gh-pages` branch.
+
+if [ -z "$1" ]
+then
+  echo "Please provide the ignored subfolder you want to deploy to GitHub Pages"
+  exit 1
+fi
+
+if [ -n "$(git status --porcelain)" ]; then
+    is_dirty=true
+fi
+
+# stash changes so we can revert temporary deploy commit and recover current state
+[ "$is_dirty" = true ] && git stash
+
+# add ignored default output path. It should be in the `.gitignore` file
+git add "$1" -f
+
+# create a temporary commit of files to deploy
+git commit -m 'deploy'
+
+# push your subfolder to gh-pages branch
+git push origin `git subtree split --prefix $1 master`:gh-pages --force
+
+# undo temporary commit
+git reset HEAD^1
+
+# recover staged changes
+[ "$is_dirty" = true ] && git stash pop
