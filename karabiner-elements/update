@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
-  sh lib/update-json.sh
-  sh lib/apply-lint.sh
-
-  stow-module
-fi
