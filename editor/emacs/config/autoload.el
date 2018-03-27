@@ -68,3 +68,45 @@
   (if-let* ((filename (or buffer-file-name (bound-and-true-p list-buffers-directory))))
       (message (kill-new (file-name-directory filename)))
     (error "Couldn't find base filename in current buffer")))
+
+;;;###autoload
+(defun +eduarbo/file-name-make-relative (filename reference)
+  (interactive)
+  (let ((reduced-path-reference)
+        (common-pos 0)
+        (depth 0)
+        (pos 0)
+        (retval ""))
+    (while (eq (aref filename common-pos) (aref reference common-pos))
+      (setq common-pos (+ common-pos 1)))
+    (setq reduced-path-reference (substring reference (+ common-pos 1)))
+    (while (< pos (length (substring reference (+ common-pos 1))))
+      (if (eq (aref reduced-path-reference pos) (aref "/" 0))
+          (setq depth (+ depth 1)))
+      (setq pos (+ pos 1)))
+    (dotimes (i depth)
+      (setq retval (concat retval "../")))
+    (setq retval (concat retval (substring filename common-pos)))
+    retval))
+
+;;;###autoload
+(defun +eduarbo/ivy-insert-relative-file-name ($string &optional $from $to)
+  (interactive
+   (if (use-region-p)
+       (list nil (region-beginning) (region-end))
+     (let ((bds (bounds-of-thing-at-point 'symbol)))
+       (list nil (car bds) (cdr bds)))))
+
+  (let (workOnStringP inputStr outputStr)
+    (setq workOnStringP (if $string t nil))
+    (setq inputStr (if workOnStringP $string (buffer-substring-no-properties $from $to)))
+    (setq outputStr
+          (file-name-sans-extension (+eduarbo/file-name-make-relative (concat (doom-project-root) x) (buffer-file-name))))
+
+    (if workOnStringP
+        outputStr
+      (save-excursion
+        (delete-region $from $to)
+        (goto-char $from)
+        (insert outputStr)))))
+

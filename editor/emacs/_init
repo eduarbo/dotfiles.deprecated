@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+source ${0:A:h}/../../deploy
+
+install() {
+  case $(_os) in
+    macos)  brew install emacs --with-cocoa --with-gnutls --with-rsvg --with-imagemagick@6 --devel
+            brew install ag rg
+            ;;
+    arch)   pacaur --needed --noconfirm --noedit -S make emacs ;;
+    debian) sudo apt-get install -y make emacs ;;
+  esac
+
+  _ensure_repo eduarbo/doom-emacs ~/.emacs.d && \
+    cd ~/.emacs.d && \
+    git checkout develop && \
+    mklink init.el ~/.emacs.d/ && \
+    YES=1 make install
+  _ensure_repo cask/cask ~/.emacs.d/cask
+}
+
+update() {
+  cd ~/.emacs.d && YES=1 make update
+  cd ~/.emacs.d/cask && git pull
+}
+
+link() {
+    mklink config "$XDG_CONFIG_HOME/doom"
+}
+
+clean() {
+  rm -rfv $XDG_CONFIG_HOME/doom ~/.emacs.d
+}
+
+init "$@"

@@ -7,6 +7,11 @@
 ;;
 
 (map!
+ (:after ivy
+   :map ivy-minibuffer-map
+   "C-f" #'+eduarbo/ivy-insert-relative-file-name
+   "C-b" (+ivy-do-action! #'+eduarbo/ivy-insert-relative-file-name))
+
  (:leader
    (:prefix "c"
      :desc "lowerCamelCase"          :n  "c" #'+eduarbo/lower-camel-case

@@ -3,17 +3,23 @@
 ;; Initialize in fullscreen
 (toggle-frame-fullscreen)
 
-;; I've swapped these keys on my keyboard
+(let (
+     (font "Input Mono Compressed")
+     ;; (font "Input Mono Narrow")
+     )
+  (setq
+   doom-font (font-spec :family font :size 14 :weight 'semi-light)
+   doom-big-font (font-spec :family "Input Mono Narrow" :size 14 :weight 'semi-light)
+   doom-unicode-font (font-spec :family font :size 15)
+   doom-variable-pitch-font (font-spec :family "Fira Sans")
+   ivy-posframe-font (font-spec :family font :size 16)
+   ivy-height 12))
+
 (setq user-mail-address "eduarbo@gmail.com"
       user-full-name    "Eduardo Ruiz Macias"
 
       ;; Set my notes directory
       +org-dir (expand-file-name "~/Google Drive/org/")
-
-      doom-font (font-spec :family "Hack" :size 14)
-      doom-variable-pitch-font (font-spec :amily "Fira Sans")
-      doom-unicode-font (font-spec :family "Hack" :size 14)
-      doom-big-font (font-spec :family "Hack" :size 19)
 
       ;; Enable accents
       ns-alternate-modifier 'none
@@ -36,3 +42,5 @@
 
 ; Use my own snippets
 (def-package-hook! emacs-snippets :disable)
+(def-package-hook! lsp-mode :disable)
+(def-package-hook! lsp-javascript-typescript :disable)
