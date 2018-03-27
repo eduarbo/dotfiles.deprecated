@@ -69,7 +69,7 @@ CASK_DEPS=(
 install() {
   case $(_os) in
     macos)  brew install "${BREW_DEPS[@]}"
-            cask install "${CASK_DEPS[@]}"
+            brew cask install "${CASK_DEPS[@]}"
             ;;
   esac
 }
