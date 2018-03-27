@@ -2,7 +2,7 @@
 local utils = require("utils")
 
 -- Reload config on write
-hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", hs.reload):start()
+hs.pathwatcher.new(os.getenv("HOME") .. "/.config/hammerspoon/", hs.reload):start()
 
 utils.tempNotify(2, hs.notify.new({
     title = "Hammerspoon  🔨🥄",

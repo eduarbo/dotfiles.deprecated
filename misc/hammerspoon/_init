@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+source ${0:A:h}/../../deploy
+HAMMERSPOON_DIR="$XDG_CONFIG_HOME/hammerspoon"
+
+install() {
+  if [[ $(_os) == macos ]]; then
+    brew cask install hammerspoon
+    defaults write org.hammerspoon.Hammerspoon MJConfigFile "$HAMMERSPOON_DIR/init.lua"
+    defaults write org.hammerspoon.Hammerspoon MJShowDockIconKey -int 0
+    defaults write org.hammerspoon.Hammerspoon MJShowMenuIconKey -int 0
+    defaults write org.hammerspoon.Hammerspoon MJSkipDockMenuIconProblemAlertKey -int 1
+  fi
+}
+
+# update() {}
+
+link() {
+  mklink config $HAMMERSPOON_DIR
+}
+
+clean() {
+  rm -fv $HAMMERSPOON_DIR
+}
+
+init "$@"
