@@ -89,7 +89,7 @@ alias ln="${aliases[ln]:-ln} -v"  # verbose ln
 alias l="ls -1"
 alias ll="ls -l" # List all files in long format
 alias la="ls -lA" # List all files in long format, including dot files
-alias lsd="ls -l | grep "^d"" # List only directories
+alias lsd="ls -l | grep '^d'" # List only directories
 alias lt="ls -ltr"
 
 alias mkdir="mkdir -p"
