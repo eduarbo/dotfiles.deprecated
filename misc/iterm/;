@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+source ${0:A:h}/../../deploy
+ITERM2_DIR="$XDG_CONFIG_HOME/iterm2"
+
+install() {
+  if [[ $(_os) == macos ]]; then
+    brew cask install iterm2
+
+    # Enable italics
+    tic xterm-256color.terminfo
+
+    # Specify the preferences directory
+    defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "$PWD"
+    # Tell iTerm2 to use the custom preferences in the directory
+    defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
+    # Don’t display the annoying prompt when quitting iTerm
+    defaults write com.googlecode.iterm2 PromptOnQuit -bool false
+  fi
+}
+
+# update() {}
+
+link() {
+  mklink config $HAMMERSPOON_DIR
+}
+
+clean() {
+  rm -fv $HAMMERSPOON_DIR
+}
+
+init "$@"
