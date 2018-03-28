@@ -102,6 +102,9 @@ alias rm="rm -i"
 alias cp="cp -i"
 alias mv="mv -i"
 
+# Securely Erase Files
+alias shred="gshred -zuvn5"
+alias vanish="shred"
 
 #
 # Misc
