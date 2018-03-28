@@ -5,14 +5,22 @@ source .zshenv
 install() {
   local zshenv=/etc/zsh/zshenv
   case $(_os) in
-    macos)  brew install zsh zsh-history-substring-search fasd fd
-            zshenv=/etc/zshenv
-            ;;
-    arch)   sudo pacman --needed --noconfirm -S zsh fasd fd
-            ;;
-    debian) sudo add-apt-repository ppa:aacebedo/fasd
-            sudo apt-get update && sudo apt-get install -y zsh fasd fd
-            ;;
+    macos)
+      brew install zsh zsh-history-substring-search fasd fd
+      zshenv=/etc/zshenv
+      ;;
+    fedora)
+      # TODO: Remove when F28 comes out and install fd-find instead
+      sudo dnf copr enable keefle/fd
+      sudo dnf -y zsh fasd fd
+      ;;
+    arch)
+      sudo pacman --needed --noconfirm -S zsh fasd fd
+      ;;
+    debian)
+      sudo add-apt-repository ppa:aacebedo/fasd
+      sudo apt-get update && sudo apt-get install -y zsh fasd fd
+      ;;
   esac
 
   [[ $SHELL == */zsh ]] || chsh -s $(which zsh) $(whoami)
