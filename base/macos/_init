@@ -10,7 +10,7 @@ install() {
     brew tap caskroom/cask
 
     brew install \
-        wget curl tree coreutils bash gnupg2 \
+        wget curl tree coreutils bash gnupg \
         the_silver_searcher ripgrep ffmpeg \
         neofetch pinentry-mac aspell
 
