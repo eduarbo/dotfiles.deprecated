@@ -18,7 +18,7 @@ zplugin light zsh-users/zsh-autosuggestions
 zplugin light zsh-users/zsh-history-substring-search
 zplugin ice blockf; zplugin light zsh-users/zsh-completions # Disallow zsh-completions to modify fpath
 zplugin light zdharma/history-search-multi-word
-zplugin ice pick"simpl.zsh"; zplugin light eduarbo/simpl
+zplugin light eduarbo/simpl
 [[ -z $SSH_CONNECTION ]] && zplugin light zdharma/fast-syntax-highlighting
 
 _load shell/zsh/config.zsh
