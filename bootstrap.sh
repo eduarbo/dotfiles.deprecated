@@ -20,6 +20,8 @@ if _uncallable zsh || _uncallable git; then
     sudo pacman --needed --noconfirm -S git zsh
   elif [[ -f /etc/debian_version ]]; then
     sudo apt-get update && sudo apt-get install -y git zsh
+  elif [[ -f /etc/fedora-release ]]; then
+    sudo dnf update && sudo dnf install -y git zsh
   fi
 fi
 
