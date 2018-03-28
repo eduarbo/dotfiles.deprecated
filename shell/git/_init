@@ -2,22 +2,34 @@
 source ${0:A:h}/../../deploy
 GIT_DIR="$XDG_CONFIG_HOME/git"
 
+install_diff_so_fancy() {
+  if [[ ! -e $XDG_BIN_HOME/diff-so-fancy ]]; then
+    wget -O $XDG_BIN_HOME/diff-so-fancy https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
+    chmod +x $XDG_BIN_HOME/diff-so-fancy
+  fi
+}
+
 install() {
   case $(_os) in
     macos)  brew install git git-lfs hub diff-so-fancy git-standup git-extras ;;
     arch)   pacaur --needed --noconfirm --noedit -S git hub git-lfs diff-so-fancy git-standup-git git-extras ;;
+    fedora)
+      sudo dnf install -y git hub git-lfs diff-so-fancy git-standup-git git-extras
+      install_diff_so_fancy
+      # install git-standup
+      if [[ ! -e $XDG_BIN_HOME/git-standup ]]; then
+        wget -O $XDG_BIN_HOME/git-standup https://raw.githubusercontent.com/kamranahmedse/git-standup/master/git-standup
+        chmod +x $XDG_BIN_HOME/git-standup
+      fi
+      ;;
     debian)
       sudo apt-get install -y git
+      install_diff_so_fancy
       # Install hub
       if [[ ! -e $XDG_BIN_HOME/hub ]]; then
         wget -O hub.tgz $(curl -s https://api.github.com/repos/github/hub/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep linux-amd64)
         tar xzvf hub.tgz && cd hub-linux-*(/) && cp bin/hub $XDG_BIN_HOME/hub
         wget -O $XDG_BIN_HOME/_hub https://raw.githubusercontent.com/github/hub/master/etc/hub.zsh_completion
-      fi
-      # Install diff-so-fancy
-      if [[ ! -e $XDG_BIN_HOME/diff-so-fancy ]]; then
-        wget -O $XDG_BIN_HOME/diff-so-fancy https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
-        chmod +x $XDG_BIN_HOME/diff-so-fancy
       fi
       # Install git-lfs
       if ! command -v git-lfs >/dev/null; then
