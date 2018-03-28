@@ -3,13 +3,10 @@
 ;; Initialize in fullscreen
 (toggle-frame-fullscreen)
 
-(let (
-     (font "Input Mono Compressed")
-     ;; (font "Input Mono Narrow")
-     )
+(let ((font "Hack"))
   (setq
-   doom-font (font-spec :family font :size 14 :weight 'semi-light)
-   doom-big-font (font-spec :family "Input Mono Narrow" :size 14 :weight 'semi-light)
+   doom-font (font-spec :family font :size 14)
+   doom-big-font (font-spec :family font :size 19)
    doom-unicode-font (font-spec :family font :size 15)
    doom-variable-pitch-font (font-spec :family "Fira Sans")
    ivy-posframe-font (font-spec :family font :size 16)
