@@ -7,7 +7,6 @@ source $(cd ${${(%):-%x}:A:h}/../.. && pwd -P)/env
 # Move ZDOTDIR from $HOME to reduce dotfile pollution.
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export ZPL_DIR="$XDG_CACHE_HOME/zpl"
-export ZGEN_DIR="$XDG_CACHE_HOME/zgen"
 export ZSH_CACHE="$XDG_CACHE_HOME/zsh"
 
 # Ensure path arrays do not contain duplicates
