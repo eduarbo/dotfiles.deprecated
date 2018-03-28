@@ -12,7 +12,7 @@ install() {
     fedora)
       # TODO: Remove when F28 comes out and install fd-find instead
       sudo dnf copr enable keefle/fd
-      sudo dnf instasll -y zsh fasd fd
+      sudo dnf install -y zsh fasd fd
       ;;
     arch)
       sudo pacman --needed --noconfirm -S zsh fasd fd

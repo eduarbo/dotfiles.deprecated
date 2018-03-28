@@ -14,7 +14,7 @@ install() {
     macos)  brew install git git-lfs hub diff-so-fancy git-standup git-extras ;;
     arch)   pacaur --needed --noconfirm --noedit -S git hub git-lfs diff-so-fancy git-standup-git git-extras ;;
     fedora)
-      sudo dnf install -y git hub git-lfs diff-so-fancy git-standup-git git-extras
+      sudo dnf install -y git hub git-lfs git-extras
       install_diff_so_fancy
       # install git-standup
       if [[ ! -e $XDG_BIN_HOME/git-standup ]]; then
