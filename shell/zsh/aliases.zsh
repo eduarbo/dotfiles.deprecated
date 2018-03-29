@@ -65,7 +65,6 @@ alias d="docker"
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
-alias profile="repeat 5 /usr/bin/time zsh -i -c exit"
 
 # Lists the ten most used commands.
 alias historystat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
