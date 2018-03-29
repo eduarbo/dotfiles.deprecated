@@ -127,3 +127,18 @@ bindkey -rM viins '^X'
 bindkey -M viins '^X,' _history-complete-newer \
   '^X/' _history-complete-older \
   '^X`' _bash_complete-word
+
+# Change cursor shape according to vi mode
+function zle-line-init zle-keymap-select {
+  if [ "$TERM" = "xterm-256color" ]; then
+    if [ $KEYMAP = vicmd ]; then
+      # the command mode for vi
+      echo -ne "\e[2 q"
+    else
+      # the insert mode for vi
+      echo -ne "\e[4 q"
+    fi
+  fi
+}
+zle -N zle-keymap-select
+zle -N zle-line-init
