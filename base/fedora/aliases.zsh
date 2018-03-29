@@ -1,4 +1,4 @@
-alias ls="${aliases[ls]:-ls} --color=auto --group-directories-first"
+alias ls="${aliases[ls]:-ls} -Fh --color=auto --group-directories-first"
 
 alias sc=systemctl
 alias jc=journalctl
