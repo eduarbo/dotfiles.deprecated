@@ -23,5 +23,11 @@ export LESS='-R -i -w -M -z-4'
 export LESSHISTFILE="$XDG_DATA_HOME/lesshst"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 
+# These 2 variables need to be set in our local machine since they are passed
+# down to the remote host when we connect via SSH. Otherwise, we will be getting
+# an annoying perl warning from time to time.
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 # initialize enabled topics
 _load_all env.zsh
