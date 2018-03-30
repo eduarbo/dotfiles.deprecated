@@ -12,6 +12,7 @@ unsetopt ALWAYS_TO_END     # Move cursor to the end of a completed word.
 unsetopt CASE_GLOB
 
 # Use caching to make completion for commands such as dpkg and apt usable.
+zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path "$ZSH_CACHE/zcompcache"
 
