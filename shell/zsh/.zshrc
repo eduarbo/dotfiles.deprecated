@@ -16,10 +16,6 @@ zplugin light supercrabtree/k
 zplugin light eduarbo/simpl
 [[ -z $SSH_CONNECTION ]] && zplugin light zdharma/fast-syntax-highlighting
 
-_load shell/zsh/config.zsh
-_load shell/zsh/completion.zsh
-_load shell/zsh/keybinds.zsh
-
 # Load and initialize the completion system with a cache time of 20 hours, so it
 # should almost always regenerate the first time a shell is opened each day.
 # Compinit should be called after loading of all plugins and before possibly calling cdreply
@@ -43,6 +39,10 @@ fi
 
 # execute compdefs provided by rest of plugins
 zplugin cdreplay -q # -q is for quiet
+
+_load shell/zsh/config.zsh
+_load shell/zsh/completion.zsh
+_load shell/zsh/keybinds.zsh
 
 #
 _load_all aliases.zsh
