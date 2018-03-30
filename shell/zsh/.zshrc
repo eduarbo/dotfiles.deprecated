@@ -13,6 +13,8 @@
 _load_repo zdharma/zplugin $ZPL_DIR zplugin.zsh
 
 zplugin light mafredri/zsh-async # dependency
+
+_load_all plugins.zsh
 zplugin ice from"gh-r" as"program"; zplugin light junegunn/fzf-bin
 zplugin light zsh-users/zsh-autosuggestions
 zplugin light zsh-users/zsh-history-substring-search
