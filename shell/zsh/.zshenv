@@ -9,6 +9,9 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export ZPL_DIR="$XDG_CACHE_HOME/zpl"
 export ZSH_CACHE="$XDG_CACHE_HOME/zsh"
 
+local -A ZPLGM  # initial Zplugin's hash definition
+export ZPLGM[ZCOMPDUMP_PATH]="$ZSH_CACHE/zcompdump"
+
 # Ensure path arrays do not contain duplicates
 typeset -gU cdpath fpath mailpath manpath path
 # typeset -gUT INFOPATH infopath

@@ -25,20 +25,19 @@ _load shell/zsh/keybinds.zsh
 # Compinit should be called after loading of all plugins and before possibly calling cdreply
 autoload -Uz compinit
 
-zcompdump="$ZSH_CACHE/zcompdump"
-zcompfiles=($zcompdump(Nm-20))
+zcompfiles=($ZPLGM[ZCOMPDUMP_PATH](Nm-20))
 if (( $#zcompfiles )); then
   # -C  ignore checking at all
-  compinit -C -d $zcompdump
+  compinit -C -d $ZPLGM[ZCOMPDUMP_PATH]
 else
-  compinit -d $zcompdump
+  compinit -d $ZPLGM[ZCOMPDUMP_PATH]
 fi
 
 # Execute code that does not affect the current session in the background.
 {
   # Compile the completion dump to increase startup speed
-  if [[ "$zcompdump" -nt "${zcompdump}.zwc" || ! -s "${zcompdump}.zwc" ]]; then
-    zcompile "$zcompdump"
+  if [[ "${ZPLGM[ZCOMPDUMP_PATH]}" -nt "${ZPLGM[ZCOMPDUMP_PATH]}.zwc" || ! -s "${ZPLGM[ZCOMPDUMP_PATH]}.zwc" ]]; then
+    zcompile "${ZPLGM[ZCOMPDUMP_PATH]}"
   fi
 } &!
 
