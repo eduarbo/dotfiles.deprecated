@@ -84,3 +84,6 @@ alias gL='gl --stat'
 alias gt='git tag --sort=v:refname'
 alias gtd='gt -d'
 alias gta='gt -a'
+
+# do not get VCS status (much faster)
+alias k="k -Ah --no-vcs"
