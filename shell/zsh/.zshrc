@@ -10,25 +10,25 @@
 _load_repo zdharma/zplugin $ZPL_DIR zplugin.zsh
 
 # Dependencies go first
-zplugin light mafredri/zsh-async
+zpl light mafredri/zsh-async
 
 # load plugins from enabled topics
 _load_all plugins.zsh
 
 # TODO: Stop zplugin trying to compile binaries
-zplugin ice from"gh-r" as"program"; zplugin light junegunn/fzf-bin
-zplugin light zsh-users/zsh-history-substring-search
-zplugin light zdharma/history-search-multi-word
-zplugin ice blockf; zplugin light zsh-users/zsh-completions # Disallow zsh-completions to modify fpath
-zplugin light supercrabtree/k
-zplugin light djui/alias-tips
-zplugin light eduarbo/simpl
+zpl ice from"gh-r" as"program"; zpl light junegunn/fzf-bin
+zpl light zsh-users/zsh-history-substring-search
+zpl light zdharma/history-search-multi-word
+zpl light supercrabtree/k
+zpl light djui/alias-tips
+zpl light eduarbo/simpl
 
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-zplugin light zsh-users/zsh-autosuggestions
+zpl light zsh-users/zsh-autosuggestions
 
-[[ -z $SSH_CONNECTION ]] && zplugin light zdharma/fast-syntax-highlighting
+zpl ice blockf; zpl light zsh-users/zsh-completions # Disallow zsh-completions to modify fpath
+[[ -z $SSH_CONNECTION ]] && zpl light zdharma/fast-syntax-highlighting
 
 
 #
@@ -57,7 +57,7 @@ fi
 } &!
 
 # execute compdefs provided by rest of plugins
-zplugin cdreplay -q # -q is for quiet
+zpl cdreplay -q # -q is for quiet
 
 
 #
