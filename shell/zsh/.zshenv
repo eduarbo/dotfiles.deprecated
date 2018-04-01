@@ -15,7 +15,7 @@ export ZPLGM[ZCOMPDUMP_PATH]="$ZSH_CACHE/zcompdump"
 # Ensure path arrays do not contain duplicates
 typeset -gU cdpath fpath mailpath manpath path
 typeset -gUT INFOPATH infopath
-path=( $XDG_BIN_HOME $DOTFILES/sell/bin $DOTFILES_DATA/*.topic/bin(N) $path )
+path=( $XDG_BIN_HOME $DOTFILES_DATA/*.topic/bin(N) $path )
 fpath=( $ZDOTDIR/functions $XDG_BIN_HOME $fpath )
 
 # envvars

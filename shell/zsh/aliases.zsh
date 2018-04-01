@@ -129,7 +129,7 @@ sleep-in() {
   sudo pmset schedule sleep "$datetime"
 }
 
-# Reload the sell and return the load time
+# Reload the shell and return the load time
 loadtime() {
   export DISABLE_LOAD_TIME=1
   local times=${1:-1}
