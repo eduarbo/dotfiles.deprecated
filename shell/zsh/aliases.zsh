@@ -52,14 +52,17 @@ alias etp="v ~/tp.md"
 
 alias cl="clear"
 
-alias fa="fasd -a"        # any
-alias fs="fasd -si"       # show / search / select
-alias fd="fasd -d"        # directory
-alias f="fasd -f"         # file
-alias fsd="fasd -sid"     # interactive directory selection
-alias fsf="fasd -sif"     # interactive file selection
-alias j="fasd_cd -d"      # cd, same functionality as j in autojump
-alias jj="fasd_cd -d -i"  # cd with interactive selection
+# fasd & fzf change directory
+j() {
+  local dir
+  dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+}
+
+# fd & fzf change directory
+jj() {
+  local dir
+  dir="$(fd --type directory --follow --hidden "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+}
 
 alias d="docker"
 

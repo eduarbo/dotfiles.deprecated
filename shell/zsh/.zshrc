@@ -1,6 +1,8 @@
 # zshrc
 # By Eduardo Ruiz <eduarbo@gmail.com>
 
+# Set vi style bindings before sourcing fzf to prevent reset for TAB key binding
+bindkey -v
 
 #
 # Plugins
@@ -17,6 +19,9 @@ _load_all plugins.zsh
 
 # TODO: Stop zplugin trying to compile binaries
 zpl ice from"gh-r" as"program"; zpl light junegunn/fzf-bin
+zpl ice as"command" pick"bin/fzf-tmux"; zplugin load junegunn/fzf
+zpl snippet "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh"
+zpl snippet "https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh"
 zpl light zsh-users/zsh-history-substring-search
 zpl light zdharma/history-search-multi-word
 zpl light supercrabtree/k
@@ -67,6 +72,7 @@ zpl cdreplay -q # -q is for quiet
 _load shell/zsh/config.zsh
 _load shell/zsh/completion.zsh
 _load shell/zsh/keybinds.zsh
+_load shell/zsh/fzf.zsh
 
 # load aliases from enabled topics
 # source them after compinit to be able to use compdef

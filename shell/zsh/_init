@@ -46,6 +46,7 @@ link() {
 
 clean() {
   rm -rfv $ZDOTDIR
+  rm -rfv $ZSH_CACHE/*;
   [[ $(_os) == macos ]] && rm -f ~/.zshenv
 }
 
