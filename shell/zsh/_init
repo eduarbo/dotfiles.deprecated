@@ -6,20 +6,19 @@ install() {
   local zshenv=/etc/zshenv
   case $(_os) in
     macos)
-      brew install zsh zsh-history-substring-search fasd fd
+      brew install zsh zsh-history-substring-search fd
       ;;
     fedora)
       # TODO: Remove when F28 comes out and install fd-find instead
       sudo dnf copr enable -y keefle/fd
-      sudo dnf install -y zsh fasd fd
+      sudo dnf install -y zsh fd
       ;;
     arch)
-      sudo pacman --needed --noconfirm -S zsh fasd fd
+      sudo pacman --needed --noconfirm -S zsh fd
       zshenv=/etc/zsh/zshenv
       ;;
     debian)
-      sudo add-apt-repository ppa:aacebedo/fasd
-      sudo apt-get update && sudo apt-get install -y zsh fasd fd
+      sudo apt-get update && sudo apt-get install -y zsh fd
       ;;
   esac
 
