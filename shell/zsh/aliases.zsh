@@ -25,7 +25,9 @@ alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 
 alias ag="noglob ag -p $XDG_CONFIG_HOME/ag/agignore"
+alias agg='ag -S --hidden --line-number'
 alias rg='noglob rg'
+alias rgg='rg -S --hidden --line-number'
 
 alias mk="make"
 
