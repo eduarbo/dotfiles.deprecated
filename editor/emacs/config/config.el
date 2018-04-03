@@ -72,8 +72,7 @@
 ;; FIXME: not sure why the hooks are not setting the buffer var
 (after! evil-args
   ;; Set space as a delimiter arguments for lisp-family languages
-  (add-hook! 'lisp-mode-hook (setq-local evil-args-delimiters '(" ")))
-  (add-hook! 'emacs-lisp-mode-hook (setq-local evil-args-delimiters '(" "))))
+  (add-hook! lisp-mode (setq-local evil-args-delimiters '(" "))))
 
 ;; lang/org
 (after! org-bullets
