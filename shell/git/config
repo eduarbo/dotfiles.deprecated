@@ -1,6 +1,7 @@
 [user]
 	name = Eduardo Ruiz Macias
 	email = eduarbo@gmail.com
+	signingkey = EB4A21A2FE042A9B
 
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
@@ -62,3 +63,5 @@
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
+[commit]
+	gpgsign = true
