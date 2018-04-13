@@ -1,4 +1,3 @@
-export GNUPGHOME="$XDG_CONFIG_HOME/gpg"
 export BROWSER='open'
 
 # export CC=/usr/bin/clang
