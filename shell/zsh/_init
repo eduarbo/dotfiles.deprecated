@@ -22,7 +22,7 @@ install() {
       ;;
   esac
 
-  [[ $SHELL == */zsh ]] || chsh -s $(which zsh) $(whoami)
+  [[ $SHELL == */zsh ]] || sudo chsh -s $(which zsh) $(whoami)
 
   local zsh="$(which zsh)"
   grep $zsh /etc/shells &>/dev/null || sudo tee -a /etc/shells <<<$zsh
