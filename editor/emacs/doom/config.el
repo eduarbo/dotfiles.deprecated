@@ -2,6 +2,39 @@
 
 ;; TODO: fix buffer switch in workspace
 
+;; Initialize in fullscreen
+(toggle-frame-fullscreen)
+
+(let ((font "Hack"))
+  (setq
+   doom-font (font-spec :family font :size 14)
+   doom-big-font (font-spec :family font :size 19)
+   doom-unicode-font (font-spec :family font :size 15)
+   doom-variable-pitch-font (font-spec :family "Fira Sans")
+   ivy-posframe-font (font-spec :family font :size 16)
+   ivy-height 12))
+
+(setq user-mail-address "eduarbo@gmail.com"
+      user-full-name    "Eduardo Ruiz Macias"
+
+      ;; Set my notes directory
+      +org-dir (expand-file-name "~/Google Drive/org/")
+
+      ;; Enable accents
+      ns-alternate-modifier 'none
+      ;; Get some context when scrolling
+      scroll-margin 10
+      ;; disable line numbers
+      doom-line-numbers-style nil
+      ;; use gnu ls to allow dired to sort directories
+      insert-directory-program "gls" dired-use-ls-dired t
+
+      +doom-modeline-buffer-file-name-style 'relative-from-project
+      show-trailing-whitespace t
+
+      org-ellipsis " ▼ ")
+
+
 ;;
 ;; Bindings
 ;;
@@ -26,33 +59,6 @@
      :desc "buffer base name"            :n "b" #'+eduarbo/yank-buffer-base-name
      :desc "buffer name with extension"  :n "n" #'+eduarbo/yank-buffer-name
      :desc "buffer path"                 :n "p" #'+eduarbo/yank-buffer-path)))
-
-
-;;
-;; Config
-;;
-
-;; lazy-load `evil-easymotion'
-(map! :m "gs" #'+default/easymotion)
-(defun +default/easymotion ()
-  (interactive)
-  (let ((prefix (this-command-keys)))
-    (evilem-default-keybindings prefix)
-    (map! :map evilem-map
-          "n" (evilem-create #'evil-ex-search-next)
-          "N" (evilem-create #'evil-ex-search-previous)
-          "s" (evilem-create #'evil-snipe-repeat
-                             :pre-hook (save-excursion (call-interactively #'evil-snipe-s))
-                             :bind ((evil-snipe-scope 'buffer)
-                                    (evil-snipe-enable-highlight)
-                                    (evil-snipe-enable-incremental-highlight)))
-          "S" (evilem-create #'evil-snipe-repeat-reverse
-                             :pre-hook (save-excursion (call-interactively #'evil-snipe-s))
-                             :bind ((evil-snipe-scope 'buffer)
-                                    (evil-snipe-enable-highlight)
-                                    (evil-snipe-enable-incremental-highlight))))
-    (set-transient-map evilem-map)
-    (which-key-reload-key-sequence prefix)))
 
 
 ;;
@@ -89,7 +95,3 @@
 ;;   (setq flycheck-display-errors-delay 0.6)
 ;;   ;; Disable broken tooltip in macOS
 ;;   (flycheck-pos-tip-mode -1))
-
-;; source my snippets
-(after! yasnippet
-  (push (expand-file-name "snippets/" +private-config-path) yas-snippet-dirs))
