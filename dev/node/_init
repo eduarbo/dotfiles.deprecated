@@ -6,6 +6,7 @@ install() {
   _ensure_repo nodenv/nodenv $NODENV_ROOT
   _ensure_repo nodenv/node-build $NODENV_ROOT/plugins/node-build
   _ensure_repo nodenv/nodenv-update $NODENV_ROOT/plugins/nodenv-update
+  _ensure_repo nodenv/nodenv-npm-migrate $NODENV_ROOT/plugins/nodenv-npm-migrate
   _ensure_repo nodenv/nodenv-package-rehash $NODENV_ROOT/plugins/nodenv-package-rehash
 }
 
