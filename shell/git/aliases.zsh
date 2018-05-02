@@ -33,6 +33,7 @@ alias gsd='git stash drop'
 alias gr='git reset HEAD'
 alias grs='git reset --soft HEAD^'
 alias grh='git reset --hard'
+alias gundo='git reset --hard HEAD~1'
 
 # rebase
 alias grb='git rebase -S --autostash -i'
