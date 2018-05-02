@@ -4,9 +4,9 @@ source ${0:A:h}/../../deploy
 install() {
   case $(_os) in
     macos)  brew install emacs --with-cocoa --with-gnutls --with-rsvg --with-imagemagick@6 --devel
-            brew install ag rg
+            brew install ag rg sqlite
             ;;
-    arch)   pacaur --needed --noconfirm --noedit -S make emacs ;;
+    arch)   pacaur --needed --noconfirm --noedit -S make emacs sqlite the_silver_searcher ripgrep ;;
     debian) sudo apt-get install -y make emacs ;;
   esac
 
