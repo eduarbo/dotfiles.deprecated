@@ -1,7 +1,5 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: it
-# key: it
+# name: debugger
+# key: d
 # --
-it('${1:name}', () => {
-  `%`$0
-});
+debugger;

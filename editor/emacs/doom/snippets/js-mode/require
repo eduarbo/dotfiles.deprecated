@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: require("...")
-# uuid: require
+# name: const ... = require('...');
 # key: req
+# uuid: require
 # --
-require(`%`$0)`(if (eolp) ";")`
+const ${1:package} = '${2:${1:$(s-dashed-words yas-text)}}';

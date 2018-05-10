@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: switch
+# key: s
+# --
+switch (${1:expr}) {
+  case $2: $3
+  default: $0
+}

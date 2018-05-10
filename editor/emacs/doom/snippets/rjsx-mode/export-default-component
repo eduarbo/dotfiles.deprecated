@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: export default class MyComponent extends Component {...}
+# key: ecom
+# --
+export default (%alias "component")

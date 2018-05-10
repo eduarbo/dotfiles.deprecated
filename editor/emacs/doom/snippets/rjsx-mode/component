@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: React Class Component
+# uuid: component
+# key: com
+# --
+class ${1:Name} extends ${2:Component} {
+  ${0:`%`}
+}

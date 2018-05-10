@@ -2,4 +2,4 @@
 # name: let ... = ...;
 # key: l
 # --
-let ${1:name} = ${0:`%`};
+let ${1:name} = ${2:`(%1)`}$0`(when (eolp) ";")`

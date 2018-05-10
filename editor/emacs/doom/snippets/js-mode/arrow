@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: arrow function with concise body
+# name: arrow function
 # key: a
 # --
-${1:arg} => `%`$0
+${1:arg} => `(if (> (%lines %) 1) (concat "{ " (!%!) " }") %)`$0`(when (eolp) ";")`
