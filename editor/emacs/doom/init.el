@@ -21,7 +21,9 @@
        workspaces        ; tab emulation, persistence & separate workspaces
 
        :completion
-       company           ; the ultimate code completion backend
+       (company          ; the ultimate code completion backend
+      ; +auto            ; as-you-type code completion
+        +childframe)     ; a nicer company UI. Emacs +26 only!
       ;helm              ; the *other* search engine for love and life
       ;ido               ; the other *other* search engine...
        ivy               ; a search engine for love and life
@@ -42,6 +44,7 @@
 
        :tools
        dired             ; making dired pretty [functional]
+       ein               ; tame Jupyter notebooks with emacs
        electric-indent   ; smarter, keyword-based electric-indent
       ;eshell            ; a consistent, cross-platform shell (WIP)
       ;gist              ; interacting with github gists
@@ -51,7 +54,7 @@
       ;make              ; run make tasks from Emacs
        magit             ;
        neotree           ; a project drawer, like NERDTree for vim
-      ;password-store    ; password manager for nerds
+       password-store    ; password manager for nerds
       ;pdf               ; pdf enhancements
       ;rgb               ; creating color strings
        rotate-text       ; cycle region at point between text candidates
@@ -101,7 +104,6 @@
       ;scala             ; java, but good
        sh                ; she sells (ba|z)sh shells on the C xor
       ;swift             ; who asked for emoji variables?
-       typescript        ; javascript, but better
        web               ; the tubes
 
        ;; Applications are complex and opinionated modules that transform Emacs
