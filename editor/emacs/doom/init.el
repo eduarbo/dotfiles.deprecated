@@ -16,17 +16,19 @@
       ;services          ; TODO managing external services & code builders
        snippets          ; my elves. They type so I don't have to
        spellcheck        ; tasing you for misspelling mispelling
-       syntax-checker    ; tasing you for every semicolon you forget
+       (syntax-checker   ; tasing you for every semicolon you forget
+        +childframe)     ; use childframes for error popups (Emacs 26+ only)
        version-control   ; remember, remember that commit in November
        workspaces        ; tab emulation, persistence & separate workspaces
 
        :completion
        (company          ; the ultimate code completion backend
       ; +auto            ; as-you-type code completion
-        +childframe)     ; a nicer company UI. Emacs +26 only!
+        +childframe)     ; a nicer company UI (Emacs 26+ only)
       ;helm              ; the *other* search engine for love and life
       ;ido               ; the other *other* search engine...
-       ivy               ; a search engine for love and life
+       (ivy              ; a search engine for love and life
+        +childframe)     ; uses childframes for popups (Emacs 26+ only)
 
        :ui
        doom              ; what makes DOOM look the way it does
@@ -36,7 +38,6 @@
        evil-goggles      ; display visual hints when editing in evil
        hl-todo           ; highlight TODO/FIXME/NOTE tags
        nav-flash         ; blink the current line after jumping
-       posframe          ; use child frames where possible (Emacs 26+ only)
       ;tabbar            ; FIXME an (incomplete) tab bar for Emacs
       ;unicode           ; extended unicode support for various languages
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
@@ -44,6 +45,7 @@
 
        :tools
        dired             ; making dired pretty [functional]
+       editorconfig      ; let someone else argue about tabs vs spaces
        ein               ; tame Jupyter notebooks with emacs
        electric-indent   ; smarter, keyword-based electric-indent
       ;eshell            ; a consistent, cross-platform shell (WIP)
@@ -84,6 +86,7 @@
       ;ledger            ; an accounting system in Emacs
        lua               ; one-based indices? one-based indices
        markdown          ; writing docs for people to ignore
+      ;nim               ; python + lisp at the speed of c
       ;nix               ; I hereby declare "nix geht mehr!"
       ;ocaml             ; an objective camel
        (org              ; organize your plain life in plain text
