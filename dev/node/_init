@@ -11,10 +11,8 @@ install() {
   _ensure_repo nodenv/nodenv-package-rehash $NODENV_ROOT/plugins/nodenv-package-rehash
 
   # Installing node through Homebrew can cause problems with npm for globally
-  # installed packages. To prevent this issue install node without npm and ask
-  # npm to do the same
+  # installed packages. To prevent this issue install node without npm
   brew install node --without-npm
-  brew install npm --ignore-dependencies
 }
 
 update() {
