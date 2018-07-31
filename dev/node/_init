@@ -7,7 +7,14 @@ install() {
   _ensure_repo nodenv/node-build $NODENV_ROOT/plugins/node-build
   _ensure_repo nodenv/nodenv-update $NODENV_ROOT/plugins/nodenv-update
   _ensure_repo nodenv/nodenv-npm-migrate $NODENV_ROOT/plugins/nodenv-npm-migrate
+  _ensure_repo nodenv/nodenv-default-packages $NODENV_ROOT/nodenv-default-packages
   _ensure_repo nodenv/nodenv-package-rehash $NODENV_ROOT/plugins/nodenv-package-rehash
+
+  # Installing node through Homebrew can cause problems with npm for globally
+  # installed packages. To prevent this issue install node without npm and ask
+  # npm to do the same
+  brew install node --without-npm
+  brew install npm --ignore-dependencies
 }
 
 update() {
@@ -19,8 +26,12 @@ update() {
   fi
 }
 
-# link() {}
+link() {
+  mklink default-packages "$NODENV_ROOT/default-packages"
+}
 
-# clean() {}
+clean() {
+  rm -rfv $NODENV_ROOT
+}
 
 init "$@"
