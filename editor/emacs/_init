@@ -17,11 +17,12 @@ dnf_packages=(
 install() {
   case $(_os) in
     macos)
+      brew tap d12frosted/emacs-plus
+      brew install emacs-plus --without-spacemacs-icon
       brew install ${common_packages[@]}
-      brew install emacs --with-cocoa --with-librsvg --with-imagemagick@6
       ;;
     fedora)
-      sudo dnf install -y ${common_packages[@]} ${fedora_packages[@]}
+      sudo dnf install -y ${common_packages[@]} ${dnf_packages[@]}
       ;;
   esac
 
@@ -29,7 +30,7 @@ install() {
   _ensure_repo eduarbo/doom-emacs ~/.emacs.d && \
     cd ~/.emacs.d && \
     git checkout develop && \
-    mklink init.el ~/.emacs.d/ && \
+    mklink doom/init.el ~/.emacs.d/ && \
     YES=1 make install
 
   # Clone Cask, Project management tool for Emacs
