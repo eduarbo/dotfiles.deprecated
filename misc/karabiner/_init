@@ -6,9 +6,7 @@ source env.zsh
 [[ $(_os) != macos ]] && exit
 
 install() {
-  if [[ $(_os) == macos ]]; then
-    brew cask install karabiner-elements
-  fi
+  brew cask install karabiner-elements
 
   mkdir -p $KARABINER_COMPLEX_MODIFICATIONS
   sh lib/update-json.sh
