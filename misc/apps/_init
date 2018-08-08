@@ -72,9 +72,9 @@ cask_deps=(
 install() {
   case $(_os) in
     macos)
-      brew install "${brew_deps[@]}"
+      brew install ${brew_deps[@]}
       for pkg ($brew_deps_with_args) brew install $pkg
-      brew cask install "${cask_deps[@]}"
+      brew cask install ${cask_deps[@]}
       ;;
   esac
 }
