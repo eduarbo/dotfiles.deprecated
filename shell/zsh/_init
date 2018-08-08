@@ -4,17 +4,17 @@ source .zshenv
 
 # Dependencies
 
-common_packages=(
+common_deps=(
   zsh
   fd
   fasd
 )
 
-brew_packages=(
+brew_deps=(
   zsh-history-substring-search
 )
 
-dnf_packages=(
+dnf_deps=(
   make
   emacs
 )
@@ -22,12 +22,12 @@ dnf_packages=(
 install() {
   case $(_os) in
     macos)
-      brew install ${common_packages[@]} ${brew_packages[@]}
+      brew install ${common_deps[@]} ${brew_deps[@]}
       ;;
     fedora)
       # TODO: Remove when F28 comes out and install fd-find instead
       sudo dnf copr enable -y keefle/fd
-      sudo dnf install -y ${common_packages[@]} ${dnf_packages[@]}
+      sudo dnf install -y ${common_deps[@]} ${dnf_deps[@]}
       ;;
   esac
 

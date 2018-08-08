@@ -6,7 +6,7 @@
 # - Install base brew packages, macOS apps and fonts
 # - Set macOS default preferences
 
-brew_packages=(
+brew_deps=(
   wget
   curl
   tree
@@ -21,7 +21,7 @@ brew_packages=(
   aspell
 )
 
-cask_packages=(
+cask_deps=(
   font-hack
   font-hack-nerd-font
   font-fira-code
@@ -47,8 +47,8 @@ install() {
   brew tap homebrew/cask-fonts
 
   # Install brew and cask packages
-  brew install ${brew_packages[@]}
-  brew cask install ${cask_packages[@]}
+  brew install ${brew_deps[@]}
+  brew cask install ${cask_deps[@]}
 
   # Defaults for macOS
   ./bin/macosdefaults

@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 source ${0:A:h}/../../deploy
 
-BREW_DEPS=(
+brew_deps=(
   'findutils --with-default-names'
   'gnu-sed --with-default-names'
   'grep --with-default-names'
@@ -22,7 +22,7 @@ BREW_DEPS=(
   android-platform-tools
 )
 
-CASK_DEPS=(
+cask_deps=(
   1password
   adobe-reader
   alfred
@@ -68,9 +68,10 @@ CASK_DEPS=(
 
 install() {
   case $(_os) in
-    macos)  brew install "${BREW_DEPS[@]}"
-            brew cask install "${CASK_DEPS[@]}"
-            ;;
+    macos)
+      brew install "${brew_deps[@]}"
+      brew cask install "${cask_deps[@]}"
+      ;;
   esac
 }
 
