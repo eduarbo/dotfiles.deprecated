@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AllowClipboardAccess</key>
+	<true/>
 	<key>AppleAntiAliasingThreshold</key>
 	<integer>1</integer>
 	<key>AppleScrollAnimationEnabled</key>
@@ -2492,6 +2494,10 @@
 	<integer>2</integer>
 	<key>NSColorPickerSlidersDefaults</key>
 	<string>1</string>
+	<key>NSNavPanelExpandedSizeForOpenMode</key>
+	<string>{712, 448}</string>
+	<key>NSNavPanelExpandedSizeForSaveMode</key>
+	<string>{712, 448}</string>
 	<key>NSQuotedKeystrokeBinding</key>
 	<string></string>
 	<key>NSRepeatCountBinding</key>
@@ -2531,19 +2537,19 @@
 	<key>NSWindow Frame NSColorPanel</key>
 	<string>427 404 228 297 0 0 1680 1028 </string>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>731 163 658 332 0 0 1680 1028 </string>
+	<string>262 158 658 94 0 0 1920 1058 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>532 477 620 392 0 0 1680 1028 </string>
+	<string>650 499 620 392 0 0 1920 1058 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 126 606 469 0 0 1680 1028 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>383 163 918 512 0 0 1680 1028 </string>
+	<string>530 523 796 486 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 599 650 429 0 0 1680 1028 </string>
+	<string>0 0 1920 1058 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>443 158 794 650 0 0 1680 1028 </string>
+	<string>0 629 650 429 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>842 888 650 140 0 0 1680 1028 </string>
+	<string>842 599 650 429 0 0 1680 1028 </string>
 	<key>NeverWarnAboutShortLivedSessions_348AC806-E7B2-41E4-BD85-77CB17E3C942</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_348AC806-E7B2-41E4-BD85-77CB17E3C942_selection</key>
@@ -3198,7 +3204,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>KnackNerdFontC-Regular 14</string>
+			<string>Hack-Regular 14</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<false/>
 			<key>Option Key Sends</key>
@@ -3212,7 +3218,7 @@
 			<key>Screen</key>
 			<integer>-1</integer>
 			<key>Scrollback Lines</key>
-			<integer>1000</integer>
+			<integer>0</integer>
 			<key>Selected Text Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -4007,6 +4013,10 @@
 	<true/>
 	<key>NoSyncInstallationId</key>
 	<string>4A116FB1-D4CA-40EA-9A71-04979E9B4D7F</string>
+	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
+	<true/>
+	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
+	<integer>0</integer>
 	<key>NoSyncPermissionToShowTip</key>
 	<false/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
@@ -4051,7 +4061,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/eduarbo/.dotfiles/terminal</string>
+	<string>/Users/eduarbo/.dotfiles/misc/iterm/config</string>
 	<key>Print In Black And White</key>
 	<true/>
 	<key>PromptOnQuit</key>
@@ -4065,7 +4075,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-03-26T05:26:40Z</date>
+	<date>2018-08-08T13:35:44Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
@@ -4085,7 +4095,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.5</string>
+	<string>3.2.0</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

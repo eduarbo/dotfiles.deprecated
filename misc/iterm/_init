@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 source ${0:A:h}/../../deploy
-ITERM_DIR="$XDG_CONFIG_HOME/iterm"
+ITERM_DIR="${0:A:h}/config"
 
 # only for macOS
 [[ $(_os) != macos ]] && exit
@@ -21,12 +21,10 @@ install() {
 
 # update() {}
 
-link() {
-  mklink com.googlecode.iterm2.plist $ITERM_DIR/
-}
+# link() {}
 
 clean() {
-  rm -fv $ITERM_DIR
+  defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool false
 }
 
 init "$@"
