@@ -18,7 +18,7 @@ install() {
   case $(_os) in
     macos)
       brew install ${common_packages[@]}
-      brew install emacs --with-cocoa --with-gnutls --with-rsvg --with-imagemagick@6
+      brew install emacs --with-cocoa --with-librsvg --with-imagemagick@6
       ;;
     fedora)
       sudo dnf install -y ${common_packages[@]} ${fedora_packages[@]}
