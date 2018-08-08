@@ -26,15 +26,7 @@ install() {
       ;;
   esac
 
-  # Clone and setup my doom-emacs fork
-  _ensure_repo eduarbo/doom-emacs ~/.emacs.d && \
-    mklink doom/init.el ~/.emacs.d/ && \
-    cd ~/.emacs.d && \
-    git checkout develop && \
-    YES=1 make install
-
-  # Clone Cask, Project management tool for Emacs
-  _ensure_repo cask/cask ~/.emacs.d/cask
+  YES=1 make install
 }
 
 update() {
@@ -43,7 +35,16 @@ update() {
 }
 
 link() {
+  # Clone and setup my doom-emacs fork
+  _ensure_repo eduarbo/doom-emacs ~/.emacs.d && \
+    cd ~/.emacs.d && \
+    git checkout develop
+
+  # Clone Cask, Project management tool for Emacs
+  _ensure_repo cask/cask ~/.emacs.d/cask
+
   mklink doom $XDG_CONFIG_HOME/
+  mklink doom/init.el ~/.emacs.d/
 }
 
 clean() {
