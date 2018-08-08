@@ -1,10 +1,14 @@
 #!/usr/bin/env zsh
 source ${0:A:h}/../../deploy
 
-brew_deps=(
+brew_deps_with_args=(
   'findutils --with-default-names'
   'gnu-sed --with-default-names'
   'grep --with-default-names'
+  'wget --with-iri'
+)
+
+brew_deps=(
   openssh
   rsync
   openssl
@@ -15,7 +19,6 @@ brew_deps=(
   htop
   gtypist
   pgcli
-  'wget --with-iri'
   p7zip
   unzip
   unrar
@@ -70,6 +73,7 @@ install() {
   case $(_os) in
     macos)
       brew install "${brew_deps[@]}"
+      for pkg ($brew_deps_with_args) brew install $pkg
       brew cask install "${cask_deps[@]}"
       ;;
   esac
