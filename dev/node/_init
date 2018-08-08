@@ -12,7 +12,7 @@ install() {
 
   # Installing node through Homebrew can cause problems with npm for globally
   # installed packages. To prevent this issue install node without npm
-  brew install node --without-npm
+  [[ $(_os) == macos ]] && brew install node --without-npm
 }
 
 update() {
