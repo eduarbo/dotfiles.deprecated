@@ -3,13 +3,6 @@ source ${0:A:h}/../../deploy
 source env.zsh
 
 install() {
-  _ensure_repo nodenv/nodenv $NODENV_ROOT
-  _ensure_repo nodenv/node-build $NODENV_ROOT/plugins/node-build
-  _ensure_repo nodenv/nodenv-update $NODENV_ROOT/plugins/nodenv-update
-  _ensure_repo nodenv/nodenv-npm-migrate $NODENV_ROOT/plugins/nodenv-npm-migrate
-  _ensure_repo nodenv/nodenv-default-packages $NODENV_ROOT/nodenv-default-packages
-  _ensure_repo nodenv/nodenv-package-rehash $NODENV_ROOT/plugins/nodenv-package-rehash
-
   # Installing node through Homebrew can cause problems with npm for globally
   # installed packages. To prevent this issue install node without npm
   [[ $(_os) == macos ]] && brew install node --without-npm
@@ -25,6 +18,13 @@ update() {
 }
 
 link() {
+  _ensure_repo nodenv/nodenv $NODENV_ROOT
+  _ensure_repo nodenv/node-build $NODENV_ROOT/plugins/node-build
+  _ensure_repo nodenv/nodenv-update $NODENV_ROOT/plugins/nodenv-update
+  _ensure_repo nodenv/nodenv-npm-migrate $NODENV_ROOT/plugins/nodenv-npm-migrate
+  _ensure_repo nodenv/nodenv-default-packages $NODENV_ROOT/nodenv-default-packages
+  _ensure_repo nodenv/nodenv-package-rehash $NODENV_ROOT/plugins/nodenv-package-rehash
+
   mklink default-packages "$NODENV_ROOT/default-packages"
 }
 
