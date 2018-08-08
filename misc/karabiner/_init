@@ -2,6 +2,9 @@
 source ${0:A:h}/../../deploy
 source env.zsh
 
+# only for macOS
+[[ $(_os) != macos ]] && exit
+
 install() {
   if [[ $(_os) == macos ]]; then
     brew cask install karabiner-elements

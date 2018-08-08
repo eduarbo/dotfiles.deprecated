@@ -1,38 +1,71 @@
 #!/usr/bin/env zsh
+
+# - Install homebrew if missing
+# - Enable Cask of fonts
+# - Install base brew packages, macOS apps and fonts
+# - Set macOS default preferences
+
+brew_packages=(
+  wget
+  curl
+  tree
+  coreutils
+  bash
+  gnupg
+  the_silver_searcher
+  ripgrep
+  ffmpeg
+  neofetch
+  pinentry-mac
+  aspell
+)
+
+cask_packages=(
+  font-hack
+  font-hack-nerd-font
+  font-fira-code
+  font-fira-mono
+  font-fira-sans
+  font-input
+  font-dejavu-sans
+)
+
 source ${0:A:h}/../../deploy
 
 install() {
-    # Install homebrew
-    if ! _is_callable brew; then
-        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    fi
+  # Install homebrew
+  if ! _is_callable brew; then
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
 
-    brew tap caskroom/cask
+  # Enable Cask of fonts
+  brew tap homebrew/cask-fonts
 
-    brew install \
-        wget curl tree coreutils bash gnupg \
-        the_silver_searcher ripgrep ffmpeg \
-        neofetch pinentry-mac aspell
+  # Install brew and cask packages
+  brew install ${brew_packages[@]}
+  brew cask install ${cask_packages[@]}
 
-    brew cask install font-hack font-hack-nerd-font \
-      font-fira-code font-fira-mono font-fira-sans \
-      font-input font-dejavu-sans
-
-    ./bin/macosdefaults
+  # Defaults for macOS
+  ./bin/macosdefaults
 }
 
 update() {
-    ./bin/macosdefaults
+  # Apply new macOS defaults
+  ./bin/macosdefaults
 
-    if _is_callable brew; then
-        brew update && brew upgrade && brew cleanup
-    else
-        echo-fail "homebrew not detected"
-    fi
+  # Update brew packages
+  if _is_callable brew; then
+    brew update && brew upgrade && brew cleanup; brew doctor
+  else
+    echo-fail "homebrew not detected"
+  fi
 }
 
 # link() {}
 
-# clean() {}
+clean() {
+  brew cleanup
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
+}
 
 init "$@"
