@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
 # - Install homebrew if missing
+# - Configure homebrew permissions to allow multiple users
 # - Enable Cask of fonts
 # - Install base brew packages, macOS apps and fonts
 # - Set macOS default preferences
@@ -37,6 +38,10 @@ install() {
   if ! _is_callable brew; then
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
+
+  # Configure homebrew permissions to allow multiple users
+  chgrp -R admin /usr/local/*
+  chmod -R g+w /usr/local/*
 
   # Enable Cask of fonts
   brew tap homebrew/cask-fonts
