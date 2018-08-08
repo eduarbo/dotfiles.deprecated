@@ -1,0 +1,87 @@
+# Mein dotfiles
+
+A tidy `$HOME` is a tidy mind.
+
+These are my dotfiles, designed primarily for macOS and Fedora, heavily inspired
+by [hlissner/dotfiles](https://github.com/hlissner/dotfiles). They are my
+specific breed of madness, split into 2-level topics (e.g. `shell/zsh`) that
+strive for minimum `$HOME` presence (adhering to XDG standards where
+possible).
+
+## Quick start
+
+`bash <(curl -s https://raw.githubusercontent.com/eduarbo/dotfiles/master/bootstrap.sh)`
+
+## What does it include?
+
+The following are the categories and topics available to install:
+
+```
+.
+├── base/                ## provisions my system with the bare essentials
+│   ├── macos/            # bare essentials for macOS
+│   └── fedora/           # bare essentials for Fedora
+|
+├── dev/                 ## relevant to software development & programming in general
+│   ├── lua/              # manage lua environments with luaenv
+│   ├── python/           # setup pyenv, a simple Python version management
+│   └── node/             # setup nodenv, a lightweight alternative to nvm
+|
+├── editor/              ## configuration for my text editors
+│   ├── editorconfig/     # maintain consistent coding styles between different editors
+│   └── emacs/            # the best of both the Emacs and Vim worlds
+|
+├── misc/                ## for various apps & tools
+│   ├── apps/             # macOS apps and utilities
+│   ├── cvim/             # Vim-like bindings for Google Chrome
+│   ├── hammerspoon/      # a bunch of lua scripts for macOS to boost my productivity
+│   ├── iterm/            # iTerm2, is there a better macOS terminal?
+│   └── karabiner/        # absolutely amazing macOS app that lets me remap completely my keyboard
+│
+└── shell/               ## shell utilities
+    ├── bash/             # Not my default shell but doesn't hurt to have a basic config
+    ├── git/              # nice aliases and zsh plugins
+    ├── sk/               # faster than fzf, Skim it's Fuzzy Finder in rust!
+    ├── tmux/             # window manager within the terminal + nice plugins
+    └── zsh/              # My shell of choice with a nice prompt, really fast and extensible with zplugin
+```
+
+## Dotfile management
+
+```
+Usage: deploy [-acdlLit] [TOPIC...]
+
+  -a   Target all enabled topics (ignores TOPIC args)
+  -c   Afterwards, remove dead symlinks & empty dot-directories in $HOME.
+       Can be used alone.
+  -d   Unlink and run `./_init clean` for topic(s)
+  -l   Only relink topic(s) (implies -i)
+  -L   List enabled topics
+  -i   Inhibit install/update/clean init scripts
+  -t   Do a test run; do not actually do anything
+```
+
+e.g.
++ `deploy base/arch shell/{zsh,tmux}`: enables base/arch, shell/zsh & shell/tmux
++ `deploy -d shell/zsh`: disables shell/zsh & cleans up after it
++ `deploy -l shell/zsh`: refresh links for shell/zsh (inhibits init script)
++ `deploy -l`: relink all enabled topics
++ `deploy -L`: list all enabled topics
+
+Here's a breakdown of what the script does:
+
+``` sh
+cd $topic
+if [[ -L $DOTFILES_DATA/${topic//\//.}.topic ]]; then
+    ./_init update
+else
+    ln -sfv $DOTFILES/$topic $DOTFILES_DATA/${topic//\//.}.topic
+
+    ./_init install
+    ./_init link
+fi
+```
+
+## Relevant projects
+
++ [My DOOM Emacs fork](https://github.com/eduarbo/doom-emacs) (pulled by `editor/emacs`)
