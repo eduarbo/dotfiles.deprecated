@@ -18,6 +18,10 @@ install() {
       sudo dnf install -y ${common_deps[@]}
       ;;
   esac
+
+  # Kill zcompdump to take new compdefs
+  rm -f "${ZPLGM[ZCOMPDUMP_PATH]}"
+  rm -f "${ZPLGM[ZCOMPDUMP_PATH]}.zwc"
 }
 
 # update() {}
