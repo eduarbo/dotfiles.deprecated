@@ -2,12 +2,24 @@
 source ${0:A:h}/../../deploy
 source env.zsh
 
+# Dependencies
+
+common_deps=(
+  tmux
+)
+
+brew_deps=(
+ reattach-to-user-namespace
+)
+
 install() {
   case $(_os) in
-    macos)  brew install tmux reattach-to-user-namespace ;;
-    fedora) sudo dnf install -y tmux ;;
-    arch)   sudo pacman --needed --noconfirm -S tmux ;;
-    debian) sudo apt-get install -y tmux ;;
+    macos)
+      brew install ${common_deps[@]} ${brew_deps[@]}
+      ;;
+    fedora)
+      sudo dnf install -y ${common_deps[@]}
+      ;;
   esac
 
   [[ -n $TMUXIFIER ]] && _ensure_repo jimeh/tmuxifier $TMUXIFIER
