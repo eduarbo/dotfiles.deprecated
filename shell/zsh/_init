@@ -20,8 +20,6 @@ dnf_packages=(
 )
 
 install() {
-  local zshenv_dir=/etc/zshenv
-
   case $(_os) in
     macos)
       brew install ${common_packages[@]} ${brew_packages[@]}
@@ -33,8 +31,13 @@ install() {
       ;;
   esac
 
+  # Do not complaint about insecure directories
+  sudo chmod g-w /usr/local/share/zsh/site-functions
+  sudo chmod g-w /usr/local/share/zsh
+
   # Make ZSH the default shell
   local zsh_dir="$(which zsh)"
+  local zshenv_dir=/etc/zshenv
   grep $zsh_dir /etc/shells &>/dev/null || sudo tee -a /etc/shells <<<$zsh_dir
   [[ $SHELL == */zsh ]] || sudo chsh -s $zsh_dir
   sudo tee $zshenv_dir <<<"export ZDOTDIR=\"${ZDOTDIR/$HOME/\$HOME}\""
