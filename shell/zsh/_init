@@ -35,8 +35,8 @@ install() {
 
   # Make ZSH the default shell
   local zsh_dir="$(which zsh)"
-  [[ $SHELL == */zsh ]] || sudo chsh -s $zsh_dir $(whoami)
   grep $zsh_dir /etc/shells &>/dev/null || sudo tee -a /etc/shells <<<$zsh_dir
+  [[ $SHELL == */zsh ]] || sudo chsh -s $zsh_dir
   sudo tee $zshenv_dir <<<"export ZDOTDIR=\"${ZDOTDIR/$HOME/\$HOME}\""
 }
 
