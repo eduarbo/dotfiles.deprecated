@@ -7,6 +7,7 @@ source .zshenv
 common_packages=(
   zsh
   fd
+  fasd
 )
 
 brew_packages=(
