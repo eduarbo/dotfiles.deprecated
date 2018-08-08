@@ -68,9 +68,6 @@ update() {
 
 # link() {}
 
-clean() {
-  brew cleanup
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
-}
+# clean() {}
 
 init "$@"
