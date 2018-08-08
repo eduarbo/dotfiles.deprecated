@@ -90,5 +90,6 @@ function _cache {
 }
 
 function _cache_clear {
+  setopt localoptions rmstarsilent
   command rm -rfv $XDG_CACHE_HOME/${SHELL##*/}/*;
 }
