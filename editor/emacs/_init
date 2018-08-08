@@ -9,6 +9,10 @@ common_packages=(
   sqlite
 )
 
+brew_packages=(
+  gnu-tar
+)
+
 dnf_packages=(
   make
   emacs
@@ -19,14 +23,20 @@ install() {
     macos)
       brew tap d12frosted/emacs-plus
       brew install emacs-plus --without-spacemacs-icon
-      brew install ${common_packages[@]}
+      brew install ${common_packages[@]} ${brew_packages[@]}
       ;;
     fedora)
       sudo dnf install -y ${common_packages[@]} ${dnf_packages[@]}
       ;;
   esac
 
-  YES=1 make install
+  # Clone and setup my doom-emacs fork
+  _ensure_repo eduarbo/doom-emacs ~/.emacs.d
+
+  # Clone Cask, Project management tool for Emacs
+  _ensure_repo cask/cask ~/.emacs.d/cask
+
+  cd ~/.emacs.d && YES=1 make install
 }
 
 update() {
@@ -35,16 +45,7 @@ update() {
 }
 
 link() {
-  # Clone and setup my doom-emacs fork
-  _ensure_repo eduarbo/doom-emacs ~/.emacs.d && \
-    cd ~/.emacs.d && \
-    git checkout develop
-
-  # Clone Cask, Project management tool for Emacs
-  _ensure_repo cask/cask ~/.emacs.d/cask
-
   mklink doom $XDG_CONFIG_HOME/
-  mklink doom/init.el ~/.emacs.d/
 }
 
 clean() {
