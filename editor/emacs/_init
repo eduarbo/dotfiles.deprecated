@@ -28,9 +28,9 @@ install() {
 
   # Clone and setup my doom-emacs fork
   _ensure_repo eduarbo/doom-emacs ~/.emacs.d && \
+    mklink doom/init.el ~/.emacs.d/ && \
     cd ~/.emacs.d && \
     git checkout develop && \
-    mklink doom/init.el ~/.emacs.d/ && \
     YES=1 make install
 
   # Clone Cask, Project management tool for Emacs
