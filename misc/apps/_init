@@ -1,71 +1,62 @@
 #!/usr/bin/env zsh
 source ${0:A:h}/../../deploy
 
-brew_deps_with_args=(
-  'findutils --with-default-names'
-  'gnu-sed --with-default-names'
-  'grep --with-default-names'
-  'wget --with-iri'
-)
-
 brew_deps=(
-  openssh
-  rsync
-  openssl
-  mvtools
   ffms2
-  subliminal
+  gtypist
   highlight
   htop
-  gtypist
-  pgcli
+  mvtools
+  openssh
+  openssl
   p7zip
-  unzip
+  pgcli
+  rsync
+  subliminal
   unrar
-  android-platform-tools
+  unzip
 )
 
 cask_deps=(
-  1password
-  adobe-reader
+  adobe-acrobat-reader
   alfred
   android-file-transfer
   appcleaner
-  betterzipql
+  betterzip
   borgbackup
   calibre
   firefox
-  flux
-  google-chrome
-  google-chrome-canary
-  google-drive
+# google-chrome
+  gpg-suite
   grandperspective
   handbrake
   java
-  jdownloader
   keka
   keycastr
   licecap
-  mpv
   omnidisksweeper
   opera
   postico
+  provisionql
   qlcolorcode
   qlimagesize
   qlmarkdown
   qlprettypatch
   qlstephen
+  qlvideo
   quicklook-json
-  screenhero
+  quicklook-pat
+  quicklookapk
+  quicklookase
   skype
   slack
   spotify
-  sshfs
+  suspicious-package
   torbrowser
   transmission
-  unetbootin
   virtualbox
   vlc
+  webpquicklook
   wireshark
 )
 
@@ -73,7 +64,10 @@ install() {
   case $(_os) in
     macos)
       brew install ${brew_deps[@]}
-      for pkg ($brew_deps_with_args) brew install $pkg
+      brew install findutils --with-default-names
+      brew install gnu-sed --with-default-names
+      brew install grep --with-default-names
+      brew install wget --with-iri
       brew cask install ${cask_deps[@]}
       ;;
   esac
