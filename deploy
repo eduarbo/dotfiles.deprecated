@@ -160,9 +160,9 @@ if [[ $ZSH_EVAL_CONTEXT != *:file ]]; then
       c) CLEAN=1               ;;
       d) REMOVE=1              ;;
       L) LIST=1                ;;
-      l) export LINK=1         ;&
-      i) export INHIBIT_INIT=1 ;;
-      t) export DRYRUN=1       ;;
+      l) LINK=1         ;&
+      i) INHIBIT_INIT=1 ;;
+      t) DRYRUN=1       ;;
       h) cat <<EOL
 Usage: ${0:A:t} [-acdlLit] [TOPIC...]
 

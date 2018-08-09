@@ -1,6 +1,5 @@
 #!/usr/bin/env zsh
 source ${0:A:h}/../../deploy
-source env.zsh
 
 # only for macOS
 [[ $(_os) != macos ]] && exit
@@ -8,18 +7,21 @@ source env.zsh
 install() {
   brew cask install karabiner-elements
 
+  echo "INSTALL"
   mkdir -p $KARABINER_COMPLEX_MODIFICATIONS
   sh lib/update-json.sh
   sh lib/apply-lint.sh
 }
 
 update() {
+  echo "UPDATE"
   sh lib/update-json.sh
   sh lib/apply-lint.sh
 }
 
 link() {
-  mklink karabiner.json $KARABINER_DIR/
+  echo "LINK"
+  mklink config $KARABINER_DIR
 }
 
 clean() {
