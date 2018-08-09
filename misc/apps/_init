@@ -54,7 +54,7 @@ cask_deps=(
   suspicious-package
   torbrowser
   transmission
-  virtualbox
+# virtualbox
   vlc
   webpquicklook
   wireshark
