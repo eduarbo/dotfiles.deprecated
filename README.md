@@ -82,6 +82,16 @@ else
 fi
 ```
 
+## Troubleshooting
+
+### Signing Git commit with GPG ask passphrase everytime
+
+Make sure the GPG key ID is correct. You can get a list of GPG keys with
+`gpg --list-secret-keys --keyid-format LONG` and then set it in Git with
+`git config --global user.signingkey [GPG-key-ID]`.
+
+More details in [Telling Git about your GPG key](https://help.github.com/articles/telling-git-about-your-gpg-key/).
+
 ## Relevant projects
 
 + [My DOOM Emacs fork](https://github.com/eduarbo/doom-emacs) (pulled by `editor/emacs`)
