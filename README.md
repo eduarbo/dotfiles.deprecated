@@ -2,6 +2,10 @@
 
 A tidy `$HOME` is a tidy mind.
 
+![Neofetch - Aug-2018 Screenshot of macOS High Sierra](asseets/neofetch1.png)
+
+![Workflow - Aug-2018 Screenshot of macOS High Sierra](asseets/workflow2.png)
+
 These are my dotfiles, designed primarily for macOS and Fedora, heavily inspired
 by [hlissner/dotfiles](https://github.com/hlissner/dotfiles). They are my
 specific breed of madness, split into 2-level topics (e.g. `shell/zsh`) that
@@ -62,7 +66,7 @@ Usage: deploy [-acdlLit] [TOPIC...]
 ```
 
 e.g.
-+ `deploy base/arch shell/{zsh,tmux}`: enables base/arch, shell/zsh & shell/tmux
++ `deploy base/macos shell/{zsh,tmux}`: enables base/macos, shell/zsh & shell/tmux
 + `deploy -d shell/zsh`: disables shell/zsh & cleans up after it
 + `deploy -l shell/zsh`: refresh links for shell/zsh (inhibits init script)
 + `deploy -l`: relink all enabled topics
