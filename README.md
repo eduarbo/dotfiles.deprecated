@@ -2,9 +2,9 @@
 
 A tidy `$HOME` is a tidy mind.
 
-![Neofetch - Aug-2018 Screenshot of macOS High Sierra](asseets/neofetch1.png)
+![Neofetch - Aug-2018 Screenshot of macOS High Sierra](assets/neofetch1.png)
 
-![Workflow - Aug-2018 Screenshot of macOS High Sierra](asseets/workflow2.png)
+![Workflow - Aug-2018 Screenshot of macOS High Sierra](assets/workflow2.png)
 
 These are my dotfiles, designed primarily for macOS and Fedora, heavily inspired
 by [hlissner/dotfiles](https://github.com/hlissner/dotfiles). They are my
