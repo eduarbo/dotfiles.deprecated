@@ -30,18 +30,14 @@ install() {
       ;;
   esac
 
-  # Clone and setup my doom-emacs fork
-  _ensure_repo eduarbo/doom-emacs ~/.emacs.d
-
-  # Clone Cask, Project management tool for Emacs
-  _ensure_repo cask/cask ~/.emacs.d/cask
+  # Clone and setup doom-emacs
+  _ensure_repo hlissner/doom-emacs ~/.emacs.d
 
   cd ~/.emacs.d && YES=1 make install
 }
 
 update() {
   cd ~/.emacs.d && YES=1 make update
-  cd ~/.emacs.d/cask && git pull
 }
 
 link() {
