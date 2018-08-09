@@ -36,12 +36,15 @@ install() {
   sudo chmod g-w /usr/local/share/zsh
 
   # Make ZSH the default shell
-  local zsh_dir="$(which zsh)"
+  case $(_os) in
+    macos) local zsh_dir="$(brew --prefix)/bin/zsh" ;;
+   fedora) local zsh_dir="$(where zsh)" ;;
+  esac
   local zshenv_dir=/etc/zshenv
-  echo-info "Make ZSH the default shell"
   grep $zsh_dir /etc/shells &>/dev/null || sudo tee -a /etc/shells <<<$zsh_dir
-  [[ $SHELL == */zsh ]] || sudo chsh -s $zsh_dir $(whoami)
+  sudo chsh -s $zsh_dir $(whoami)
   sudo tee $zshenv_dir <<<"export ZDOTDIR=\"${ZDOTDIR/$HOME/\$HOME}\""
+  exec $zsh_dir -l
 }
 
 update() {
