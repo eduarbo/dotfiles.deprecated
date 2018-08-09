@@ -21,6 +21,7 @@ alias gbl='git blame'
 alias grp='git rev-parse'
 alias gpl='git pull --rebase -S --autostash'
 # alias gpl='git pull'
+alias gg='git grep'
 
 # stash
 alias gss='git stash save'
