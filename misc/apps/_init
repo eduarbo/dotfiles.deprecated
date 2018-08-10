@@ -26,6 +26,7 @@ cask_deps=(
   borgbackup
   calibre
   firefox
+  google-backup-and-sync
 # google-chrome
   gpg-suite
   grandperspective
