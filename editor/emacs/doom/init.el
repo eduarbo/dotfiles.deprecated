@@ -3,7 +3,7 @@
 (setq doom-leader-key ",")
 (setq doom-localleader-key ", m")
 
-(toggle-frame-fullscreen)
+(toggle-frame-maximized)
 
 (doom! :feature
       ;debugger          ; FIXME stepping through code, to help you add bugs
