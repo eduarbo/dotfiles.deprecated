@@ -9,8 +9,7 @@
  :gnvime "C->"         #'+workspace/switch-right
  :gnvime "M-;"         #'execute-extended-command
 
- ;; :desc "Ex command"                :nv ";"  #'evil-ex
- ;; :desc "Ex command"                :nv ":"  #'evil-ex-search-next
+ :nv     "SPC"         #'+evil:fold-toggle
 
  (:prefix "g"
    :desc "Switch to last workspace" :n  [tab] #'+workspace:switch-previous
@@ -24,4 +23,7 @@
    (:prefix "h"
      :desc "HEEEELP!"              :n "h"  help-map)
    (:prefix "t"
+     :desc "Line numbers"          :n "l" #'display-line-numbers-mode
+     :desc "Cycle line numbers"    :n "L" #'doom/toggle-line-numbers
+     :desc "Visual line mode"      :n "v" #'visual-line-mode
      :desc "Frame maximized"       :n "M" #'toggle-frame-maximized)))
