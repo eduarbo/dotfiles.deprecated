@@ -3,6 +3,8 @@
 (setq doom-leader-key ",")
 (setq doom-localleader-key ", m")
 
+(toggle-frame-fullscreen)
+
 (doom! :feature
       ;debugger          ; FIXME stepping through code, to help you add bugs
        eval              ; run code, run (also, repls)
