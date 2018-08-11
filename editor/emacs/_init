@@ -10,6 +10,7 @@ common_deps=(
 )
 
 brew_deps=(
+  coreutils
   gnu-tar
 )
 
