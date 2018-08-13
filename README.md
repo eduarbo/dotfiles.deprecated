@@ -98,4 +98,5 @@ More details in [Telling Git about your GPG key](https://help.github.com/article
 
 ## Relevant projects
 
-+ [My DOOM Emacs fork](https://github.com/eduarbo/doom-emacs) (pulled by `editor/emacs`)
++ [DOOM Emacs](https://github.com/hlissner/doom-emacs) (pulled by `editor/emacs`)
++ [Pacmux](https://github.com/hlissner/doom-emacs) (pulled by `shell/tmux`)
