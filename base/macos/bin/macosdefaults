@@ -122,9 +122,12 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
 # Set a custom wallpaper image. `DefaultDesktop.jpg` is already a symlink, and
 # all wallpapers are in `/Library/Desktop Pictures/`. The default is `Wave.jpg`.
-#rm -rf ~/Library/Application Support/Dock/desktoppicture.db
-#sudo rm -rf /System/Library/CoreServices/DefaultDesktop.jpg
-#sudo ln -s /path/to/your/image /System/Library/CoreServices/DefaultDesktop.jpg
+rm -rf ~/Library/Application Support/Dock/desktoppicture.db
+sudo rm -rf /System/Library/CoreServices/DefaultDesktop.jpg
+sudo ln -s ~/.dotfiles/assets/wallpapers/welcome_to_robo_city_16__color_version__by_f1x_2-daipdfi.jpg /System/Library/CoreServices/DefaultDesktop.jpg
+
+# Hide desktop icons
+defaults write com.apple.finder CreateDesktop -bool false
 
 ###############################################################################
 # SSD-specific tweaks                                                         #
