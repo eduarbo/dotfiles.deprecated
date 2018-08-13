@@ -99,4 +99,5 @@ More details in [Telling Git about your GPG key](https://help.github.com/article
 ## Relevant projects
 
 + [DOOM Emacs](https://github.com/hlissner/doom-emacs) (pulled by `editor/emacs`)
-+ [Pacmux](https://github.com/hlissner/doom-emacs) (pulled by `shell/tmux`)
++ [Pacmux Tmux theme](https://github.com/eduarbo/pacmux) (pulled by `shell/tmux`)
++ [Simpl ZSH prompt](https://github.com/eduarbo/simpl) (pulled by `shell/zsh`)
