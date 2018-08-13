@@ -71,8 +71,8 @@ alias d="docker"
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
 
-# Lists the ten most used commands.
-alias historystat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
+# Lists the 20 most used commands.
+alias historystat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head -n 20"
 
 alias ssh="TERM=xterm-256color ssh"
 
