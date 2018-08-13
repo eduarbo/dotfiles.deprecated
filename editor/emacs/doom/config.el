@@ -13,6 +13,7 @@
  ;; triggers the search at the first character so it becomes really slow when
  ;; you start typing
  +helm-project-search-engines '(ag rg pt)
+ helm-ag-command-option "--hidden"
  ;; Set my notes directory
  org-directory (expand-file-name "~/Google Drive/org/")
  ;; Enable accents
