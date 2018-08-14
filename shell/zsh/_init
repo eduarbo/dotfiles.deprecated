@@ -31,10 +31,6 @@ install() {
       ;;
   esac
 
-  # Do not complaint about insecure directories
-  sudo chmod g-w /usr/local/share/zsh/site-functions
-  sudo chmod g-w /usr/local/share/zsh
-
   # Make ZSH the default shell
   case $(_os) in
     macos) local zsh_dir="$(brew --prefix)/bin/zsh" ;;
@@ -45,6 +41,14 @@ install() {
   sudo chsh -s $zsh_dir $(whoami)
   sudo tee $zshenv_dir <<<"export ZDOTDIR=\"${ZDOTDIR/$HOME/\$HOME}\""
   exec $zsh_dir -l
+
+  # For security reasons compinit also checks if the completion system would use
+  # files not owned by root or by the current user, or files in directories that
+  # are world- or group-writable or that are not owned by root or by the current
+  # user.
+  # Fix this by changing owner and removing write permissions for listed files.
+  compaudit | xargs chown -R "$(whoami)"
+  compaudit | xargs chmod go-w
 }
 
 update() {
