@@ -45,13 +45,11 @@ zpl ice blockf; zpl light zsh-users/zsh-completions # Disallow zsh-completions t
 # Compinit should be called after loading of all plugins and before possibly calling cdreply
 autoload -Uz compinit
 
-zcompfiles=($ZPLGM[ZCOMPDUMP_PATH](Nm-20))
-if (( $#zcompfiles )); then
-  # -C  ignore checking at all
-  compinit -C -d $ZPLGM[ZCOMPDUMP_PATH]
+if [[ -n $ZPLGM[ZCOMPDUMP_PATH](#qN.mh+20) ]]; then
+	compinit -d $ZPLGM[ZCOMPDUMP_PATH];
 else
-  compinit -d $ZPLGM[ZCOMPDUMP_PATH]
-fi
+	compinit -C -d $ZPLGM[ZCOMPDUMP_PATH];
+fi;
 
 # Execute code that does not affect the current session in the background.
 {
