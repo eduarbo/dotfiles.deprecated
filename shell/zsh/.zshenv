@@ -19,7 +19,6 @@ path=( $XDG_BIN_HOME $DOTFILES_DATA/*.topic/bin(N) $path )
 fpath=( $ZDOTDIR/functions $XDG_BIN_HOME $fpath )
 
 # envvars
-export SHELL=$(command -v zsh)
 export LANG=${LANG:-en_US.UTF-8}
 export PAGER=less
 export LESS='-R -i -w -M -z-4'

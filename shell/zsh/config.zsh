@@ -52,6 +52,6 @@ setopt PUSHD_SILENT         # Do not print the directory stack after pushd or po
 setopt PUSHD_TO_HOME        # Push to home directory when no argument is given.
 setopt CDABLE_VARS          # Change directory to a path stored in a variable.
 setopt MULTIOS              # Write to multiple descriptors.
-setopt EXTENDED_GLOB        # Use extended globbing syntax.
+setopt EXTENDED_GLOB        # Needed for file modification glob modifiers with compinit
 unsetopt GLOB_DOTS
 unsetopt AUTO_NAME_DIRS     # Don't add variable-stored paths to ~ list.

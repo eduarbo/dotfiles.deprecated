@@ -35,18 +35,36 @@ zpl light zsh-users/zsh-autosuggestions
 zpl ice blockf; zpl light zsh-users/zsh-completions # Disallow zsh-completions to modify fpath
 [[ -z $SSH_CONNECTION ]] && zpl light zdharma/fast-syntax-highlighting
 
+#
+# configs
+#
+
+# ensure EXTENDED_GLOB is set before looking for expired zcompdump with glob
+# qualifiers
+_load shell/zsh/config.zsh
+_load shell/zsh/completion.zsh
+_load shell/zsh/keybinds.zsh
+_load shell/zsh/fzf.zsh
 
 #
 # Speed up zsh load
 #
 
-# Load and initialize the completion system with a cache time of 20 hours, so it
-# should almost always regenerate the first time a shell is opened each day.
 # Compinit should be called after loading of all plugins and before possibly calling cdreply
 autoload -Uz compinit
 
+# Load and initialize the completion system with a cache time of 20 hours, so it
+# should almost always regenerate the first time a shell is opened each day.
+# The globbing is a little complicated here:
+#
+# - '#q' is an explicit glob qualifier that makes globbing work within zsh's [[ ]] construct.
+# - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
+# - '.' matches "regular files"
+# - 'mh+20' matches files (or directories or whatever) that are older than 20 hours.
 if [[ -n $ZPLGM[ZCOMPDUMP_PATH](#qN.mh+20) ]]; then
 	compinit -d $ZPLGM[ZCOMPDUMP_PATH];
+  # update the timestamp on compdump file
+  compdump
 else
 	compinit -C -d $ZPLGM[ZCOMPDUMP_PATH];
 fi;
@@ -61,16 +79,6 @@ fi;
 
 # execute compdefs provided by rest of plugins
 zpl cdreplay -q # -q is for quiet
-
-
-#
-# configs
-#
-
-_load shell/zsh/config.zsh
-_load shell/zsh/completion.zsh
-_load shell/zsh/keybinds.zsh
-_load shell/zsh/fzf.zsh
 
 # load aliases from enabled topics
 # source them after compinit to be able to use compdef
