@@ -5,7 +5,15 @@ require 'json'
 
 def _from(key_code, mandatory_modifiers, optional_modifiers)
   data = {}
-  data['key_code'] = key_code
+
+  if key_code.is_a?(Array)
+    data['simultaneous'] = []
+    key_code.each do |k|
+      data['simultaneous'] << {'key_code' => k}
+    end
+  else
+    data['key_code'] = key_code
+  end
 
   mandatory_modifiers.each do |m|
     data['modifiers'] = {} if data['modifiers'].nil?
