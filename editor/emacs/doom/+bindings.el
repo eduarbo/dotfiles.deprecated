@@ -17,6 +17,12 @@
  :gnvime "M-{"         #'+workspace/switch-left
  :gnvime "M-}"         #'+workspace/switch-right
 
+ ;; Easier window navigation
+ :en "C-h"             #'evil-window-left
+ :en "C-j"             #'evil-window-down
+ :en "C-k"             #'evil-window-up
+ :en "C-l"             #'evil-window-right
+
  ;; Free the leader!
  :nvm    ":"           #'evil-snipe-repeat-reverse
  (:after evil-snipe

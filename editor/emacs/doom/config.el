@@ -2,10 +2,14 @@
 
 (load! "+bindings")
 
+;; (toggle-frame-maximized)
+;; (toggle-frame-fullscreen)
+
 (setq
  ;; A E S T H E T I C
  doom-font (font-spec :family "Hack" :size 12)
- doom-big-font (font-spec :size 19)
+ doom-big-font (font-spec :family "Iosevka" :size 20)
+
  ;; That's me!!!
  user-mail-address "eduarbo@gmail.com"
  user-full-name    "Eduardo Ruiz Macias"
