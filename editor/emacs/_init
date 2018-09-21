@@ -12,6 +12,8 @@ common_deps=(
 brew_deps=(
   coreutils
   gnu-tar
+  cmake
+  llvm
 )
 
 dnf_deps=(
