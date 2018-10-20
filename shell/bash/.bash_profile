@@ -1,4 +1,3 @@
-
 _init_path() {
   # if running bash
   if [ -n "$BASH_VERSION" ]; then

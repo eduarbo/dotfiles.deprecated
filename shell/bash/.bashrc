@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -102,10 +100,6 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-
-# load aliases from enabled topics
-# source them after compinit to be able to use compdef
-_load_all aliases.zsh
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
