@@ -4,8 +4,7 @@ source ${0:A:h}/../../deploy
 install() {
   case $(_os) in
     macos)  brew install bash bash-completion ;;
-    # arch) ;;  # NOTE Already installed
-    debian) sudo apt-get install -y bash ;;
+    ubuntu) sudo apt-get install -y bash ;;
   esac
 }
 

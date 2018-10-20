@@ -14,9 +14,8 @@ brew_deps=(
   zsh-history-substring-search
 )
 
-dnf_deps=(
+linux_deps=(
   make
-  emacs
 )
 
 install() {
@@ -24,17 +23,21 @@ install() {
     macos)
       brew install ${common_deps[@]} ${brew_deps[@]}
       ;;
+    ubuntu)
+      sudo apt install -y ${common_deps[@]} ${linux_deps[@]}
+      ;;
     fedora)
       # TODO: Remove when F28 comes out and install fd-find instead
       sudo dnf copr enable -y keefle/fd
-      sudo dnf install -y ${common_deps[@]} ${dnf_deps[@]}
+      sudo dnf install -y ${common_deps[@]} ${linux_deps[@]}
       ;;
   esac
 
   # Make ZSH the default shell
   case $(_os) in
     macos) local zsh_dir="$(brew --prefix)/bin/zsh" ;;
-   fedora) local zsh_dir="$(where zsh)" ;;
+    ubuntu) ;&
+    fedora) local zsh_dir="$(where zsh)" ;;
   esac
   local zshenv_dir=/etc/zshenv
   grep $zsh_dir /etc/shells &>/dev/null || sudo tee -a /etc/shells <<<$zsh_dir
