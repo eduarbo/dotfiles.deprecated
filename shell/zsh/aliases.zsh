@@ -1,12 +1,5 @@
 autoload -U zmv
 
-zman() { PAGER="less -g -s '+/^       "$1"'" man zshall; }
-
-r() {
-  local time=$1; shift
-  sched "$time" "notify-send --urgency=critical 'Reminder' '$@'; ding";
-}; compdef r=sched
-
 alias q="exit"
 alias clr="clear"
 # Allow aliases to be with sudo
@@ -54,18 +47,6 @@ alias etp="v ~/tp.md"
 
 alias cl="clear"
 
-# fasd & fzf change directory
-j() {
-  local dir
-  dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-}
-
-# fd & fzf change directory
-jj() {
-  local dir
-  dir="$(fd --type directory --follow --hidden "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-}
-
 alias d="docker"
 
 # Reload the shell (i.e. invoke as a login shell)
@@ -94,7 +75,6 @@ alias l="ls -1"
 alias ll="ls -l" # List all files in long format
 alias la="ls -lA" # List all files in long format, including dot files
 alias lsd="ls -l | grep '^d'" # List only directories
-alias lt="ls -ltr"
 
 alias mkdir="mkdir -p"
 alias md="mkdir -p"
@@ -126,6 +106,25 @@ alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pa
 # Kill all the tabs in Chrome to free up memory
 # [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
 alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
+
+zman() { PAGER="less -g -s '+/^       "$1"'" man zshall; }
+
+r() {
+  local time=$1; shift
+  sched "$time" "notify-send --urgency=critical 'Reminder' '$@'; ding";
+}; compdef r=sched
+
+# fasd & fzf change directory
+j() {
+  local dir
+  dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+}
+
+# fd & fzf change directory
+jj() {
+  local dir
+  dir="$(fd --type directory --follow --hidden "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+}
 
 # Schedule sleep in X minutes, use like: sleep-in 60
 sleep-in() {

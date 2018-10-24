@@ -37,9 +37,10 @@ install() {
   case $(_os) in
     macos) local zsh_dir="$(brew --prefix)/bin/zsh" ;;
     ubuntu) ;&
-    fedora) local zsh_dir="$(where zsh)" ;;
+    fedora) local zsh_dir="$(which zsh)" ;;
   esac
   local zshenv_dir=/etc/zshenv
+
   grep $zsh_dir /etc/shells &>/dev/null || sudo tee -a /etc/shells <<<$zsh_dir
   sudo chsh -s $zsh_dir $(whoami)
   sudo tee $zshenv_dir <<<"export ZDOTDIR=\"${ZDOTDIR/$HOME/\$HOME}\""

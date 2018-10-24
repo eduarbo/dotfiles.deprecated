@@ -11,9 +11,6 @@ bindkey -v
 # Load zplugin and install it when missing
 _load_repo zdharma/zplugin $ZPL_DIR zplugin.zsh
 
-# Dependencies go first
-zpl light mafredri/zsh-async
-
 # load plugins from enabled topics
 _load_all plugins.zsh
 
@@ -26,6 +23,15 @@ zpl light zsh-users/zsh-history-substring-search
 zpl light zdharma/history-search-multi-word
 zpl light supercrabtree/k
 zpl light djui/alias-tips
+
+typeset -gA PROMPT_SIMPL_HOSTNAME_SYMBOL_MAP
+PROMPT_SIMPL_HOSTNAME_SYMBOL_MAP=(
+  eduarbook "ᚱ"
+  lavos "ᛟ"
+  neptune "♆"
+)
+export SIMPL_GIT_DIRTY_SYMBOL="™"
+zpl ice pick"async.zsh" src"simpl.zsh"
 zpl light eduarbo/simpl
 
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
