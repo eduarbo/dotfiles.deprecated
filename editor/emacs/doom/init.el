@@ -76,6 +76,7 @@
        ;; password-store    ; password manager for nerds
        ;; pdf               ; pdf enhancements
        ;; prodigy           ; FIXME managing external services & code builders
+       ;; terraform         ; infrastructure as code
        ;; rgb               ; creating color strings
        ;; tmux              ; an API for interacting with tmux
        ;; upload            ; map local to remote projects via ssh/ftp
@@ -95,7 +96,7 @@
        ;; elm               ; care for a cup of TEA?
        emacs-lisp        ; drown in parentheses
        ;; ess               ; emacs speaks statistics
-       ;; go                ; the hipster dialect
+       go                ; the hipster dialect
        ;; (haskell +intero) ; a language that's lazier than I am
        ;; hy                ; readability of scheme w/ speed of python
        ;; idris
