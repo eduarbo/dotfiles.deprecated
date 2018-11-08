@@ -6,7 +6,7 @@ source .zshenv
 
 common_deps=(
   zsh
-  fd
+  fd-find
   fasd
 )
 
@@ -27,8 +27,6 @@ install() {
       sudo apt install -y ${common_deps[@]} ${linux_deps[@]}
       ;;
     fedora)
-      # TODO: Remove when F28 comes out and install fd-find instead
-      sudo dnf copr enable -y keefle/fd
       sudo dnf install -y ${common_deps[@]} ${linux_deps[@]}
       ;;
   esac
