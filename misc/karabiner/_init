@@ -5,6 +5,7 @@ source ${0:A:h}/../../deploy
 [[ $(_os) != macos ]] && exit
 
 link() {
+  # TODO: Backup existing karabiner config file if is not a symlink
   mklink config $KARABINER_CONFIG_DIR
 }
 
