@@ -44,7 +44,7 @@ update() {
 }
 
 link() {
-  mklink doom $XDG_CONFIG_HOME/
+  mklink doom $XDG_CONFIG_HOME
 }
 
 clean() {

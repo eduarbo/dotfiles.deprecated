@@ -16,7 +16,7 @@ update() {
 }
 
 link() {
-  mklink config/flake8 $XDG_CONFIG_HOME/
+  mklink config/flake8 $XDG_CONFIG_HOME
 }
 
 clean() {
