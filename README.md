@@ -9,8 +9,7 @@ A tidy `$HOME` is a tidy mind.
 These are my dotfiles, designed primarily for macOS and Fedora, heavily inspired
 by [hlissner/dotfiles](https://github.com/hlissner/dotfiles). They are my
 specific breed of madness, split into 2-level topics (e.g. `shell/zsh`) that
-strive for minimum `$HOME` presence (adhering to XDG standards where
-possible).
+strive for minimum `$HOME` presence (adhering to XDG standards where possible).
 
 ## Quick start
 
@@ -22,32 +21,35 @@ The following are the categories and topics available to install:
 
 ```
 .
-├── base/                ## provisions my system with the bare essentials
-│   ├── macos/            # bare essentials for macOS
-│   └── fedora/           # bare essentials for Fedora
+├── assets/              # Mostly images
+│   └── wallpapers/      ## love details and easter eggs
 |
-├── dev/                 ## relevant to software development & programming in general
-│   ├── lua/              # manage lua environments with luaenv
-│   ├── python/           # setup pyenv, a simple Python version management
-│   └── node/             # setup nodenv, a lightweight alternative to nvm
+├── base/                # Provisions my system with the bare essentials
+│   ├── macos/           ## bare essentials for macOS
+│   └── fedora/          ## bare essentials for Wind... err, Fedora
 |
-├── editor/              ## configuration for my text editors
-│   ├── editorconfig/     # maintain consistent coding styles between different editors
-│   └── emacs/            # the best of both the Emacs and Vim worlds
+├── dev/                 # Relevant to software development & programming in general
+│   ├── lua/             ## manage lua environments with luaenv
+│   ├── python/          ## setup pyenv, a simple Python version management
+│   └── node/            ## setup nodenv, a lightweight alternative to nvm
 |
-├── misc/                ## for various apps & tools
-│   ├── apps/             # macOS apps and utilities
-│   ├── cvim/             # Vim-like bindings for Google Chrome
-│   ├── hammerspoon/      # a bunch of lua scripts for macOS to boost my productivity
-│   ├── iterm/            # iTerm2, is there a better macOS terminal?
-│   └── karabiner/        # absolutely amazing macOS app that lets me remap completely my keyboard
+├── editor/              # Configuration for my text editors
+│   ├── editorconfig/    ## maintain consistent coding styles between different editors
+│   └── emacs/           ## the best of both the Emacs and Vim worlds
+|
+├── misc/                # For various apps & tools
+│   ├── apps/            ## macOS apps and utilities
+│   ├── cvim/            ## Vim-like bindings for Google Chrome
+│   ├── hammerspoon/     ## a bunch of lua scripts for macOS to boost my productivity
+│   ├── iterm/           ## iTerm2, is there a better macOS terminal?
+│   └── karabiner/       ## absolutely amazing macOS app that lets me remap completely my keyboard
 │
-└── shell/               ## shell utilities
-    ├── bash/             # Not my default shell but doesn't hurt to have a basic config
-    ├── git/              # nice aliases and zsh plugins
-    ├── sk/               # faster than fzf, Skim it's Fuzzy Finder in rust!
-    ├── tmux/             # window manager within the terminal + nice plugins
-    └── zsh/              # My shell of choice with a nice prompt, really fast and extensible with zplugin
+└── shell/               # Shell utilities
+    ├── bash/            ## Not my default shell but doesn't hurt to have a basic config
+    ├── git/             ## nice aliases and zsh plugins
+    ├── sk/              ## faster than fzf, Skim it's Fuzzy Finder in rust!
+    ├── tmux/            ## window manager within the terminal + nice plugins
+    └── zsh/             ## My shell of choice with a nice prompt, really fast and extensible with zplugin
 ```
 
 ## Dotfile management
