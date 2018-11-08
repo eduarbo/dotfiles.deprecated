@@ -3,6 +3,7 @@ source ${0:A:h}/../../deploy
 
 brew_deps=(
   ffms2
+  ffmpeg
   gtypist
   highlight
   htop
