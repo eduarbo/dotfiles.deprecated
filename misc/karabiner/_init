@@ -21,6 +21,7 @@ update() {
 
 clean() {
   rm -fv $KARABINER_CONFIG_DIR $KARABINER_DATA_DIR
+  rm -rf config/assets
 }
 
 _generate_config_files() {
