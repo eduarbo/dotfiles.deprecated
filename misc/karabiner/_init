@@ -33,11 +33,7 @@ _update_json() {
   # Generate complex modifications
   for srcfile in complex_modifications/*.erb; do
     dstfile="$KARABINER_COMPLEX_MODIFICATIONS_DIR/`basename $srcfile .erb`"
-
-    # try to regenerate file if source is newer
-    if [ "$srcfile" -nt "$dstfile" ]; then
-      _generate_json "$srcfile" "$dstfile" "lib/complex_modifications_erb2json.rb"
-    fi
+    _generate_json "$srcfile" "$dstfile" "lib/complex_modifications_erb2json.rb"
   done
 
   # Generate main config file to apply changes
