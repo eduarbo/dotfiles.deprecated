@@ -55,6 +55,8 @@ function _load_repo {
 function _ensure_repo {
   local target=$1
   local dest=$2
+  local branch=${$3:-master}
+
   if [[ ! -d $dest ]]; then
     if [[ $target =~ "^[^/]+/[^/]+$" ]]; then
       url=https://github.com/$target
@@ -62,7 +64,7 @@ function _ensure_repo {
       url=git@github.com:$USER/$target.git
     fi
     [[ -n ${dest%/*} ]] && mkdir -p ${dest%/*}
-    git clone --recursive "$url" "$dest" || return 1
+    git clone --recursive -b $branch "$url" "$dest" || return 1
   fi
 }
 

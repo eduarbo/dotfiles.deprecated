@@ -34,7 +34,7 @@ install() {
   esac
 
   # Clone and setup doom-emacs
-  _ensure_repo hlissner/doom-emacs ~/.emacs.d
+  _ensure_repo hlissner/doom-emacs ~/.emacs.d develop
 
   cd ~/.emacs.d && YES=1 make install
 }
