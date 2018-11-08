@@ -6,15 +6,16 @@ source .zshenv
 
 common_deps=(
   zsh
-  fd-find
   fasd
 )
 
 brew_deps=(
   zsh-history-substring-search
+  fd
 )
 
 linux_deps=(
+  fd-find
   make
 )
 
