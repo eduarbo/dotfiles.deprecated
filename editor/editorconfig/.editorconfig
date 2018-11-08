@@ -12,7 +12,7 @@ insert_final_newline = true
 [{Makefile,gitconfig,config,*.go}]
 indent_style = tab
 
-[*.{py,css,html,erb}]
+[*.{py,css,erb}]
 indent_style = space
 indent_size = 4
 
