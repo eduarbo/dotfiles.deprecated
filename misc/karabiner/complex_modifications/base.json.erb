@@ -122,6 +122,14 @@
                 },
                 {
                     "type": "basic",
+                    "from": <%= from("grave_accent_and_tilde", [], ["any"]) %>,
+                    "to": <%= to([["open_bracket"]]) %>,
+                    "conditions": [
+                        { "type": "keyboard_type_if", "keyboard_types": [ "iso" ] }
+                    ]
+                },
+                {
+                    "type": "basic",
                     "from": <%= from("right_shift", [], ["any"]) %>,
                     "to": <%= to([["close_bracket"]]) %>
                 }
