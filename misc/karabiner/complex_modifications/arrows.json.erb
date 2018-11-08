@@ -1,0 +1,32 @@
+{
+    "title": "Arrow keys (@eduarbo)",
+    "rules": [{
+        <%
+            mandatory_modifiers = ["right_option"];
+            optional_modifiers = ["any"];
+        %>
+        "description": "Option + H/J/K/L to arrow keys",
+        "manipulators": [
+            {
+                "type": "basic",
+                "from": <%= from("h", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["left_arrow"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("j", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["down_arrow"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("k", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["up_arrow"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("l", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["right_arrow"]]) %>
+            }
+        ]
+    }]
+}

@@ -1,0 +1,78 @@
+{
+    "global": {
+        "check_for_updates_on_startup": true,
+        "show_in_menu_bar": true,
+        "show_profile_name_in_menu_bar": false
+    },
+    "profiles": [
+        {
+            "name": "My profile",
+            "devices": [],
+            "complex_modifications": {
+                "parameters": {
+                    "basic.simultaneous_threshold_milliseconds": 50,
+                    "basic.to_delayed_action_delay_milliseconds": 500,
+                    "basic.to_if_alone_timeout_milliseconds": 1000,
+                    "basic.to_if_held_down_threshold_milliseconds": 500
+                },
+                "rules": <%= rules(
+                    "arrows",
+                    "emacs",
+                    "fn",
+                    "symbols",
+                    ["base", 1, 2],
+                    "launcher"
+                ) %>
+            },
+            "virtual_hid_keyboard": {
+                "caps_lock_delay_milliseconds": 0,
+                "country_code": 0,
+                "keyboard_type": "ansi"
+            }
+        },
+        {
+            "name": "Legacy",
+            "devices": [],
+            "selected": true,
+            "complex_modifications": {
+                "parameters": {
+                    "basic.simultaneous_threshold_milliseconds": 50,
+                    "basic.to_delayed_action_delay_milliseconds": 500,
+                    "basic.to_if_alone_timeout_milliseconds": 1000,
+                    "basic.to_if_held_down_threshold_milliseconds": 500
+                },
+                "rules": <%= rules(
+                    "arrows",
+                    "emacs",
+                    "fn",
+                    "symbols",
+                    ["base", 0, 2],
+                    "launcher"
+                ) %>
+            },
+            "virtual_hid_keyboard": {
+                "caps_lock_delay_milliseconds": 0,
+                "country_code": 0,
+                "keyboard_type": "ansi"
+            }
+        },
+        {
+            "complex_modifications": {
+                "parameters": {
+                    "basic.simultaneous_threshold_milliseconds": 50,
+                    "basic.to_delayed_action_delay_milliseconds": 500,
+                    "basic.to_if_alone_timeout_milliseconds": 1000,
+                    "basic.to_if_held_down_threshold_milliseconds": 500
+                },
+                "rules": []
+            },
+            "devices": [],
+            "name": "Clean",
+            "virtual_hid_keyboard": {
+                "caps_lock_delay_milliseconds": 0,
+                "country_code": 0,
+                "keyboard_type": ""
+            }
+        }
+    ]
+}

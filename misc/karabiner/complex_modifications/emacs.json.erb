@@ -1,0 +1,57 @@
+{
+    "title": "Emacs and shell style key bindings (@eduarbo)",
+    "rules": [
+        <%
+            mandatory_modifiers = ["control"];
+        %>
+        {
+            <%
+                optional_modifiers = ["caps_lock"];
+            %>
+            "description": "Delete bindings",
+            "manipulators": [
+                {
+                    "description": "Ctrl + U to delete backward from point to the beginning of line.",
+                    "type": "basic",
+                    "from": <%= from("u", mandatory_modifiers, optional_modifiers) %>,
+                    "to": <%= to([["left_arrow", ["control", "left_shift"]], ["delete_or_backspace"], ["vk_none"]]) %>,
+                    "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
+                },
+                {
+                    "description": "Ctrl + W to delete word behind point",
+                    "type": "basic",
+                    "from": <%= from("w", mandatory_modifiers, optional_modifiers) %>,
+                    "to": <%= to([["delete_or_backspace", ["option"]]]) %>,
+                    "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
+                },
+                {
+                    "description": "Ctrl + D to forward delete",
+                    "type": "basic",
+                    "from": <%= from("d", mandatory_modifiers, optional_modifiers) %>,
+                    "to": <%= to([["delete_forward"]]) %>,
+                    "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
+                }
+            ]
+        },
+        {
+            <%
+                optional_modifiers = ["caps_lock", "shift", "option"];
+            %>
+            "description": "Ctrl + B/F to move between words",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": <%= from("b", mandatory_modifiers, optional_modifiers) %>,
+                    "to": <%= to([["left_arrow", ["option"]]]) %>,
+                    "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
+                },
+                {
+                    "type": "basic",
+                    "from": <%= from("f", mandatory_modifiers, optional_modifiers) %>,
+                    "to": <%= to([["right_arrow", ["option"]]]) %>,
+                    "conditions": [ <%= frontmost_application_unless("emacs_key_bindings_exception") %> ]
+                }
+            ]
+        }
+    ]
+}

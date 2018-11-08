@@ -1,0 +1,116 @@
+{
+    "title": "Fn Layer (@eduarbo)",
+    "rules": [{
+        <%
+            mandatory_modifiers = ["fn"];
+            optional_modifiers = [];
+        %>
+        "description": "Function keys, movement, brightness, volumen and media conntrols",
+        "manipulators": [
+            <%# -------------------------------------------------- %>
+            <%# Volume controls %>
+            <%# -------------------------------------------------- %>
+            {
+                "type": "basic",
+                "from": <%= from("q", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["volume_decrement"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("t", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["volume_increment"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("tab", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["mute"]]) %>
+            },
+
+            <%# -------------------------------------------------- %>
+            <%# Brightness controls %>
+            <%# -------------------------------------------------- %>
+            {
+                "type": "basic",
+                "from": <%= from("w", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["display_brightness_decrement"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("r", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["display_brightness_increment"]]) %>
+            },
+
+            <%# -------------------------------------------------- %>
+            <%# Movement %>
+            <%# -------------------------------------------------- %>
+            {
+                "type": "basic",
+                "from": <%= from("a", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["home"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("g", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["end"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("e", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["up_arrow"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("s", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["left_arrow"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("d", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["down_arrow"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("f", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["right_arrow"]]) %>
+            },
+
+            <%# -------------------------------------------------- %>
+            <%# Function keys %>
+            <%# -------------------------------------------------- %>
+            <%
+                remap_function_keys = [
+                    'y', 'u', 'i', 'o',
+                    'h', 'j', 'k', 'l',
+                    'n', 'm', 'comma', 'period'
+                ];
+            %>
+
+            <% remap_function_keys.each.with_index(1) do |char, index| %>
+            {
+                "type": "basic",
+                "from": <%= from(char, mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["f#{index}", ["fn"]]]) %>
+            },
+            <% end %>
+
+            <%# -------------------------------------------------- %>
+            <%# Music %>
+            <%# -------------------------------------------------- %>
+            {
+                "type": "basic",
+                "from": <%= from("x", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["rewind"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("c", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["play_or_pause"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("v", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["fastforward"]]) %>
+            }
+        ]
+    }]
+}

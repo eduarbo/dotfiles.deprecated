@@ -1,0 +1,35 @@
+{
+    "title": "Launcher (@eduarbo)",
+    "rules": [{
+        <%
+            appsMap = {
+                "a" => "/Applications/Calendar.app",
+                "b" => "/Applications/Karabiner-Elements.app",
+                "d" => "/Applications/1Password 6.app",
+                "e" => "/usr/local/Cellar/emacs-plus/26.1/Emacs.app",
+                "f" => "/System/Library/CoreServices/Finder.app",
+                "g" => "/Applications/Google Chrome.app",
+                "i" => "/Applications/iTerm.app",
+                "m" => "/Applications/Mail.app",
+                "n" => "/Applications/Notes.app",
+                "o" => "/Applications/Opera.app",
+                "p" => "/Applications/Spotify.app",
+                "r" => "/Applications/Utilities/Activity Monitor.app",
+                "s" => "/Applications/Slack.app",
+                "q" => "/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app"
+            }
+        %>
+
+        "description": "Launch apps by right option+letters.",
+        "manipulators": [
+            <% appsMap.each do |key, appPath| %>
+            {
+                "type": "basic",
+                "from": <%= from(key, ["right_option"], ["caps_lock"]) %>,
+                "to": [{ "shell_command": "open '<%= appPath %>'" }]
+            },
+            <% end %>
+            { "type": "basic" }
+        ]
+    }]
+}
