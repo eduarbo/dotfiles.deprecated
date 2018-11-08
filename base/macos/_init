@@ -8,7 +8,6 @@
 
 brew_deps=(
   wget
-  curl
   tree
   coreutils
   bash
@@ -41,6 +40,10 @@ install() {
   # Configure homebrew permissions to allow multiple users
   chgrp -R admin /usr/local/*
   chmod -R g+w /usr/local/*
+
+  # Fix curl
+  # https://github.com/Linuxbrew/brew/wiki/FAQ#why-does-curl-fail
+  brew reinstall openssl curl
 
   # Enable Cask of fonts
   brew tap homebrew/cask-fonts
