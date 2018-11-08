@@ -6,6 +6,7 @@ source .zshenv
 
 common_deps=(
   zsh
+  fzf
   fasd
 )
 
