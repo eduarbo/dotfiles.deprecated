@@ -9,7 +9,6 @@ brew_deps=(
   htop
   mvtools
   openssh
-  openssl
   p7zip
   pgcli
   rsync
@@ -23,13 +22,12 @@ cask_deps=(
   alfred
   android-file-transfer
   appcleaner
-  betterzip
   borgbackup
   calibre
   firefox
   google-backup-and-sync
-# google-chrome
-  gpg-suite
+  google-chrome
+# gpg-suite
   grandperspective
   handbrake
   java
