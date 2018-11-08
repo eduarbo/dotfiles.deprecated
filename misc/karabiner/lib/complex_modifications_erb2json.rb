@@ -33,25 +33,32 @@ def from(key_code, mandatory_modifiers, optional_modifiers)
   JSON.generate(_from(key_code, mandatory_modifiers, optional_modifiers))
 end
 
-def _to(events)
+def to(events)
   data = []
 
   events.each do |e|
-    d = {}
-    d['key_code'] = e[0]
-    unless e[1].nil?
-      d['modifiers'] = e[1]
+    if e.is_a? Array
+      d = {}
+      d['key_code'] = e[0]
+      unless e[1].nil?
+        d['modifiers'] = e[1]
+      end
+      data << d
+    else
+      data << e
     end
-
-    data << d
   end
-  data
+
+  JSON.generate(data)
 end
 
-def to(events)
-  JSON.generate(_to(events))
+def set_variable(name, value, halt = false)
+  {set_variable: {name: name, value: value}, halt: halt}
 end
 
+def variable_if(name, value)
+  {type: "variable_if", name: name, value: value}
+end
 
 def each_key(source_keys_list: :source_keys_list, dest_keys_list: :dest_keys_list, from_mandatory_modifiers: [], from_optional_modifiers: [], to_pre_events: [], to_modifiers: [], to_post_events: [], conditions: [], as_json: false)
   data = []
@@ -125,6 +132,7 @@ def frontmost_application(type, app_aliases)
     '^com\.googlecode\.iterm2$',
     '^co\.zeit\.hyperterm$',
     '^co\.zeit\.hyper$',
+    '^net.kovidgoyal.kitty$',
   ]
 
   vi_bundle_identifiers = [

@@ -4,28 +4,67 @@ source ${0:A:h}/../../deploy
 # only for macOS
 [[ $(_os) != macos ]] && exit
 
+link() {
+  mkdir -p $KARABINER_COMPLEX_MODIFICATIONS_DIR
+  mklink config $KARABINER_CONFIG_DIR
+}
+
 install() {
   brew cask install karabiner-elements
 
-  echo "INSTALL"
-  mkdir -p $KARABINER_COMPLEX_MODIFICATIONS
-  sh lib/update-json.sh
-  sh lib/apply-lint.sh
+  _generate_config_files
 }
 
 update() {
-  echo "UPDATE"
-  sh lib/update-json.sh
-  sh lib/apply-lint.sh
-}
-
-link() {
-  echo "LINK"
-  mklink config $KARABINER_DIR
+  _generate_config_files
 }
 
 clean() {
-  rm -fv $KARABINER_DIR $KARABINER_DATA_DIR
+  rm -fv $KARABINER_CONFIG_DIR $KARABINER_DATA_DIR
+}
+
+_generate_config_files() {
+  mkdir -p $KARABINER_COMPLEX_MODIFICATIONS_DIR
+  _update_json
+}
+
+_update_json() {
+  # Generate complex modifications
+  for srcfile in complex_modifications/*.erb; do
+    dstfile="$KARABINER_COMPLEX_MODIFICATIONS_DIR/`basename $srcfile .erb`"
+
+    # try to regenerate file if source is newer
+    if [ "$srcfile" -nt "$dstfile" ]; then
+      _generate_json "$srcfile" "$dstfile" "lib/complex_modifications_erb2json.rb"
+    fi
+  done
+
+  # Generate main config file to apply changes
+  configfile="karabiner.json.erb"
+  dstfile="config/`basename $configfile .erb`"
+  _generate_json "$configfile" "$dstfile" "lib/karabiner_erb2json.rb" true
+}
+
+_generate_json() {
+  srcfile=$1
+  dstfile=$2
+  generator=$3
+  skiplint=$4
+
+  msg="Generate $dstfile"
+  if ! /usr/bin/ruby "$generator" < "$srcfile" > "$dstfile"; then
+    echo-fail $msg
+    rm -f "$dstfile"
+    exit 1
+  fi
+
+  msg="Check $dstfile"
+  if [[ -z $skiplint ]] && ! /usr/bin/ruby lib/lint.rb < "$dstfile"; then
+    echo-fail $msg
+    exit 1
+  fi
+
+  echo-ok "Generate $dstfile"
 }
 
 init "$@"
