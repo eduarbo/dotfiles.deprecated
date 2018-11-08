@@ -5,7 +5,6 @@ source ${0:A:h}/../../deploy
 [[ $(_os) != macos ]] && exit
 
 link() {
-  mkdir -p $KARABINER_COMPLEX_MODIFICATIONS_DIR
   mklink config $KARABINER_CONFIG_DIR
 }
 
