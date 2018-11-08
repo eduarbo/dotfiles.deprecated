@@ -55,7 +55,7 @@ function _load_repo {
 function _ensure_repo {
   local target=$1
   local dest=$2
-  local branch=${$3:-master}
+  local branch=${3:-master}
 
   if [[ ! -d $dest ]]; then
     if [[ $target =~ "^[^/]+/[^/]+$" ]]; then
