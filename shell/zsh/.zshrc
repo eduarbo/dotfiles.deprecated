@@ -27,10 +27,11 @@ zpl light djui/alias-tips
 typeset -gA PROMPT_SIMPL_HOSTNAME_SYMBOL_MAP
 PROMPT_SIMPL_HOSTNAME_SYMBOL_MAP=(
   eduarbook "ᚱ"
-  lavos "ᛟ"
-  neptune "♆"
+  lavos "𝔫𝔰"
+  other "ᛟ"
+  htpc "♆"
 )
-export SIMPL_GIT_DIRTY_SYMBOL="™"
+export SIMPL_GIT_DIRTY_SYMBOL="⌁"
 zpl ice pick"async.zsh" src"simpl.zsh"
 zpl light eduarbo/simpl
 
