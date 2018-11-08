@@ -57,6 +57,7 @@ alias historystat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r |
 
 alias ssh="TERM=xterm-256color ssh"
 
+alias mine="sudo chown -R $USER:$GROUPS"
 
 #
 # Files & Directories
