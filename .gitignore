@@ -49,8 +49,10 @@ spacemacs/.spacemacs.d/custom.el
 
 .enabled.d/*
 
-# Karabiner-elements compiled file
+# Karabiner-elements compiled files
 misc/karabiner/config/**
 
-!.gitkeep
 .macosdefaultsinstalled
+
+!.gitkeep
+!*/

@@ -3381,25 +3381,6 @@
               {
                 "type": "basic",
                 "from": {
-                  "key_code": "o",
-                  "modifiers": {
-                    "mandatory": [
-                      "right_option"
-                    ],
-                    "optional": [
-                      "caps_lock"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "shell_command": "open '/Applications/Opera.app'"
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
                   "key_code": "p",
                   "modifiers": {
                     "mandatory": [
@@ -6839,25 +6820,6 @@
                 "to": [
                   {
                     "shell_command": "open '/Applications/Notes.app'"
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "o",
-                  "modifiers": {
-                    "mandatory": [
-                      "right_option"
-                    ],
-                    "optional": [
-                      "caps_lock"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "shell_command": "open '/Applications/Opera.app'"
                   }
                 ]
               },
