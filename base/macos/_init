@@ -8,6 +8,7 @@
 
 brew_deps=(
   wget
+  stow
   tree
   coreutils
   bash
