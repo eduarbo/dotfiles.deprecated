@@ -52,5 +52,6 @@ end)
 
 require("date-battery")
 require("mic")
-require("netspeed")
+-- FIXME: Doesn't work on mojave
+-- require("netspeed")
 require("window")
