@@ -13,6 +13,7 @@ link() {
   mklink default-packages "$NODENV_ROOT/default-packages"
 }
 
+# TODO: Install latest stable node version to be set as global
 install() {
   # Installing node through Homebrew can cause problems with npm for globally
   # installed packages. To prevent this issue install node without npm
