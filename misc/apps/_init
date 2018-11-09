@@ -15,6 +15,8 @@ brew_deps=(
   subliminal
   unrar
   unzip
+  neofetch
+  tree
 )
 
 cask_deps=(
@@ -27,7 +29,7 @@ cask_deps=(
   firefox
   google-backup-and-sync
   google-chrome
-# gpg-suite
+  gpg-suite
   grandperspective
   handbrake
   java

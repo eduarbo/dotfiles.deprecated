@@ -9,13 +9,11 @@
 brew_deps=(
   wget
   stow
-  tree
   coreutils
   bash
   gnupg
   the_silver_searcher
   ripgrep
-  neofetch
   pinentry-mac
   aspell
 )
@@ -44,7 +42,7 @@ install() {
 
   # Fix curl
   # https://github.com/Linuxbrew/brew/wiki/FAQ#why-does-curl-fail
-  brew reinstall openssl curl
+  brew reinstall freessl openssl curl
 
   # Enable Cask of fonts
   brew tap homebrew/cask-fonts
