@@ -2,7 +2,7 @@
 
 (load! "+bindings")
 
-;; (toggle-frame-maximized)
+(toggle-frame-maximized)
 ;; (toggle-frame-fullscreen)
 
 (setq
