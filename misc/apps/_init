@@ -52,7 +52,7 @@ cask_deps=(
   slack
   spotify
   suspicious-package
-  torbrowser
+  tor-browser
   transmission
 # virtualbox
   vlc
