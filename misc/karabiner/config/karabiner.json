@@ -3303,7 +3303,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/usr/local/Cellar/emacs-plus/HEAD-48f6f28/Emacs.app'"
+                    "shell_command": "open '/usr/local/opt/emacs-plus/Emacs.app'"
                   }
                 ]
               },
@@ -6772,7 +6772,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/usr/local/Cellar/emacs-plus/HEAD-48f6f28/Emacs.app'"
+                    "shell_command": "open '/usr/local/opt/emacs-plus/Emacs.app'"
                   }
                 ]
               },
