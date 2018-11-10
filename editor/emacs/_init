@@ -21,6 +21,11 @@ dnf_deps=(
   emacs
 )
 
+cask_deps=(
+  font-iosevka
+  font-iosevka-nerd-font
+)
+
 install() {
   case $(_os) in
     macos)
@@ -28,6 +33,7 @@ install() {
       # NOTE: until now this is the only one that has worked for me in Mojave
       brew install emacs-plus --without-spacemacs-icon --with-modern-icon --HEAD
       brew install ${common_deps[@]} ${brew_deps[@]}
+      brew cask install ${cask_deps[@]}
       ;;
     fedora)
       sudo dnf install -y ${common_deps[@]} ${dnf_deps[@]}
