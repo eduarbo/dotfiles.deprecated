@@ -22,9 +22,8 @@
                     "description": "Change left_command to left_shift. (Post spacebar if pressed alone)",
                     "type": "basic",
                     "from": <%= from("left_command", [], ["any"]) %>,
-                    "to": <%= to([set_variable("symbols", 1)]) %>,
-                    "to_if_alone": <%= to([["spacebar"]]) %>,
-                    "to_after_key_up": <%= to([set_variable("symbols", 0)]) %>
+                    "to": <%= to([["left_shift"]]) %>,
+                    "to_if_alone": <%= to([["spacebar"]]) %>
                 },
                 {
                     "description": "Change right_option to right_option. (Post open parenthesis if pressed alone)",
