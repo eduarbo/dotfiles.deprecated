@@ -8,7 +8,8 @@
 (setq
  ;; A E S T H E T I C
  doom-font (font-spec :family "Hack" :size 12)
- doom-big-font (font-spec :family "Iosevka" :size 20)
+ doom-big-font (font-spec :family "Hack" :size 20)
+ ;; doom-big-font (font-spec :family "Iosevka" :size 20)
 
  ;; That's me!!!
  user-mail-address "eduarbo@gmail.com"
@@ -24,8 +25,6 @@
  ns-alternate-modifier 'none
  ;; Get some context when scrolling
  scroll-margin 10
- ;; disable line numbers
- doom-line-numbers-style nil
  ;; use gnu ls to allow dired to sort directories
  insert-directory-program "gls" dired-use-ls-dired t
  ;; Given ~/Projects/FOSS/emacs/lisp/comint.el => emacs/lisp/comint.el

@@ -2,6 +2,8 @@
 
 (map!
  :nv     "SPC"         #'+helm/workspace-mini
+ :nv     [C-escape]    #'+evil/fold-toggle
+ :i      [tab]         #'company-indent-or-complete-common
  :gnvime "M-;"         #'execute-extended-command
  :gnvime [C-return]    #'+popup/toggle
 
@@ -28,6 +30,13 @@
  (:after evil-snipe
    :map evil-snipe-parent-transient-map
    ","                 nil)
+
+ (:after yasnippet
+   (:map yas-minor-mode-map
+     :ig [tab] nil
+     :v  [tab] nil
+     :ig [backtab] yas-maybe-expand
+     :v  [backtab] #'yas-insert-snippet))
 
  (:prefix "g"
    :desc "Switch to last workspace" :n  [tab] #'+workspace:switch-previous

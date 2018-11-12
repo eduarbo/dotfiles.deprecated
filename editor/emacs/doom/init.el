@@ -18,7 +18,8 @@
 
        :completion
        (company          ; the ultimate code completion backend
-        +auto)           ; as-you-type code completion
+        +tng)
+        ;; +auto)           ; as-you-type code completion
        (helm             ; the *other* search engine for love and life
         +fuzzy)          ; enable fuzzy search backend for helm
        ;; ido               ; the other *other* search engine...
