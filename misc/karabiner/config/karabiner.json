@@ -2616,6 +2616,180 @@
               {
                 "type": "basic",
                 "from": {
+                  "key_code": "comma",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock",
+                      "command",
+                      "control",
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "comma"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "comma",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock",
+                      "command",
+                      "control",
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "comma"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "symbols_sticky",
+                      "value": 0
+                    },
+                    "halt": false
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "symbols_sticky",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "period",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock",
+                      "command",
+                      "control",
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "period"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "period",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock",
+                      "command",
+                      "control",
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "period"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "symbols_sticky",
+                      "value": 0
+                    },
+                    "halt": false
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "symbols_sticky",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "slash",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock",
+                      "command",
+                      "control",
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "slash"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "slash",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock",
+                      "command",
+                      "control",
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "slash"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "symbols_sticky",
+                      "value": 0
+                    },
+                    "halt": false
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "symbols_sticky",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
                   "key_code": "left_shift",
                   "modifiers": {
                     "mandatory": [
@@ -2717,72 +2891,6 @@
                     "key_code": "equal_sign",
                     "modifiers": [
                       "left_shift"
-                    ]
-                  },
-                  {
-                    "set_variable": {
-                      "name": "symbols_sticky",
-                      "value": 0
-                    },
-                    "halt": false
-                  }
-                ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "symbols_sticky",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "slash",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_shift"
-                    ],
-                    "optional": [
-                      "caps_lock",
-                      "command",
-                      "control",
-                      "option"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "slash",
-                    "modifiers": [
-                      "left_shift",
-                      "left_option"
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "slash",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_shift"
-                    ],
-                    "optional": [
-                      "caps_lock",
-                      "command",
-                      "control",
-                      "option"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "slash",
-                    "modifiers": [
-                      "left_shift",
-                      "left_option"
                     ]
                   },
                   {
@@ -5956,6 +6064,180 @@
               {
                 "type": "basic",
                 "from": {
+                  "key_code": "comma",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock",
+                      "command",
+                      "control",
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "comma"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "comma",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock",
+                      "command",
+                      "control",
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "comma"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "symbols_sticky",
+                      "value": 0
+                    },
+                    "halt": false
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "symbols_sticky",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "period",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock",
+                      "command",
+                      "control",
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "period"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "period",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock",
+                      "command",
+                      "control",
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "period"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "symbols_sticky",
+                      "value": 0
+                    },
+                    "halt": false
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "symbols_sticky",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "slash",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock",
+                      "command",
+                      "control",
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "slash"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "slash",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock",
+                      "command",
+                      "control",
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "slash"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "symbols_sticky",
+                      "value": 0
+                    },
+                    "halt": false
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "symbols_sticky",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
                   "key_code": "left_shift",
                   "modifiers": {
                     "mandatory": [
@@ -6057,72 +6339,6 @@
                     "key_code": "equal_sign",
                     "modifiers": [
                       "left_shift"
-                    ]
-                  },
-                  {
-                    "set_variable": {
-                      "name": "symbols_sticky",
-                      "value": 0
-                    },
-                    "halt": false
-                  }
-                ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "symbols_sticky",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "slash",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_shift"
-                    ],
-                    "optional": [
-                      "caps_lock",
-                      "command",
-                      "control",
-                      "option"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "slash",
-                    "modifiers": [
-                      "left_shift",
-                      "left_option"
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "slash",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_shift"
-                    ],
-                    "optional": [
-                      "caps_lock",
-                      "command",
-                      "control",
-                      "option"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "slash",
-                    "modifiers": [
-                      "left_shift",
-                      "left_option"
                     ]
                   },
                   {
