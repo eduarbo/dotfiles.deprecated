@@ -78,6 +78,10 @@
         tide-completion-ignore-case t))
 
 
+(after! treemacs
+  (setq treemacs--icon-size 20))
+
+
 (after! deft
   (setq deft-directory (expand-file-name "notes/" org-directory)))
 
