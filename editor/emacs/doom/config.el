@@ -1,40 +1,84 @@
 ;;; ~/.dotfiles/editor/emacs/doom/config.el -*- lexical-binding: t; -*-
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
-(load! "+bindings")
+;;
+;; Sane defaults
 
-(toggle-frame-maximized)
-;; (toggle-frame-fullscreen)
-
-(setq
+(setq-default
  ;; A E S T H E T I C
  doom-font (font-spec :family "Hack" :size 12)
- doom-big-font (font-spec :family "Hack" :size 20)
- ;; doom-big-font (font-spec :family "Iosevka" :size 20)
+ ;; doom-big-font (font-spec :family "Hack" :size 20)
+ ;; doom-font (font-spec :family "PragmataPro" :size 13)
+ doom-big-font (font-spec :family "PragmataPro" :size 20)
 
  ;; That's me!!!
  user-mail-address "eduarbo@gmail.com"
  user-full-name    "Eduardo Ruiz Macias"
- ;; FIXME prefer ag over rg as the latter also matches the filenames and
- ;; triggers the search at the first character so it becomes really slow when
- ;; you start typing
- +helm-project-search-engines '(ag rg pt)
- helm-ag-command-option "--hidden"
- ;; Set my notes directory
- org-directory (expand-file-name "~/Google Drive/org/")
+
  ;; Enable accents
  ns-alternate-modifier 'none
  ;; Get some context when scrolling
  scroll-margin 10
- ;; use gnu ls to allow dired to sort directories
- insert-directory-program "gls" dired-use-ls-dired t
- ;; Given ~/Projects/FOSS/emacs/lisp/comint.el => emacs/lisp/comint.el
- +doom-modeline-buffer-file-name-style 'relative-from-project
- ;; ... is boring
- org-ellipsis " ▼ ")
-
-;; set defaults for buffer variables
-(setq-default
  ;; default to flyspell prog mode
  flyspell-generic-check-word-predicate #'flyspell-generic-progmode-verify
  ;; Make it easy to identify trailing whitespace
- show-trailing-whitespace t)
+ show-trailing-whitespace t
+ ;; use gnu ls to allow dired to sort directories
+ insert-directory-program "gls" dired-use-ls-dired t
+ ;; Given ~/Projects/FOSS/emacs/lisp/comint.el => emacs/lisp/comint.el
+ +doom-modeline-buffer-file-name-style 'relative-from-project)
+
+
+;;
+;; Host-specific config
+
+(when IS-MAC
+  (setq ns-use-thin-smoothing t)
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))
+  (add-hook 'window-setup-hook #'toggle-frame-maximized))
+
+
+;;
+;; Modules
+
+;; tools/magit
+(setq magit-repository-directories '(("~/dev" . 1))
+      magit-save-repository-buffers nil)
+
+;; lang/org
+(setq org-directory (expand-file-name "~/Google Drive/org/")
+      org-agenda-files (list org-directory)
+      org-ellipsis " ▼ "  ;; ... is boring
+
+      ;; The standard unicode characters are usually misaligned depending on the
+      ;; font. This bugs me. Personally, markdown #-marks for headlines are more
+      ;; elegant.
+      org-bullets-bullet-list '("#"))
+
+;; completion/helm
+(setq helm-ag-command-option "--hidden"
+      ;; FIXME prefer ag over rg as the latter also matches the filenames and
+      ;; triggers the search at the first character so it becomes really slow
+      ;; when you start typing
+      +helm-project-search-engines '(ag rg pt))
+
+
+;; ui/pretty-code
+;; enable ligatures only in org-mode
+(setq +pretty-code-enabled-modes '(emacs-lisp-mode org-mode))
+
+
+;;
+;; Packages
+
+(after! tide
+  ;; Try to ignore case
+  (setq completion-ignore-case t
+        tide-completion-ignore-case t))
+
+
+;;
+;; Custom
+
+(load! "+bindings")

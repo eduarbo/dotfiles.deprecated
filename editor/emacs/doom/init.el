@@ -1,7 +1,7 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
-(setq doom-leader-key ",")
-(setq doom-localleader-key ", m")
+(setq doom-leader-key ","
+      doom-localleader-key ", m")
 
 (doom! :feature
        ;; debugger          ; FIXME stepping through code, to help you add bugs
@@ -9,22 +9,24 @@
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        (lookup           ; helps you navigate your code and documentation
-        +docsets)        ; ...or in Dash docsets locally
+        ;; +docsets         ; ...or in Dash docsets locally
+        )
        snippets          ; my elves. They type so I don't have to
        spellcheck        ; tasing you for misspelling mispelling
-       (syntax-checker   ; tasing you for every semicolon you forget
-        +childframe)     ; use childframes for error popups (Emacs 26+ only)
+       syntax-checker    ; tasing you for every semicolon you forget
        workspaces        ; tab emulation, persistence & separate workspaces
 
        :completion
        (company          ; the ultimate code completion backend
-        +tng)
-        ;; +auto)           ; as-you-type code completion
+        ;; +auto            ; as-you-type code completion
+        )
        (helm             ; the *other* search engine for love and life
-        +fuzzy)          ; enable fuzzy search backend for helm
+        +fuzzy           ; enable fuzzy search backend for helm
+        )
        ;; ido               ; the other *other* search engine...
        ;; (ivy              ; a search engine for love and life
-       ;; +fuzzy)          ; enable fuzzy search backend for ivy
+       ;;  +fuzzy           ; enable fuzzy search backend for ivy
+       ;;  )
 
        :ui
        ;; deft              ; notational velocity for Emacs
@@ -42,7 +44,7 @@
        (popup            ; tame sudden yet inevitable temporary windows
         +all             ; catch all popups that start with an asterix
         +defaults)       ; default popup rules
-       ;; pretty-code       ; replace bits of code with pretty symbols
+       pretty-code       ; replace bits of code with pretty symbols
        ;; tabbar            ; FIXME an (incomplete) tab bar for Emacs
        ;; unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
@@ -51,12 +53,16 @@
 
        :editor
        ;; (format +onsave)  ; automated prettiness
+       ;; lispy             ; vim for lisp, for people who dont like vim
        multiple-cursors  ; editing in many places at once
        ;; parinfer          ; turn lisp into python, sort of
        rotate-text       ; cycle region at point between text candidates
 
        :emacs
-       dired             ; making dired pretty [functional]
+       (dired            ; making dired pretty [functional]
+        ;; +ranger         ; bringing the goodness of ranger to dired
+        ;; +icons          ; colorful icons for dired-mode
+        )
        ediff             ; comparing files in Emacs
        electric          ; smarter, keyword-based electric-indent
        ;; eshell            ; a consistent, cross-platform shell (WIP)
@@ -77,8 +83,8 @@
        ;; password-store    ; password manager for nerds
        ;; pdf               ; pdf enhancements
        ;; prodigy           ; FIXME managing external services & code builders
-       ;; terraform         ; infrastructure as code
        ;; rgb               ; creating color strings
+       ;; terraform         ; infrastructure as code
        ;; tmux              ; an API for interacting with tmux
        ;; upload            ; map local to remote projects via ssh/ftp
        ;; wakatime
@@ -100,7 +106,7 @@
        go                ; the hipster dialect
        ;; (haskell +intero) ; a language that's lazier than I am
        ;; hy                ; readability of scheme w/ speed of python
-       ;; idris
+       ;; idris             ;
        ;; (java +meghanada) ; the poster child for carpal tunnel syndrome
        javascript        ; all(hope(abandon(ye(who(enter(here))))))
        ;; julia             ; a better, faster MATLAB
@@ -132,6 +138,7 @@
        ;; solidity          ; do you need a blockchain? No.
        ;; swift             ; who asked for emoji variables?
        web               ; the tubes
+       ;;vala              ; GObjective-C
 
        ;; Applications are complex and opinionated modules that transform Emacs
        ;; toward a specific purpose. They may have additional dependencies and
@@ -155,7 +162,6 @@
        ;; literate
 
        ;; The default module sets reasonable defaults for Emacs. It also
-       ;; provides a Spacemacs-inspired keybinding scheme, a custom yasnippet
-       ;; library, and additional ex commands for evil-mode. Use it as a
-       ;; reference for your own modules.
-       (default +bindings +evil-commands))
+       ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
+       ;; config. Use it as a reference for your own modules.
+       (default +bindings +smartparens))
