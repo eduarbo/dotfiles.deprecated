@@ -42,7 +42,7 @@
 (defun +eduarbo/find-notes-for-project (&optional arg)
   "TODO"
   (interactive "P")
-  (let ((project-root (doom-project-name 'nocache))
+  (let ((project-root (doom-project-name))
         (default-directory (expand-file-name "projects/" org-directory)))
     (if arg
         (call-interactively #'find-file)
