@@ -6,10 +6,13 @@
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	whitespace = trailing-space
+	autocrlf = input
 [color]
 	ui = auto
 [github]
 	user = eduarbo
+[fetch]
+	prune = true
 [rebase]
 	autosquash = true
 [push]
@@ -21,6 +24,7 @@
 	# Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
 	# instead of a/b/c/d as prefixes for patches
 	mnemonicprefix = true
+	colorMoved = zebra
 
 [alias]
 	# commit
@@ -65,3 +69,4 @@
 	clean = git-lfs clean -- %f
 [commit]
 	gpgsign = true
+	template = ~/.config/git/message

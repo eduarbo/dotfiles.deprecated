@@ -27,7 +27,7 @@ install() {
 # update() {}
 
 link() {
-  mklink {config,ignore} $GIT_DIR/
+  mklink {config,ignore,message} $GIT_DIR
 }
 
 clean() {
