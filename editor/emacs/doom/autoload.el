@@ -27,3 +27,24 @@
     (doom--put-modules example-init-el old-modules)
     (doom--put-modules private-init-el new-modules)
     (ediff private-init-el example-init-el)))
+
+;;;###autoload
+(defun +eduarbo/find-notes-for-major-mode (&optional arg)
+  "TODO"
+  (interactive "P")
+  (let ((default-directory (expand-file-name "code/" org-directory)))
+    (if arg
+        (call-interactively #'find-file)
+      (find-file
+       (expand-file-name (concat (string-remove-suffix "-mode" (symbol-name major-mode)) ".org"))))))
+
+;;;###autoload
+(defun +eduarbo/find-notes-for-project (&optional arg)
+  "TODO"
+  (interactive "P")
+  (let ((project-root (doom-project-name 'nocache))
+        (default-directory (expand-file-name "projects/" org-directory)))
+    (if arg
+        (call-interactively #'find-file)
+      (find-file
+       (expand-file-name (concat project-root ".org"))))))

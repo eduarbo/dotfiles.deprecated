@@ -54,6 +54,10 @@
    (:prefix "h"
      :desc "HEEEELP!"               :n  "h"   help-map)
 
+   (:prefix "n"
+     :desc "Open mode notes"       "m" #'+eduarbo/find-notes-for-major-mode
+     :desc "Open project notes"    "p" #'+eduarbo/find-notes-for-project)
+
    (:prefix "t"
      :desc "Line numbers"           :n  "l"   #'display-line-numbers-mode
      :desc "Cycle line numbers"     :n  "L"   #'doom/toggle-line-numbers

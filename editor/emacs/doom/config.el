@@ -2,7 +2,7 @@
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 ;;
-;; Sane defaults
+;; Reasonable defaults
 
 (setq-default
  ;; A E S T H E T I C
@@ -76,6 +76,10 @@
   ;; Try to ignore case
   (setq completion-ignore-case t
         tide-completion-ignore-case t))
+
+
+(after! deft
+  (setq deft-directory (expand-file-name "notes/" org-directory)))
 
 
 ;;
