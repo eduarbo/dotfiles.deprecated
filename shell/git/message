@@ -2,8 +2,10 @@
 
 # Capitalized, short (50 chars or less) summary
 #
-# More detailed explanatory text, if necessary.  Wrap it to about 72
-# characters or so. This should answer:
+# Refer to issue #<IssueId>
+#
+# More detailed explanatory text, if necessary. Wrap it to 72 characters.
+# This should answer:
 #
 # * Why was this change necessary?
 # * How does it address the problem?
@@ -29,3 +31,16 @@
 # * If it seems difficult to summarize what your commit does, it may be because it
 #   includes several logical changes or bug fixes, and are better split up into
 #   several commits using git add -p.
+# * If the commit refers to an issue, add this information to the commit message
+#   body. GitHub automatically converts issue ids to links referring to the
+#   related issue. e.g. Fix #123, #124.
+#   The following keywords, followed by an issue number, will close the issue:
+#   - close
+#   - closes
+#   - closed
+#   - fix
+#   - fixes
+#   - fixed
+#   - resolve
+#   - resolves
+#   - resolved
