@@ -16,6 +16,7 @@ brew_deps=(
   ripgrep
   pinentry-mac
   aspell
+  tldr
 )
 
 cask_deps=(

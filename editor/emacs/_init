@@ -32,7 +32,7 @@ install() {
   case $(_os) in
     macos)
       brew tap d12frosted/emacs-plus
-      brew install emacs-plus --without-spacemacs-icon --with-modern-icon
+      brew install emacs-plus
       brew install ${common_deps[@]} ${brew_deps[@]}
       brew cask install ${cask_deps[@]}
       ;;
