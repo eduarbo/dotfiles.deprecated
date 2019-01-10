@@ -22,6 +22,8 @@ dnf_deps=(
 )
 
 cask_deps=(
+  font-hack
+  font-hack-nerd-font
   font-iosevka
   font-iosevka-nerd-font
 )
@@ -30,8 +32,7 @@ install() {
   case $(_os) in
     macos)
       brew tap d12frosted/emacs-plus
-      # NOTE: until now this is the only one that has worked for me in Mojave
-      brew install emacs-plus --without-spacemacs-icon --with-modern-icon --HEAD
+      brew install emacs-plus --without-spacemacs-icon --with-modern-icon
       brew install ${common_deps[@]} ${brew_deps[@]}
       brew cask install ${cask_deps[@]}
       ;;
