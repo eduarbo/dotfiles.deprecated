@@ -2,7 +2,8 @@ alias t='tmux'
 
 alias ta='tmux attach'
 alias tl='tmux ls'
-alias tm='tmux -u2'
+# resumes a tmux session if there is one, or creates a new session otherwise
+alias tm='tmux -u2 attach-session || tmux -u2 new-session'
 alias tmkillall="tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs -n1 tmux kill-session -t"
 
 if [[ -n $TMUX ]]; then # From inside tmux
