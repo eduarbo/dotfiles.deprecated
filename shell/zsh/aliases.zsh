@@ -2,8 +2,15 @@ autoload -U zmv
 
 alias q="exit"
 alias clr="clear"
+
 # Allow aliases to be with sudo
 alias sudo="sudo "
+
+# rerun last command with sudo, please!
+alias please="sudo !!"
+alias fuck="killall -9"
+
+alias dush="du -csh * | sort -h"
 
 alias gurl="curl --compressed"
 alias rsyncd="rsync -va --delete"   # Hard sync two directories
