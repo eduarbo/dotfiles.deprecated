@@ -3245,7 +3245,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/Applications/1Password 6.app'"
+                    "shell_command": "open '/Applications/1Password 7.app'"
                   }
                 ]
               },
@@ -6662,7 +6662,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/Applications/1Password 6.app'"
+                    "shell_command": "open '/Applications/1Password 7.app'"
                   }
                 ]
               },
