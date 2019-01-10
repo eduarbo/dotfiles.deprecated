@@ -54,7 +54,10 @@
       ;; The standard unicode characters are usually misaligned depending on the
       ;; font. This bugs me. Personally, markdown #-marks for headlines are more
       ;; elegant.
-      org-bullets-bullet-list '("#"))
+      org-bullets-bullet-list '("#")
+
+      google-translate-default-target-language "es"
+      google-translate-default-source-language "en")
 
 ;; completion/helm
 (setq helm-ag-command-option "--hidden"
