@@ -22,6 +22,7 @@ dnf_deps=(
 )
 
 cask_deps=(
+  emacs
   font-hack
   font-hack-nerd-font
   font-iosevka
@@ -31,8 +32,6 @@ cask_deps=(
 install() {
   case $(_os) in
     macos)
-      brew tap d12frosted/emacs-plus
-      brew install emacs-plus
       brew install ${common_deps[@]} ${brew_deps[@]}
       brew cask install ${cask_deps[@]}
       ;;

@@ -3264,7 +3264,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/usr/local/opt/emacs-plus/Emacs.app'"
+                    "shell_command": "open '/Applications/Emacs.app'"
                   }
                 ]
               },
@@ -6681,7 +6681,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/usr/local/opt/emacs-plus/Emacs.app'"
+                    "shell_command": "open '/Applications/Emacs.app'"
                   }
                 ]
               },
