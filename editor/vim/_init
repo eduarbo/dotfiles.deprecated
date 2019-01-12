@@ -1,0 +1,29 @@
+#!/usr/bin/env zsh
+source ${0:A:h}/../../deploy
+source env.zsh
+
+install() {
+  case $(_os) in
+    macos)  _is_callable vim || brew install vim ;;
+    debian) sudo apt install -y vim ;;
+  esac
+
+	[ -f "$XDG_DATA_HOME/vim/autoload/plug.vim" ] || \
+    curl -fLo $XDG_DATA_HOME/vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  vim +PlugInstall +qall
+}
+
+update() {
+  vim +PlugUpgrade +PlugClean +PlugUpdate +qall
+}
+
+link() {
+  mklink vimrc $VIMDOTDIR/
+}
+
+clean() {
+  rm -rfv $VIMDOTDIR "$XDG_DATA_HOME/vim" "$XDG_CACHE_HOME/vim"
+}
+
+init "$@"
