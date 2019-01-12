@@ -1,5 +1,4 @@
 ;;; ~/.dotfiles/editor/emacs/doom/config.el -*- lexical-binding: t; -*-
-(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 ;;
 ;; Reasonable defaults
