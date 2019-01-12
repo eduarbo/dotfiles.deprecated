@@ -55,12 +55,23 @@
             {
                 "type": "basic",
                 "from": <%= from("quote", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["slash", ["left_shift", "left_option"]], set_variable("symbols_sticky", 0)]) %>
+                "to": <%= to([["equal_sign", ["left_shift"]]]) %>
             },
             {
                 "type": "basic",
                 "from": <%= from("quote", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["slash", ["left_shift", "left_option"]]]) %>,
+                "to": <%= to([["equal_sign", ["left_shift"]], set_variable("symbols_sticky", 0)]) %>,
+                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("caps_lock", symbols_modifier, optional_modifiers) %>,
+                "to": <%= to([["hyphen"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("caps_lock", symbols_modifier, optional_modifiers) %>,
+                "to": <%= to([["hyphen"], set_variable("symbols_sticky", 0)]) %>,
                 "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
             },
 
@@ -189,25 +200,13 @@
 
             {
                 "type": "basic",
-                "from": <%= from("left_shift", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["hyphen"]]) %>
-            },
-            {
-                "type": "basic",
-                "from": <%= from("left_shift", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["hyphen"], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
-            },
-
-            {
-                "type": "basic",
                 "from": <%= from("right_shift", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["equal_sign", ["left_shift"]]]) %>
+                "to": <%= to([["slash", ["left_shift", "left_option"]], set_variable("symbols_sticky", 0)]) %>
             },
             {
                 "type": "basic",
                 "from": <%= from("right_shift", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["equal_sign", ["left_shift"]], set_variable("symbols_sticky", 0)]) %>,
+                "to": <%= to([["slash", ["left_shift", "left_option"]]]) %>,
                 "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
             }
         ]
