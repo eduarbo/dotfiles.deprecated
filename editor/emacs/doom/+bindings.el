@@ -25,11 +25,14 @@
  :en "C-k"             #'evil-window-up
  :en "C-l"             #'evil-window-right
 
- ;; Free the leader!
- :nvm    ":"           #'evil-snipe-repeat-reverse
+ ;; Switch leader, access to command mode and repeat motions
  (:after evil-snipe
    :map evil-snipe-parent-transient-map
+   ";"                 nil
    ","                 nil)
+ :nvm    ":"           #'evil-snipe-repeat
+ :nvm    "?"           #'evil-snipe-repeat-reverse
+ :nvm    ";"           #'evil-ex
 
  (:after yasnippet
    (:map yas-minor-mode-map
@@ -49,7 +52,6 @@
  (:leader
    :desc "M-x"                      :nv ";"   #'execute-extended-command
    :desc "Eval expression"          :nv ":"   #'eval-expression
-   :desc "Evil Ex"                  :nv ","   #'evil-ex
 
    (:prefix "h"
      :desc "HEEEELP!"               :n  "h"   help-map)
