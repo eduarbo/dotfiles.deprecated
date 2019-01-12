@@ -1,11 +1,9 @@
 ;;; ~/.dotfiles/editor/emacs/doom/+bindings.el -*- lexical-binding: t; -*-
 
 (map!
- :nv     "SPC"         #'+helm/workspace-mini
- :nv     [C-escape]    #'+evil/fold-toggle
+ :nv     "SPC"         #'+evil/fold-toggle
  :i      [tab]         #'company-indent-or-complete-common
  :gnvime "M-;"         #'execute-extended-command
- :gnvime [C-return]    #'+popup/toggle
 
  ;; navigate between buffers & workspaces
  :gnvime "C-,"         #'previous-buffer
@@ -52,6 +50,7 @@
  (:leader
    :desc "M-x"                      :nv ";"   #'execute-extended-command
    :desc "Eval expression"          :nv ":"   #'eval-expression
+   :desc "Toggle last popup"        "\""      #'+popup/toggle
 
    (:prefix "h"
      :desc "HEEEELP!"               :n  "h"   help-map)
