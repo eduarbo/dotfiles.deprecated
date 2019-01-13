@@ -52,6 +52,6 @@ end)
 
 require("date-battery")
 require("mic")
--- FIXME: Doesn't work on mojave
+-- FIXME: netspeed module doesn't work on mojave
 -- require("netspeed")
 require("window")
