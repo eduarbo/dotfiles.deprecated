@@ -32,9 +32,9 @@
  :nvm    ";"           #'evil-ex
 
  (:when (featurep! :completion company)
-   ;; FIXME: Figure out a way to override the (def-package!) macro to create an
-   ;; autoload for the command company-indent-or-complete-common with the
-   ;; :commands keyword and be able to remap it
+   ;; FIXME: Autoload company-indent-or-complete-common
+   ;; Figure out a way to override the def-package! macro to autoload the
+   ;; command with the :commands keyword and be able to remap it
    ;; :i [tab] #'company-indent-or-complete-common)
    :i [tab] #'company-complete-common)
 
