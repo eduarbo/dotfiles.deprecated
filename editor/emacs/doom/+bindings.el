@@ -2,7 +2,6 @@
 
 (map!
  :nv     "SPC"         #'+evil/fold-toggle
- :i      [tab]         #'company-indent-or-complete-common
  :gnvime "M-;"         #'execute-extended-command
 
  ;; navigate between buffers & workspaces
@@ -32,12 +31,20 @@
  :nvm    "?"           #'evil-snipe-repeat-reverse
  :nvm    ";"           #'evil-ex
 
- (:after yasnippet
-   (:map yas-minor-mode-map
-     :ig [tab] nil
-     :v  [tab] nil
-     :ig [backtab] yas-maybe-expand
-     :v  [backtab] #'yas-insert-snippet))
+ (:when (featurep! :completion company)
+   ;; FIXME: Figure out a way to override the (def-package!) macro to create an
+   ;; autoload for the command company-indent-or-complete-common with the
+   ;; :commands keyword and be able to remap it
+   ;; :i [tab] #'company-indent-or-complete-common)
+   :i [tab] #'company-complete-common)
+
+ (:when (featurep! :feature snippets)
+   (:after yasnippet
+     (:map yas-minor-mode-map
+       :ig [tab] nil
+       :v  [tab] nil
+       :ig [backtab] yas-maybe-expand
+       :v  [backtab] #'yas-insert-snippet)))
 
  (:prefix "g"
    :desc "Switch to last workspace" :n  [tab] #'+workspace:switch-previous
