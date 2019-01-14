@@ -13,7 +13,8 @@
         )
        snippets          ; my elves. They type so I don't have to
        spellcheck        ; tasing you for misspelling mispelling
-       syntax-checker    ; tasing you for every semicolon you forget
+       (syntax-checker   ; tasing you for every semicolon you forget
+        +childframe)
        workspaces        ; tab emulation, persistence & separate workspaces
 
        :completion
@@ -22,6 +23,7 @@
         ;; +auto            ; as-you-type code completion
         )
        (helm             ; the *other* search engine for love and life
+        +childframe
         +fuzzy           ; enable fuzzy search backend for helm
         )
        ;; ido               ; the other *other* search engine...
