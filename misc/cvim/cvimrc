@@ -1,6 +1,15 @@
+" to make this work first time in cVim:
+" 1. :settings
+" 2. paste this into `cVimrc` text field:
+"   let configpath = "/Users/eduarbo/.config/cvimrc"
+"   set localconfig
+" 3. click `Save`
+" 4. :source
+
 let mapleader = ","
 
 " Settings
+set sortlinkhints
 set nohud
 set nosmoothscroll
 set noautofocus
@@ -15,20 +24,26 @@ let searchlimit = 30
 let scrollstep = 70
 let barposition = "top"
 
-" alias ':g' to ':tabnew google'
-command g tabnew google
-
-let blacklists = ["https://mail.google.com/*", "*://mail.google.com/*", "@https://mail.google.com/mail/*"]
+let blacklists = ["https://devdocs.io/*", "https://mail.google.com/*", "*://mail.google.com/*", "@https://mail.google.com/mail/*"]
 let searchengine twitter = "https://twitter.com/search?q=%s"
-let completionengines = ["google", "amazon", "imdb", "duckduckgo", "wikipedia", "youtube", "google-image", "twitter"]
+let searchengine docs = "http://devdocs.io/#q=%s"
+let searchengine mdn = "https://developer.mozilla.org/en-US/search?q=%s"
+let searchengine subreddit = ["https://www.reddit.com", "https://www.reddit.com/r/%s"]
+
+let completionengines = ["google", "amazon", "imdb", "duckduckgo", "wikipedia", "youtube", "google-image", "twitter", "docs"]
+
+" alias ':r' to ':tabnew reddit'
+command r tabnew reddit
 
 " Create a shortcut for search engines. For example, typing ':tabnew g example'
 " would act the same way as ':tabnew google example'
 let searchalias a = "amazon"
-let searchalias d = "duckduckgo"
+let searchalias d = "docs"
 let searchalias g = "google"
 let searchalias i = "imdb"
+let searchalias m = "mdn"
 let searchalias p = "google-image"
+let searchalias r = "subreddit"
 let searchalias t = "twitter"
 let searchalias u = "urbandictionary"
 let searchalias w = "wikipedia"
@@ -44,7 +59,7 @@ map xx closeTab
 map gq :restore<space>
 map ? openLinkSearchBar
 map B :Bookmarks!
-map B :Buffer
+map ,, :buffer<Space>
 
 map <Leader>r reloadTabUncached
 map <Leader>x :restore<Space>
@@ -71,9 +86,5 @@ echo(link) -> {{
 }}
 map <C-f> createScriptHint(echo)
 
-site '*://web.whatsapp.com/*' {
-    call :pintab
-}
-
-let configpath = "/Users/eduarbo/.cvimrc"
+let configpath = "/Users/eduarbo/.config/cvimrc"
 set localconfig

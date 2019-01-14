@@ -6,11 +6,19 @@ source ${0:A:h}/../../deploy
 # update() {}
 
 link() {
-  mklink .cvimrc ~/.cvimrc
+  mklink cvimrc $XDG_CONFIG_HOME
+
+  echo
+  echo-info "Don't forget:"
+  echo "- Allow cvim access to file URLs through Chrome's extension settings"
+  echo "- Set the following in the inbuilt configuration:"
+  echo "    let configpath = /Users/eduarbo/.config/cvimrc"
+  echo "    set localconfig"
+  echo "- Click Save"
 }
 
 clean() {
-  rm -fv ~/.cvimrc
+  rm -fv "$XDG_CONFIG_HOME/cvimrc"
 }
 
 init "$@"
