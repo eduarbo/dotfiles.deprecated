@@ -71,10 +71,6 @@ imap <C-w> deleteWord
 
 map <Leader>s :source<CR>
 
-map <Leader>f :open! http://www.facebook.com<CR>
-map <Leader>F :open http://www.facebook.com<CR>
-map <Leader>n :open! http://news.google.com<CR>
-map <Leader>cl :open! chrome://chrome/settings/clearBrowserData<CR>
 map <Leader>ce :chrome! extensions<CR>
 map <Leader>cd :chrome! downloads<CR>
 map <Leader>ch :chrome! history<CR>
