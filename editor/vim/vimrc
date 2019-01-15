@@ -80,6 +80,7 @@ set noeol
 set nospell                  " No spell check, please
 set shortmess+=filmnrxoOtTs
 set visualbell               " No sounds!
+set t_vb=                    " Stop flashing
 set modeline
 
 set iskeyword-=.             " Regard . as a word boundary
