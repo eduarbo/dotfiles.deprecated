@@ -25,12 +25,16 @@
  ;; Given ~/Projects/FOSS/emacs/lisp/comint.el => emacs/lisp/comint.el
  +doom-modeline-buffer-file-name-style 'relative-from-project)
 
+;; Stop in-between "camelCase" words instead of just spaces, hyphens or
+;; underscores
+(global-subword-mode)
 
 ;; whitespace
 (defun eduarbo--show-trailing-whitespace ()
   (setq-local show-trailing-whitespace t))
 (add-hook! (prog-mode conf-mode) #'eduarbo--show-trailing-whitespace)
 
+;; OS specific fixes
 (when IS-MAC
   (setq ns-use-thin-smoothing t)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -91,4 +95,4 @@
 ;;
 ;; Custom
 
-(load! "+bindings")
+(load! "./+bindings.el")
