@@ -20,16 +20,16 @@
  scroll-margin 10
  ;; default to flyspell prog mode
  flyspell-generic-check-word-predicate #'flyspell-generic-progmode-verify
- ;; Make it easy to identify trailing whitespace
- show-trailing-whitespace t
  ;; use gnu ls to allow dired to sort directories
  insert-directory-program "gls" dired-use-ls-dired t
  ;; Given ~/Projects/FOSS/emacs/lisp/comint.el => emacs/lisp/comint.el
  +doom-modeline-buffer-file-name-style 'relative-from-project)
 
 
-;;
-;; Host-specific config
+;; whitespace
+(defun eduarbo--show-trailing-whitespace ()
+  (setq-local show-trailing-whitespace t))
+(add-hook! (prog-mode conf-mode) #'eduarbo--show-trailing-whitespace)
 
 (when IS-MAC
   (setq ns-use-thin-smoothing t)
