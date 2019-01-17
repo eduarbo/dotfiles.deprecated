@@ -63,11 +63,9 @@
       google-translate-default-source-language "en")
 
 ;; completion/helm
+;; Show hidden files too
 (setq helm-ag-command-option "--hidden"
-      ;; FIXME prefer ag over rg as the latter also matches the filenames and
-      ;; triggers the search at the first character so it becomes really slow
-      ;; when you start typing
-      +helm-project-search-engines '(ag rg pt))
+      +helm-project-search-engines '(rg ag pt))
 
 
 ;; ui/pretty-code
