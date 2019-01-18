@@ -123,6 +123,9 @@
      :desc "Open mode notes"            "m"   #'+eduarbo/find-notes-for-major-mode
      :desc "Open project notes"         "p"   #'+eduarbo/find-notes-for-project)
 
+   (:prefix "p"
+     :desc "Discover projects"          "d"   #'projectile-discover-projects-in-search-path)
+
    (:prefix "t"
      :desc "Line numbers"               "l"   #'display-line-numbers-mode
      :desc "Cycle line numbers"         "L"   #'doom/toggle-line-numbers

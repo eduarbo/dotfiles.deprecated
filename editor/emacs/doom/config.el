@@ -23,7 +23,10 @@
  ;; use gnu ls to allow dired to sort directories
  insert-directory-program "gls" dired-use-ls-dired t
  ;; Given ~/Projects/FOSS/emacs/lisp/comint.el => emacs/lisp/comint.el
- +doom-modeline-buffer-file-name-style 'relative-from-project)
+ +doom-modeline-buffer-file-name-style 'relative-from-project
+ ;; Call projectile-discover-projects-in-search-path to look for projects in
+ ;; list of folders
+ projectile-project-search-path '("~/dev"))
 
 ;; Stop in-between "camelCase" words instead of just spaces, hyphens or
 ;; underscores
