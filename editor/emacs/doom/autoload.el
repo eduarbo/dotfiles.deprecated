@@ -48,3 +48,12 @@
         (call-interactively #'find-file)
       (find-file
        (expand-file-name (concat project-root ".org"))))))
+
+;;;###autoload
+(defun +eduarbo/switch-to-last-workspace ()
+  "Switch to previously selected workspace, if it exists."
+  (interactive)
+  (unless (eq 'non-existent
+              (gethash +workspace--last
+                       *persp-hash* 'non-existent))
+    (+workspace/switch-to +workspace--last)))

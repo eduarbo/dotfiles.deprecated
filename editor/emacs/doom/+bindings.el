@@ -97,8 +97,9 @@
        :igv [tab] nil)))
 
  (:prefix "g"
-   :desc "Switch workspace"         :n  [tab] #'persp-switch
-   :desc "Switch to last buffer"    :n  "l"   #'evil-switch-to-windows-last-buffer
+   :desc "Switch to workspace"      :n  "l"   #'persp-switch
+   :desc "Switch to last workspace" :n  [tab] #'+eduarbo/switch-to-last-workspace
+   :desc "Switch to last buffer"    :n  "`"   #'evil-switch-to-windows-last-buffer
    :desc "Goto char timer"          :m  "o"   #'avy-goto-char-timer
    :desc "Evil commentary line"     :n  "C"   #'evil-commentary-line
    :desc "Search in project"        :nv "/"   #'+helm/project-search)
