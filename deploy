@@ -16,6 +16,7 @@ function echo-info  { printf "\r\033[2K\033[0;34m[ .. ]\033[0m %s\n" "$*"; }
 function echo-skip  { printf "\r\033[2K\033[38;05;240m[SKIP]\033[0m %s\n" "$*"; }
 function echo-ok    { printf "\r\033[2K\033[0;32m[ OK ]\033[0m %s\n" "$*"; }
 function echo-fail  { printf "\r\033[2K\033[0;31m[FAIL]\033[0m %s\n" "$*"; }
+function echo-note  { printf "\r\033[2K\033[0;36m[NOTE]\033[0m\033[1m %s\033[0m\n" "$*"; }
 
 function _exec { ${DRYRUN:+echo-debug} $@; return ${DRYRUN:+1}; }
 function _topic-do {
@@ -32,7 +33,8 @@ function _topic-do {
   fi
 }
 function _topics {
-  local topics; topics=( "$DOTFILES_DATA"/*.topic(N) )
+  local topics;
+  topics=( "$DOTFILES_DATA"/*.topic(N) )
   echo ${${${topics[@]#$DOTFILES_DATA/}%.topic}/$SEP//}
 }
 
@@ -104,6 +106,7 @@ function topic-init {
     if [[ -z $INHIBIT_INIT ]]; then
       _topic-do $topic ${FORCE_OP:-${op:-update}}
       if [[ $op == install && $? != 0 ]]; then
+        # Revert everything if install fails
         topic-remove $topic
       fi
     fi
