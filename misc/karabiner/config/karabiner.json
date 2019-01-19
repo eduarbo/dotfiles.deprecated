@@ -3332,7 +3332,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/Applications/Mail.app'"
+                    "shell_command": "open '/Applications/Kiwi for Gmail.app'"
                   }
                 ]
               },
@@ -6741,7 +6741,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/Applications/Mail.app'"
+                    "shell_command": "open '/Applications/Kiwi for Gmail.app'"
                   }
                 ]
               },
