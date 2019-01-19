@@ -2,48 +2,49 @@
 
 (map!
  :gnvime "M-;"         #'execute-extended-command
+ :gnvime "M-/"         #'helpful-key
+
+ :n      "RET"         (if (featurep! :completion company)
+                           #'persp-switch-to-buffer
+                        #'switch-to-buffer)
+
+ :n      "SPC"         (when (featurep! :completion helm)
+                         #'+eduarbo/omni-helm-mini)
 
  ;; navigate between buffers & workspaces
- :gnvime "C-,"         #'previous-buffer
- :gnvime "C-."         #'next-buffer
- :gnvime "C-<"         #'+workspace/switch-left
- :gnvime "C->"         #'+workspace/switch-right
-
- ;; go to next/prev shorcuts like in other apps
+ :n      "H"         #'previous-buffer
+ :n      "L"         #'next-buffer
+ ;; all terrain version
  :gnvime "M-["         #'previous-buffer
  :gnvime "M-]"         #'next-buffer
- :gnvime "M-{"         #'+workspace/switch-left
- :gnvime "M-}"         #'+workspace/switch-right
 
  (:when (featurep! :ui popup)
    :gnvime "C-`"       #'+popup/toggle)
 
- :gnvime "C-~"
- (cond ((featurep! :completion ivy)   #'ivy-resume)
-       ((featurep! :completion helm)  #'helm-resume))
-
- ;; Easier window navigation
+ ;; Easier window/tab navigation
  :en     "C-h"         #'evil-window-left
  :en     "C-j"         #'evil-window-down
  :en     "C-k"         #'evil-window-up
  :en     "C-l"         #'evil-window-right
 
- :nv     "SPC"         #'+evil/fold-toggle
+ ;; go to next/prev shorcuts like in other apps
+ :gnvime "C-<"         #'+workspace/switch-left
+ :gnvime "C->"         #'+workspace/switch-right
+ ;; all terrain version
+ :gnvime "M-{"         #'+workspace/switch-left
+ :gnvime "M-}"         #'+workspace/switch-right
 
- ;; Swap leader, access to command mode and repeat motions
- :nvm    ":"           #'evil-snipe-repeat
- :nvm    "?"           #'evil-snipe-repeat-reverse
- :nvm    ";"           #'evil-ex
+ :nv     "#"           #'evil-commentary-line
+ :nv     ";"           #'evil-ex
+
+ ;; Rebind repeat motions
  (:after evil-snipe
-   :map evil-snipe-parent-transient-map
-   ";"                 nil
-   ","                 nil)
+   :nvm    ":"           #'evil-snipe-repeat
+   :nvm    "?"           #'evil-snipe-repeat-reverse)
 
 
  ;;
  ;; Insert mode
-
- :gi     "C-'"         #'helpful-key
 
  ;; Killing
  :gi     [S-backspace] #'delete-forward-char
@@ -75,11 +76,8 @@
 
  ;; company
  (:when (featurep! :completion company)
-   ;; FIXME: Autoload company-indent-or-complete-common
-   ;; Figure out a way to override the def-package! macro to autoload the
-   ;; command with the :commands keyword and be able to remap it
-   ;; :i [tab] #'company-indent-or-complete-common)
-   :i [tab] #'company-complete-common)
+   :after company
+   :i [tab] #'company-indent-or-complete-common)
 
  ;; yasnippet
  (:when (featurep! :feature snippets)
@@ -94,41 +92,47 @@
        :ig  [backtab] yas-maybe-expand
        :v   [backtab] #'yas-insert-snippet
        ;; Don't expand snippets with TAB
-       :igv [tab] nil)))
+       :igv [tab] nil))))
 
- (:prefix "g"
-   :desc "Switch to workspace"      :n  "l"   #'persp-switch
-   :desc "Switch to last workspace" :n  [tab] #'+eduarbo/switch-to-last-workspace
-   :desc "Switch to last buffer"    :n  "`"   #'evil-switch-to-windows-last-buffer
-   :desc "Goto char timer"          :m  "o"   #'avy-goto-char-timer
-   :desc "Evil commentary line"     :n  "C"   #'evil-commentary-line
-   :desc "Search in project"        :nv "/"   #'+helm/project-search)
+(map! :prefix "g"
+      :desc "Switch to last workspace" :n  [tab] #'+eduarbo/switch-to-last-workspace
+      :desc "Switch to last buffer"    :n  "`"   #'evil-switch-to-windows-last-buffer
+      :desc "Bookmark current buffer"  :m  "b"   #'bookmark-set
+      :desc "Delete bookmark"          :m  "B"   #'bookmark-delete
+      :desc "Goto char timer"          :m  "o"   #'avy-goto-char-timer
+      :desc "Comment/Uncomment line"   :nv "c"   #'evil-commentary-line
+      :desc "Search in project"        :nv "/"   #'+helm/project-search
+      :desc "Resume last completion"   :n  "."   (cond ((featurep! :completion ivy)   #'ivy-resume)
+                                                       ((featurep! :completion helm)  #'helm-resume)))
 
- (:leader
-   :desc "Show top-level bindings"      "?"   #'which-key-show-top-level
-   :desc "M-x"                          ";"   #'execute-extended-command
-   :desc "Eval expression"              ":"   #'eval-expression
-   :desc "Resume last search"           "`"
-   (cond ((featurep! :completion ivy)         #'ivy-resume)
-         ((featurep! :completion helm)        #'helm-resume))
+(map! :leader
+      :desc "Find file in project"         ","   #'projectile-find-file
+      :desc "Show top-level bindings"      "?"   #'which-key-show-top-level
+      :desc "M-x"                          ";"   #'execute-extended-command
+      :desc "Eval expression"              ":"   #'eval-expression
+      ;; TODO: Bind to TAB
+      :desc "Switch workspace"             "SPC" #'persp-switch
+      :desc "Resume last search"           "`"
+      (cond ((featurep! :completion ivy)         #'ivy-resume)
+            ((featurep! :completion helm)        #'helm-resume))
 
-   (:prefix ([tab] . "workspace")
-     :desc "Display tab bar"            "."   #'+workspace/display
-     :desc "Switch workspace"           "TAB" #'persp-switch)
+      (:prefix ([tab] . "workspace")
+        :desc "Display tab bar"            "."   #'+workspace/display
+        :desc "Switch workspace"           "TAB" #'persp-switch)
 
-   (:prefix "h"
-     :desc "HEEEELP!"                   "h"   help-map)
+      (:prefix "h"
+        :desc "HEEEELP!"                   "h"   help-map)
 
-   (:prefix "n"
-     :desc "Open mode notes"            "m"   #'+eduarbo/find-notes-for-major-mode
-     :desc "Open project notes"         "p"   #'+eduarbo/find-notes-for-project)
+      (:prefix "n"
+        :desc "Open mode notes"            "m"   #'+eduarbo/find-notes-for-major-mode
+        :desc "Open project notes"         "p"   #'+eduarbo/find-notes-for-project)
 
-   (:prefix "p"
-     :desc "Discover projects"          "d"   #'projectile-discover-projects-in-search-path)
+      (:prefix "p"
+        :desc "Discover projects"          "d"   #'projectile-discover-projects-in-search-path)
 
-   (:prefix "t"
-     :desc "Line numbers"               "l"   #'display-line-numbers-mode
-     :desc "Cycle line numbers"         "L"   #'doom/toggle-line-numbers
-     :desc "Visual line mode"           "v"   #'visual-line-mode
-     :desc "Subword mode"               "w"   #'subword-mode
-     :desc "Frame maximized"            "M"   #'toggle-frame-maximized)))
+      (:prefix "t"
+        :desc "Line numbers"               "l"   #'display-line-numbers-mode
+        :desc "Cycle line numbers"         "L"   #'doom/toggle-line-numbers
+        :desc "Visual line mode"           "v"   #'visual-line-mode
+        :desc "Subword mode"               "w"   #'subword-mode
+        :desc "Frame maximized"            "M"   #'toggle-frame-maximized))

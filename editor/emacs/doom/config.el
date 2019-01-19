@@ -6,9 +6,7 @@
 (setq-default
  ;; A E S T H E T I C
  doom-font (font-spec :family "Hack" :size 12)
- ;; doom-big-font (font-spec :family "Hack" :size 20)
- ;; doom-font (font-spec :family "PragmataPro" :size 13)
- doom-big-font (font-spec :family "PragmataPro" :size 20)
+ doom-big-font (font-spec :family "Hack" :size 20)
 
  ;; That's me!!!
  user-mail-address "eduarbo@gmail.com"
@@ -78,6 +76,11 @@
 
 ;;
 ;; Packages
+
+(after! helm-projectile
+  (setq helm-mini-default-sources '(helm-source-buffers-list
+                                    helm-source-projectile-recentf-list
+                                    helm-source-buffer-not-found)))
 
 (after! tide
   ;; Try to ignore case
