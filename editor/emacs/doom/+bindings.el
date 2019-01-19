@@ -12,8 +12,8 @@
                          #'+eduarbo/omni-helm-mini)
 
  ;; navigate between buffers & workspaces
- :n      "H"         #'previous-buffer
- :n      "L"         #'next-buffer
+ :n      "H"           #'previous-buffer
+ :n      "L"           #'next-buffer
  ;; all terrain version
  :gnvime "M-["         #'previous-buffer
  :gnvime "M-]"         #'next-buffer
@@ -39,8 +39,8 @@
 
  ;; Rebind repeat motions
  (:after evil-snipe
-   :nvm    ":"           #'evil-snipe-repeat
-   :nvm    "?"           #'evil-snipe-repeat-reverse)
+   :nvm    ":"         #'evil-snipe-repeat
+   :nvm    "?"         #'evil-snipe-repeat-reverse)
 
 
  ;;
