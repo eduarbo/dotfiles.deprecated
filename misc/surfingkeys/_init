@@ -1,23 +1,13 @@
 #!/usr/bin/env zsh
 source ${0:A:h}/../../deploy
 
-install() {
-  echo 'disque instalando'
-}
+# install() {}
 
-update() {
-  echo 'disque actualizando'
-}
+# update() {}
 
 link() {
   mklink surfingkeys.js $XDG_CONFIG_HOME
-}
 
-clean() {
-  rm -fv "$XDG_CONFIG_HOME/surfingkeys.js"
-}
-
-note() {
   echo
   echo-note "To complete the setup you will need to do the following in Chrome:"
   echo "- Allow cvim access to file URLs through Chrome's extension settings"
@@ -27,7 +17,11 @@ note() {
   echo "  $XDG_CONFIG_HOME/surfingkeys.js"
   echo -n "$(tput sgr0)"
   echo "- Click Save"
-  echo-note-end
+  echo
+}
+
+clean() {
+  rm -fv "$XDG_CONFIG_HOME/surfingkeys.js"
 }
 
 init "$@"
