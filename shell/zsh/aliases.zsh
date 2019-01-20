@@ -70,6 +70,9 @@ alias mine="sudo chown -R $USER:$GROUPS"
 # Files & Directories
 #
 
+alias cd="pushd -q"
+alias pd="popd"
+
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
