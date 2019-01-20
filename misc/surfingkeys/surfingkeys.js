@@ -257,13 +257,13 @@ keymap(GROUP.VIM, ({ normal }) => {
 })
 
 keymap(GROUP.OMNIBAR, ({ normal, visual }) => {
-  normal(';', 'Open commands', () => {
+  normal(',;', 'Open commands', () => {
     Front.openOmnibar({ type: "Commands" });
   });
-  normal('<Enter>', 'Open a URL', () => {
+  normal(';', 'Open a URL', () => {
     Front.openOmnibar({ type: "URLs", extra: "getAllSites", tabbed: false });
   });
-  normal('<Shift-Enter>', 'Open a URL in new tab', () => {
+  normal(':', 'Open a URL in new tab', () => {
     Front.openOmnibar({ type: "URLs", extra: "getAllSites" });
   });
   normal('ox', 'Open recently closed URL', () => {
