@@ -130,7 +130,6 @@
 
       ;; workspaces
       (:when (featurep! :feature workspaces)
-        :desc "Switch to last workspace" :n [tab]  #'+eduarbo/switch-to-last-workspace
         :desc "Next workspace"           :en "C-<" #'+workspace/switch-left
         :desc "Previous workspace"       :en "C->" #'+workspace/switch-right
         :desc "Switch buffer"            :n "RET"  #'switch-to-buffer
@@ -191,14 +190,16 @@
         :nv "x"    #'evil-exchange
         :v  "p"    #'+evil/paste-preserve-register
 
-        :desc "Switch to last buffer"    :n  "`"    #'evil-switch-to-windows-last-buffer
-        :desc "Bookmark current buffer"  :m  "b"    #'bookmark-set
-        :desc "Delete bookmark"          :m  "B"    #'bookmark-delete
+        (:when (featurep! :feature workspaces)
+          :desc "Switch to last workspace" :n [tab]  #'+eduarbo/switch-to-last-workspace)
+        :desc "Switch to last buffer"      :n  "`"   #'evil-switch-to-windows-last-buffer
+        :desc "Bookmark current buffer"    :m  "b"   #'bookmark-set
+        :desc "Delete bookmark"            :m  "B"   #'bookmark-delete
         ;; TODO: Remove this later
         ;; :desc "Comment/Uncomment line"     :nv "gc"    #'evil-commentary-line
-        :desc "Search in project"        :nv "/"    #'+helm/project-search
-        :desc "Resume last completion"   :n  "."    (cond ((featurep! :completion ivy)   #'ivy-resume)
-                                                          ((featurep! :completion helm)  #'helm-resume)))
+        :desc "Search in project"          :nv "/"   #'+helm/project-search
+        :desc "Resume last completion"     :n  "."   (cond ((featurep! :completion ivy)   #'ivy-resume)
+                                                           ((featurep! :completion helm)  #'helm-resume)))
 
       ;; window management (prefix "C-w")
       (:map evil-window-map
