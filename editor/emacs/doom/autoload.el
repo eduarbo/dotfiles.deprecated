@@ -57,13 +57,3 @@
               (gethash +workspace--last
                        *persp-hash* 'non-existent))
     (+workspace/switch-to +workspace--last)))
-
-;;;###autoload
-(defun +eduarbo/omni-helm-mini ()
-  (interactive)
-  (let ((helm-mini-default-sources
-         '(helm-source-buffers-list
-           helm-source-recentf
-           helm-source-bookmarks
-           helm-source-buffer-not-found)))
-    (helm-mini)))

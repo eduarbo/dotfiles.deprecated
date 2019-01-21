@@ -6,7 +6,8 @@
 (doom! :feature
        ;; debugger          ; FIXME stepping through code, to help you add bugs
        eval              ; run code, run (also, repls)
-       (evil +everywhere); come to the dark side, we have cookies
+       (evil             ; come to the dark side, we have cookies
+        +everywhere)
        file-templates    ; auto-snippets for empty files
        (lookup           ; helps you navigate your code and documentation
         ;; +docsets         ; ...or in Dash docsets locally
@@ -19,7 +20,7 @@
 
        :completion
        (company          ; the ultimate code completion backend
-        +childframe
+        +tng
         ;; +auto            ; as-you-type code completion
         )
        (helm             ; the *other* search engine for love and life
@@ -166,4 +167,6 @@
        ;; The default module sets reasonable defaults for Emacs. It also
        ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
        ;; config. Use it as a reference for your own modules.
-       (default +bindings +smartparens))
+       (default
+         ;; +bindings
+         +smartparens))
