@@ -22,6 +22,7 @@
         "M-;" #'execute-extended-command
 
         "M-/" #'helpful-key
+        "M-o" #'projectile-find-file
 
         "M-[" #'previous-buffer
         "M-]" #'next-buffer
