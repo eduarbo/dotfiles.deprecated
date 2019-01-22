@@ -1,4 +1,6 @@
 ;;; ~/.dotfiles/editor/emacs/doom/banners.el -*- lexical-binding: t; -*-
+(require 'seq)
+
 (defvar +mi-dashboard-banner "momacs")
 
 (setq +doom-dashboard-functions
