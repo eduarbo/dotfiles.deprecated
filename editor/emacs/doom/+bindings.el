@@ -71,7 +71,8 @@
       :desc "Eval expression"     :nv   ":"     #'eval-expression
       :desc "Top-level bindings"  :nvm  "?"     #'which-key-show-top-level
 
-      :nv "#"     #'evil-commentary-line
+      :n  "#"     #'evil-commentary-line
+      :v  "#"     #'comment-or-uncomment-region
       :n  "H"     #'previous-buffer
       :n  "L"     #'next-buffer
       :nv [tab]   #'+evil/matchit-or-toggle-fold

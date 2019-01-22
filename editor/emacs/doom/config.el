@@ -100,4 +100,5 @@
 ;;
 ;; Custom
 
+(load! "./+dashboard.el")
 (load! "./+bindings.el")
