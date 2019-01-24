@@ -24,7 +24,9 @@
  +doom-modeline-buffer-file-name-style 'relative-from-project
  ;; Call projectile-discover-projects-in-search-path to look for projects in
  ;; list of folders
- projectile-project-search-path '("~/dev"))
+ projectile-project-search-path '("~/dev")
+ ;; A more useful title
+ frame-title-format '("%b   —   " (:eval (+workspace-current-name))))
 
 ;; Stop in-between "camelCase" words instead of just spaces, hyphens or
 ;; underscores
