@@ -40,8 +40,8 @@
   (setq ns-use-thin-smoothing t)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
-  ;; (add-hook 'window-setup-hook #'toggle-frame-maximized))
-  (add-hook 'window-setup-hook #'toggle-frame-fullscreen))
+  (add-hook 'window-setup-hook #'toggle-frame-maximized))
+  ;; (add-hook 'window-setup-hook #'toggle-frame-fullscreen))
 
 
 ;;
