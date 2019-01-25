@@ -3206,6 +3206,25 @@
               {
                 "type": "basic",
                 "from": {
+                  "key_code": "c",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_option"
+                    ],
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open '/Applications/Utilities/Digital Color Meter.app'"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
                   "key_code": "b",
                   "modifiers": {
                     "mandatory": [
@@ -3313,7 +3332,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/Applications/iTerm.app'"
+                    "shell_command": "open '/Applications/kitty.app'"
                   }
                 ]
               },
@@ -3427,7 +3446,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/Applications/kitty.app'"
+                    "shell_command": "open '/Applications/iTerm.app'"
                   }
                 ]
               },
@@ -6634,6 +6653,25 @@
               {
                 "type": "basic",
                 "from": {
+                  "key_code": "c",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_option"
+                    ],
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open '/Applications/Utilities/Digital Color Meter.app'"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
                   "key_code": "b",
                   "modifiers": {
                     "mandatory": [
@@ -6741,7 +6779,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/Applications/iTerm.app'"
+                    "shell_command": "open '/Applications/kitty.app'"
                   }
                 ]
               },
@@ -6855,7 +6893,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/Applications/kitty.app'"
+                    "shell_command": "open '/Applications/iTerm.app'"
                   }
                 ]
               },
