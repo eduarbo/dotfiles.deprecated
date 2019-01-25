@@ -1,6 +1,8 @@
 #!/usr/bin/env zsh
 source ${0:A:h}/../../deploy
 
+SURFINGKEYS_CONF_PATH="$XDG_CONFIG_HOME/surfingkeys.js"
+
 # install() {}
 
 # update() {}
@@ -14,14 +16,14 @@ link() {
   echo "- Check option 'Advanced mode'"
   echo "- Paste full path of the local settings file in the input:"
   echo -n "$(tput bold)"
-  echo "  $XDG_CONFIG_HOME/surfingkeys.js"
+  echo "  $SURFINGKEYS_CONF_PATH"
   echo -n "$(tput sgr0)"
   echo "- Click Save"
   echo
 }
 
 clean() {
-  rm -fv "$XDG_CONFIG_HOME/surfingkeys.js"
+  rm -fv "$SURFINGKEYS_CONF_PATH"
 }
 
 init "$@"
