@@ -3415,6 +3415,25 @@
               {
                 "type": "basic",
                 "from": {
+                  "key_code": "t",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_option"
+                    ],
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open '/Applications/kitty.app'"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
                   "key_code": "q",
                   "modifiers": {
                     "mandatory": [
@@ -6818,6 +6837,25 @@
                 "to": [
                   {
                     "shell_command": "open '/Applications/Slack.app'"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "t",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_option"
+                    ],
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open '/Applications/kitty.app'"
                   }
                 ]
               },

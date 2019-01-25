@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+source ${0:A:h}/../../deploy
+KITTY_DIR="$XDG_CONFIG_HOME/kitty"
+
+# only for macOS
+[[ $(_os) != macos ]] && exit
+
+install() {
+  brew cask install kitty
+}
+
+# update() {}
+
+link() {
+  mklink kitty.conf "$KITTY_DIR/"
+}
+
+clean() {
+  rm -rfv "$KITTY_DIR"
+}
+
+init "$@"
