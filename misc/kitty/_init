@@ -12,7 +12,7 @@ install() {
 # update() {}
 
 link() {
-  mklink {kitty.conf,zoom_toggle.py} "$KITTY_DIR/"
+  mklink {*.conf,zoom_toggle.py} "$KITTY_DIR/"
 }
 
 clean() {
