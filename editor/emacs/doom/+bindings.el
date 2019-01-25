@@ -753,7 +753,8 @@
           :desc "Magit blame"                 "b"   #'magit-blame-addition
           :desc "Magit commit"                "c"   #'magit-commit
           :desc "Magit clone"                 "C"   #'+magit/clone
-          :desc "Magit dispatch"              "d"   #'magit-dispatch-popup
+          :desc "Magit diff staged"           "d"   #'magit-diff-staged
+          :desc "Magit dispatch"              "D"   #'magit-dispatch-popup
           :desc "Magit find-file"             "f"   #'magit-find-file
           :desc "Magit status"                "g"   #'magit-status
           :desc "Magit file delete"           "x"   #'magit-file-delete
