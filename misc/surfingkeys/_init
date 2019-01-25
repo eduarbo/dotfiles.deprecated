@@ -10,7 +10,7 @@ link() {
 
   echo
   echo-note "To complete the setup you will need to do the following in Chrome:"
-  echo "- Allow cvim access to file URLs through Chrome's extension settings"
+  echo "- Allow Surfingkeys access to file URLs through Chrome's extension settings"
   echo "- Check option 'Advanced mode'"
   echo "- Paste full path of the local settings file in the input:"
   echo -n "$(tput bold)"
