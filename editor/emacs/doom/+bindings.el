@@ -71,38 +71,61 @@
 (map! :desc "Ex command"          :nv   ";"     #'evil-ex
       :desc "Eval expression"     :nv   ":"     #'eval-expression
       :desc "Top-level bindings"  :nvm  "?"     #'which-key-show-top-level
+      :desc "Blink cursor line"   :n    "RET"   #'+nav-flash/blink-cursor
 
       :n  "#"     #'evil-commentary-line
       :v  "#"     #'comment-or-uncomment-region
-      :n  "H"     #'previous-buffer
-      :n  "L"     #'next-buffer
       :nv [tab]   #'+evil/matchit-or-toggle-fold
       :v  "@"     #'+evil:apply-macro
-      ;; repeat in visual mode (FIXME buggy)
-      :v  "."     #'+evil:apply-macro
+
+      ;; Shift text
+      :n  "<"     #'evil-shift-left-line
+      :n  ">"     #'evil-shift-right-line
       ;; don't leave visual mode after shifting
       :v  "<"     #'+evil/visual-dedent  ; vnoremap < <gv
       :v  ">"     #'+evil/visual-indent  ; vnoremap > >gv
 
+      ;; FIXME: Ensure they really move to previous/next buffer
+      :n  "H"     #'previous-buffer
+      :n  "L"     #'next-buffer
+
+      (:when (featurep! :feature workspaces)
+        :desc "Switch to last workspace" :n  [backtab]  #'+eduarbo/switch-to-last-workspace
+        (:map evil-org-mode-map          :n  [backtab]  #'+eduarbo/switch-to-last-workspace))
+      :desc "Switch to last buffer"      :n  "~"        #'evil-switch-to-windows-last-buffer
+      (:map evil-org-mode-map            :n  "~"        #'evil-switch-to-windows-last-buffer)
+
+      :desc "Resume last completion"     :n  "C-."      (cond ((featurep! :completion ivy)   #'ivy-resume)
+                                                              ((featurep! :completion helm)  #'helm-resume))
+
       ;; Insert mode
-      :gi [S-backspace]  #'delete-forward-char
+
+      ;; Isearch
+      :gi "C-s"          #'isearch-forward
+      (:map isearch-mode-map
+        :gi "C-S-s"      #'isearch-repeat-backward)
+
+      ;; Behave like a backspace
+      :gi [C-backspace]  #'backward-delete-char-untabify
+
+      ;; :gi [S-backspace]  #'delete-forward-char
+
       :gi "C-d"          #'evil-delete-line
       :gi "C-S-d"        #'evil-delete-whole-line
       :gi "C-S-u"        #'evil-change-whole-line
       :gi "C-S-w"        #'backward-kill-sexp
-      ;; Moving faster
+
       :gi "C-S-a"        #'sp-beginning-of-sexp
       :gi "C-S-e"        #'sp-end-of-sexp
+
       :gi "C-S-f"        #'sp-forward-sexp
       :gi "C-S-b"        #'sp-backward-sexp
-      :gi "C-h"          #'sp-backward-symbol
-      :gi "C-l"          #'sp-forward-symbol
-      :gi "C-S-h"        #'backward-char
-      :gi "C-S-l"        #'forward-char
-      :gi "C-j"          #'sp-down-sexp
-      :gi "C-k"          #'sp-up-sexp
-      :gi "C-S-j"        #'sp-backward-down-sexp
-      :gi "C-S-k"        #'sp-backward-up-sexp
+
+      :gi "C-h"          #'left-char
+      :gi "C-l"          #'right-char
+      :gi "C-S-h"        #'sp-backward-symbol
+      :gi "C-S-l"        #'sp-forward-symbol
+
       ;; Basic editing
       :gi "S-SPC"        #'tab-to-tab-stop
       ;; TODO: Tranpose last two WORDS not those around
@@ -112,8 +135,8 @@
       ;; Smarter C-a/C-e for both Emacs and Evil. C-a will jump to indentation.
       ;; Pressing it again will send you to the true bol. Same goes for C-e, except
       ;; it will ignore comments+trailing whitespace before jumping to eol.
-      :gi "C-a"          #'doom/backward-to-bol-or-indent
-      :gi "C-e"          #'doom/forward-to-last-non-comment-or-eol
+      :gi "C-a"   #'doom/backward-to-bol-or-indent
+      :gi "C-e"   #'doom/forward-to-last-non-comment-or-eol
 
       :nv "C-a"   #'evil-numbers/inc-at-pt
       :nv "C-S-a" #'evil-numbers/dec-at-pt
@@ -132,12 +155,20 @@
 
       ;; workspaces
       (:when (featurep! :feature workspaces)
-        :desc "Next workspace"           :en "C-<" #'+workspace/switch-left
-        :desc "Previous workspace"       :en "C->" #'+workspace/switch-right
-        :desc "Switch buffer"            :n "RET"  #'switch-to-buffer
-        :desc "Switch workspace buffer"  :n "SPC"  #'persp-switch-to-buffer)
+        :desc "Next workspace"           :en "C-S-h" #'+workspace/switch-left
+        :desc "Previous workspace"       :en "C-S-l" #'+workspace/switch-right
+        :n  "C-S-h" #'sp-backward-symbol
+        :n  "C-S-l" #'sp-forward-symbol
+        (:leader
+          :desc "Switch buffer"          :n "SPC"    #'switch-to-buffer)
+        :desc "Switch window buffer"     :n "S-SPC"  #'helm-projectile-switch-to-buffer
+        :desc "Switch workspace buffer"  :n "SPC"    #'persp-switch-to-buffer)
       (:unless (featurep! :feature workspaces)
-        :desc "Switch buffer"            :n "SPC"  #'switch-to-buffer)
+        :desc "Switch buffer"            :n "SPC"    #'switch-to-buffer)
+
+      :desc "Resume last search"    "C-."
+      (cond ((featurep! :completion ivy)   #'ivy-resume)
+            ((featurep! :completion helm)  #'helm-resume))
 
      ;; (:when (featurep! :completion company)
      ;;    ;; :after company
@@ -166,9 +197,7 @@
         (:after yasnippet
           (:map yas-minor-mode-map
             :v   [C-tab] #'yas-insert-snippet
-            :ig  [C-tab] yas-maybe-expand
-            ;; :ig  [backtab] yas-maybe-expand
-            ;; :v   [backtab] #'yas-insert-snippet
+            :gi  [C-tab] yas-maybe-expand
             ;; Don't expand snippets with TAB
             :gi [tab] nil))))
 
@@ -192,16 +221,10 @@
         :nv "x"    #'evil-exchange
         :v  "p"    #'+evil/paste-preserve-register
 
-        (:when (featurep! :feature workspaces)
-          :desc "Switch to last workspace" :n [tab]  #'+eduarbo/switch-to-last-workspace)
-        :desc "Switch to last buffer"      :n  "`"   #'evil-switch-to-windows-last-buffer
-        :desc "Bookmark current buffer"    :m  "b"   #'bookmark-set
-        :desc "Delete bookmark"            :m  "B"   #'bookmark-delete
-        ;; TODO: Remove this later
-        ;; :desc "Comment/Uncomment line"     :nv "gc"    #'evil-commentary-line
-        :desc "Search in project"          :nv "/"   #'+helm/project-search
-        :desc "Resume last completion"     :n  "."   (cond ((featurep! :completion ivy)   #'ivy-resume)
-                                                           ((featurep! :completion helm)  #'helm-resume)))
+        :desc "Bookmark current buffer"    :m  "b"    #'bookmark-set
+        :desc "Delete bookmark"            :m  "B"    #'bookmark-delete
+        :desc "Goto char timer"            :m  "o"    #'avy-goto-char-timer
+        :desc "Search in project"          :nv "/"    #'+helm/project-search)
 
       ;; window management (prefix "C-w")
       (:map evil-window-map
@@ -230,9 +253,6 @@
       ;; Plugins
       ;; evil-easymotion
       :m  "gs"    #'+evil/easymotion  ; lazy-load `evil-easymotion'
-
-      (:after avy
-        :desc "Goto char timer"          :m  "go"   #'avy-goto-char-timer)
 
       (:after evil-easymotion
         :map evilem-map
@@ -308,8 +328,8 @@
 
       (:when (featurep! :feature snippets)
         ;; auto-yasnippet
-        :i  [backtab] #'aya-expand
-        :nv [backtab] #'aya-create
+        :i  [C-return] #'aya-expand
+        :nv [C-return] #'aya-create
         ;; yasnippet
         (:after yasnippet
           (:map yas-keymap
@@ -496,7 +516,7 @@
         :n "R"         #'neotree-refresh)
 
       (:when (featurep! :ui popup)
-        :g "C-`"   #'+popup/toggle
+        :g "C-,"   #'+popup/toggle
         :n "C-~"   #'+popup/raise
         :g "C-x p" #'+popup/other)
 
@@ -602,15 +622,9 @@
       :desc "Universal argument"    "u"    #'universal-argument
       :desc "Window management"     "w"    #'evil-window-map
 
-      :desc "Toggle last popup"     "~"    #'+popup/toggle
       :desc "Find file"             "."    #'find-file
       :desc "Find file in project"  ","    #'projectile-find-file
 
-      :desc "Resume last search"    "`"
-      (cond ((featurep! :completion ivy)   #'ivy-resume)
-            ((featurep! :completion helm)  #'helm-resume))
-
-      :desc "Blink cursor line"     "DEL"  #'+nav-flash/blink-cursor
       :desc "Jump to bookmark"      "RET"  #'bookmark-jump
 
       ;; Prefixed key groups
@@ -648,16 +662,16 @@
         :desc "Spelling correction"         "S"  #'flyspell-correct-word-generic)
 
       (:when (featurep! :feature workspaces)
-        :desc "Switch workspace"            "SPC" #'persp-switch
+        :desc "Switch workspace"            [tab] #'persp-switch
 
-        (:prefix ([tab] . "workspace")
+        (:prefix ("l" . "layouts/workspace")
           :desc "Switch workspace"          "TAB" #'persp-switch
           :desc "Display tab bar"           "."   #'+workspace/display
           :desc "New workspace"             "n"   #'+workspace/new
-          :desc "Load workspace from file"  "l"   #'+workspace/load
-          :desc "Load a past session"       "L"   #'+workspace/load-session
-          :desc "Save workspace to file"    "s"   #'+workspace/save
-          :desc "Autosave current session"  "S"   #'+workspace/save-session
+          :desc "Load a past session"       "l"   #'+workspace/load-session
+          :desc "Load workspace from file"  "L"   #'+workspace/load
+          :desc "Autosave current session"  "s"   #'+workspace/save-session
+          :desc "Save workspace to file"    "S"   #'+workspace/save
           :desc "Delete session"            "x"   #'+workspace/kill-session
           :desc "Delete this workspace"     "d"   #'+workspace/delete
           :desc "Rename workspace"          "r"   #'+workspace/rename

@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+if pgrep Emacs 2>&1 >/dev/null; then
+  emacsclient -n $@
+else
+  /Applications/Emacs.app/Contents/MacOS/Emacs $@ &
+fi
