@@ -93,7 +93,11 @@
         evil-backward-char
         evil-forward-char
         evil-next-line
-        evil-previous-line))
+        evil-previous-line
+        org-self-insert-command
+        evil-normal-state
+        treemacs-next-line
+        treemacs-previous-line))
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
