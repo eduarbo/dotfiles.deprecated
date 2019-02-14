@@ -80,6 +80,23 @@
 ;;
 ;; Packages
 
+;; Took from http://blog.binchen.org/posts/how-to-be-extremely-efficient-in-emacs.html
+(def-package! keyfreq
+  :config
+  (setq keyfreq-excluded-commands
+      '(self-insert-command
+        abort-recursive-edit
+        forward-char
+        backward-char
+        previous-line
+        next-line
+        evil-backward-char
+        evil-forward-char
+        evil-next-line
+        evil-previous-line))
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
+
 (after! helm-projectile
   (setq helm-mini-default-sources '(helm-source-buffers-list
                                     helm-source-projectile-recentf-list
