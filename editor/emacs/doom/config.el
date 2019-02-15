@@ -54,7 +54,8 @@
       magit-save-repository-buffers nil)
 
 ;; lang/org
-(setq org-directory (expand-file-name "~/Google Drive/org/")
+(setq org-directory (expand-file-name "~/org")
+      +org-capture-todo-file "notes/backlog.org"
       org-agenda-files (list org-directory)
       org-ellipsis " ▼ "  ;; ... is boring
 
@@ -106,6 +107,21 @@
                                     helm-source-projectile-recentf-list
                                     helm-source-buffer-not-found)))
 
+(def-package! org-journal
+  :after org
+  :when (featurep! :lang org)
+  :commands (org-journal-new-entry org-journal-search-forever)
+  :custom
+  (org-journal-dir (expand-file-name "journal" org-directory))
+  (org-journal-carryover-items nil)
+  ;; Check ~format-time-string~ help for a list of the formatting symbols
+  (org-journal-file-format "%Y/%Y-%m-%d %a, %b %e.org")
+  (org-journal-date-format "%A, %d %B %Y")
+  (org-journal-date-prefix "#+TITLE: ")
+  (org-journal-time-prefix "* ")
+  ;; (org-journal-time-format "[%F %a %R]")
+  (org-journal-hide-entries-p nil))
+
 (after! tide
   ;; Try to ignore case
   (setq completion-ignore-case t
@@ -117,7 +133,7 @@
 
 
 (after! deft
-  (setq deft-directory (expand-file-name "notes/" org-directory)))
+  (setq deft-directory (expand-file-name "notes" org-directory)))
 
 
 (after! which-key

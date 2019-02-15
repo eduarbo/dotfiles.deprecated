@@ -608,6 +608,10 @@
         ;; fix conflicts with private bindings
         [backspace] nil))
 
+(map! :localleader
+      :mode org-journal-mode
+      "n" #'org-journal-open-next-entry
+      "p" #'org-journal-open-previous-entry)
 
 ;;
 ;; <leader>
