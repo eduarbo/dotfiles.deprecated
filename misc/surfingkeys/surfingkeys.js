@@ -117,6 +117,7 @@ keymap(GROUP.TABS, ({ normal }) => {
   normal('<', 'Move current tab to left', () => RUNTIME('moveTab', { step: -1 }));
   normal('>', 'Move current tab to right', () => RUNTIME('moveTab', { step: 1 }));
   normal('W', 'New window with current tab',  () => RUNTIME('newWindow'));
+  normal('t', 'Choose a tab', Front.chooseTab);
   normal('<Space>', 'Choose a tab', Front.chooseTab);
   normal('zr', 'zoom reset', () => RUNTIME('setZoom', { zoomFactor: 0 }));
   normal('zi', 'zoom in', () => RUNTIME('setZoom', { zoomFactor: 0.1 }));
