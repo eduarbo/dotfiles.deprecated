@@ -17,44 +17,21 @@
 
 (map! (:map override
         ;; Make M-x more accessible
+        "s-;" #'execute-extended-command
+        "s-x" #'execute-extended-command
         "M-x" #'execute-extended-command
         "A-x" #'execute-extended-command
-        "M-;" #'execute-extended-command
 
-        "M-/" #'helpful-key
-        "M-o" #'projectile-find-file
+        "s-/" #'helpful-key
+        "s-o" #'projectile-find-file
 
-        "M-[" #'previous-buffer
-        "M-]" #'next-buffer
-
-        ;; Buffer-local font scaling
-        "M-+" (λ! (text-scale-set 0))
-        "M-=" #'text-scale-increase
-        "M--" #'text-scale-decrease
-        ;; Simple window/frame navigation/manipulation
-        "M-w" #'delete-window
-        "M-W" #'delete-frame
-        "M-n" #'+default/new-buffer
-        "M-N" #'make-frame
-        ;; Restore OS undo, save, copy, & paste keys (without cua-mode, because
-        ;; it imposes some other functionality and overhead we don't need)
-        "M-z" #'undo
-        "M-s" #'save-buffer
-        "M-c" (if (featurep 'evil) 'evil-yank 'copy-region-as-kill)
-        "M-v" #'yank
-        ;; Textmate-esque bindings
-        "M-a" #'mark-whole-buffer
-        "M-b" #'+default/compile
-        "M-f" #'swiper
-        "M-q" (if (daemonp) #'delete-frame #'evil-quit-all)
+        "s-[" #'previous-buffer
+        "s-]" #'next-buffer
 
         (:when (featurep! :feature workspaces)
-          "M-{" #'+workspace/switch-left
-          "M-}" #'+workspace/switch-right))
-
-      (:when IS-MAC
-          ;; Ensure default macOS paste shortcut works everywhere
-          "M-v" #'yank))
+          "s-t" #'+workspace/new
+          "s-{" #'+workspace/switch-left
+          "s-}" #'+workspace/switch-right)))
 
 ;; remaps
 (map! [remap evil-jump-to-tag] #'projectile-find-tag
@@ -178,6 +155,7 @@
       ;; Smart tab
       :i [tab] (general-predicate-dispatch nil ; fall back to nearest keymap
                  (and (featurep! :feature snippets)
+                      (bound-and-true-p yas-minor-mode)
                       (yas-maybe-expand-abbrev-key-filter 'yas-expand))
                  'yas-expand
                  (and (featurep! :completion company +tng)
@@ -350,7 +328,7 @@
           "RET"     #'flyspell-correct-word-generic
           [mouse-1] #'flyspell-correct-word-generic))
 
-      (:when (featurep! :completion syntax-checker)
+      (:when (featurep! :feature syntax-checker)
         :m "]e" #'next-error
         :m "[e" #'previous-error
         (:after flycheck
@@ -540,9 +518,9 @@
           :nv "N" #'evil-mc-make-and-goto-last-cursor
           :nv "p" #'evil-mc-make-and-goto-prev-cursor
           :nv "P" #'evil-mc-make-and-goto-first-cursor
-          :nv "t" #'+evil/mc-toggle-cursors
+          :nv "t" #'+multiple-cursors/evil-mc-toggle-cursors
           :nv "u" #'evil-mc-undo-all-cursors
-          :nv "z" #'+evil/mc-make-cursor-here)
+          :nv "z" #'+multiple-cursors/evil-mc-make-cursor-here)
         (:after evil-mc
           :map evil-mc-key-map
           :nv "C-n" #'evil-mc-make-and-goto-next-cursor
@@ -646,24 +624,24 @@
               ((featurep! :completion helm) #'+helm/project-search)))
 
       (:prefix ("]" . "next")
-        :desc "Increase text size"          "["  #'text-scale-decrease
-        :desc "Next buffer"                 "b"  #'previous-buffer
-        :desc "Next diff Hunk"              "d"  #'git-gutter:previous-hunk
-        :desc "Next todo"                   "t"  #'hl-todo-previous
-        :desc "Next error"                  "e"  #'previous-error
-        :desc "Next workspace"              "w"  #'+workspace/switch-left
-        :desc "Next spelling error"         "s"  #'evil-prev-flyspell-error
-        :desc "Next spelling correction"    "S"  #'flyspell-correct-previous-word-generic)
+        :desc "Increase text size"              "]"  #'text-scale-increase
+        :desc "Next Buffer"                     "b"  #'next-buffer
+        :desc "Next Diff Hunk"                  "d"  #'git-gutter:next-hunk
+        :desc "Next Todo"                       "t"  #'hl-todo-next
+        :desc "Next Error"                      "e"  #'next-error
+        :desc "Next Workspace"                  "w"  #'+workspace/switch-right
+        :desc "Next Spelling error"             "s"  #'evil-next-flyspell-error
+        :desc "Next Spelling correction"        "S"  #'flyspell-correct-word-generic)
 
       (:prefix ("[" . "previous")
-        :desc "Text size"                   "]"  #'text-scale-increase
-        :desc "Buffer"                      "b"  #'next-buffer
-        :desc "Diff Hunk"                   "d"  #'git-gutter:next-hunk
-        :desc "Todo"                        "t"  #'hl-todo-next
-        :desc "Error"                       "e"  #'next-error
-        :desc "Workspace"                   "w"  #'+workspace/switch-right
-        :desc "Spelling error"              "s"  #'evil-next-flyspell-error
-        :desc "Spelling correction"         "S"  #'flyspell-correct-word-generic)
+        :desc "Decrease text size"              "["  #'text-scale-decrease
+        :desc "Previous buffer"                 "b"  #'previous-buffer
+        :desc "Previous diff Hunk"              "d"  #'git-gutter:previous-hunk
+        :desc "Previous todo"                   "t"  #'hl-todo-previous
+        :desc "Previous error"                  "e"  #'previous-error
+        :desc "Previous workspace"              "w"  #'+workspace/switch-left
+        :desc "Previous spelling error"         "s"  #'evil-prev-flyspell-error
+        :desc "Previous spelling correction"    "S"  #'flyspell-correct-previous-word-generic)
 
       (:when (featurep! :feature workspaces)
         :desc "Switch workspace"            [tab] #'persp-switch
@@ -755,7 +733,7 @@
           :desc "Git revert file"             "R"   #'vc-revert)
         (:when (featurep! :tools magit)
           :desc "Magit blame"                 "b"   #'magit-blame-addition
-          :desc "Magit commit"                "c"   #'magit-commit
+          :desc "Magit commit"                "c"   #'magit-commit-create
           :desc "Magit clone"                 "C"   #'+magit/clone
           :desc "Magit diff staged"           "d"   #'magit-diff-buffer-file
           :desc "Magit dispatch"              "D"   #'magit-dispatch-popup
@@ -769,7 +747,9 @@
           :desc "Git stage file"              "S"   #'magit-stage-file
           :desc "Git unstage file"            "U"   #'magit-unstage-file
           :desc "Magit push popup"            "p"   #'magit-push-popup
-          :desc "Magit pull popup"            "P"   #'magit-pull-popup)
+          :desc "Magit pull popup"            "P"   #'magit-pull-popup
+          (:when (featurep! :tools magit +forge)
+            :desc "Forge dispatch"               "F"   #'forge-dispatch))
         (:when (featurep! :tools gist)
           :desc "List gists"                  "G"   #'+gist:list))
 
@@ -802,17 +782,18 @@
         :desc "Man pages"                     "w"   #'+default/man-or-woman)
 
       (:prefix ("i" . "insert")
-        :desc "Insert from clipboard"         "y"   #'yank-pop
+        :desc "Insert from clipboard"         "y"   #'+default/yank-pop
         :desc "Insert from evil register"     "r"   #'evil-ex-registers
         :desc "Insert snippet"                "s"   #'yas-insert-snippet)
 
       (:prefix ("n" . "notes")
-        :desc "Open mode notes"     "m"  #'+eduarbo/find-notes-for-major-mode
-        :desc "Open project notes"  "p"  #'+eduarbo/find-notes-for-project
-        :desc "Open deft"           "d"  #'deft
-        :desc "Find file in notes"  "n"  #'+default/find-in-notes
-        :desc "Browse notes"        "N"  #'+default/browse-notes
-        :desc "Org capture"         "x"  #'org-capture)
+        :desc "Start new today's entry"       "d"  #'org-journal-new-entry
+        ;; :desc "Open deft"                     "d"  #'deft
+        :desc "Open mode notes"               "m"  #'+eduarbo/find-notes-for-major-mode
+        :desc "Find file in notes"            "n"  #'+default/find-in-notes
+        :desc "Browse notes"                  "N"  #'+default/browse-notes
+        :desc "Open project notes"            "p"  #'+eduarbo/find-notes-for-project
+        :desc "Org capture"                   "x"  #'org-capture)
 
       (:prefix ("o" . "open")
         :desc "Org agenda"        "a"  #'org-agenda
@@ -912,7 +893,10 @@
 ;; Universal motion repeating keys
 
 (defvar +default-repeat-keys (cons ";" ",")
-  "TODO")
+  "The keys to use for repeating motions.
+
+This is a cons cell whose CAR is the key for repeating a motion forward, and
+whose CDR is for repeating backward. They should both be kbd-able strings.")
 
 (when +default-repeat-keys
   (defmacro do-repeat! (command next-func prev-func)
@@ -976,6 +960,11 @@ customized by changing `+default-repeat-forward-key' and
             #'helm-minibuffer-history))
 
   (define-key! :keymaps +default-minibuffer-maps
+    [escape] #'abort-recursive-edit
+    "C-v"    #'yank
+    "C-z"    (λ! (ignore-errors (call-interactively #'undo)))
+    "C-a"    #'move-beginning-of-line
+    "C-b"    #'backward-word
     "C-r"    #'evil-paste-from-register
     ;; Scrolling lines
     "C-j"    #'next-line
