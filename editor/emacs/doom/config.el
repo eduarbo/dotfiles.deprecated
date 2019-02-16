@@ -39,6 +39,8 @@
 
 ;; OS specific fixes
 (when IS-MAC
+  ;; Workaround to enable emoji rendering on macOS
+  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
   (setq ns-use-thin-smoothing t)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
