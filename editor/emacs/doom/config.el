@@ -132,10 +132,6 @@
   (setq treemacs--icon-size 20))
 
 
-(after! deft
-  (setq deft-directory (expand-file-name "notes" org-directory)))
-
-
 (after! which-key
   (setq which-key-idle-delay 0.3
         which-key-idle-secondary-delay 0))
