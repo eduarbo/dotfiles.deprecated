@@ -16,13 +16,7 @@ brew_deps=(
   llvm
 )
 
-dnf_deps=(
-  make
-  emacs
-)
-
 cask_deps=(
-  emacs
   font-hack
   font-hack-nerd-font
   font-iosevka
@@ -34,9 +28,7 @@ install() {
     macos)
       brew install ${common_deps[@]} ${brew_deps[@]}
       brew cask install ${cask_deps[@]}
-      ;;
-    fedora)
-      sudo dnf install -y ${common_deps[@]} ${dnf_deps[@]}
+      brew cask install emacs-plus --without-spacemacs-icon
       ;;
   esac
 
