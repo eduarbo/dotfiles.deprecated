@@ -22,8 +22,9 @@
         "M-x" #'execute-extended-command
         "A-x" #'execute-extended-command
 
-        "s-/" #'helpful-key
-        "s-o" #'projectile-find-file
+        "s-/" #'which-key-show-top-level
+        "s-," #'+nav-flash/blink-cursor
+        "s-." #'helpful-key
 
         "s-[" #'previous-buffer
         "s-]" #'next-buffer
@@ -47,8 +48,6 @@
 ;; top level bindings
 (map! :desc "Ex command"          :nv   ";"     #'evil-ex
       :desc "Eval expression"     :nv   ":"     #'eval-expression
-      :desc "Top-level bindings"  :nvm  "?"     #'which-key-show-top-level
-      :desc "Blink cursor line"   :n    "RET"   #'+nav-flash/blink-cursor
 
       :n  "#"     #'evil-commentary-line
       :v  "#"     #'comment-or-uncomment-region
@@ -132,16 +131,14 @@
 
       ;; workspaces
       (:when (featurep! :feature workspaces)
-        :desc "Next workspace"           :en "C-S-h" #'+workspace/switch-left
-        :desc "Previous workspace"       :en "C-S-l" #'+workspace/switch-right
-        :n  "C-S-h" #'sp-backward-symbol
-        :n  "C-S-l" #'sp-forward-symbol
+        :desc "Next workspace"           :n "C-S-h" #'+workspace/switch-left
+        :desc "Previous workspace"       :n "C-S-l" #'+workspace/switch-right
         (:leader
-          :desc "Switch buffer"          :n "SPC"    #'switch-to-buffer)
-        :desc "Switch window buffer"     :n "S-SPC"  #'helm-projectile-switch-to-buffer
-        :desc "Switch workspace buffer"  :n "SPC"    #'persp-switch-to-buffer)
+          :desc "Switch perspective buffer" :n "SPC"    #'persp-switch-to-buffer
+          :desc "Switch buffer"             :n "RET"    #'switch-to-buffer))
       (:unless (featurep! :feature workspaces)
-        :desc "Switch buffer"            :n "SPC"    #'switch-to-buffer)
+        (:leader
+          :desc "Switch buffer"          :n "SPC"    #'switch-to-buffer))
 
       :desc "Resume last search"    "C-."
       (cond ((featurep! :completion ivy)   #'ivy-resume)
@@ -607,7 +604,7 @@
       :desc "Find file"             "."    #'find-file
       :desc "Find file in project"  ","    #'projectile-find-file
 
-      :desc "Jump to bookmark"      "RET"  #'bookmark-jump
+      :desc "Jump to bookmark"      "j"    #'bookmark-jump
 
       ;; Prefixed key groups
       (:prefix ("/" . "search")
@@ -678,11 +675,12 @@
         :desc "Previous buffer"             "["   #'previous-buffer
         :desc "Next buffer"                 "]"   #'next-buffer
         (:when (featurep! :feature workspaces)
-          :desc "Switch workspace buffer" "b" #'persp-switch-to-buffer
-          :desc "Switch buffer"           "B" #'switch-to-buffer)
+          :desc "Switch perspective buffer" "b" #'persp-switch-to-buffer
+          :desc "Switch buffer"             "B" #'switch-to-buffer)
         (:unless (featurep! :feature workspaces)
           :desc "Switch buffer"           "b" #'switch-to-buffer)
         :desc "Kill buffer"                 "k"   #'kill-this-buffer
+        :desc "Switch workspace buffer"     "l"   #'helm-projectile-switch-to-buffer
         :desc "Next buffer"                 "n"   #'next-buffer
         :desc "Kill other buffers"          "o"   #'doom/kill-other-buffers
         :desc "Previous buffer"             "p"   #'previous-buffer

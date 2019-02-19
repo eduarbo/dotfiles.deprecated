@@ -26,7 +26,12 @@
  ;; list of folders
  projectile-project-search-path '("~/dev")
  ;; A more useful title
- frame-title-format '("%b   —   " (:eval (+workspace-current-name))))
+ frame-title-format '("%b   —   " (:eval (+workspace-current-name)))
+
+ ;; Protecting me from data loss
+ ;; save every 20 characters typed (this is the minimum)
+ auto-save-default t
+ auto-save-interval 20)
 
 ;; Stop in-between "camelCase" words instead of just spaces, hyphens or
 ;; underscores
