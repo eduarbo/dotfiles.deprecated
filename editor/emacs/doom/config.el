@@ -127,8 +127,9 @@
   (org-journal-carryover-items nil)
   ;; Check ~format-time-string~ help for a list of the formatting symbols
   (org-extend-today-until 4) ;; sometimes my days end at 4am
-  (org-journal-date-format "%A, %d %B %Y")
   (org-journal-file-format "%Y/%Y-%m-%d %A.org")
+  ;; FIXME This is taking the name of the file instead of desired format
+  ;; (org-journal-date-format "%A, %d %B %Y")
   (org-journal-date-prefix "#+TITLE: ")
   (org-journal-time-prefix "* ")
   ;; (org-journal-time-format "[%F %a %R]")
