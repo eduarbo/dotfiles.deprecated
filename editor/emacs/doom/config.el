@@ -61,18 +61,22 @@
       magit-save-repository-buffers nil)
 
 ;; lang/org
-(setq org-directory (expand-file-name "~/org")
-      +org-capture-todo-file "notes/backlog.org"
-      org-agenda-files (list org-directory)
-      org-ellipsis " ▼ "  ;; ... is boring
+(setq +org-capture-todo-file "notes/backlog.org")
 
-      ;; The standard unicode characters are usually misaligned depending on the
-      ;; font. This bugs me. Personally, markdown #-marks for headlines are more
-      ;; elegant.
-      org-bullets-bullet-list '("#")
+(after! org
+  (setq org-hide-emphasis-markers t
+        org-directory (expand-file-name "~/org")
+        org-agenda-files (list org-directory)
+        org-ellipsis " ▼ "  ;; ˅ ⌄ ↓ ⤵ ▼ ↴ ⬎ ⤷
 
-      google-translate-default-target-language "es"
+        ;; The standard unicode characters are usually misaligned depending on
+        ;; the font. This bugs me. Personally, markdown #-marks for headlines
+        ;; are more elegant.
+        org-bullets-bullet-list '("#")))
+
+(setq google-translate-default-target-language "es"
       google-translate-default-source-language "en")
+
 
 ;; completion/helm
 ;; Show hidden files too
@@ -122,8 +126,9 @@
   (org-journal-dir (expand-file-name "journal" org-directory))
   (org-journal-carryover-items nil)
   ;; Check ~format-time-string~ help for a list of the formatting symbols
-  (org-journal-file-format "%Y/%Y-%m-%d %a, %b %e.org")
+  (org-extend-today-until 4) ;; sometimes my days end at 4am
   (org-journal-date-format "%A, %d %B %Y")
+  (org-journal-file-format "%Y/%Y-%m-%d %A.org")
   (org-journal-date-prefix "#+TITLE: ")
   (org-journal-time-prefix "* ")
   ;; (org-journal-time-format "[%F %a %R]")
