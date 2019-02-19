@@ -760,7 +760,7 @@
         :desc "Open project editorconfig"   "c"   #'editorconfig-find-current-editorconfig
         :desc "Find directory"              "d"   #'dired
         :desc "Find file in emacs.d"        "e"   #'+default/find-in-emacsd
-        :desc "Find file in private config" "p"   #'+default/find-in-config
+        :desc "Find file in private config" "f"   #'+default/find-in-config
         :desc "Recent files"                "r"   #'recentf-open-files
         :desc "Save file"                   "s"   #'save-buffer
         :desc "Yank filename"               "y"   #'+default/yank-buffer-filename)
