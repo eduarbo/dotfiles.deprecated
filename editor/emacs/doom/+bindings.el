@@ -631,6 +631,10 @@
       "n" #'org-journal-open-next-entry
       "p" #'org-journal-open-previous-entry)
 
+(map! :map emacs-lisp-mode-map
+      :nv "K"  #'helpful-at-point)
+
+
 ;;
 ;; <leader>
 
