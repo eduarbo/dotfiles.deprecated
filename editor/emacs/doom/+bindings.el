@@ -584,8 +584,50 @@
         ;; fix conflicts with private bindings
         [backspace] nil))
 
-(map! :localleader
-      :mode org-journal-mode
+(map! :map org-mode-map
+      :desc "Change the TODO state" :n "SPC" #'org-todo
+      (:when IS-MAC
+        :ni "s-o"   (λ! (+org/insert-item 'below))
+        :ni "s-O"   (λ! (+org/insert-item 'above))))
+
+;; A fresh start
+(map! :map org-mode-map
+      :after org
+      :localleader
+      ;; Unmap the whole map
+      "" nil)
+(map! :map org-mode-map
+      :after org
+      :localleader
+
+      :desc "Schedule"              :n  "s"   #'org-schedule
+      :desc "Set deadline"          :n  "d"   #'org-deadline
+      :desc "Set tags"              :n  "t"   #'org-set-tags-command
+      ;; Basic char syntax:
+      ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Basic-Char-Syntax.html#Basic-Char-Syntax
+      :desc "Bold"                  :v  "b"   (λ! (org-emphasize ?*)) ;; bold
+      :desc "Italic"                :v  "i"   (λ! (org-emphasize ?/)) ;; italic
+      :desc "Insert link"           :v  "k"   #'org-insert-link
+      :desc "Remove link"           :nv "K"   #'+org/remove-link
+      :desc "Store link to heading" :n  "l"   #'org-store-link
+      :desc "Monospace/code"        :v  "m"   (λ! (org-emphasize ?~)) ;; monospace/code
+      :desc "Restore format"        :v  "r"   (λ! (org-emphasize ?\s)) ;; restore format
+      :desc "Underline"             :v  "u"   (λ! (org-emphasize ?_)) ;; underline
+      :desc "Verbose"               :v  "v"   (λ! (org-emphasize ?=)) ;; verbose
+      :desc "Strikethrough"         :v  "x"   (λ! (org-emphasize ?+)) ;; strikethrough
+
+      (:prefix ("c" . "clock/timer")
+        :desc "Start timer"                   :n "c" #'org-clock-in
+        :desc "Stop timer"                    :n "C" #'org-clock-out
+        :desc "Display total time on heading" :n "d" #'org-clock-display
+        :desc "Create table report"           :n "d" #'org-clock-report
+        :desc "Go to running timer's entry"   :n "g" #'org-clock-goto
+        :desc "Select past timers entry"      :n "G" (λ! (org-clock-goto 'select))
+        :desc "Cancel running timer"          :n "x" #'org-clock-cancel))
+
+(map! :mode org-journal-mode
+      :localleader
+      :map org-journal-mode-map
       "n" #'org-journal-open-next-entry
       "p" #'org-journal-open-previous-entry)
 
