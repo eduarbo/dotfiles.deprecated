@@ -195,6 +195,7 @@
         :nv "@"    #'+evil:apply-macro
         :nv "x"    #'evil-exchange
         :v  "p"    #'+evil/paste-preserve-register
+        :n  "."    #'call-last-kbd-macro
 
         :desc "Bookmark current buffer"    :m  "b"    #'bookmark-set
         :desc "Delete bookmark"            :m  "B"    #'bookmark-delete
