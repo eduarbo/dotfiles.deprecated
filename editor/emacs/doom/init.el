@@ -2,6 +2,8 @@
 
 (setq doom-leader-key ","
       doom-localleader-key ", m")
+(tool-bar-mode -1)
+(toggle-scroll-bar -1)
 
 (doom! :feature
        ;; debugger          ; FIXME stepping through code, to help you add bugs
