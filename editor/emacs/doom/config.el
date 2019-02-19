@@ -119,8 +119,8 @@
                                     helm-source-buffer-not-found)))
 
 (def-package! org-journal
-  :after org
   :when (featurep! :lang org)
+  :after org
   :commands (org-journal-new-entry org-journal-search-forever)
   :custom
   (org-journal-dir (expand-file-name "journal" org-directory))
@@ -128,9 +128,9 @@
   ;; Check ~format-time-string~ help for a list of the formatting symbols
   (org-extend-today-until 4) ;; sometimes my days end at 4am
   (org-journal-file-format "%Y/%Y-%m-%d %A.org")
-  ;; FIXME This is taking the name of the file instead of desired format
-  ;; (org-journal-date-format "%A, %d %B %Y")
   (org-journal-date-prefix "#+TITLE: ")
+  ;; FIXME Exclude journals from doom file-templates, that is overriding the TITLE
+  (org-journal-date-format "%A, %d %B %Y")
   (org-journal-time-prefix "* ")
   ;; (org-journal-time-format "[%F %a %R]")
   (org-journal-hide-entries-p nil))
