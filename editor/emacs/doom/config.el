@@ -72,7 +72,7 @@
         org-todo-keywords
         '((sequence "[ ](i)" "[-](p)" "[?](m)" "|" "[X](x)")
           (sequence "TODO(t)" "DOING(D)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
-          (sequence "LATER(l)" "MAYBE(m)" "SOMEDAY(s)" "|" "CANCELLED(c)"))
+          (sequence "LATER(l)" "MAYBE(m)" "SOMEDAY(s)" "IDEA(i)" "|" "CANCELLED(c)"))
 
         org-todo-keyword-faces
         '(("[-]" :inherit font-lock-constant-face :weight bold)
