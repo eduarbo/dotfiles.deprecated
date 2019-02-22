@@ -83,6 +83,7 @@
           ("WAITING" :inherit default :weight bold)
           ("TODAY" :foreground "#dd8844" :weight bold)
           ("LATER" :foreground "#44b9b1" :weight bold)
+          ("IDEA" :foreground "#5699AF" :weight bold)
           ("MAYBE" :foreground "#5699AF" :weight bold)
           ("SOMEDAY" :foreground "#5699AF" :weight bold))
 
