@@ -69,6 +69,23 @@
         org-agenda-files (list org-directory)
         org-ellipsis " ▼ "  ;; ˅ ⌄ ↓ ⤵ ▼ ↴ ⬎ ⤷
 
+        org-todo-keywords
+        '((sequence "[ ](i)" "[-](p)" "[?](m)" "|" "[X](x)")
+          (sequence "TODO(t)" "DOING(D)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
+          (sequence "LATER(l)" "MAYBE(m)" "SOMEDAY(s)" "|" "CANCELLED(c)"))
+
+        org-todo-keyword-faces
+        '(("[-]" :inherit font-lock-constant-face :weight bold)
+          ("[?]" :inherit warning :weight bold)
+          ("TODO" :inherit error :weight bold)
+          ("DOING" :inherit warning :weight bold)
+          ("NEXT" :inherit success :weight bold)
+          ("WAITING" :inherit default :weight bold)
+          ("TODAY" :foreground "#dd8844" :weight bold)
+          ("LATER" :foreground "#44b9b1" :weight bold)
+          ("MAYBE" :foreground "#5699AF" :weight bold)
+          ("SOMEDAY" :foreground "#5699AF" :weight bold))
+
         ;; The standard unicode characters are usually misaligned depending on
         ;; the font. This bugs me. Personally, markdown #-marks for headlines
         ;; are more elegant.
