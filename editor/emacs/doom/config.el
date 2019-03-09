@@ -30,8 +30,16 @@
 
  ;; Protecting me from data loss
  ;; save every 20 characters typed (this is the minimum)
- auto-save-default t
+ ;; auto-save-default t
  auto-save-interval 20)
+
+(setq +file-templates-alist
+      (remove '("\\.org$" :trigger "__" :mode org-mode) +file-templates-alist))
+
+;; FIXME exclude journal notes from templates
+;; (setq +file-templates-alist
+;;       (cons '("\\(?!/journal/\\).+\\.org$" :trigger "__" :mode org-mode)
+;;             (remove '("\\.org$" :trigger "__" :mode org-mode) +file-templates-alist)))
 
 ;; Stop in-between "camelCase" words instead of just spaces, hyphens or
 ;; underscores
@@ -66,13 +74,31 @@
 (after! org
   (setq org-hide-emphasis-markers t
         org-directory (expand-file-name "~/org")
-        org-agenda-files (list org-directory)
+        ;; TODO Use `org-directory` instead of the hardcoded path
+        org-agenda-files '("~/org/notes" "~/org/journal")
         org-ellipsis " ▼ "  ;; ˅ ⌄ ↓ ⤵ ▼ ↴ ⬎ ⤷
 
         org-todo-keywords
         '((sequence "[ ](i)" "[-](p)" "[?](m)" "|" "[X](x)")
           (sequence "TODO(t)" "DOING(D)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
           (sequence "LATER(l)" "MAYBE(m)" "SOMEDAY(s)" "IDEA(i)" "|" "CANCELLED(c)"))
+
+        org-agenda-custom-commands
+        '(("g" . "GTD contexts")
+          ;; ("gh" "Home" tags-todo "HOME")
+          ("gl" "Later" tags-todo "LATER")
+          ("G" "GTD Block Agenda"
+           ((todo "STARTED")
+            (todo "DOING")
+            (todo "NEXT"))
+           ((org-agenda-prefix-format "[ ] %T: ")
+            (org-agenda-with-colors nil)
+            (org-agenda-compact-blocks t)
+            (org-agenda-remove-tags t)
+            (ps-number-of-columns 2)
+            (ps-landscape-mode t))
+           ;;nil                      ;; i.e., no local settings
+           ))
 
         org-todo-keyword-faces
         '(("[-]" :inherit font-lock-constant-face :weight bold)
@@ -86,6 +112,8 @@
           ("IDEA" :foreground "#5699AF" :weight bold)
           ("MAYBE" :foreground "#5699AF" :weight bold)
           ("SOMEDAY" :foreground "#5699AF" :weight bold))
+
+        ;; TODO Setup tags: http://www.i3s.unice.fr/~malapert/org/tips/emacs_orgmode.html
 
         ;; The standard unicode characters are usually misaligned depending on
         ;; the font. This bugs me. Personally, markdown #-marks for headlines
