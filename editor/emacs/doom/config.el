@@ -3,6 +3,9 @@
 ;;
 ;; Reasonable defaults
 
+(setq doom-leader-key ","
+      doom-localleader-key ", m")
+
 (setq-default
  ;; A E S T H E T I C
  doom-font (font-spec :family "Hack" :size 12)
@@ -159,10 +162,20 @@
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
+
 (after! helm-projectile
   (setq helm-mini-default-sources '(helm-source-buffers-list
                                     helm-source-projectile-recentf-list
                                     helm-source-buffer-not-found)))
+
+
+(defun eduarbo--set-hl-todo-keyword-faces ()
+  (setq hl-todo-keyword-faces `(("TODO"  . ,(face-foreground 'warning))
+                                ("FIXME" . ,(face-foreground 'error))
+                                ("NOTE"  . ,(face-foreground 'success)))))
+;; Overwrite default doom theme faces for todo keywords
+(add-hook! 'doom-load-theme-hook #'eduarbo--set-hl-todo-keyword-faces)
+
 
 (def-package! org-journal
   :when (featurep! :lang org)
@@ -180,6 +193,7 @@
   (org-journal-time-prefix "* ")
   ;; (org-journal-time-format "[%F %a %R]")
   (org-journal-hide-entries-p nil))
+
 
 (after! tide
   ;; Try to ignore case
@@ -199,3 +213,4 @@
 
 (load! "./+dashboard.el")
 (load! "./+bindings.el")
+;; (load! "./+bindings.old.el")
