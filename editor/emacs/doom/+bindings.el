@@ -259,10 +259,10 @@
       ;; evil-surround
       :v "S" #'evil-surround-region
       :o "s" #'evil-surround-edit
-      :o "S" #'evil-Surround-edit
+      :o "S" #'evil-Surround-edit)
 
-      ;; help
-      (:map help-map
+;; help
+(map! (:map help-map
         "'"   #'doom/what-face
         "."   #'helpful-at-point ; replaces `display-local-help'
         "a"   #'apropos ; replaces `apropos-command'
@@ -299,7 +299,6 @@
           "P"   #'doom/reload-project)
         "V"   #'doom/version ; replaces `finder-by-keyword'
         "W"   #'+default/man-or-woman))
-
 
 ;;
 ;; Module keybinds
