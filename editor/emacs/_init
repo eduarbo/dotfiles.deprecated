@@ -28,12 +28,12 @@ install() {
     macos)
       brew install ${common_deps[@]} ${brew_deps[@]}
       brew cask install ${cask_deps[@]}
-      brew cask install emacs-plus --without-spacemacs-icon
+      brew cask install emacs
       ;;
   esac
 
   # Clone and setup doom-emacs
-  _ensure_repo hlissner/doom-emacs ~/.emacs.d develop
+  _ensure_repo eduarbo/doom-emacs ~/.emacs.d develop
 
   cd ~/.emacs.d && YES=1 make install
 }
