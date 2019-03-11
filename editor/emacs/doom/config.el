@@ -36,6 +36,9 @@
  ;; auto-save-default t
  auto-save-interval 20)
 
+;; Hide line numbers
+(remove-hook! (prog-mode text-mode conf-mode) #'display-line-numbers-mode)
+
 (setq +file-templates-alist
       (remove '("\\.org$" :trigger "__" :mode org-mode) +file-templates-alist))
 
@@ -126,6 +129,9 @@
 (setq google-translate-default-target-language "es"
       google-translate-default-source-language "en")
 
+(after! highlight-indent-guides
+  ;; Hide indent guides
+  (remove-hook! (prog-mode text-mode conf-mode) #'highlight-indent-guides-mode))
 
 ;; completion/helm
 ;; Show hidden files too
