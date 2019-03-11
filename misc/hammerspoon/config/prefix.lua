@@ -1,46 +1,57 @@
 -- Tmux style hotkey binding: prefix + hotkey
 
-local module = {}
-
+local Prefix = {}
 local TIMEOUT = 5
 
-local modal = hs.hotkey.modal.new('alt', ",")
+function Prefix:new()
+  if Prefix.instance then
+    return Prefix
+  end
 
-function modal:entered()
+  local modal = hs.hotkey.modal.new('alt', ',')
+  setmetatable({ __index = Prefix }, Prefix)
+
+  Prefix.instance = modal
+
+  function modal:entered()
     modal.alertId = hs.alert.show("Prefix Mode", 9999)
     modal.timer = hs.timer.doAfter(TIMEOUT, function() modal:exit() end)
-end
+  end
 
-function modal:exited()
+  function modal:exited()
     if modal.alertId then
-        hs.alert.closeSpecific(modal.alertId)
+      hs.alert.closeSpecific(modal.alertId)
     end
-    module.cancelTimeout()
+
+    Prefix.cancelTimeout()
+  end
+
+  Prefix.bind('', 'escape', Prefix.exit)
+  Prefix.bind('ctrl', 'space', Prefix.exit)
+
+  Prefix.bind('', 'd', hs.toggleConsole)
+  Prefix.bind('', 'r', hs.reload)
+  Prefix.bind('', 'return', hs.caffeinate.startScreensaver)
+
+  return Prefix
 end
 
-function module.exit()
-    modal:exit()
+function Prefix.bind(mod, key, fn)
+  Prefix.instance:bind(mod, key, nil, function() fn(); Prefix.exit() end)
 end
 
-function module.cancelTimeout()
-    if modal.timer then
-        modal.timer:stop()
-    end
+function Prefix.bindMultiple(mod, key, pressedFn, releasedFn, repeatFn)
+  Prefix.instance:bind(mod, key, pressedFn, releasedFn, repeatFn)
 end
 
-function module.bind(mod, key, fn)
-    modal:bind(mod, key, nil, function() fn(); module.exit() end)
+function Prefix.exit()
+  Prefix.instance:exit()
 end
 
-function module.bindMultiple(mod, key, pressedFn, releasedFn, repeatFn)
-    modal:bind(mod, key, pressedFn, releasedFn, repeatFn)
+function Prefix.cancelTimeout()
+  if Prefix.instance.timer then
+    Prefix.instance.timer:stop()
+  end
 end
 
-module.bind('', 'escape', module.exit)
-module.bind('ctrl', 'space', module.exit)
-
-module.bind('', 'd', hs.toggleConsole)
-module.bind('', 'r', hs.reload)
-module.bind('', 'return', hs.caffeinate.startScreensaver)
-
-return module
+return Prefix:new()

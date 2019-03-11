@@ -50,6 +50,7 @@ end)
 -- Modules
 -----------------------------------------------
 
+require("prefix")
 require("date-battery")
 require("mic")
 -- FIXME: netspeed module doesn't work on mojave
