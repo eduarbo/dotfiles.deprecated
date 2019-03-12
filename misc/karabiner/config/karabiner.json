@@ -3351,7 +3351,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/Applications/Kiwi for Gmail.app'"
+                    "shell_command": "open '/Applications/Firefox.app'"
                   }
                 ]
               },
@@ -6798,7 +6798,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/Applications/Kiwi for Gmail.app'"
+                    "shell_command": "open '/Applications/Firefox.app'"
                   }
                 ]
               },
