@@ -66,6 +66,12 @@
   (add-hook 'window-setup-hook #'toggle-frame-maximized))
   ;; (add-hook 'window-setup-hook #'toggle-frame-fullscreen))
 
+;; Syntax highlighting for systemd Files
+(add-to-list 'auto-mode-alist '("\\.service\\'" . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.timer\\'" . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.mount\\'" . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.socket\\'" . conf-mode))
+
 
 ;;
 ;; Modules
