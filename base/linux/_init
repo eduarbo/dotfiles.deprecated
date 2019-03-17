@@ -1,0 +1,30 @@
+#!/usr/bin/env zsh
+
+source ${0:A:h}/../../deploy
+
+install() {
+  case $(_os) in
+    fedora)
+      sudo dnf install -y wget git curl tree rsync xclip
+      # Enable RPM Fusion repo
+      sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+      ;;
+  esac
+}
+
+update() {
+  case $(_os) in
+    fedora)
+      sudo dnf upgrade -y
+      ;;
+    debian)
+      sudo apt upgrade -y
+      ;;
+  esac
+}
+
+# link() {}
+
+# clean() {}
+
+init "$@"

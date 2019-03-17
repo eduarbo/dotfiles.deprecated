@@ -17,7 +17,7 @@ install() {
     macos)
       brew install ${common_deps[@]} ${brew_deps[@]}
       ;;
-    ubuntu)
+    debian)
       sudo apt install -y ${common_deps[@]}
       ;;
   esac

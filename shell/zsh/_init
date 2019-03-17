@@ -25,7 +25,7 @@ install() {
     macos)
       brew install ${common_deps[@]} ${brew_deps[@]}
       ;;
-    ubuntu)
+    debian)
       sudo apt install -y ${common_deps[@]} ${linux_deps[@]}
       ;;
     fedora)
@@ -36,7 +36,7 @@ install() {
   # Make ZSH the default shell
   case $(_os) in
     macos) local zsh_dir="$(brew --prefix)/bin/zsh" ;;
-    ubuntu) ;&
+    debian) ;&
     fedora) local zsh_dir="$(which zsh)" ;;
   esac
   local zshenv_dir=/etc/zshenv

@@ -14,8 +14,8 @@ install() {
     macos)
       brew install ${common_deps[@]}
       ;;
-    fedora)
-      sudo dnf install -y ${common_deps[@]}
+    debian)
+      sudo apt install -y ${common_deps[@]}
       ;;
   esac
 
