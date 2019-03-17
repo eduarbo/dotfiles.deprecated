@@ -7,8 +7,7 @@ export KEYTIMEOUT=15
 autoload -U is-at-least
 
 ## vi-mode ###############
-bindkey -M viins ' ' magic-space
-# bindkey -M viins '^I' expand-or-complete-prefix
+# bindkey -M viins ' ' magic-space
 
 # surround
 autoload -Uz surround
@@ -44,7 +43,7 @@ bindkey '^ ' edit-command-line
 
 bindkey -M viins '^n' history-substring-search-down
 bindkey -M viins '^p' history-substring-search-up
-bindkey -M viins '^s' history-incremental-pattern-search-backward
+# bindkey -M viins '^s' history-incremental-pattern-search-backward
 bindkey -M viins '^u' backward-kill-line
 bindkey -M viins '^w' backward-kill-word
 bindkey -M viins '^b' backward-word
@@ -127,17 +126,21 @@ bindkey -M viins '^X,' _history-complete-newer \
   '^X/' _history-complete-older \
   '^X`' _bash_complete-word
 
-# Change cursor shape according to vi mode
-function zle-line-init zle-keymap-select {
-  if [ "$TERM" = "xterm-256color" ]; then
-    if [ $KEYMAP = vicmd ]; then
-      # the command mode for vi
-      echo -ne "\e[2 q"
-    else
-      # the insert mode for vi
-      echo -ne "\e[4 q"
-    fi
+
+function zle-keymap-select zle-line-init zle-line-finish {
+  my_terms=(xterm-256color xterm-kitty)
+
+  # Change cursor shape only on tested $TERMs
+  if [[ ${my_terms[(ie)$TERM]} -le ${#my_terms} ]]; then
+    case $KEYMAP in
+      # vi emulation - command mode
+      vicmd)      echo -ne "\e[2 q";;
+      # vi emulation - insert mode
+      viins|main) echo -ne "\e[3 q";;
+    esac
   fi
 }
+
 zle -N zle-keymap-select
 zle -N zle-line-init
+zle -N zle-line-finish

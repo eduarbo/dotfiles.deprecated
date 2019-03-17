@@ -66,6 +66,11 @@ alias ssh="TERM=xterm-256color ssh"
 
 alias mine="sudo chown -R $USER:$GROUPS"
 
+alias encrypt='gpg --encrypt'
+alias decrypt='gpg --decrypt'
+alias sign='gpg --sign'
+alias verify='gpg --verify'
+
 #
 # Files & Directories
 #
