@@ -31,8 +31,14 @@ call plug#begin('$XDG_DATA_HOME/vim/bundle')
     " Theme
     Plug 'joshdick/onedark.vim'
 " }}}
-call plug#end()
 
+" Custom code & extra configuration
+runtime! core/*.vim
+" runtime! tools/*.vim
+
+call plug#end()
+syntax on
+filetype plugin indent on
 
 """"""""""""""""""""""""""""""""""""""""
 " Settings                             "
@@ -146,6 +152,19 @@ augroup END
         let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
         autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " No `bg` setting
     end
+
+
+    let &t_SI = "\e[5 q"
+    let &t_EI = "\e[1 q"
+
+    " All cursor options:
+    " 0 -> blinking block
+    " 1 -> blinking block (default)
+    " 2 -> steady block
+    " 3 -> blinking underline
+    " 4 -> steady underline
+    " 5 -> blinking bar (xterm)
+    " 6 -> steady bar (xterm)
 
     colorscheme onedark
 " }}}
