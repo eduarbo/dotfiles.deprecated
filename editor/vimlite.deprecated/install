@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-deps=(vim)
-
-dots install fonts
-dots install editorconfig
-install-deps
