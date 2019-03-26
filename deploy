@@ -33,8 +33,7 @@ function _topic-do {
   fi
 }
 function _topics {
-  local topics;
-  topics=( "$DOTFILES_DATA"/*.topic(N) )
+  local topics; topics=( "$DOTFILES_DATA"/*.topic(N) )
   echo ${${${topics[@]#$DOTFILES_DATA/}%.topic}/$SEP//}
 }
 
@@ -106,7 +105,6 @@ function topic-init {
     if [[ -z $INHIBIT_INIT ]]; then
       _topic-do $topic ${FORCE_OP:-${op:-update}}
       if [[ $op == install && $? != 0 ]]; then
-        # Revert everything if install fails
         topic-remove $topic
       fi
     fi
@@ -131,7 +129,7 @@ function topic-remove {
 }
 
 function clean {
-  local paths; paths=( $XDG_CACHE_HOME $XDG_CONFIG_HOME $XDG_DATA_HOME $XDG_BIN_HOME )
+  local paths; paths=( $XDG_CACHE_HOME $XDG_CONFIG_HOME $XDG_DATA_HOME $XDG_BIN_HOME $DOTFILES_DATA )
   local links; links=( ~/.*(-@DN) ${^paths}/**(-@DN))
   if [[ ${#links[@]} > 1 ]]; then
     echo-info "Removing dead dotfile symlinks..."
@@ -159,13 +157,13 @@ function clean {
 if [[ $ZSH_EVAL_CONTEXT != *:file ]]; then
   while getopts acdehlLit opt; do
     case $opt in
-      a) TARGETS="$(_topics)"  ;;
+      a) TARGETS=( $(_topics) );;
       c) CLEAN=1               ;;
       d) REMOVE=1              ;;
       L) LIST=1                ;;
-      l) LINK=1         ;&
-      i) INHIBIT_INIT=1 ;;
-      t) DRYRUN=1       ;;
+      l) export LINK=1         ;&
+      i) export INHIBIT_INIT=1 ;;
+      t) export DRYRUN=1       ;;
       h) cat <<EOL
 Usage: ${0:A:t} [-acdlLit] [TOPIC...]
 
@@ -196,7 +194,6 @@ EOL
     fi
     [[ -n $CLEAN ]] && clean
     popd -q
-    exec $SHELL -l
   fi
 fi
 
