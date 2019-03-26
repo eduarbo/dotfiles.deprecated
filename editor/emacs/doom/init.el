@@ -9,7 +9,7 @@
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        (lookup           ; helps you navigate your code and documentation
-        ;; +docsets         ; ...or in Dash docsets locally
+        +docsets         ; ...or in Dash docsets locally
         )
        snippets          ; my elves. They type so I don't have to
        workspaces        ; tab emulation, persistence & separate workspaces
@@ -89,11 +89,11 @@
        ;; tmux              ; an API for interacting with tmux
        ;; upload            ; map local to remote projects via ssh/ftp
        ;; wakatime
-       vterm             ; another terminals in Emacs
+       ;; vterm             ; another terminals in Emacs
 
        :lang
        ;; assembly          ; assembly for fun or debugging
-       (cc +irony +rtags); C/C++/Obj-C madness
+       ;; (cc +irony +rtags); C/C++/Obj-C madness
        ;; clojure           ; java with a lisp
        ;; common-lisp       ; if you've seen one lisp, you've seen them all
        ;; coq               ; proofs-as-programs
@@ -148,7 +148,7 @@
        ;; should be loaded late.
        :app
        ;; (email +gmail)    ; emacs as an email client
-       irc               ; how neckbeards socialize
+       ;; irc               ; how neckbeards socialize
        ;; (rss +org)        ; emacs as an RSS reader
        ;; twitter           ; twitter client https://twitter.com/vnought
        ;; (write            ; emacs as a word processor (latex + org + markdown)

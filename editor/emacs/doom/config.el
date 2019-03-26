@@ -27,7 +27,7 @@
  +doom-modeline-buffer-file-name-style 'relative-from-project
  ;; Call projectile-discover-projects-in-search-path to look for projects in
  ;; list of folders
- projectile-project-search-path '("~/dev")
+ projectile-project-search-path '("~/dev" "~/dev/opentable")
  ;; A more useful title
  frame-title-format '("%b   —   " (:eval (+workspace-current-name)))
 
