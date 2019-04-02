@@ -9,7 +9,9 @@ install() {
   brew cask install kitty
 }
 
-# update() {}
+update() {
+  link
+}
 
 link() {
   mklink {*.conf,zoom_toggle.py} "$KITTY_DIR/"
