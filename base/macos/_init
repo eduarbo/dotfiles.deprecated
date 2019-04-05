@@ -50,6 +50,8 @@ install() {
 
   # Install brew and cask packages
   brew install ${brew_deps[@]}
+  brew tap cjbassi/gotop
+  brew install gotop
   brew cask install ${cask_deps[@]}
 
   # Defaults for macOS
