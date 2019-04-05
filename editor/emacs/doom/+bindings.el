@@ -764,6 +764,7 @@
         (:unless (featurep! :feature workspaces)
           :desc "Switch buffer"           "b" #'switch-to-buffer)
         :desc "Kill buffer"                 "k"   #'kill-this-buffer
+        :desc "Kill buried buffers"         "K"   #'doom/kill-buried-buffers
         :desc "Next buffer"                 "n"   #'next-buffer
         :desc "New empty buffer"            "N"   #'evil-buffer-new
         :desc "Kill other buffers"          "o"   #'doom/kill-other-buffers
