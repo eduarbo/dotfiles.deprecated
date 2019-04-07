@@ -121,7 +121,7 @@ for i = 1, 4 do
     prefix.bindMultiple('shift', arrowKeys[i], pressedFn, nil, moveWin)
 end
 
--- prefix + ; -> move window to the next screen
+-- prefix + tab -> move window to the next screen
 
 local function getNextScreen(s)
     all = hs.screen.allScreens()
@@ -144,7 +144,7 @@ local function moveToNextScreen()
     end
 end
 
-prefix.bind('', ';', moveToNextScreen)
+prefix.bind('', 'tab', moveToNextScreen)
 
 -- prefix + - -> shrink window frame
 -- prefix + = -> expand window frame
