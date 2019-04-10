@@ -8,9 +8,13 @@ alias b=brew
 alias bu="brew update && brew upgrade && brew cleanup"
 alias c="brew cask"
 
-alias open="open"
-alias o="open"
-alias oo="open ."
+o() {
+  if [ -n "$1" ]; then
+    open "$@"
+  else
+    open .
+  fi
+}
 
 # Empty the Trash on all mounted volumes and the main HDD
 # Also, clear Apple’s System Logs to improve shell startup speed

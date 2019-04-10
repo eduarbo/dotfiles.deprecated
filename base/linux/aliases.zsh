@@ -12,6 +12,14 @@ alias diy='sudo dnf install -y'
 alias dr='sudo dnf remove -y'
 alias dc='sudo dnf clean all && sudo dnf autoremove'
 
+o() {
+  if [ -n "$1" ]; then
+    xdg-open "$@"
+  else
+    xdg-open .
+  fi
+}
+
 # Clipboard pipes
 if _is_callable xclip; then
   alias y='xclip -selection clipboard -in'
