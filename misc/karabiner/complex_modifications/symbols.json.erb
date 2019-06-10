@@ -17,12 +17,6 @@
                 "from": <%= from(char, symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([[numbers_row[index], ["left_shift"]]]) %>
             },
-            {
-                "type": "basic",
-                "from": <%= from(char, symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([[numbers_row[index], ["left_shift"]], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
-            },
             <% end %>
 
             <%# -------------------------------------------------- %>
@@ -34,12 +28,6 @@
                 "from": <%= from(char, symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([[numbers_row[index]]]) %>
             },
-            {
-                "type": "basic",
-                "from": <%= from(char, symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([[numbers_row[index]], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
-            },
             <% end %>
             {
                 "type": "basic",
@@ -48,31 +36,13 @@
             },
             {
                 "type": "basic",
-                "from": <%= from("semicolon", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["0"], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
-            },
-            {
-                "type": "basic",
                 "from": <%= from("quote", symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([["equal_sign", ["left_shift"]]]) %>
             },
             {
                 "type": "basic",
-                "from": <%= from("quote", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["equal_sign", ["left_shift"]], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
-            },
-            {
-                "type": "basic",
                 "from": <%= from("caps_lock", symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([["hyphen"]]) %>
-            },
-            {
-                "type": "basic",
-                "from": <%= from("caps_lock", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["hyphen"], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
             },
 
             <%# -------------------------------------------------- %>
@@ -80,14 +50,20 @@
             <%# -------------------------------------------------- %>
             {
                 "type": "basic",
-                "from": <%= from("z", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["1", ["left_option"]]]) %>
+                "from": <%= from("left_shift", symbols_modifier, optional_modifiers) %>,
+                "to": <%= to([["f13"]]) %>
             },
+
+            {
+                "type": "basic",
+                "from": <%= from("grave_accent_and_tilde", symbols_modifier, optional_modifiers) %>,
+                "to": <%= to([["f13"]]) %>
+            },
+
             {
                 "type": "basic",
                 "from": <%= from("z", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["1", ["left_option"]], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
+                "to": <%= to([["1", ["left_option"]]]) %>
             },
 
             {
@@ -95,23 +71,11 @@
                 "from": <%= from("x", symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([["backslash", ["left_shift"]]]) %>
             },
-            {
-                "type": "basic",
-                "from": <%= from("x", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["backslash", ["left_shift"]], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
-            },
 
             {
                 "type": "basic",
                 "from": <%= from("c", symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([["hyphen", "left_shift"]]) %>
-            },
-            {
-                "type": "basic",
-                "from": <%= from("c", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["hyphen", "left_shift"], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
             },
 
             {
@@ -119,23 +83,11 @@
                 "from": <%= from("v", symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([["equal_sign"]]) %>
             },
-            {
-                "type": "basic",
-                "from": <%= from("v", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["equal_sign"], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
-            },
 
             {
                 "type": "basic",
                 "from": <%= from("b", symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([["backslash"]]) %>
-            },
-            {
-                "type": "basic",
-                "from": <%= from("b", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["backslash"], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
             },
 
             {
@@ -143,23 +95,11 @@
                 "from": <%= from("n", symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([["n", ["left_option"]]]) %>
             },
-            {
-                "type": "basic",
-                "from": <%= from("n", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["n", ["left_option"]], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
-            },
 
             {
                 "type": "basic",
                 "from": <%= from("m", symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([["e", ["left_option"]]]) %>
-            },
-            {
-                "type": "basic",
-                "from": <%= from("m", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["e", ["left_option"]], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
             },
 
             {
@@ -167,23 +107,11 @@
                 "from": <%= from("comma", symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([["comma"]]) %>
             },
-            {
-                "type": "basic",
-                "from": <%= from("comma", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["comma"], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
-            },
 
             {
                 "type": "basic",
                 "from": <%= from("period", symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([["period"]]) %>
-            },
-            {
-                "type": "basic",
-                "from": <%= from("period", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["period"], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
             },
 
             {
@@ -191,23 +119,11 @@
                 "from": <%= from("slash", symbols_modifier, optional_modifiers) %>,
                 "to": <%= to([["slash"]]) %>
             },
-            {
-                "type": "basic",
-                "from": <%= from("slash", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["slash"], set_variable("symbols_sticky", 0)]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
-            },
 
             {
                 "type": "basic",
                 "from": <%= from("right_shift", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["slash", ["left_shift", "left_option"]], set_variable("symbols_sticky", 0)]) %>
-            },
-            {
-                "type": "basic",
-                "from": <%= from("right_shift", symbols_modifier, optional_modifiers) %>,
-                "to": <%= to([["slash", ["left_shift", "left_option"]]]) %>,
-                "conditions": <%= to([variable_if("symbols_sticky", 1)]) %>
+                "to": <%= to([["slash", ["left_shift", "left_option"]]]) %>
             }
         ]
     }]

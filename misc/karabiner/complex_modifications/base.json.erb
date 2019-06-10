@@ -2,52 +2,6 @@
     "title": "Base layer (@eduarbo)",
     "rules": [
         {
-            "description": "Thumb cluster (Legacy)",
-            "manipulators": [
-                {
-                    "description": "Change spacebar to right_command. (Post return if pressed alone)",
-                    "type": "basic",
-                    "from": <%= from("spacebar", [], ["any"]) %>,
-                    "to": <%= to([["right_command"]]) %>,
-                    "to_if_alone": <%= to([["return_or_enter"]]) %>
-                },
-                {
-                    "description": "Change right_command to right_shift. (Post escape if pressed alone)",
-                    "type": "basic",
-                    "from": <%= from("right_command", [], ["any"]) %>,
-                    "to": <%= to([["right_shift"]]) %>,
-                    "to_if_alone": <%= to([["escape"]]) %>
-                },
-                {
-                    "description": "Change left_command to left_shift. (Post spacebar if pressed alone)",
-                    "type": "basic",
-                    "from": <%= from("left_command", [], ["any"]) %>,
-                    "to": <%= to([["left_shift"]]) %>,
-                    "to_if_alone": <%= to([["spacebar"]]) %>
-                },
-                {
-                    "description": "Change right_option to right_option. (Post open parenthesis if pressed alone)",
-                    "type": "basic",
-                    "from": <%= from("right_option", [], ["any"]) %>,
-                    "to": <%= to([["right_option"]]) %>,
-                    "to_if_alone": <%= to([["0", ["left_shift"]]]) %>
-                },
-                {
-                    "description": "Change left_option to right_control. (Post close parenthesis if pressed alone)",
-                    "type": "basic",
-                    "from": <%= from("left_option", [], ["any"]) %>,
-                    "to": <%= to([["right_control"]]) %>,
-                    "to_if_alone": <%= to([["9", ["left_shift"]]]) %>
-                },
-                {
-                    "description": "Change left_control to fn",
-                    "type": "basic",
-                    "from": <%= from("left_control", [], ["any"]) %>,
-                    "to": <%= to([["fn"]]) %>
-                }
-            ]
-        },
-        {
             "description": "Thumb cluster",
             "manipulators": [
                 {
@@ -55,44 +9,36 @@
                     "type": "basic",
                     "from": <%= from("spacebar", [], ["any"]) %>,
                     "to": <%= to([["right_command"]]) %>,
-                    "to_if_alone": <%= to([["spacebar"]]) %>
-                },
-                {
-                    "description": "R_CMD to R_SHIFT",
-                    "type": "basic",
-                    "from": <%= from("right_command", [], ["any"]) %>,
-                    "to": <%= to([["right_shift"]]) %>
-                },
-                {
-                    "description": "L_CMD to Sticky SYMBOLS",
-                    "type": "basic",
-                    "from": <%= from("left_command", [], ["any"]) %>,
-                    "to": <%= to([set_variable("symbols", 1)]) %>,
-                    "to_if_alone": <%= to([set_variable("symbols_sticky", 1), set_variable("symbols", 0)]) %>,
-                    "to_after_key_up": <%= to([set_variable("symbols", 0)]) %>,
-                    "to_delayed_action": {
-                        "to_if_invoked": <%= to([set_variable("symbols_sticky", 0)]) %>
-                    }
-                },
-                {
-                    "description": "R_ALT to Enter on tap",
-                    "type": "basic",
-                    "from": <%= from("right_option", [], ["any"]) %>,
-                    "to": <%= to([["right_option"]]) %>,
                     "to_if_alone": <%= to([["return_or_enter"]]) %>
                 },
                 {
-                    "description": "L_ALT to L_CTRL on hold, ESC on tap",
+                    "description": "R_CMD to R_SHIFT on hold, ESC on tap",
+                    "type": "basic",
+                    "from": <%= from("right_command", [], ["any"]) %>,
+                    "to": <%= to([["right_shift"]]) %>,
+                    "to_if_alone": <%= to([["escape"]]) %>
+                },
+                {
+                    "description": "Change left_command to left_shift. (Post spacebar if pressed alone)",
+                    "description": "L_CMD to L_SHIFT (SYMBOLS layer) on hold, SPC on tab",
+                    "type": "basic",
+                    "from": <%= from("left_command", [], ["any"]) %>,
+                    "to": <%= to([["left_shift"]]) %>,
+                    "to_if_alone": <%= to([["spacebar"]]) %>
+                },
+                {
+                    "description": "R_ALT on hold, close parenthesis on tap",
+                    "type": "basic",
+                    "from": <%= from("right_option", [], ["any"]) %>,
+                    "to": <%= to([["right_option"]]) %>,
+                    "to_if_alone": <%= to([["0", ["left_shift"]]]) %>
+                },
+                {
+                    "description": "L_ALT to L_CTRL on hold, open parenthesis on tap",
                     "type": "basic",
                     "from": <%= from("left_option", [], ["any"]) %>,
                     "to": <%= to([["right_control"]]) %>,
-                    "to_if_alone": <%= to([["escape"], set_variable("symbols", 0)]) %>
-                },
-                {
-                    "description": "Change left_control to fn",
-                    "type": "basic",
-                    "from": <%= from("left_control", [], ["any"]) %>,
-                    "to": <%= to([["fn"]]) %>
+                    "to_if_alone": <%= to([["9", ["left_shift"]]]) %>
                 }
             ]
         },
@@ -107,7 +53,7 @@
                 {
                     "type": "basic",
                     "from": <%= from("open_bracket", [], ["any"]) %>,
-                    "to": <%= to([["grave_accent_and_tilde"]]) %>
+                    "to": <%= to([["delete_or_backspace"]]) %>
                 },
                 {
                     "type": "basic",
@@ -122,7 +68,7 @@
                 {
                     "type": "basic",
                     "from": <%= from("left_shift", [], ["any"]) %>,
-                    "to": <%= to([["delete_or_backspace"]]) %>
+                    "to": <%= to([["grave_accent_and_tilde"]]) %>
                 },
                 {
                     "type": "basic",

@@ -2,7 +2,7 @@
     "title": "Fn Layer (@eduarbo)",
     "rules": [{
         <%
-            mandatory_modifiers = ["fn"];
+            mandatory_modifiers = ["right_shift", "left_shift"];
             optional_modifiers = [];
         %>
         "description": "Function keys, movement, brightness, volumen and media conntrols",
@@ -13,17 +13,17 @@
             {
                 "type": "basic",
                 "from": <%= from("q", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["mute"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("w", mandatory_modifiers, optional_modifiers) %>,
                 "to": <%= to([["volume_decrement"]]) %>
             },
             {
                 "type": "basic",
-                "from": <%= from("t", mandatory_modifiers, optional_modifiers) %>,
+                "from": <%= from("r", mandatory_modifiers, optional_modifiers) %>,
                 "to": <%= to([["volume_increment"]]) %>
-            },
-            {
-                "type": "basic",
-                "from": <%= from("tab", mandatory_modifiers, optional_modifiers) %>,
-                "to": <%= to([["mute"]]) %>
             },
 
             <%# -------------------------------------------------- %>
@@ -31,28 +31,18 @@
             <%# -------------------------------------------------- %>
             {
                 "type": "basic",
-                "from": <%= from("w", mandatory_modifiers, optional_modifiers) %>,
+                "from": <%= from("a", mandatory_modifiers, optional_modifiers) %>,
                 "to": <%= to([["display_brightness_decrement"]]) %>
             },
             {
                 "type": "basic",
-                "from": <%= from("r", mandatory_modifiers, optional_modifiers) %>,
+                "from": <%= from("g", mandatory_modifiers, optional_modifiers) %>,
                 "to": <%= to([["display_brightness_increment"]]) %>
             },
 
             <%# -------------------------------------------------- %>
             <%# Movement %>
             <%# -------------------------------------------------- %>
-            {
-                "type": "basic",
-                "from": <%= from("a", mandatory_modifiers, optional_modifiers) %>,
-                "to": <%= to([["home"]]) %>
-            },
-            {
-                "type": "basic",
-                "from": <%= from("g", mandatory_modifiers, optional_modifiers) %>,
-                "to": <%= to([["end"]]) %>
-            },
             {
                 "type": "basic",
                 "from": <%= from("e", mandatory_modifiers, optional_modifiers) %>,
@@ -73,6 +63,29 @@
                 "from": <%= from("f", mandatory_modifiers, optional_modifiers) %>,
                 "to": <%= to([["right_arrow"]]) %>
             },
+            {
+                "type": "basic",
+                "from": <%= from("i", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["page_up"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("u", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["page_down"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("comma", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["home"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("m", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["end"]]) %>
+            },
+
+            <% if false %>
+            <%# TODO Move function keys to another layer %>
 
             <%# -------------------------------------------------- %>
             <%# Function keys %>
@@ -91,6 +104,8 @@
                 "from": <%= from(char, mandatory_modifiers, optional_modifiers) %>,
                 "to": <%= to([["f#{index}", ["fn"]]]) %>
             },
+            <% end %>
+
             <% end %>
 
             <%# -------------------------------------------------- %>
