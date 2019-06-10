@@ -527,6 +527,57 @@
               {
                 "type": "basic",
                 "from": {
+                  "key_code": "x",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_shift",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "rewind"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "c",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_shift",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "play_or_pause"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "v",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_shift",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "fastforward"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
                   "key_code": "e",
                   "modifiers": {
                     "mandatory": [
@@ -579,6 +630,74 @@
                 "type": "basic",
                 "from": {
                   "key_code": "f",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_shift",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "right_arrow"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "k",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_shift",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "up_arrow"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "h",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_shift",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "left_arrow"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "j",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_shift",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "down_arrow"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "l",
                   "modifiers": {
                     "mandatory": [
                       "right_shift",
@@ -657,57 +776,6 @@
                 "to": [
                   {
                     "key_code": "end"
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "x",
-                  "modifiers": {
-                    "mandatory": [
-                      "right_shift",
-                      "left_shift"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "rewind"
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "c",
-                  "modifiers": {
-                    "mandatory": [
-                      "right_shift",
-                      "left_shift"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "play_or_pause"
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "v",
-                  "modifiers": {
-                    "mandatory": [
-                      "right_shift",
-                      "left_shift"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "fastforward"
                   }
                 ]
               }

@@ -41,6 +41,25 @@
             },
 
             <%# -------------------------------------------------- %>
+            <%# Music %>
+            <%# -------------------------------------------------- %>
+            {
+                "type": "basic",
+                "from": <%= from("x", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["rewind"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("c", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["play_or_pause"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("v", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["fastforward"]]) %>
+            },
+
+            <%# -------------------------------------------------- %>
             <%# Movement %>
             <%# -------------------------------------------------- %>
             {
@@ -63,6 +82,28 @@
                 "from": <%= from("f", mandatory_modifiers, optional_modifiers) %>,
                 "to": <%= to([["right_arrow"]]) %>
             },
+
+            {
+                "type": "basic",
+                "from": <%= from("k", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["up_arrow"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("h", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["left_arrow"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("j", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["down_arrow"]]) %>
+            },
+            {
+                "type": "basic",
+                "from": <%= from("l", mandatory_modifiers, optional_modifiers) %>,
+                "to": <%= to([["right_arrow"]]) %>
+            },
+
             {
                 "type": "basic",
                 "from": <%= from("i", mandatory_modifiers, optional_modifiers) %>,
@@ -73,6 +114,8 @@
                 "from": <%= from("u", mandatory_modifiers, optional_modifiers) %>,
                 "to": <%= to([["page_down"]]) %>
             },
+
+            <%# FIXME This is not working %>
             {
                 "type": "basic",
                 "from": <%= from("comma", mandatory_modifiers, optional_modifiers) %>,
@@ -82,9 +125,9 @@
                 "type": "basic",
                 "from": <%= from("m", mandatory_modifiers, optional_modifiers) %>,
                 "to": <%= to([["end"]]) %>
-            },
+            }
 
-            <% if false %>
+        <% if false %>
             <%# TODO Move function keys to another layer %>
 
             <%# -------------------------------------------------- %>
@@ -105,27 +148,7 @@
                 "to": <%= to([["f#{index}", ["fn"]]]) %>
             },
             <% end %>
-
-            <% end %>
-
-            <%# -------------------------------------------------- %>
-            <%# Music %>
-            <%# -------------------------------------------------- %>
-            {
-                "type": "basic",
-                "from": <%= from("x", mandatory_modifiers, optional_modifiers) %>,
-                "to": <%= to([["rewind"]]) %>
-            },
-            {
-                "type": "basic",
-                "from": <%= from("c", mandatory_modifiers, optional_modifiers) %>,
-                "to": <%= to([["play_or_pause"]]) %>
-            },
-            {
-                "type": "basic",
-                "from": <%= from("v", mandatory_modifiers, optional_modifiers) %>,
-                "to": <%= to([["fastforward"]]) %>
-            }
+        <% end %>
         ]
     }]
 }
