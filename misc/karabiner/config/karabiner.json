@@ -8,7 +8,17 @@
     {
       "name": "My profile",
       "devices": [
-
+        {
+          "disable_built_in_keyboard_if_exists": true,
+          "identifiers": {
+            "is_keyboard": true,
+            "is_pointing_device": false,
+            "product_id": 12384,
+            "vendor_id": 65261
+          },
+          "ignore": false,
+          "manipulate_caps_lock_led": true
+        }
       ],
       "selected": true,
       "complex_modifications": {
