@@ -8,7 +8,7 @@
 
 (setq-default
  ;; A E S T H E T I C
- doom-font (font-spec :family "Hack" :size 12)
+ doom-font (font-spec :family "Hack" :size 14)
  doom-big-font (font-spec :family "Hack" :size 20)
 
  ;; That's me!!!
