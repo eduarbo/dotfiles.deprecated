@@ -6,38 +6,37 @@
 (setq doom-leader-key ","
       doom-localleader-key ", m")
 
+;; That's me!!!
+(setq user-mail-address "eduarbo@gmail.com"
+      user-full-name    "Eduardo Ruiz Macias"
+      epa-file-encrypt-to user-mail-address)
+
+;; A E S T H E T I C
+(setq doom-font (font-spec :family "Hack" :size 14)
+      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14))
+
+(setq google-translate-default-target-language "es"
+      google-translate-default-source-language "en")
+
+(setq which-key-idle-delay 0.3
+      which-key-idle-secondary-delay 0)
+
+;; Call projectile-discover-projects-in-search-path to look for projects in
+;; list of folders
+(setq projectile-project-search-path '("~/dev" "~/dev/opentable"))
+
 (setq-default
- ;; A E S T H E T I C
- doom-font (font-spec :family "Hack" :size 14)
- doom-big-font (font-spec :family "Hack" :size 20)
-
- ;; That's me!!!
- user-mail-address "eduarbo@gmail.com"
- user-full-name    "Eduardo Ruiz Macias"
-
  ;; Enable accents
  ns-alternate-modifier 'none
  ;; Get some context when scrolling
  scroll-margin 10
- ;; default to flyspell prog mode
- flyspell-generic-check-word-predicate #'flyspell-generic-progmode-verify
  ;; use gnu ls to allow dired to sort directories
  insert-directory-program "gls" dired-use-ls-dired t
- ;; Given ~/Projects/FOSS/emacs/lisp/comint.el => emacs/lisp/comint.el
- +doom-modeline-buffer-file-name-style 'relative-from-project
- ;; Call projectile-discover-projects-in-search-path to look for projects in
- ;; list of folders
- projectile-project-search-path '("~/dev" "~/dev/opentable")
  ;; A more useful title
  frame-title-format '("%b   —   " (:eval (+workspace-current-name)))
 
- ;; Protecting me from data loss
- ;; save every 20 characters typed (this is the minimum)
- ;; auto-save-default t
- auto-save-interval 20)
-
-;; Hide line numbers
-(remove-hook! (prog-mode text-mode conf-mode) #'display-line-numbers-mode)
+ ;; Protecting me from data loss. Save every 20 chars typed (this is the minimum)
+ auto-save-visited-interval 20)
 
 (setq +file-templates-alist
       (remove '("\\.org$" :trigger "__" :mode org-mode) +file-templates-alist))
@@ -47,9 +46,18 @@
 ;;       (cons '("\\(?!/journal/\\).+\\.org$" :trigger "__" :mode org-mode)
 ;;             (remove '("\\.org$" :trigger "__" :mode org-mode) +file-templates-alist)))
 
-;; Stop in-between "camelCase" words instead of just spaces, hyphens or
-;; underscores
-(global-subword-mode)
+
+;; Hide line numbers
+(remove-hook! (prog-mode text-mode conf-mode) #'display-line-numbers-mode)
+;; Hide indent lines
+(remove-hook! (prog-mode text-mode conf-mode) #'highlight-indent-guides-mode)
+
+(defun eduarbo--set-hl-todo-keyword-faces ()
+  (setq hl-todo-keyword-faces `(("TODO"  . ,(face-foreground 'warning))
+                                ("FIXME" . ,(face-foreground 'error))
+                                ("NOTE"  . ,(face-foreground 'success)))))
+;; Overwrite default doom theme faces for todo keywords
+(add-hook! 'doom-load-theme-hook #'eduarbo--set-hl-todo-keyword-faces)
 
 ;; whitespace
 (defun eduarbo--show-trailing-whitespace ()
@@ -58,8 +66,12 @@
 
 ;; OS specific fixes
 (when IS-MAC
+  ;; Use the OS X Emoji font for Emoticons
+  (set-fontset-font "fontset-default"
+                    '(#x1F600 . #x1F64F)
+                    (font-spec :name "Apple Color Emoji") nil 'prepend)
   ;; Workaround to enable emoji rendering on macOS
-  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
+  ;; (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
   (setq ns-use-thin-smoothing t)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
@@ -72,18 +84,19 @@
 (add-to-list 'auto-mode-alist '("\\.mount\\'" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.socket\\'" . conf-mode))
 
+;; Stop in-between "camelCase" words instead of just spaces, hyphens or
+;; underscores
+(global-subword-mode)
+
 
 ;;
 ;; Modules
-
-;; tools/magit
-(setq magit-repository-directories '(("~/dev" . 1))
-      magit-save-repository-buffers nil)
 
 ;; lang/org
 (setq +org-capture-todo-file "notes/backlog.org")
 
 (after! org
+  (add-to-list 'org-modules 'org-habit t)
   (setq org-hide-emphasis-markers t
         org-directory (expand-file-name "~/org")
         ;; TODO Use `org-directory` instead of the hardcoded path
@@ -132,63 +145,6 @@
         ;; are more elegant.
         org-bullets-bullet-list '("#")))
 
-(setq google-translate-default-target-language "es"
-      google-translate-default-source-language "en")
-
-(after! highlight-indent-guides
-  ;; Hide indent guides
-  (remove-hook! (prog-mode text-mode conf-mode) #'highlight-indent-guides-mode))
-
-;; completion/helm
-;; Show hidden files too
-(setq helm-ag-command-option "--hidden"
-      +helm-project-search-engines '(rg ag pt))
-
-
-;; ui/pretty-code
-;; enable ligatures only in org-mode
-(setq +pretty-code-enabled-modes '(emacs-lisp-mode org-mode))
-
-
-;;
-;; Packages
-
-;; Took from http://blog.binchen.org/posts/how-to-be-extremely-efficient-in-emacs.html
-(def-package! keyfreq
-  :config
-  (setq keyfreq-excluded-commands
-      '(self-insert-command
-        abort-recursive-edit
-        forward-char
-        backward-char
-        previous-line
-        next-line
-        evil-backward-char
-        evil-forward-char
-        evil-next-line
-        evil-previous-line
-        org-self-insert-command
-        evil-normal-state
-        treemacs-next-line
-        treemacs-previous-line))
-  (keyfreq-mode 1)
-  (keyfreq-autosave-mode 1))
-
-
-(after! helm-projectile
-  (setq helm-mini-default-sources '(helm-source-buffers-list
-                                    helm-source-projectile-recentf-list
-                                    helm-source-buffer-not-found)))
-
-
-(defun eduarbo--set-hl-todo-keyword-faces ()
-  (setq hl-todo-keyword-faces `(("TODO"  . ,(face-foreground 'warning))
-                                ("FIXME" . ,(face-foreground 'error))
-                                ("NOTE"  . ,(face-foreground 'success)))))
-;; Overwrite default doom theme faces for todo keywords
-(add-hook! 'doom-load-theme-hook #'eduarbo--set-hl-todo-keyword-faces)
-
-
 (def-package! org-journal
   :when (featurep! :lang org)
   :after org
@@ -207,22 +163,73 @@
   (org-journal-hide-entries-p nil))
 
 
+;; completion/company
+(after! company
+  ;; On-demand code completion. I don't often need it
+  (setq company-idle-delay nil))
+
+
+;; completion/helm
+(after! helm
+  ;; Show hidden files too
+  (setq helm-ag-command-option "--hidden"))
+
+(after! helm-projectile
+  (setq helm-mini-default-sources '(helm-source-buffers-list
+                                    helm-source-projectile-recentf-list
+                                    helm-source-buffer-not-found)))
+
+
+;; ui/modeline
+(after! doom-modeline
+  (setq doom-modeline-major-mode-icon t
+        ;; Given ~/Projects/FOSS/emacs/lisp/comint.el => emacs/lisp/comint.el
+        ;; doom-modeline-buffer-file-name-style 'relative-from-project
+        ;; Given ~/Projects/FOSS/emacs/lisp/comint.el => ~/Projects/FOSS/emacs/l/comint.el
+        doom-modeline-buffer-file-name-style 'truncate-upto-project))
+
+
+;; ui/treemacs
+(after! treemacs
+  (setq treemacs--icon-size 20))
+
+;; Enable custom treemacs theme (all-the-icons must be installed!)
+(doom-themes-treemacs-config)
+
+
+;; tools/flyspell
+(after! flyspell
+  ;; default to flyspell prog mode
+  (setq flyspell-generic-check-word-predicate #'flyspell-generic-progmode-verify))
+
+
+;; tools/magit
+(setq magit-repository-directories '(("~/dev" . 2))
+      magit-save-repository-buffers nil)
+
+
+;; tools/lsp
+(after! lsp-mode
+  (setq lsp-enable-symbol-highlighting nil))
+
+(after! lsp-ui
+  ;; lsp-ui-sideline is redundant with eldoc and much more invasive, so
+  ;; disable it by default
+  (setq lsp-ui-sideline-enable nil))
+
+
+;; lang/javascript
 (after! tide
+  (setq tide-always-show-documentation nil
+        tide-completion-detailed nil)
   ;; Try to ignore case
   (setq completion-ignore-case t
         tide-completion-ignore-case t))
 
 
-(after! treemacs
-  (setq treemacs--icon-size 20))
-
-
-(after! which-key
-  (setq which-key-idle-delay 0.3
-        which-key-idle-secondary-delay 0))
 ;;
 ;; Custom
 
+
 (load! "./+dashboard.el")
 (load! "./+bindings.el")
-;; (load! "./+bindings.old.el")

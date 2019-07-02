@@ -10,7 +10,7 @@
 
 
 ;;
-;; Global keybindings
+;;; Global keybindings
 
 (map! (:map override
         ;; A little sandbox to run code in
@@ -29,7 +29,7 @@
       "s-[" #'previous-buffer
       "s-]" #'next-buffer
 
-      (:when (featurep! :feature workspaces)
+      (:when (featurep! :ui workspaces)
         "s-t" #'+workspace/new
         "s-{" #'+workspace/switch-left
         "s-}" #'+workspace/switch-right)
@@ -37,9 +37,9 @@
       [remap evil-jump-to-tag] #'projectile-find-tag
       [remap find-tag]         #'projectile-find-tag
 
-      ;; Smart tab
+      ;; Smart tab, these will only work in GUI Emacs
       :i [tab] (general-predicate-dispatch nil ; fall back to nearest keymap
-                 (and (featurep! :feature snippets)
+                 (and (featurep! :editor snippets)
                       (bound-and-true-p yas-minor-mode)
                       (yas-maybe-expand-abbrev-key-filter 'yas-expand))
                  'yas-expand
@@ -50,19 +50,15 @@
                  (and (featurep! :editor fold)
                       (save-excursion (end-of-line) (invisible-p (point))))
                  '+fold/toggle
-                 (fboundp 'evilmi-jump-items)
-                 'evilmi-jump-items)
+                 (fboundp 'evil-jump-item)
+                 'evil-jump-item)
       :v [tab] (general-predicate-dispatch nil
                  (and (bound-and-true-p yas-minor-mode)
                       (or (eq evil-visual-selection 'line)
-                          (and (fboundp 'evilmi-jump-items)
-                               (save-excursion
-                                 (/= (point)
-                                     (progn (evilmi-jump-items nil)
-                                            (point)))))))
+                          (not (memq (char-after) (list ?\( ?\[ ?\{ ?\} ?\] ?\))))))
                  'yas-insert-snippet
-                 (fboundp 'evilmi-jump-items)
-                 'evilmi-jump-items)
+                 (fboundp 'evil-jump-item)
+                 'evil-jump-item)
 
       ;; Smarter RET in normal mode
       :n "RET" (general-predicate-dispatch nil
@@ -76,14 +72,16 @@
 
       (:after vc-annotate
         :map vc-annotate-mode-map
-        [remap quit-window] #'kill-this-buffer)
+        [remap quit-window] #'kill-current-buffer)
+
+      (:map (help-mode-map helpful-mode-map)
+        :n "o" 'ace-link-help)
 
       ;; misc
       :nv ";"     #'evil-ex
       :nv ":"     #'eval-expression
       :n  "#"     #'evil-commentary-line
       :v  "#"     #'comment-or-uncomment-region
-      :v  "@"     #'+evil:apply-macro
 
       ;; Shift text
       :n  "<"     #'evil-shift-left-line
@@ -156,29 +154,65 @@
                  'evil-visual-char)
       :v "C-v" #'er/contract-region
 
-      ;; Global evil keybinds
-      :m  "]a"    #'evil-forward-arg
-      :m  "[a"    #'evil-backward-arg
-      :m  "]o"    #'outline-next-visible-heading
-      :m  "[o"    #'outline-previous-visible-heading
+      :n "C-S-f"  #'toggle-frame-fullscreen
+
+      ;; ported from vim
+      :m  "]m"    #'+evil/next-beginning-of-method
+      :m  "[m"    #'+evil/previous-beginning-of-method
+      :m  "]M"    #'+evil/next-end-of-method
+      :m  "[M"    #'+evil/previous-end-of-method
+      :m  "]#"    #'+evil/next-preproc-directive
+      :m  "[#"    #'+evil/previous-preproc-directive
+      :m  "]*"    #'+evil/next-comment
+      :m  "[*"    #'+evil/previous-comment
+      :m  "]\\"   #'+evil/next-comment
+      :m  "[\\"   #'+evil/previous-comment
+      :nv "z="    #'flyspell-correct-word-generic
+      :v  "@"     #'+evil:apply-macro
+
+      ;; ported from vim-unimpaired
+      :n  "] SPC" #'+evil/insert-newline-below
+      :n  "[ SPC" #'+evil/insert-newline-above
       :n  "]b"    #'next-buffer
       :n  "[b"    #'previous-buffer
-      :n  "zx"    #'kill-this-buffer
-      :n  "ZX"    #'bury-buffer
+      :n  "]f"    #'+evil/next-file
+      :n  "[f"    #'+evil/previous-file
+      :m  "]u"    #'+evil:url-encode
+      :m  "[u"    #'+evil:url-decode
+      :m  "]y"    #'+evil:c-string-encode
+      :m  "[y"    #'+evil:c-string-decode
+      ;; NOTE hl-todo-{next,previous} have ]t/[t, use ]F/[F instead
+      ;; NOTE {next,previous}-error have ]e/[e, use ddp/ddP or gx instead
+      (:when (featurep! :lang web)
+        :m "]x" #'+web:encode-html-entities
+        :m "[x" #'+web:decode-html-entities)
+
+      ;; custom vim-unmpaired-esque keys
+      :m  "]a"    #'evil-forward-arg
+      :m  "[a"    #'evil-backward-arg
+      :n  "]F"    #'+evil/next-frame
+      :n  "[F"    #'+evil/previous-frame
+      :m  "]h"    #'outline-next-visible-heading
+      :m  "[h"    #'outline-previous-visible-heading
+      :n  "[o"    #'+evil/insert-newline-above
+      :n  "]o"    #'+evil/insert-newline-below
       :n  "gp"    #'+evil/reselect-paste
-      :n  "g="    #'widen
-      :v  "g="    #'+evil:narrow-buffer
+      :v  "gp"    #'+evil/paste-preserve-register
       :nv "g@"    #'+evil:apply-macro
       :nv "gc"    #'evil-commentary
       :nv "gx"    #'evil-exchange
-      :n  "gb"    #'bookmark-set
-      :n  "gB"    #'bookmark-delete
+      :n  "g="    #'evil-numbers/inc-at-pt
+      :n  "g-"    #'evil-numbers/dec-at-pt
+      :v  "g="    #'evil-numbers/inc-at-pt-incremental
+      :v  "g-"    #'evil-numbers/dec-at-pt-incremental
+      :v  "g+"    #'evil-numbers/inc-at-pt
+
       :nv "go"    #'avy-goto-char-timer
       :nv "g/"    #'+helm/project-search
-      :nv "C-a"   #'evil-numbers/inc-at-pt
-      :nv "C-S-a" #'evil-numbers/dec-at-pt
-      :v  "gp"    #'+evil/paste-preserve-register
-      :v  "@"     #'+evil:apply-macro
+
+      ;; custom evil keybinds
+      :n  "zx"    #'kill-current-buffer
+      :n  "ZX"    #'bury-buffer
       ;; repeat in visual mode (FIXME buggy)
       :v  "."     #'+evil:apply-macro
       :n  "g."    #'call-last-kbd-macro
@@ -265,137 +299,16 @@
 
 ;; help
 (map! (:map help-map
-        "'"   #'doom/what-face
-        "."   #'helpful-at-point ; replaces `display-local-help'
-        "a"   #'apropos ; replaces `apropos-command'
-        "A"   #'doom/describe-autodefs
-        "B"   #'doom/open-bug-report
-        "c"   #'describe-char
-        "d"   #'doom/describe-module ; replaces `apropos-documentation' b/c `apropos' covers this
-        "D"   #'doom/open-manual
-        "E"   #'doom/open-vanilla-sandbox
-        "F"   #'describe-face ; replaces `Info-got-emacs-command-node' b/c redundant w/ helpful
-        "f"   #'describe-function
-        "h"   #'+lookup/documentation ; replaces `view-hello-file' b/c annoying
-        "H"   #'view-echo-area-messages
-        "i"   #'info-lookup-symbol
-        "k"   #'describe-key
-        "l"   #'find-library ; replaces `describe-package' b/c redundant w/ `doom/describe-package'
-        "L"   #'global-command-log-mode ; replaces `describe-language-environment' b/c remapped to C-l
-        "C-l" #'describe-language-environment
-        "M"   #'describe-mode
-        "m"   #'doom/describe-active-minor-mode
-        "C-m" #'info-emacs-manual
-        "n"   #'doom/open-news ; replaces `view-emacs-news' b/c it's on C-n too
-        "O"   #'+lookup/online
-        "p"   #'doom/describe-package ; replaces `finder-by-keyword'
-        "P"   #'doom/toggle-profiler ; replaces `help-with-tutorial' b/c not useful for evil users
-        "r" nil ; replaces `info-emacs-manual' b/c it's on C-m now
-        "s"   #'doom/describe-setters
-        "v"   #'describe-variable
-        (:prefix ("r" . "reload")
-          "r"   #'doom/reload
-          "t"   #'doom/reload-theme
-          "p"   #'doom/reload-packages
-          "f"   #'doom/reload-font
-          "P"   #'doom/reload-project)
-        "V"   #'doom/version ; replaces `finder-by-keyword'
-        "W"   #'+default/man-or-woman))
+        "H"   #'+lookup/documentation))
 
 
 ;;
-;; Module keybinds
-
-;;; :feature
-(map! (:when (featurep! :feature debugger)
-        :after realgud
-        :map realgud:shortkey-mode-map
-        :n "j" #'evil-next-line
-        :n "k" #'evil-previous-line
-        :n "h" #'evil-backward-char
-        :n "l" #'evil-forward-char
-        :n "c" #'realgud:cmd-continue
-        :m "n" #'realgud:cmd-next
-        :m "b" #'realgud:cmd-break
-        :m "B" #'realgud:cmd-clear)
-
-      (:when (featurep! :feature eval)
-        :g  "M-r" #'+eval/buffer
-        :nv "gr"  #'+eval:region
-        :n  "gR"  #'+eval/buffer
-        :v  "gR"  #'+eval:replace-region)
-
-      (:when (featurep! :feature lookup)
-        :nv "K"  #'+lookup/documentation
-        :nv "gd" #'+lookup/definition
-        :nv "gD" #'+lookup/references
-        :nv "gf" #'+lookup/file)
-
-      (:when (featurep! :feature snippets)
-        ;; auto-yasnippet
-        :i  [C-tab] #'aya-expand
-        :nv [C-tab] #'aya-create
-        ;; yasnippet
-        (:after yasnippet
-          (:map yas-keymap
-            "C-e"         #'+snippets/goto-end-of-field
-            "C-a"         #'+snippets/goto-start-of-field
-            [M-right]     #'+snippets/goto-end-of-field
-            [M-left]      #'+snippets/goto-start-of-field
-            [M-backspace] #'+snippets/delete-to-start-of-field
-            [backspace]   #'+snippets/delete-backward-char
-            [delete]      #'+snippets/delete-forward-char-or-field)))
-
-      (:when (featurep! :tools flyspell)
-        :m "]s" #'evil-next-flyspell-error
-        :m "[s" #'evil-prev-flyspell-error
-        :m "]S" #'flyspell-correct-word-generic
-        :m "[S" #'flyspell-correct-previous-word-generic
-        (:map flyspell-mouse-map
-          "RET"     #'flyspell-correct-word-generic
-          [return]  #'flyspell-correct-word-generic
-          [mouse-1] #'flyspell-correct-word-generic))
-
-      (:when (featurep! :tools flycheck)
-        :m "]e" #'next-error
-        :m "[e" #'previous-error
-        (:after flycheck
-          :map flycheck-error-list-mode-map
-          :n "C-n"    #'flycheck-error-list-next-error
-          :n "C-p"    #'flycheck-error-list-previous-error
-          :n "j"      #'flycheck-error-list-next-error
-          :n "k"      #'flycheck-error-list-previous-error
-          :n "RET"    #'flycheck-error-list-goto-error
-          :n [return] #'flycheck-error-list-goto-error))
-
-      (:when (featurep! :feature workspaces)
-        :n  "C-`"  #'+eduarbo/switch-to-last-workspace
-        (:map evil-org-mode-map
-          :n  "C-`"  #'+eduarbo/switch-to-last-workspace)
-
-        :n "C-S-l" #'+workspace/switch-right
-        :n "C-S-h" #'+workspace/switch-left
-        :n "gt"    #'+workspace/switch-right
-        :n "gT"    #'+workspace/switch-left
-        :n "]w"    #'+workspace/switch-right
-        :n "[w"    #'+workspace/switch-left
-        :g "M-1"   (λ! (+workspace/switch-to 0))
-        :g "M-2"   (λ! (+workspace/switch-to 1))
-        :g "M-3"   (λ! (+workspace/switch-to 2))
-        :g "M-4"   (λ! (+workspace/switch-to 3))
-        :g "M-5"   (λ! (+workspace/switch-to 4))
-        :g "M-6"   (λ! (+workspace/switch-to 5))
-        :g "M-7"   (λ! (+workspace/switch-to 6))
-        :g "M-8"   (λ! (+workspace/switch-to 7))
-        :g "M-9"   (λ! (+workspace/switch-to 8))
-        :g "M-0"   #'+workspace/switch-to-last
-        :g "M-t"   #'+workspace/new
-        :g "M-T"   #'+workspace/display))
+;;; Module keybinds
 
 ;;; :completion
 (map! (:when (featurep! :completion company)
         :i "C-@"      #'+company/complete
-        :i "C-RET"    #'+company/complete
+        :i [C-return] #'+company/complete
         (:prefix "C-x"
           :i "C-l"    #'+company/whole-lines
           :i "C-k"    #'+company/dict-or-keywords
@@ -419,7 +332,7 @@
             "C-s"     #'company-filter-candidates
             "C-S-s"   (cond ((featurep! :completion helm) #'helm-company)
                             ((featurep! :completion ivy)  #'counsel-company))
-            "C-RET"   #'company-complete-common
+            [C-return] #'company-complete-common
             "TAB"     #'company-complete-common-or-cycle
             [tab]     #'company-complete-common-or-cycle
             [backtab] #'company-select-previous)
@@ -440,15 +353,15 @@
           :n "Q" #'ivy-resume)
         (:after ivy
           :map ivy-minibuffer-map
-          "C-RET" #'ivy-call-and-recenter  ; preview file
+          [C-return] #'ivy-call-and-recenter  ; preview file
           "C-l"   #'ivy-alt-done
           "C-v"   #'yank)
         (:after counsel
           :map counsel-ag-map
-          "C-RET"    #'ivy-call-and-recenter ; preview
+          [C-return]    #'ivy-call-and-recenter ; preview
           "C-l"      #'ivy-done
           [backtab]  #'+ivy/wgrep-occur      ; search/replace on results
-          [C-return] (+ivy-do-action! #'+ivy-git-grep-other-window-action))
+          "C-,"      (+ivy-do-action! #'+ivy-git-grep-other-window-action))
         (:after swiper
           :map swiper-map
           [backtab] #'+ivy/wgrep-occur))
@@ -494,9 +407,9 @@
           (:after helm-buffers
             :map helm-buffer-map
             [C-return] #'helm-buffer-switch-other-window)
-          (:after helm-regexp
-            :map helm-moccur-map
-            [C-return] #'helm-moccur-run-goto-line-ow)
+          (:after helm-occur
+            :map helm-occur-map
+            [C-return] #'helm-occur-run-goto-line-ow)
           (:after helm-grep
             :map helm-grep-map
             [C-return] #'helm-grep-run-other-window-action))))
@@ -542,7 +455,31 @@
 
       (:when (featurep! :ui vc-gutter)
         :m "]d"    #'git-gutter:next-hunk
-        :m "[d"    #'git-gutter:previous-hunk))
+        :m "[d"    #'git-gutter:previous-hunk)
+
+     (:when (featurep! :ui workspaces)
+        :n  "C-`"  #'+eduarbo/switch-to-last-workspace
+        (:map evil-org-mode-map
+          :n  "C-`"  #'+eduarbo/switch-to-last-workspace)
+
+        :n "C-S-l" #'+workspace/switch-right
+        :n "C-S-h" #'+workspace/switch-left
+        :n "gt"    #'+workspace/switch-right
+        :n "gT"    #'+workspace/switch-left
+        :n "]w"    #'+workspace/switch-right
+        :n "[w"    #'+workspace/switch-left
+        :g "M-1"   #'+workspace/switch-to-0
+        :g "M-2"   #'+workspace/switch-to-1
+        :g "M-3"   #'+workspace/switch-to-2
+        :g "M-4"   #'+workspace/switch-to-3
+        :g "M-5"   #'+workspace/switch-to-4
+        :g "M-6"   #'+workspace/switch-to-5
+        :g "M-7"   #'+workspace/switch-to-6
+        :g "M-8"   #'+workspace/switch-to-7
+        :g "M-9"   #'+workspace/switch-to-8
+        :g "M-0"   #'+workspace/switch-to-final
+        :g "M-t"   #'+workspace/new
+        :g "M-T"   #'+workspace/display))
 
 ;;; :editor
 (map! (:when (featurep! :editor fold)
@@ -591,7 +528,22 @@
             "C-p" #'evil-multiedit-prev)))
 
       (:when (featurep! :editor rotate-text)
-        :n "!" #'rotate-text))
+        :n "!" #'rotate-text)
+
+      (:when (featurep! :editor snippets)
+        ;; auto-yasnippet
+        :i  [C-tab] #'aya-expand
+        :nv [C-tab] #'aya-create
+        ;; yasnippet
+        (:after yasnippet
+          (:map yas-keymap
+            "C-e"         #'+snippets/goto-end-of-field
+            "C-a"         #'+snippets/goto-start-of-field
+            [M-right]     #'+snippets/goto-end-of-field
+            [M-left]      #'+snippets/goto-start-of-field
+            [M-backspace] #'+snippets/delete-to-start-of-field
+            [backspace]   #'+snippets/delete-backward-char
+            [delete]      #'+snippets/delete-forward-char-or-field))))
 
 ;;; :emacs
 (map! (:when (featurep! :emacs vc)
@@ -607,29 +559,82 @@
       :nv "K"  #'helpful-at-point)
 
 ;;; :tools
-(map! (:when (featurep! :tools magit)
-        (:after evil-magit
-          ;; fix conflicts with private bindings
-          :map (magit-status-mode-map magit-revision-mode-map)
-          "C-j" nil
-          "C-k" nil)
-        (:map transient-map
-          "q" #'transient-quit-one))
+(map! (:when (featurep! :tools debugger)
+        :after realgud
+        :map realgud:shortkey-mode-map
+        :n "j" #'evil-next-line
+        :n "k" #'evil-previous-line
+        :n "h" #'evil-backward-char
+        :n "l" #'evil-forward-char
+        :n "c" #'realgud:cmd-continue
+        :m "n" #'realgud:cmd-next
+        :m "b" #'realgud:cmd-break
+        :m "B" #'realgud:cmd-clear)
+
+      (:when (featurep! :tools eval)
+        :g  "M-r" #'+eval/buffer
+        :nv "gr"  #'+eval:region
+        :n  "gR"  #'+eval/buffer
+        :v  "gR"  #'+eval:replace-region)
+
+      (:when (featurep! :tools flyspell)
+        ;; Keybinds that have no Emacs+evil analogues (i.e. don't exist):
+        ;;   zq - mark word at point as good word
+        ;;   zw - mark word at point as bad
+        ;;   zu{q,w} - undo last marking
+        ;; Keybinds that evil define:
+        ;;   z= - correct flyspell word at point
+        ;;   ]s - jump to previous spelling error
+        ;;   [s - jump to next spelling error
+        :m "]S" #'flyspell-correct-word-generic
+        :m "[S" #'flyspell-correct-previous-word-generic
+        (:map flyspell-mouse-map
+          "RET"     #'flyspell-correct-word-generic
+          [return]  #'flyspell-correct-word-generic
+          [mouse-1] #'flyspell-correct-word-generic))
+
+      (:when (featurep! :tools flycheck)
+        :m "]e" #'next-error
+        :m "[e" #'previous-error
+        (:after flycheck
+          :map flycheck-error-list-mode-map
+          :n "C-n"    #'flycheck-error-list-next-error
+          :n "C-p"    #'flycheck-error-list-previous-error
+          :n "j"      #'flycheck-error-list-next-error
+          :n "k"      #'flycheck-error-list-previous-error
+          :n "RET"    #'flycheck-error-list-goto-error
+          :n [return] #'flycheck-error-list-goto-error))
 
       (:when (featurep! :tools gist)
         :after gist
         :map gist-list-menu-mode-map
         :n "RET"    #'+gist/open-current
         :n [return] #'+gist/open-current
-        :n "b"   #'gist-browse-current-url
+        :n "go"  #'gist-browse-current-url
+        :n "gr"  #'gist-list-reload
         :n "c"   #'gist-add-buffer
         :n "d"   #'gist-kill-current
+        :n "e"   #'gist-edit-current-description
         :n "f"   #'gist-fork
-        :n "q"   #'quit-window
-        :n "r"   #'gist-list-reload
+        :n "q"   #'kill-current-buffer
         :n "s"   #'gist-star
         :n "S"   #'gist-unstar
-        :n "y"   #'gist-print-current-url))
+        :n "y"   #'gist-print-current-url)
+
+      (:when (featurep! :tools lookup)
+        :nv "K"  #'+lookup/documentation
+        :nv "gd" #'+lookup/definition
+        :nv "gD" #'+lookup/references
+        :nv "gf" #'+lookup/file)
+
+      (:when (featurep! :tools magit)
+        (:after evil-magit
+          ;; fix conflicts with private bindings
+          :map (magit-status-mode-map magit-revision-mode-map)
+          "C-j" nil
+          "C-k" nil)
+        (:map transient-map
+          "q" #'transient-quit-one)))
 
 ;;; :lang
 (map! (:when (featurep! :lang markdown)
@@ -687,7 +692,7 @@
 
 
 ;;
-;; <leader>
+;;; <leader>
 
 (map! :leader
       :desc "Eval expression"       ":"    #'eval-expression
@@ -704,7 +709,7 @@
       :desc "Find file"             "."    #'find-file
 
       :desc "Switch buffer"         ","    #'switch-to-buffer
-      (:when (featurep! :feature workspaces)
+      (:when (featurep! :ui workspaces)
         :desc "Switch workspace buffer" "," #'persp-switch-to-buffer
         :desc "Switch buffer"           "<" #'switch-to-buffer)
 
@@ -713,55 +718,58 @@
             ((featurep! :completion helm)  #'helm-resume))
 
       :desc "Find file in project"  "SPC"  #'projectile-find-file
-      :desc "Blink cursor line"     "DEL"  #'+default/yank-pop
+      :desc "Blink cursor line"     "DEL"  #'+nav-flash/blink-cursor
       :desc "Jump to bookmark"      "RET"  #'bookmark-jump
 
-      ;; Prefixed key groups
-      (:prefix ("/" . "search")
-        :desc "Jump to symbol across buffers" "I" #'imenu-anywhere
+      ;;; <leader> / --- search
+      (:prefix-map ("/" . "search")
         :desc "Search buffer"                 "b" #'swiper
         :desc "Search current directory"      "d" #'+default/search-from-cwd
         :desc "Jump to symbol"                "i" #'imenu
         :desc "Jump to link"                  "l" #'ace-link
         :desc "Look up online"                "o" #'+lookup/online-select
+        :desc "Look up in local docsets"      "k" #'+lookup/in-docsets
+        :desc "Look up in all docsets"        "K" #'+lookup/in-all-docsets
         :desc "Search project"                "p" #'+default/search-project)
 
-      (:when (featurep! :feature workspaces)
+      (:when (featurep! :ui workspaces)
         :desc "Switch workspace"            "TAB" #'persp-switch
 
-        (:prefix ("l" . "workspace")
+        (:prefix-map ("l" . "workspace")
           :desc "Display tab bar"           "TAB" #'+workspace/display
-          :desc "New workspace"             "n"   #'+workspace/new
-          :desc "Load a past session"       "l"   #'+workspace/load-session
-          :desc "Load workspace from file"  "L"   #'+workspace/load
-          :desc "Autosave current session"  "s"   #'+workspace/save-session
-          :desc "Save workspace to file"    "S"   #'+workspace/save
           :desc "Switch workspace"          "."   #'+workspace/switch-to
+          :desc "Switch to last workspace"  "`"   #'+workspace/other
+          :desc "New workspace"             "n"   #'+workspace/new
+          :desc "Load workspace from file"  "l"   #'+workspace/load
+          :desc "Load a past session"       "L"   #'+workspace/load-session
+          :desc "Save workspace to file"    "s"   #'+workspace/save
+          :desc "Autosave current session"  "S"   #'+workspace/save-session
           :desc "Delete session"            "x"   #'+workspace/kill-session
           :desc "Delete this workspace"     "d"   #'+workspace/delete
           :desc "Rename workspace"          "r"   #'+workspace/rename
           :desc "Restore last session"      "R"   #'+workspace/restore-last-session
           :desc "Next workspace"            "]"   #'+workspace/switch-right
           :desc "Previous workspace"        "["   #'+workspace/switch-left
-          :desc "Switch to 1st workspace"   "1"   (λ! (+workspace/switch-to 0))
-          :desc "Switch to 2nd workspace"   "2"   (λ! (+workspace/switch-to 1))
-          :desc "Switch to 3rd workspace"   "3"   (λ! (+workspace/switch-to 2))
-          :desc "Switch to 4th workspace"   "4"   (λ! (+workspace/switch-to 3))
-          :desc "Switch to 5th workspace"   "5"   (λ! (+workspace/switch-to 4))
-          :desc "Switch to 6th workspace"   "6"   (λ! (+workspace/switch-to 5))
-          :desc "Switch to 7th workspace"   "7"   (λ! (+workspace/switch-to 6))
-          :desc "Switch to 8th workspace"   "8"   (λ! (+workspace/switch-to 7))
-          :desc "Switch to 9th workspace"   "9"   (λ! (+workspace/switch-to 8))
-          :desc "Switch to last workspace"  "0"   #'+workspace/switch-to-last))
+          :desc "Switch to 1st workspace"   "1"   #'+workspace/switch-to-0
+          :desc "Switch to 2nd workspace"   "2"   #'+workspace/switch-to-1
+          :desc "Switch to 3rd workspace"   "3"   #'+workspace/switch-to-2
+          :desc "Switch to 4th workspace"   "4"   #'+workspace/switch-to-3
+          :desc "Switch to 5th workspace"   "5"   #'+workspace/switch-to-4
+          :desc "Switch to 6th workspace"   "6"   #'+workspace/switch-to-5
+          :desc "Switch to 7th workspace"   "7"   #'+workspace/switch-to-6
+          :desc "Switch to 8th workspace"   "8"   #'+workspace/switch-to-7
+          :desc "Switch to 9th workspace"   "9"   #'+workspace/switch-to-8
+          :desc "Switch to final workspace" "0"   #'+workspace/switch-to-final))
 
-      (:prefix ("b" . "buffer")
+      ;;; <leader> b --- buffer
+      (:prefix-map ("b" . "buffer")
         :desc "Toggle narrowing"            "-"   #'doom/clone-and-narrow-buffer
         :desc "Previous buffer"             "["   #'previous-buffer
         :desc "Next buffer"                 "]"   #'next-buffer
-        (:when (featurep! :feature workspaces)
+        (:when (featurep! :ui workspaces)
           :desc "Switch workspace buffer" "b" #'persp-switch-to-buffer
           :desc "Switch buffer"           "B" #'switch-to-buffer)
-        (:unless (featurep! :feature workspaces)
+        (:unless (featurep! :ui workspaces)
           :desc "Switch buffer"           "b" #'switch-to-buffer)
         :desc "Kill buffer"                 "k"   #'kill-this-buffer
         :desc "Kill buried buffers"         "K"   #'doom/kill-buried-buffers
@@ -771,32 +779,37 @@
         :desc "Previous buffer"             "p"   #'previous-buffer
         :desc "Save buffer"                 "s"   #'save-buffer
         :desc "Sudo edit this file"         "S"   #'doom/sudo-this-file
-        :desc "Pop scratch buffer"          "x"   #'doom/open-scratch-buffer
+        :desc "Pop up scratch buffer"       "x"   #'doom/open-scratch-buffer
+        :desc "Switch to scratch buffer"    "X"   #'doom/switch-to-scratch-buffer
         :desc "Bury buffer"                 "z"   #'bury-buffer)
 
-      (:prefix ("c" . "code")
-        :desc "Compile project"             "c"   #'projectile-compile-project
+      ;;; <leader> c --- code
+      (:prefix-map ("c" . "code")
+        :desc "Compile"                     "c"   #'compile
         :desc "Jump to definition"          "d"   #'+lookup/definition
         :desc "Jump to references"          "D"   #'+lookup/references
         :desc "Evaluate buffer/region"      "e"   #'+eval/buffer-or-region
         :desc "Evaluate & replace region"   "E"   #'+eval:replace-region
         :desc "Format buffer/region"        "f"   #'+format/region-or-buffer
+        :desc "Jump to documentation"       "k"   #'+lookup/documentation
         :desc "Open REPL"                   "r"   #'+eval/open-repl-other-window
         :desc "Delete trailing whitespace"  "w"   #'delete-trailing-whitespace
         :desc "Delete trailing newlines"    "W"   #'doom/delete-trailing-newlines
         :desc "List errors"                 "x"   #'flycheck-list-errors)
 
-      (:prefix ("f" . "file")
-        :desc "Find file"                   "."   (if (fboundp 'counsel-file-jump) #'counsel-file-jump #'find-file)
-        :desc "Find file in other project"  ">"   #'doom/browse-in-other-project
-        :desc "Find file in project"        "/"   #'projectile-find-file
-        :desc "Find file in other project"  "?"   #'doom/find-file-in-other-project
-        :desc "Find other file"             "a"   #'projectile-find-other-file
+      ;;; <leader> f --- file
+      (:prefix-map ("f" . "file")
+        :desc "Find file"                   "."   #'find-file
+        :desc "Find file from here"         "/"
+        (if (featurep! :completion ivy)
+            #'counsel-file-jump
+          (λ! (doom-project-find-file default-directory)))
         :desc "Open project editorconfig"   "c"   #'editorconfig-find-current-editorconfig
         :desc "Find directory"              "d"   #'dired
         :desc "Find file in emacs.d"        "e"   #'+default/find-in-emacsd
         :desc "Browse emacs.d"              "E"   #'+default/browse-emacsd
         :desc "Find file from here"         "f"   #'find-file
+        :desc "Move/rename file"            "m"   #'doom/move-this-file
         :desc "Find file in private config" "p"   #'doom/find-file-in-private-config
         :desc "Browse private config"       "P"   #'doom/open-private-config
         :desc "Recent files"                "r"   #'recentf-open-files
@@ -806,7 +819,8 @@
         :desc "Delete this file"            "X"   #'doom/delete-this-file
         :desc "Yank filename"               "y"   #'+default/yank-buffer-filename)
 
-      (:prefix ("g" . "git")
+      ;;; <leader> g --- git
+      (:prefix-map ("g" . "git")
         :desc "Git revert file"             "R"   #'vc-revert
         :desc "Git link for line or region" "y"   #'git-link
         (:when (featurep! :ui vc-gutter)
@@ -819,16 +833,13 @@
           :desc "Magit dispatch"            "/"   #'magit-dispatch
           :desc "Magit diff staged"         "d"   #'magit-diff-buffer-file
           :desc "Forge dispatch"            "'"   #'forge-dispatch
+          :desc "Magit switch branch"       "b"   #'magit-branch-checkout
           :desc "Magit status"              "g"   #'magit-status
           :desc "Magit file delete"         "x"   #'magit-file-delete
-          :desc "Magit blame"               "b"   #'magit-blame-addition
-          :desc "Commit"                    "c"   #'magit-commit-create
-          :desc "Clone repo"                "C"   #'+magit/clone
+          :desc "Magit blame"               "B"   #'magit-blame-addition
+          :desc "Magit clone"               "C"   #'+magit/clone
           :desc "Magit fetch"               "F"   #'magit-fetch
-          :desc "Issue"                     "I"   #'forge-create-issue
           :desc "Magit buffer log"          "L"   #'magit-log
-          :desc "Pull request"              "P"   #'forge-create-pullreq
-          :desc "Initialize repo"           "i"   #'magit-init
           :desc "Git stage file"            "S"   #'magit-stage-file
           :desc "Git unstage file"          "U"   #'magit-unstage-file
           (:prefix ("f" . "find")
@@ -852,23 +863,37 @@
             :desc "List submodules"           "s"   #'magit-list-submodules
             :desc "List issues"               "i"   #'forge-list-issues
             :desc "List pull requests"        "p"   #'forge-list-pullreqs
-            :desc "List notifications"        "n"   #'forge-list-notifications)))
+            :desc "List notifications"        "n"   #'forge-list-notifications)
+          (:prefix ("c" . "create")
+            :desc "Initialize repo"           "r"   #'magit-init
+            :desc "Clone repo"                "R"   #'+magit/clone
+            :desc "Commit"                    "c"   #'magit-commit-create
+            :desc "Branch"                    "b"   #'magit-branch-and-checkout
+            :desc "Issue"                     "i"   #'forge-create-issue
+            :desc "Pull request"              "p"   #'forge-create-pullreq)))
 
-      (:prefix ("i" . "insert")
+      ;;; <leader> i --- insert
+      (:prefix-map ("i" . "insert")
         :desc "Insert from clipboard"         "y"   #'+default/yank-pop
         :desc "Insert from evil register"     "r"   #'evil-ex-registers
         :desc "Insert snippet"                "s"   #'yas-insert-snippet)
 
-      (:prefix ("n" . "notes")
-        :desc "New Journal entry"   "d"  #'org-journal-new-entry
-        :desc "Open mode notes"     "m"  #'+eduarbo/find-notes-for-major-mode
-        :desc "Find file in notes"  "n"  #'+default/find-in-notes
-        :desc "Browse notes"        "N"  #'+default/browse-notes
-        :desc "Open project notes"  "p"  #'+eduarbo/find-notes-for-project
-        :desc "Pop scratch buffer"  "s"  #'doom/open-scratch-buffer
-        :desc "Org capture"         "x"  #'org-capture)
+      ;;; <leader> n --- notes
+      (:prefix-map ("n" . "notes")
+        :desc "Browse notes"                  "." #'+default/browse-notes
+        :desc "Search notes"                  "/" #'+default/org-notes-search
+        :desc "Search notes for symbol"       "*" #'+default/search-notes-for-symbol-at-point
+        :desc "Org capture"                   "c" #'org-capture
+        :desc "New Journal entry"             "d" #'org-journal-new-entry
+        :desc "Search org agenda headlines"   "h" #'+default/org-notes-headlines
+        :desc "Open mode notes"               "m" #'+eduarbo/find-notes-for-major-mode
+        :desc "Find file in notes"            "n" #'+default/find-in-notes
+        :desc "Browse notes"                  "N" #'+default/browse-notes
+        :desc "Org store link"                "l" #'org-store-link
+        :desc "Open project notes"            "p" #'+eduarbo/find-notes-for-project)
 
-      (:prefix ("o" . "open")
+      ;;; <leader> o --- open
+      (:prefix-map ("o" . "open")
         :desc "Org agenda"       "A"  #'org-agenda
         (:prefix ("a" . "org agenda")
           :desc "Agenda"         "a"  #'org-agenda
@@ -886,17 +911,15 @@
         (:when (featurep! :ui treemacs)
           :desc "Project sidebar" "p" #'+treemacs/toggle
           :desc "Find file in project sidebar" "P" #'+treemacs/find-file)
-        (:when (featurep! :emacs imenu)
-          :desc "Imenu sidebar" "i" #'imenu-list-smart-toggle)
-        (:when (featurep! :emacs term)
-          :desc "Terminal"          "t" #'+term/open
-          :desc "Terminal in popup" "T" #'+term/open-popup-in-project)
-        (:when (featurep! :tools vterm)
-          :desc "Terminal"          "t" #'+vterm/open
-          :desc "Terminal in popup" "T" #'+vterm/open-popup-in-project)
-        (:when (featurep! :emacs eshell)
-          :desc "Eshell"            "e" #'+eshell/open
-          :desc "Eshell in popup"   "E" #'+eshell/open-popup)
+        (:when (featurep! :term term)
+          :desc "Toggle terminal popup" "t" #'+term/toggle
+          :desc "Open terminal here"    "T" #'+term/here)
+        (:when (featurep! :term vterm)
+          :desc "Toggle vterm popup"    "t" #'+vterm/toggle
+          :desc "Open vterm here"       "T" #'+vterm/here)
+        (:when (featurep! :term eshell)
+          :desc "Toggle eshell popup"   "e" #'+eshell/toggle
+          :desc "Open eshell here"      "E" #'+eshell/here)
         (:when (featurep! :collab floobits)
           (:prefix ("f" . "floobits")
             "c" #'floobits-clear-highlights
@@ -917,19 +940,30 @@
         (:when (featurep! :tools docker)
           :desc "Docker" "D" #'docker))
 
-      (:prefix ("p" . "project")
+      ;;; <leader> p --- project
+      (:prefix-map ("p" . "project")
         :desc "Browse project"               "." #'+default/browse-project
+        :desc "Browse other project"         ">" #'doom/browse-in-other-project
         :desc "Find file in project"         "/" #'projectile-find-file
+        :desc "Find file in other project"   "?" #'doom/find-file-in-other-project
         :desc "Run cmd in project root"      "!" #'projectile-run-shell-command-in-root
+        :desc "Add new project"              "a" #'projectile-add-known-project
+        :desc "Switch to project buffer"     "b" #'projectile-switch-to-buffer
         :desc "Compile project"              "c" #'projectile-compile-project
-        :desc "Discover projects"            "d" #'projectile-discover-projects-in-search-path
+        :desc "Remove known project"         "d" #'projectile-remove-known-project
+        :desc "Discover projects"            "D" #'projectile-discover-projects-in-search-path
+        :desc "Edit project .dir-locals"     "e" #'projectile-edit-dir-locals
+        :desc "Invalidate project cache"     "i" #'projectile-invalidate-cache
+        :desc "Kill project buffers"         "k" #'projectile-kill-buffers
         :desc "Find other file"              "o" #'projectile-find-other-file
         :desc "Switch project"               "p" #'projectile-switch-project
         :desc "Recent project files"         "r" #'projectile-recentf
-        :desc "List project tasks"           "t" #'+default/project-tasks
-        :desc "Invalidate cache"             "x" #'projectile-invalidate-cache)
+        :desc "Pop up scratch buffer"        "x" #'doom/open-project-scratch-buffer
+        :desc "Switch to scratch buffer"     "X" #'doom/switch-to-project-scratch-buffer
+        :desc "List project tasks"           "t" #'+default/project-tasks)
 
-      (:prefix ("q" . "session")
+      ;;; <leader> q --- session
+      (:prefix-map ("q" . "session")
         :desc "Quit Emacs"                   "q" #'evil-quit-all
         :desc "Save and quit Emacs"          "Q" #'evil-save-and-quit
         :desc "Quick save current session"   "s" #'doom/quicksave-session
@@ -941,8 +975,9 @@
         (:when (featurep! :feature workspaces)
           :desc "Quit Emacs & forget session"  "X" #'+workspace/kill-session-and-quit))
 
+      ;;; <leader> r --- remote
       (:when (featurep! :tools upload)
-        (:prefix ("r" . "remote")
+        (:prefix-map ("r" . "remote")
           :desc "Upload local"               "u" #'ssh-deploy-upload-handler
           :desc "Upload local (force)"       "U" #'ssh-deploy-upload-handler-forced
           :desc "Download remote"            "d" #'ssh-deploy-download-handler
@@ -950,8 +985,9 @@
           :desc "Browse remote files"        "." #'ssh-deploy-browse-remote-handler
           :desc "Detect remote changes"      ">" #'ssh-deploy-remote-changes-handler))
 
-      (:when (featurep! :feature snippets)
-        (:prefix ("s" . "snippets")
+      ;;; <leader> s --- snippets
+      (:when (featurep! :editor snippets)
+        (:prefix-map ("s" . "snippets")
           :desc "New snippet"                "n" #'yas-new-snippet
           :desc "Insert snippet"             "i" #'yas-insert-snippet
           :desc "Jump to mode snippet"       "/" #'yas-visit-snippet-file
@@ -961,7 +997,8 @@
           :desc "Create temporary snippet"   "c" #'aya-create
           :desc "Use temporary snippet"      "e" #'aya-expand))
 
-      (:prefix ("t" . "toggle")
+      ;;; <leader> t --- toggle
+      (:prefix-map ("t" . "toggle")
         :desc "Flyspell"                     "s" #'flyspell-mode
         :desc "Flycheck"                     "f" #'flycheck-mode
         :desc "Line numbers"                 "l" #'display-line-numbers-mode
@@ -978,7 +1015,7 @@
 
 
 ;;
-;; Universal motion repeating keys
+;;; Universal motion repeating keys
 
 (defvar +default-repeat-keys (cons ";" ",")
   "The keys to use for repeating motions.
@@ -987,47 +1024,47 @@ This is a cons cell whose CAR is the key for repeating a motion forward, and
 whose CDR is for repeating backward. They should both be kbd-able strings.")
 
 (when +default-repeat-keys
-  (defmacro do-repeat! (command next-func prev-func)
-    "Makes ; and , the universal repeat-keys in evil-mode. These keys can be
-customized by changing `+default-repeat-forward-key' and
-`+default-repeat-backward-key'."
+  (defmacro set-repeater! (command next-func prev-func)
+    "Makes ; and , the universal repeat-keys in evil-mode.
+To change these keys see `+default-repeat-keys'."
     (let ((fn-sym (intern (format "+default*repeat-%s" (doom-unquote command)))))
       `(progn
          (defun ,fn-sym (&rest _)
-           (define-key! :states 'motion
-             (car +default-repeat-keys) #',next-func
-             (cdr +default-repeat-keys) #',prev-func))
-         (advice-add #',command :before #',fn-sym))))
+           (evil-define-key* 'motion 'local
+             (kbd (car +default-repeat-keys)) #',next-func
+             (kbd (cdr +default-repeat-keys)) #',prev-func))
+         (advice-add #',command :after-while #',fn-sym))))
 
   ;; n/N
-  (do-repeat! evil-ex-search-next evil-ex-search-next evil-ex-search-previous)
-  (do-repeat! evil-ex-search-previous evil-ex-search-next evil-ex-search-previous)
-  (do-repeat! evil-ex-search-forward evil-ex-search-next evil-ex-search-previous)
-  (do-repeat! evil-ex-search-backward evil-ex-search-next evil-ex-search-previous)
+  (set-repeater! evil-ex-search-next evil-ex-search-next evil-ex-search-previous)
+  (set-repeater! evil-ex-search-previous evil-ex-search-next evil-ex-search-previous)
+  (set-repeater! evil-ex-search-forward evil-ex-search-next evil-ex-search-previous)
+  (set-repeater! evil-ex-search-backward evil-ex-search-next evil-ex-search-previous)
 
   ;; f/F/t/T/s/S
-  (setq evil-snipe-repeat-keys nil
-        evil-snipe-override-evil-repeat-keys nil) ; causes problems with remapped ;
-  (do-repeat! evil-snipe-f evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-F evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-t evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-T evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-s evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-S evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-x evil-snipe-repeat evil-snipe-repeat-reverse)
-  (do-repeat! evil-snipe-X evil-snipe-repeat evil-snipe-repeat-reverse)
+  (after! evil-snipe
+    (setq evil-snipe-repeat-keys nil
+          evil-snipe-override-evil-repeat-keys nil) ; causes problems with remapped ;
+    (set-repeater! evil-snipe-f evil-snipe-repeat evil-snipe-repeat-reverse)
+    (set-repeater! evil-snipe-F evil-snipe-repeat evil-snipe-repeat-reverse)
+    (set-repeater! evil-snipe-t evil-snipe-repeat evil-snipe-repeat-reverse)
+    (set-repeater! evil-snipe-T evil-snipe-repeat evil-snipe-repeat-reverse)
+    (set-repeater! evil-snipe-s evil-snipe-repeat evil-snipe-repeat-reverse)
+    (set-repeater! evil-snipe-S evil-snipe-repeat evil-snipe-repeat-reverse)
+    (set-repeater! evil-snipe-x evil-snipe-repeat evil-snipe-repeat-reverse)
+    (set-repeater! evil-snipe-X evil-snipe-repeat evil-snipe-repeat-reverse))
 
   ;; */#
-  (do-repeat! evil-visualstar/begin-search-forward
+  (set-repeater! evil-visualstar/begin-search-forward
               evil-ex-search-next evil-ex-search-previous)
-  (do-repeat! evil-visualstar/begin-search-backward
+  (set-repeater! evil-visualstar/begin-search-backward
               evil-ex-search-previous evil-ex-search-next))
 
 
 ;;
-;; Universal evil integration
+;;; Universal evil integration
 
-(when (featurep! :feature evil +everywhere)
+(when (featurep! :editor evil +everywhere)
   ;; Have C-u behave similarly to `doom/backward-to-bol-or-indent'.
   ;; NOTE SPC u replaces C-u as the universal argument.
   (map! :gi "C-u" #'doom/backward-kill-to-bol-and-indent
@@ -1039,7 +1076,7 @@ customized by changing `+default-repeat-forward-key' and
   (after! view
     (define-key view-mode-map [escape] #'View-quit-all))
   (after! man
-    (evil-define-key* 'normal Man-mode-map "q" #'kill-this-buffer))
+    (evil-define-key* 'normal Man-mode-map "q" #'kill-current-buffer))
 
   ;; Minibuffer
   (define-key! evil-ex-completion-map
