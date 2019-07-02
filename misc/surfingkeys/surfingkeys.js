@@ -46,6 +46,7 @@ keymap(GROUP.HELP, ({ normal }) => {
   // e.g. to use GitHub original shortcut to go to Pull Requests page just type `,gp`
   normal(',', 'Temporarily suppress SurfingKeys', Normal.passThrough);
   normal('?', 'Show usage', Front.showUsage);
+  map('<Ctrl-q>', '<Alt-s>');
 });
 
 keymap(GROUP.MOUSE_CLICK, ({ visual, normal }) => {
@@ -369,7 +370,17 @@ Object.assign(settings, mySettings);
 
 // Theme
 
+Hints.style(`
+    border: solid 8px #C38A22;
+    padding: 1px;
+    background: #e39913;
+    font-family: Hack, Helvetica;
+`, 'text');
+
 settings.theme = `
+#sk_hints>div {
+    font-family: Hack, Helvetica;
+}
 .sk_theme {
     font-family: Input Sans Condensed, Charcoal, sans-serif;
     font-size: 10pt;
