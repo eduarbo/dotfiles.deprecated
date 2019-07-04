@@ -6,6 +6,7 @@ alias ssc='sudo systemctl'
 
 alias reboot='sudo systemctl reboot'
 alias shutdown='sudo systemctl poweroff'
+alias clear_cached_memory='sync; sudo sh -c "echo 3 > /proc/sys/vm/drop_caches"'
 
 alias di='sudo dnf install'
 alias diy='sudo dnf install -y'
