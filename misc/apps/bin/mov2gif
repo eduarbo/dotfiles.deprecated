@@ -19,7 +19,7 @@ Usage: ${0##*/} [-fsSth] SOURCE_FILE [destfile]
 
     -f [FPS]       set frames per second
     -s [hh:mm:ss]  set starting time (like -ss in ffmpeg)
-    -S [W:H]       set width/height (either can be -1 for auto)
+    -S [W:H]       set width/height (either can be -1 for auto). E.g. "-1:720" for 720p
     -t [hh:mm:ss]  set the duration to capture (like -t in ffmpeg)
     -h             this help
 EOL
