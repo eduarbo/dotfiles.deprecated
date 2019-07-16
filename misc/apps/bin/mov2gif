@@ -29,7 +29,7 @@ cleanup() { rm -f "$PALETTE"; }
 trap cleanup EXIT
 
 #
-fps=30
+fps=15
 while getopts hf:s:t:S: opt; do
   case $opt in
     f) fps="$OPTARG" ;;
