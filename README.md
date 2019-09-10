@@ -1,3 +1,9 @@
+# 🚨 DEPRECATED 🚨
+These dotfiles are no longer supported, I have moved everything to a [new
+repo](https://github.com/eduarbo/dotfiles) for a fresh start.
+
+---
+
 # Mein dotfiles
 
 A tidy `$HOME` is a tidy mind.
